@@ -2794,7 +2794,8 @@ public class LoginController {
 		int couems = 0;
 		int coupar = 0;
 		int couemp = 0;
-
+//		if(back.equals(null))
+//			back="false";
 		if (role.equals("PAO")) {
 		//	List<Collection> view = FPOrepost.getview(cuSite, offId);
 		//List<Collection> allotview = FPOrepost.getallotview(cuSite, offId);
