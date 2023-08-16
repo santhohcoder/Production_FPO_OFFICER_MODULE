@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
+    
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script> -->
+
+  
+</head>
+
+
+</head>
+	
+
+<style>
+body {
+	background: white !important;
+}
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+                .nav-pills .nav-link{
+        color: #000;
+        }
+.nav-pills .nav-link.active{
+	background-color: #0a3052;
+	color:#fff;
+}
+
+        .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 13.4rem;
+    	top: 0.4rem;
+    }
+
+
+
+ .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 9.2rem;
+    	top: 0.4rem;
+    }
+
+.delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+   		right: 9rem;
+    	top: 0.4rem;
+    }
+        
+    input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+	  -webkit-appearance: none; 
+	}
+	
+	input[type=number] {
+	  -moz-appearance: textfield;
+	}
+	#pdfview1{background-color: transparent;}
+	
+</style>
+</head>
+<body>
+
+
+
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+
+	
+<input type="hidden" name="checkThresholdValue" id="checkThresholdValue" th:value="${checkThreshold}">
+
+
+
+
+
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<!-- <div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div> -->
+	<h3 style="font-size: 19px; margin-left: 2%;">Change Threshold Value</h3>
+		<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR</h3>
+<!-- 	<div style="font-weight: bold; margin-top: 50px; text-align: center;background: deepskyblue;font-family: times new roman;">
+		<h2>Change Threshold Value</h2>
+	</div> -->
+	<div style="padding:0 1rem 0 1rem">
+	<ul class="nav nav-pills" role="tablist" style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+        <li class="nav-item" id="hstryofroles" onclick="thresholdvalue()" style="width: 50%;text-align: center; font-size:1.5rem; font-weight:700">
+        <a class="nav-link active show" data-toggle="pill" href="javascript:;">THRESHOLD VALUE</a>
+      </li>
+      <li class="nav-item" id="userhstry" onclick="maxassvalue()" style="width: 50%;text-align: center;font-size:1.5rem; font-weight:700" value="0">
+        <a class="nav-link" data-toggle="pill" href="javascript:;">THRESHOLD VALUE HISTORY</a>
+      </li>
+   
+    </ul>
+    </div>
+	<br>
+	
+	<br>
+	<div class="container" id="thresholdval">
+		<div style="font-weight: bold; text-align: center; color: blue">
+		<h6>The Value over and above this, moves to AC/DC's queue for
+			assessment of Postal Personal Items.</h6>
+	</div>
+		<form class="form-horizontal">
+			<div class="form-group row "
+				style="margin-left: 22%; margin-top: 5%">
+				<label class="control-label col-sm-3 "
+					style="margin-left: 20px; font-weight: 600; margin-top: 8px; font-size: Large;">Current
+					Value*:</label>
+				<div class="col-sm-4" style="margin-left: -20px">
+					<input type="text" th:value="${thresholdval}" id="assmaxval"
+						class="form-control" style="margin-left: -20px" placeholder="Enter a value" readonly>
+				</div>
+				<div class="control-label col-sm-5">
+					<label style="margin-left: 5%; font-weight: 600;"><span
+						style="color: blue">Date & time:</span>&nbsp;&nbsp;<span
+						id="assdatetime" th:text="${getassvaldate}"
+						style="font-weight: 900;"></span></label>
+				</div>
+			</div>
+			<br>
+			<button type="button" class="btn btn-success" data-target="#Asspopup"
+				id="updthreshldval" style="margin-left: 58%;">Change</button>
+		</form>
+	</div>
+	<div class="modal fade" id="Asspopup" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 th:if="${checkThreshold == '0'}" class="modal-title" id="exampleModalLongTitle">Do you want
+						to change threshold value?</h5>
+						<h5 th:if="${checkThreshold == '1'}" class="modal-title" id="exampleModalLongTitle">Please Enter The Threshold Value?</h5>
+					<button th:if="${checkThreshold == '0'}" type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body"
+					style="margin-left: 72px; margin-top: 10px; margin-bottom: -10px">
+
+					<div class="form-group row">
+						<label for="message-text" class="col-form-label"
+							style="font-weight: 600">Enter Value:</label> <input type="number"
+							id="assval" class="form-control"
+							style="width: 50%; margin-left: 10px">
+						<div class="invalid-feedback"></div>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button id="chngethreval" type="submit" data-target="#asspopup1"
+						class="btn btn-success">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="asspopup1" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Reason for
+						changing threshold value?</h5>
+					<button th:if="${checkThreshold == '0'}" type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+							<div class="col-sm-12">
+						<textarea id="recordMsg" name="deleteres" class="form-control"></textarea>
+						<div class="invalid-feedback"></div>
+						</div>
+					</div>
+					    <div  class="form-group">
+                    <label class="control-label" style="font-weight: 600;">Upload:</label>
+                    <div class="col-sm-12">
+                         <input class="form-control" 
+                            style="width: 310px;" onchange="uploadFile(this,1)" type="text" id="kyc-filetxt-1" placeholder="Please Upload the  document" /> 
+                         <input type="file" id="kyc-file-1"   onchange="uploadFile(this,1)" onclick="this.value=null;"  style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn" onclick="fileUpload(1)"><a>Upload</a></span>
+                     </div>
+                </div>
+				</div>
+				<div class="modal-footer">
+					<button th:if="${checkThreshold == '0'}" type="button" class="btn btn-danger"
+					style="margin-right:322px" id="cleartheForm">Close</button>
+					<button th:if="${checkThreshold == '1'}" type="button" class="btn btn-danger"
+					style="margin-right:322px" id="cleartheFormBack">Back</button>
+					<button id="updatemaxval" type="button" class="btn btn-success">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>
+    
+<!--     <div class="mx-4">
+	
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div>  
+
+				<button class="btn btn-primary mb-3" onclick="downloadPDF()" style="font-size:15px"> PDF </button>
+				
+				<button class="btn btn-success mb-3" style="font-size:15px" onclick="downloadExcel()">Excel </button>
+				
+				<button class="btn btn-danger mb-3" onclick="exporttoprint()" style="font-size:15px"> PRINT </button>
+				
+				
+	</div> -->
+	
+
+	
+	
+ <div id="thersholdvaluehistoryhtml"></div>
+
+
+<input type="hidden" th:value="${loginid}" id="lginid">
+
+	
+<script src="js/misechngeval.js"></script>
+<script th:src="@{js/sweetalert.min.js}"></script>
+<script>
+function goback() {
+     window.location = "miscellaneous";
+}   
+     
+var routeToHome;
+     
+$(document).ready(function() {
+	 if($('#checkThresholdValue').val() == '1'){
+	 	routeToHome = '1';
+		$('#updthreshldval').click();
+	}
+	 else{
+	 	routeToHome = '0';
+	}
+}) 
+      
+    var kycFiles = {};
+	var supportFiles = {};
+
+function uploadFile(obj, count) {
+	
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles) {
+                    if (kycFiles[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles) {
+                        if (supportFiles[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#kyc-filetxt-" + count).val(obj.files[0].name);
+                        $("#kyc-filetxt-" + count).addClass('pl-25');
+                        kycFiles[count] = obj;
+                        $(obj).next().remove();
+                      //  $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+                        $(obj).after('<span class="view-btn" id="viewbtn" onclick="viewFile(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn" onclick="deleteFile(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+
+function fileUpload(count) {
+            $("#kyc-file-" + count).click();
+        }
+
+
+ function viewFile(count) {
+            //pdfLoader(kycFiles[count].files[0]);
+            $("#embedpdf").attr('src', URL.createObjectURL(kycFiles[count].files[0]));
+            $("#pdfView").modal('toggle');
+            $("#qryreplymodal").scrollTop($("#pdfView").offset().top);
+        }
+
+ function deleteFile(obj, count) {
+            $("#kyc-filetxt-" + count).val('');
+            $("#kyc-filetxt-" + count).removeClass('pl-25');
+            delete kycFiles[count];
+            $(obj).next().remove();
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn" onclick="fileUpload(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+        
+        function closePdfModal() {
+            $("#pdfView").modal('hide');
+        }
+        
+        
+               
+</script>
+<script src="js/header.js"></script>
+</html>

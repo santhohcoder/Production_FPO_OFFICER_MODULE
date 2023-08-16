@@ -1,0 +1,303 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+ <input id="roleget" type="hidden" th:value="${session.offId }" />
+<input id="cussite" type="hidden"  th:value="${session.data2 }" />
+<input id="role"   type="hidden"  th:value="${session.data1 }" />
+
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div id="queryQueueshow" class="col-md-12" >
+<input type="hidden" id="clock">
+
+		<div align="center" class=" mt-2" style="margin: 1%;">
+			<lable
+				style="vertical-align: -webkit-baseline-middle;font-weight: 500;color: blue;">Query Reply Status</lable>
+		</div>
+		
+		<div>
+			
+			<table id="processtable"
+				class="table table-striped table-bordered newtable"
+				style="font-size: 15px; text-align: center; width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th scope="col" id="sinid" style="width: 45px;">Article ID</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">FPO Site</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Stage</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Query Type</th>
+						<th scope="col" id="sinid" style="width: 45px;">DCall Number</th>
+						<th scope="col" id="sinid" style="width: 45px;">One Time Link</th>
+						<th class="tablecolumn" scope="col" style="text-align: center; vertical-align: middle; white-space: nowrap; width: 112px;">Query Raised By /<br> Query Raised Date</th>
+						<!-- <th class="tablecolumn" scope="col" style="text-align: center;">Query Raised By</th> -->
+						<th class="tablecolumn" scope="col" style="text-align: center;">Reply Date</th>
+						<th scope="col" id="sinid" style="width: 45px;">Reply By</th>
+						<th scope="col" id="sinid" style="width: 45px;">Time Taken to Reply</th>
+						<th class="tablecolumn" scope="col" style="text-align: center; vertical-align: middle; white-space: nowrap; width: 112px; ">Email Id /<br>Mobile Number <br><font size=1 style="font-style: italic;">(Provided at the time of<br> Registration to Reply <br>through One Time link)</th>
+						<!-- <th class="tablecolumn" scope="col" style="text-align: center;">Mobile Number</th> -->
+						<th class="tablecolumn" scope="col" style="text-align: center;">IP Address</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values, iter: ${reportcolumns}" class="">
+						<td class="tablecolumn" th:text="${iter.index+1}"></td>
+						<td class="tablecolumn" th:text="${values.item_id}"></td>
+						<td class="tablecolumn" th:text="${values.cussite }"></td>
+						<td class="tablecolumn" th:text="${values.stage}"></td>
+						<td class="tablecolumn" th:text="${values.qry_type }"></td>
+						<td class="tablecolumn" th:text="${values.Dcall_no}"></td>
+						<td class="tablecolumn" th:text="${values.onetime_link}"></td>
+						<td class="tablecolumn" ><span th:text="${values.query_raised_by}"></span><br><span th:text="${values.queryraiseddate}"></span></td>
+						<!-- <td class="tablecolumn" th:text="${values.query_raised_by}"></td> -->
+						<td class="tablecolumn" th:text="${values.reply_date}"></td>
+						<td class="tablecolumn" th:text="${values.replied_by}"></td>
+						<td class="tablecolumn" th:text="${values.time_taken_to_reply}"></td>
+						<td class="tablecolumn" > <span th:text="${values.emailid}"></span></br><span th:text="${values.mobileno }"></span></td>
+						<!-- <td class="tablecolumn" th:text="${values.mobileno }"></td> -->
+						<td class="tablecolumn" th:text="${values.ip_address }"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		
+		<script th:inline="javascript"> 
+		//function  by santhosh	
+	         
+	       
+	         
+	         
+function generateReport(number, type,name,category) {
+  var datetime = new Date().toLocaleString();
+  var role = document.getElementById("roleget").value;
+  var site = document.getElementById("cussite").value;
+  var rolename = document.getElementById("role").value;
+  var data = {
+    number: number,
+    type: type,
+    datetime: datetime,
+    role: role,
+    name:name,
+    site:site,
+    rolename:rolename,
+    category:category
+  };
+
+  $.ajax({
+  
+    url:'savereportdetails',
+    method: "POST",
+    data: data,
+    success: function(response) {
+    
+      console.log("Data saved successfully");
+    },
+    error: function(error) {
+      console.log(error);
+      alert("Error occurred while saving data");
+    }
+  });
+}
+		
+		 $('.datesel').css('display','inline-flex');
+       
+         document.title="Query Reply Status from "+$('#fromdate').val()+" to "+$('#todate').val()+" as on " + $('#clock').val();
+         
+        $("#processtable").dataTable({
+		"processing": true,
+		"paging": true,
+
+		"ordering": false,
+		//"dom": 'Bfrtip',
+		//buttons: ['excel', 'pdf', 'print']
+		"dom": '<"pull-left"Bl>frtip',
+		buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+		 exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						if ( column == 3 ) 
+        					return "Stage"
+        				if ( column == 7 ) 
+        					return "Query Raised By / Query Raised Date"
+        				if ( column == 11 ) 
+        					return "Email ID / Mobile Number (Provided at the time of Registration to Reply Through One Time link )"
+        				else	
+        					return data; }}},
+		
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:' Query Reply Status',
+					message:'  Query Reply Status @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+					generateReport(3,"excel","Query Reply Status","Query And Reply Related Reports");
+					
+					}},
+				//pdf
+    			  {extend: 'pdf',
+    			   exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						if ( column == 3 ) 
+        					return "Stage"
+        				if ( column == 7 ) 
+        					return "Query Raised By / Query Raised Date"
+        				if ( column == 11 ) 
+        					return "Email ID / Mobile Number (Provided at the time of Registration to Reply Through One Time link )"
+        				else	
+        					return data; }}},
+    			  
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				    orientation: 'landscape',
+		   		     customize: function(doc, header) {
+		   		    generateReport(3,"pdf","Query Reply Status","Query And Reply Related Reports");
+					
+		   		     doc.content[1].table.widths = ['3%','7%','7%','7%','7%','9%','10%','9%','7%','9%','9%','10%','8%','8%','10%',];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							}); 
+							
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+					
+    		        },
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Query Reply Status @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:'Query Reply Status ',
+
+},
+			//Print
+		         {extend: "print" ,
+		          exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						if ( column == 3 ) 
+        					return "Stage"
+        				if ( column == 7 ) 
+        					return "Query Raised By / Query Raised Date"
+        				if ( column == 11 ) 
+        					return "Email ID / Mobile Number (Provided at the time of Registration to Reply Through One Time link )"
+        				else	
+        					return data; }}},
+		         
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:' Query Reply Status @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Query Reply Status',
+					
+					customize: function ( win ) {
+					generateReport(3,"print","Query Reply Status","Query And Reply Related Reports");
+					
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						}}],
+		 initComplete: function() {
+      this.api().columns([3]).every(function() {
+        var column = this;
+        var coldata = column[0];
+        if (coldata == 3) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700"><option value="">Stage</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+      });
+
+      $("#processtable_filter").append('<button type="button" class="btn btn-info" id="clear" style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+      $('#clear').on('click', function() {
+        $('#processtable_filter input[type="search"]').val('').trigger('input');
+        var table = $('#processtable').DataTable();
+        table.search('').draw();
+      });
+    }
+	
+		
+	});
+         
+      
+ function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}        
+      </script>

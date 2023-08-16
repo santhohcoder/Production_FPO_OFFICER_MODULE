@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<head>
+<meta charset="ISO-8859-1">
+<title>View page</title>
+
+<style>
+
+body{
+background:#fff !important;
+}
+
+.button-size {
+	width: 23%;
+}
+
+#tossoid {
+	text-align: center;
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+ <div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Site
+		Management> Reallocation</h3>
+	<!--h3 style="text-align: center; color: #1616e0;">LOCAL ALERT MANAGER</h3-->
+	<h4
+		style="text-align: center; margin-top: 2%; font-family: times new roman">Re-allocation
+	</h4>
+<div align=center style="color:red"><b>Note:</b> Before Reallocating the Mail Classes / Article IDs, please get the respective role ( Mail Classes ) allotted by System through PLA / PAA roles</div>
+	<div style="margin-top: 2%">
+		<form class="form-horizontal">
+			<div style="position: relative; text-align: end;">
+				
+				<div class="form-group row container-fluid"
+					style="padding-left: 164px;">
+					<div class="col-sm-4"></div>
+					<label class="control-label col-sm-1 "
+						style="font-weight: 600; margin-top: 8px;">From SSOID<span
+						style="color: red">*</span> :
+					</label>
+					<div class="col-sm-2">
+						<input onchange="entrssoid(this)" type="text" id="fromssoid"
+							class="form-control" maxlength="8" name="Sitecode"
+							style="width: 290px" placeholder="Enter From SSOID ">
+						<div class="invalid-feedback"></div>
+
+					</div>
+					<div class="col-sm-3"
+						style="position: absolute; right: 10%; text-align: left; top: -10px;">
+						<div>
+							<span class="rolesassigned blink"
+								style="font-family: 'FontAwesome';"></span>
+						</div>
+						<div>
+							<span class="mailclass blink" style="font-family: 'FontAwesome';"></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row container-fluid tossoid"
+					style="padding-left: 164px;">
+					<div class="col-sm-4"></div>
+					<label class="control-label col-sm-1 "
+						style="font-weight: 600; margin-top: 8px;">To SSOID : </label>
+					<div class="col-sm-2">
+						<input onchange="entrtossoid(this)" type="text" id="tossoid"
+							class="form-control" maxlength="8" name="Sitecode"
+							style="width: 290px" placeholder="Enter To SSOID ">
+						<div class="invalid-feedback"></div>
+
+					</div>
+					<div class="col-sm-3"
+						style="position: absolute; right: 10%; text-align: left;">
+						<div>
+							<span class="rolesassigned1 blink"
+								style="font-family: 'FontAwesome';"></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group row roleshow"
+					style="margin-top: 1%; justify-content: center; padding-right: 170px; display: none">
+					<label class="control-label col-sm-2" style="font-weight: 600;">Select
+						roles to be assigned : </label>
+					<div class="col-sm-2 dropdown">
+						<select class="form-control selrole js-example-basic-multiple"
+							id="selctroles" onchange="selectresn(this)" style="width: 290px;"
+							multiple="multiple">
+							<!-- <option hidden>Select your option</option> -->
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div class="form-group row"
+					style="margin-top: 1%; justify-content: center; padding-right: 10px;">
+					<label class="control-label col-sm-1" style="font-weight: 600;">Record
+						reason<span style="color: red">*</span> :
+
+					</label>
+					<div class="col-sm-2 dropdown">
+						<select class="form-control selresn" id="resnval"
+							onchange="selectresn(this)" style="width: 290px;">
+							<option>--Select Reason--</option>
+							<div th:each="reas : ${getresn}">
+								<option class="form-control" th:value="${reas[0]}"
+									th:text="${reas[1]}"></option>
+							</div>
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div class="form-group row otherresn"
+					style="justify-content: center; padding-right: 10px; display: none">
+					<label class="col-sm-1 col-form-label" style="font-weight: 600;">Enter
+						Reason :</label>
+					<div class="col-sm-2">
+						<textarea class="form-control" name="textfiled" id="otherreason"
+							placeholder="Enter Reason" rows="3"
+							style="height: 90px; width: 290px"></textarea>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+
+				<div class="form-group row"
+					style="margin-top: 1%; justify-content: center;">
+					<label class="control-label" style="font-weight: 600;">Select
+						Mail Class : </label>
+					<div class="col-sm-2 dropdown" style="padding-left: 28px">
+						<select class="form-control selmailcls" id="selectmailclas"
+							 style="width: 290px;">
+							<option>--Select Mail Class--</option>
+							<option value="A">ALL Mail Class</option>
+							<option value="U">LETTERS</option>
+							<option value="E">EMS</option>
+							<option value="C">PARCEL</option>
+							<option value="T">EMPTY RECEPTACLES</option>
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div class="form-group row"
+					style="margin-top: 1%; justify-content: center;">
+					<label class="control-label " style="font-weight: 600;">Select
+						Article-ID : </label>
+					<div class="col-sm-2 dropdown" style="padding-left: 29px">
+						<select class="form-control selartcle" id="selectart"
+							onchange="selectarticl(this)" style="width: 290px;">
+							<option value="All">All Article-ID</option>
+							<option value="Specify-ID">Specify Article-ID</option>
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div class="form-group row articlid"
+					style="justify-content: center; padding-right: 10px; display: none">
+					<label class="control-label col-sm-1 "
+						style="font-weight: 600; margin-top: 8px;">Enter Article
+						ID : </label>
+					<div class="col-sm-2">
+						<input type="text" id="aritcleid" class="form-control"
+							name="Articleid" maxlength="13" style="width: 290px"
+							placeholder="Enter Particular Article Id">
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+			</div>
+			<br>
+		</form>
+	</div>
+	<div class="col-md-8"
+		Style="display: flex; justify-content: end; padding-right: 102px;">
+		<button type="button" id="reallocate" class="btn btn-success">Submit</button>
+	</div>
+	<br>
+	<br>
+
+	<div class="col-md-12 row">
+		<!-- <div class="col-md-1"></div> -->
+		<div class="col-md-8 row">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<h6 style="color: #1616e0; font-weight: bold">Note :</h6>
+			&nbsp;&nbsp;&nbsp;
+			<h6>Roles assigned to one officer's SSOID can be re-allocated to
+				another officer's SSOID, who are mapped to this site.</h6>
+		</div>
+	</div>
+
+	<div class="modal fade" id="rolepopup" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center" id="reallocpopup"
+						style="font-family: 'FontAwesome';"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" id="addrole"
+						class="btn btn-success">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="cnfrmreall" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body" style= "text-align : center">
+					<h4 style="font-family: 'FontAwesome';">Do you want to re-allocate the user? </h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="notsure" data-dismiss="modal" class="btn btn-danger"
+						style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="cnfmpopup"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+	<script th:src="@{js/addingSite.js}"></script>
+	<script th:src="@{js/datatables.min.js}"></script>
+	<script src="js/lsmJS/Lsmaddingroles.js"></script>
+	<script src="js/lsmJS/reallocation.js"></script>
+	<!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+	<script type="text/javascript"></script>
+	<script>
+       function goback() {
+     window.location = "aclfunction";
+     
+     } 
+</script> 
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+	background: white !important;
+}
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Miscellaneous>
+		Change Threshold Value</h3>
+		<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR</h3>
+	<div style="font-weight: bold; margin-top: 50px; text-align: center;background: deepskyblue;font-family: times new roman;">
+		<h2>Change Threshold Value</h2>
+	</div>
+	<br>
+	<div style="font-weight: bold; text-align: center; color: blue">
+		<h6>The Value over and above this, moves to AC/DC's queue for
+			assessment of Postal Personal Items.</h6>
+	</div>
+	<br>
+	<div class="container">
+		<form class="form-horizontal">
+			<div class="form-group row "
+				style="margin-left: 22%; margin-top: 5%">
+				<label class="control-label col-sm-3 "
+					style="margin-left: 20px; font-weight: 600; margin-top: 8px; font-size: Large;">Current
+					Value*:</label>
+				<div class="col-sm-4" style="margin-left: -20px">
+					<input type="text" th:value="${thresholdval}" id="assmaxval"
+						class="form-control" style="margin-left: -20px" readonly>
+				</div>
+				<div class="control-label col-sm-5">
+					<label style="margin-left: 5%; font-weight: 600;"><span
+						style="color: blue">Date & time:</span>&nbsp;&nbsp;<span
+						id="assdatetime" th:text="${getassvaldate}"
+						style="font-weight: 900;"></span></label>
+				</div>
+			</div>
+			<br>
+			<button type="button" class="btn btn-success" data-target="#Asspopup"
+				id="updthreshldval" style="margin-left: 58%;">Change</button>
+		</form>
+	</div>
+	<div class="modal fade" id="Asspopup" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Do you want
+						to change threshold value?</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body"
+					style="margin-left: 72px; margin-top: 10px; margin-bottom: -10px">
+
+					<div class="form-group row">
+						<label for="message-text" class="col-form-label"
+							style="font-weight: 600">Enter Value:</label> <input type="text"
+							id="assval" class="form-control"
+							style="width: 50%; margin-left: 10px"><br> <br>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="chngethreval" type="submit" data-target="#asspopup1"
+						class="btn btn-success">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="asspopup1" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Reason for
+						changing threshold value?</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+						<textarea id="recordMsg" name="deleteres" class="form-control"></textarea>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger"
+					style="margin-right:322px"	data-dismiss="modal">Close</button>
+					<button id="updatemaxval" type="button" class="btn btn-success">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" th:value="${loginid}" id="lginid">
+</body>
+<script src="js/misechngeval.js"></script>
+<script>
+function goback() {
+     window.location = "miscellaneous";
+     
+     }   
+</script>
+</html>

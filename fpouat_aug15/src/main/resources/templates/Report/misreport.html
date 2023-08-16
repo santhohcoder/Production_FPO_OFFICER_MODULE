@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="ISO-8859-1">
+      <title>Analytical Report</title>
+      <style type="text/css">
+         .ui-widget-content .ui-icon {
+         background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+         }
+         
+         
+         .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+         .error-date{
+         color: red;
+         }
+         .ead_decisions {
+         border-radius: 5px;
+         padding: 2px;
+         font-size: 11px;
+         background-color: darkblue;
+         font-size: 14px;
+         width : 450px;
+         color: white;
+         }
+         .lab_txt, .col-form-label {
+         font-size: 12px;
+         color: blue;
+         }
+         .table-bordered thead td, .table-bordered thead th {
+         border-bottom-width: 1px;
+         }
+         .table thead th {
+         vertical-align: bottom;
+         border-bottom: 1px solid #040404;
+         }
+         .table-bordered td, .table-bordered th {
+         border: 1px solid #000000;
+         }
+         .form_txt {
+         font-weight: 700
+         }
+         .bg_rec {
+         background-color: #e6e5e5;
+         border-radius: 10px;
+         padding: 10px;
+         }
+         .lab_txt {
+         font-size: 13px;
+         font-weight: 700;
+         color: blue;
+         }
+         .col-form-label {
+         padding-top: 2px;
+         font-size: 13px;
+         font-weight: 700;
+         color: blue;
+         }
+         .col-form-label {
+         padding-top: 2px;
+         }
+         .breadcrumb-pagination {
+         width: 100%;
+         border-bottom: 1px solid #E1E6EB;
+         text-align: center;
+         color: #B3B7C1;
+         }
+         .breadcrumb-pagination div {
+         width: 15%;
+         display: inline-block;
+         }
+         .breadcrumb-pagination div span {
+         margin: 0 auto;
+         display: block;
+         border-radius: 100%;
+         width: 36px;
+         font-size: 20px;
+         }
+         .completed span {
+         background-color: NONE;
+         color: #95db89;
+         border: 2px solid #95db89;
+         }
+         .active1 span {
+         background-color: #00abc9;
+         color: #fff;
+         }
+         .todo span {
+         background-color: none;
+         color: #E1E6EB;
+         border: 2px solid #E1E6EB;
+         }
+         .breadcrumb-pagination div p {
+         text-align: center;
+         line-height: 0;
+         margin: 10px auto 0px;
+         }
+         .active1 p {
+         border-bottom: 2px solid #00abc9;
+         padding-bottom: 20px;
+         margin-bottom: 0px !important;
+         color: #3c4043;
+         font-weight: 700;
+         }
+         .scroll_down {
+         width: 310%;
+         height: 69px;
+         overflow-x: hidden;
+         overflow-y: auto;
+         }
+         .completed p {
+         color: "#bsb7c1;"
+         }
+         .completed span::before {
+         content: '\2713'
+         }
+         li{
+         cursor: pointer;
+         }
+         .columnhighlight{
+         /* background-color: rgb(141, 214, 236); */
+         background-color: papayawhip;
+         color: darkblue;
+         font-weight: bolder;
+         font-size: 13px;
+         margin: 3px;
+         border: 2px solid rgba(0, 0, 0, 0.1);
+         } 
+         .columnselect{
+         background-color: GREEN;
+         COLOR: WHITE;
+         transition: background-color 400ms linear;
+         }
+         .countlable{
+         display: inline;
+         height: 24px;
+         padding: 2px 5px;
+         border-radius: 7px;
+         font-size: 12px;
+         font-weight: 600;
+         background-color: yellow;
+         }
+         .countlable:hover {
+         cursor: default;
+         }
+         .dataTables_scrollBody {
+         height: 100% !important;
+         }
+         .buttons-excel {
+         display: none;
+         }
+         #overlay{
+         position: absolute;
+         left: 0%;
+         top: 0%;
+         z-index: 9999;
+         width: 100%;
+         background: rgba(255, 255, 255, .7);
+         }
+         #loader {
+         position: fixed;
+         display: block;
+         left: 50%;
+         top: 48%;
+         z-index: 9999;
+         width: 100%;
+         height: 100%;
+         background-image: url(images/report/loader.gif);
+         background-repeat: no-repeat;
+         margin: -77px 0 0 -75px;
+         }
+         /*  th, td { white-space: nowrap; } */
+         /*  tfoot {
+         display: table-header-group;
+         } */
+         [type="checkbox"]:not(:checked),
+         [type="checkbox"]:checked {
+         position: absolute;
+         left: -9999px;
+         }
+         [type="checkbox"]:not(:checked)+label,
+         [type="checkbox"]:checked+label {
+         position: relative;
+         padding-left: 20px;
+         cursor: pointer;
+         }
+         [type="checkbox"]:not(:checked)+label:before,
+         [type="checkbox"]:checked+label:before {
+         content: '';
+         position: absolute;
+         left: -5px;
+         top: 2px;
+         width: 20px;
+         height: 20px;
+         background: #fff;
+         border-radius: 3px;
+         box-shadow: inset 0 1px 3px rgb(86 30 30);
+         border-radius: 46%;
+         outline: none;
+         }
+         [type="checkbox"]:not(:checked)+label:after,
+         [type="checkbox"]:checked+label:after {
+         content: "\2713";
+         position: absolute;
+         top: 6px;
+         left: -1px;
+         font-size: 16px;
+         line-height: 0.8;
+         color: #fff;
+         transition: all .5s;
+         background-color: red;
+         border-radius: 48%;
+         }
+         [type="checkbox"]:not(:checked)+label:after {
+         opacity: 0;
+         transform: scale(0);
+         }
+         [type="checkbox"]:checked+label:after {
+         opacity: 1;
+         transform: scale(1);
+         }
+         
+           .menuIconToggle:before {
+       		display:none !important;
+       }
+       
+       .menuIconToggle:after {
+       		display:none !important;
+       }
+         
+      </style>
+   </head>
+   <head lang="en" th:replace="header :: header"></head>
+   <body>
+      <div id="overlay" style="display: none;">
+         <div id="loader">
+         <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+         </div>
+      </div>
+      <input type="hidden" th:value="${fromdate}" id="reloadfromdate" >
+      <input type="hidden" th:value="${todate}" id="reloadtodate" >
+      <input type="hidden" th:value="${filter}" id="reloadfilter" >
+      <!-- <div class=" pl-3 mt-2">
+         <a class="btn btn-primary" href="dash">Back to dashboard</a>
+      </div> --><!-- <div class="col-md-1" style="margin-left: 20px;padding-top: 10px;">
+			<a href="dash" oncick="showLoader();"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div> -->
+      <div align="center" class=" mt-2">
+         <h2 id="titletab" class="form_txt ">ANALYTICAL REPORT</h2>
+      </div>
+      <div align="center" class=" mt-2">
+            <lable style="vertical-align: -webkit-baseline-middle;font-weight: 500;color: blue;">NOTE : PLEASE SELECT DATE RANGE AND CLICK THE REQUIRED RADIO BUTTONS BELOW BEFORE RUN THE QUERY</lable>
+         </div>
+      <!-- <div class=" pl-3 mt-2">
+         <span class="form_txt " style="font-weight: 500;color: red;"># Date Range For EAD</span>
+      </div> -->
+      <div class="row pl-5  mt-2">
+         <form class="form-horizontal reset"  autocomplete="off"  th:action="@{/reportdatechange}"  th:object="${report}" method="post" id="getreportlistform">
+            <div class="row dateForm">
+               <div>
+               <span class="form_txt " style=""> Date Range For EAD :</span>
+                  <label class="form_txt "for="birthday"> From  : </label>
+                  <input class="picker form-control form_txt change" type="text" name="fromdate" readonly id="fromdate" style="display: inline;width: auto;">
+               </div>
+               <div class="pl-5">
+                  <label class="pl-5 form_txt " for="birthday">To  : </label>
+                  <input class="picker form-control form_txt change" type="text" name="todate" readonly id="todate" style="display: inline;width: auto;">
+               </div>
+               <!-- <div class="pl-5 ">
+                  <label class="pl-5 form_txt " for="birthday">FilterBy : </label>
+                  
+                  <input type="hidden" value="custitm" name="tab" id="tabvalue" >
+                  <select name="filter" id="filter" class="form-control change" style="display: inline;width: 60%;">
+                  <option value="job_date">job_date</option>
+                  <option value="article_arrived_info">article_arrived_info</option>
+                  <option value="ooc_date">ooc_date</option>
+                  <option value="delivery_date">delivery_date</option>
+                  <option value="sent_date">sent_date</option>
+                  </select>
+                    
+                    <input type="submit" id="filtersubmit" class="ml-5 btn btn-success"></div> -->
+            </div>
+         </form>
+         
+         <div class="pl-5 ">
+            <a id="selectall" title="Excel">
+            <button class="btn btn-info" style="font-size:15px">Select All Columns</button>
+            </a>
+         </div>
+         <div class="pl-5 ">
+            <a id="clearall" title="clear">
+            <button class="btn btn-info" style="font-size:15px">Clear Columns</button>
+            </a>
+         </div>
+      </div>
+      <div class="row ml-3 mt-2">
+         <lable style="font-weight: 500;color: red;"># Date During Which The Electronic Advance Data Of Inbound Articles Received In Fpo Import Application</lable>
+      </div>
+      <div class="row pl-5  mt-2 error"  style="display: none;">
+         <p class="error-date">Please enter a valid date range</p>
+      </div>
+      <div class="mt-3" style="background-color: #f8f9fa;">
+         
+<div id="columnshighlight" class="ml-3">
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="1" value="1" onclick="columnclick(this)" color="c3c3c3">
+         <input type="checkbox" id="check1">
+         <label for="check1" onclick="columnclick(this)" value="1">Article Id</label>
+         </li>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="2" value="2" onclick=columnclick(this) color="c3c3c3">
+             <input type="checkbox" id="check2" />
+             <label for="check2"  onclick=columnclick(this) value="2">Posting Date</label>
+         </li>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="3" value="3" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check3" />
+                     <label for="check3"  onclick=columnclick(this) value="3">Country Of Origin</label></li>
+                     <select class="form_txt columnvalue" id="select3" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="all" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${CountryOfOrigin}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+     <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="4" value="4" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check4" />
+                     <label for="check4"  onclick=columnclick(this) value="4">Sender Name</label></li>
+                     <!-- <select class="form_txt columnvalue" id="select4" style="margin: 1%;width:auto;display: none;">
+                        <option>Yes</option>
+                        <option>no</option>
+                        </select> -->
+                     <input type="text" id="input4" style="display: none;width: 165px;" placeholder="Enter The Name">
+      </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="5" value="5" onclick=columnclick(this) color="c3c3c3">
+                  <input type="checkbox" id="check5" />
+                  <label for="check5"  onclick=columnclick(this) value="5">Sender Address</label></li>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="6" value="6" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check6" />
+                     <label for="check6"  onclick=columnclick(this) value="6">  Receiver Name</li>
+                     <!-- <select class="form_txt columnvalue" id="select6" style="margin: 1%;width:auto;display: none;">
+                        <option>Yes</option>
+                        <option>No</option>
+                        </select> -->
+                     <input type="text" id="input6" style="display: none;width: 165px;" placeholder="Enter The Name">
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="7" value="7" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check7" />
+                     <label for="check7"  onclick=columnclick(this) value="7">  Receiver Address</li>
+      </div>
+     <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="8" value="8" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check8" />
+                     <label for="check8"  onclick=columnclick(this) value="8">  State</li>
+                     <select class="form_txt columnvalue" id="select8" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${state}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="9" value="9" onclick=columnclick(this) color="c3c3c3">
+                        <input type="checkbox" id="check9" />
+                        <label for="check9"  onclick=columnclick(this) value="9"/>
+                           Pin Code 
+                     </li>
+                     <select class="form_txt " id="select9" style="margin: 1%;width: 27%;display: none;">
+                     <option value="" selected disabled hidden>Select Value</option>
+                     <option value="All" data-name="All">All</option>
+                     <option th:each="values: ${Pincode}"
+                        th:value="${values}"
+                        th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+                     <select class="form_txt columnvalue" id="pincode" style="margin: 1%;width: 27%;display: none;">
+                     <option value="" selected disabled hidden>Select Value</option>
+                     <option value="All" data-name="All">All</option>
+                     <option th:each="values: ${Pincode}"
+                        th:value="${values}"
+                        th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+      <li class="col-md-7 columnhighlight" id="10" value="10" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check10" />
+                     <label for="check10"  onclick=columnclick(this) value="10">  EAD Decision </li>
+                     <select class="form_txt columnvalue" id="select10" style="margin: 1%;width:28%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${EADDecision}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="11" value="11" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check11" />
+                     <label for="check11"  onclick=columnclick(this) value="11">  Mail class </li>
+                     <select class="form_txt columnvalue" id="select11" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${mailclass}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+         </div>
+     <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="12" value="12" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check12" />
+                     <label for="check12"  onclick=columnclick(this) value="12">  Item Category </li>
+                     <select class="form_txt columnvalue" id="select12" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${MailCat}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="13" value="13" onclick=columnclick(this) color="c3c3c3">
+                  <input type="checkbox" id="check13" />
+                  <label for="check13"  onclick=columnclick(this) value="13">Gross Weight</label></li>
+                  <select class="form_txt columnvalue" id="select13" style="margin: 1%;width: 27%;display: none;">
+                  <option value="" selected disabled hidden>Select Value</option>
+                  <option value="All" data-name="All">All</option>
+                  <option>Up To 500g</option>
+                  <option>Up To 1kg</option>
+                  <option>Up To 1.5kg</option>
+                  <option>Up To 2kg</option>
+                  <option>More Than 2kg</option>
+                  </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+     <li class="col-md-7 columnhighlight" id="14" value="14" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check14" />
+                     <label for="check14"  onclick=columnclick(this) value="14">  Item No</li>
+                     <select class="form_txt columnvalue" id="select14" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>Up To 10</option>
+                        <option>More Than 10 Up To 20</option>
+                        <option>More Than 20 Up To 50</option>
+                        <option>More Than 50</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="15" value="15" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check15" />
+                     <label for="check15"  onclick=columnclick(this) value="15">  Item Description</li>
+                     <input type="text" id="input15" style="display: none;width: 165px;" placeholder="Enter The Description">
+         </div>
+     <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="16" value="16" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check16" />
+                     <label for="check16"  onclick=columnclick(this) value="16">  HS code in CN23</li>
+                     <select class="form_txt columnvalue" id="select16" style="margin: 1%;width: auto;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${othersTwoDigi}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+                     
+                     <select class="form_txt columnvalue" id="fourdigit" style="margin: 1%;width: auto;display: none;">
+                     <option value="" selected disabled hidden>Select Value</option>
+                     <option value="All" data-name="All">All</option>
+                     <option th:each="values: ${othersfourDigi}"
+                        th:value="${values}"
+                        th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="17" value="17" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check17" />
+                     <label for="check17"  onclick=columnclick(this) value="17">  Revised HS code in CN23</li>
+                     <select class="form_txt columnvalue" id="select17" style="margin: 1%;width: auto;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${othersTwoDigi}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+                     
+                     <select class="form_txt columnvalue" id="revfourdigit" style="margin: 1%;width: auto;display: none;">
+                     <option value="" selected disabled hidden>Select Value</option>
+                     <option value="All" data-name="All">All</option>
+                     <option th:each="values: ${othersfourDigi}"
+                        th:value="${values}"
+                        th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+     <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="18" value="18" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check18" />
+                     <label for="check18"  onclick=columnclick(this) value="18">  CTH Assessed</li>
+                     <select class="form_txt columnvalue" id="select18" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option th:each="values: ${cth}"
+                           th:value="${values}"
+                           th:text="|${values}|" th:attr="data-name=${values}">option</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+     <li class="col-md-7 columnhighlight" id="19" value="19" onclick=columnclick(this) color="c3c3c3">
+                  <input type="checkbox" id="check19" />
+                  <label for="check19"  onclick=columnclick(this) value="19">  Value Declared in CN23</li>
+                  <select class="form_txt columnvalue" id="select19" style="margin: 1%;width: 27%;display: none;">
+                  <option value="" selected disabled hidden>Select Value</option>
+                  <option value="All" data-name="All">All</option>
+                  <option>More Than 0 Up To 1000</option>
+                  <option>More Than 1000 Up To 2000</option>
+                  <option>More Than 2000 Up To 3000</option>
+                  <option>More Than 3000 Up To 4000</option>
+                  <option>More Than 4000 Up To 5000</option>
+                  <option>Above 5000</option>
+                  </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="20" value="20" onclick=columnclick(this) color="c3c3c3">
+                  <input type="checkbox" id="check20" />
+                  <label for="check20"  onclick=columnclick(this) value="20">  Currency Code</li>
+                  
+         </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="21" value="21" onclick=columnclick(this) color="c3c3c3">
+                  <input type="checkbox" id="check21" />
+                  <label for="check21"  onclick=columnclick(this) value="21">  Exchange Rate</li>
+                  
+         </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="22" value="22" onclick=columnclick(this) color="c3c3c3">
+                  <input type="checkbox" id="check22" />
+                  <label for="check22"  onclick=columnclick(this) value="22">  Assessed Value</li>
+                  <select class="form_txt columnvalue" id="select22" style="margin: 1%;width: 27%;display: none;">
+                  <option value="" selected disabled hidden>Select Value</option>
+                  <option value="All" data-name="All">All</option>
+                  <option>More Than 0 Up To 1000</option>
+                  <option>More Than 1000 Up To 2000</option>
+                  <option>More Than 2000 Up To 3000</option>
+                  <option>More Than 3000 Up To 4000</option>
+                  <option>More Than 4000 Up To 5000</option>
+                  <option>Above 5000</option>
+                  </select>
+         </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="23" value="23" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check23" />
+                     <label for="check23"  onclick=columnclick(this) value="23">  Query</li>
+                     <select class="form_txt columnvalue" id="select23" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+     <li class="col-md-7 columnhighlight" id="28" value="28" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check28" />
+                     <label for="check28"  onclick=columnclick(this) value="28">  Reply </li>
+                     <select class="form_txt columnvalue" id="select28" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>E - Reply</option>
+                        <option>Physical Reply</option>
+                        <option>Reply Pending</option>
+                     </select>
+                    <!--  <select class="form_txt columnvalue" id="YN" style="margin: 1%;width:auto;display: none;">
+                        <option>With Document</option>
+                        <option>Without Document</option>
+                     </select>
+                     <select class="form_txt columnvalue" id="Doc" style="margin: 1%;width:auto;display: none;">
+                        <option>KYC Document</option>
+                        <option>Support Document</option>
+                     </select> -->
+      </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="30" value="30" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check30" />
+                     <label for="check30"  onclick=columnclick(this) value="30">  Reply IP </li>
+                  </div>
+     <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="31" value="31" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check31" />
+                     <label for="check31"  onclick=columnclick(this) value="31">  Total Duty </li>
+                     <select class="form_txt columnvalue" id="select31" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>More Than 0 Up To 1000</option>
+                        <option>More Than 1000 Up To 2000</option>
+                        <option>More Than 2000 Up To 3000</option>
+                        <option>More Than 3000 Up To 4000</option>
+                        <option>More Than 4000 Up To 5000</option>
+                        <option>Above 5000</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="32" value="32" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check32" />
+                     <label for="check32"  onclick=columnclick(this) value="32">  Amount Payable </li>
+                     <select class="form_txt columnvalue" id="select32" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>More Than 0 Up To 1000</option>
+                        <option>More Than 1000 Up To 2000</option>
+                        <option>More Than 2000 Up To 3000</option>
+                        <option>More Than 3000 Up To 4000</option>
+                        <option>More Than 4000 Up To 5000</option>
+                        <option>Above 5000</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+     <li class="col-md-7 columnhighlight" id="33" value="33" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check33" />
+                     <label for="check33"  onclick=columnclick(this) value="33">  Fine </li>
+                     <select class="form_txt columnvalue" id="select33" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>More Than 0 Up To 1000</option>
+                        <option>More Than 1000 Up To 2000</option>
+                        <option>More Than 2000 Up To 3000</option>
+                        <option>More Than 3000 Up To 4000</option>
+                        <option>More Than 4000 Up To 5000</option>
+                        <option>Above 5000</option>
+                     </select>
+      </div>
+      
+   </div>
+   <div class="row col-md-12">
+      <div class="col-md-3 row" style="list-style-type:none">
+          <li class="col-md-7 columnhighlight" id="34" value="34" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check34" />
+                     <label for="check34"  onclick=columnclick(this) value="34">  Penalty </li>
+                     <select class="form_txt columnvalue" id="select34" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>More Than 0 Up To 1000</option>
+                        <option>More Than 1000 Up To 2000</option>
+                        <option>More Than 2000 Up To 3000</option>
+                        <option>More Than 3000 Up To 4000</option>
+                        <option>More Than 4000 Up To 5000</option>
+                        <option>Above 5000</option>
+                     </select>
+         </div>
+     <div class="col-md-3 row" style="list-style-type:none;">
+        <li class="col-md-7 columnhighlight" id="35" value="35" onclick=columnclick(this) color="c3c3c3" style="max-height: 42px;">
+                        <input type="checkbox" id="check35" />
+                        <label for="check35"  onclick=columnclick(this) value="35">  Arrival OOE  
+                        <ul style="list-style-type:none;padding-inline-start: 0;">
+                           <li style="font-size: 10px;">(Article First Entered In India) </li>
+                        </ul>
+                     </li>
+                     <select class="form_txt columnvalue" id="select35" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div>
+      <!-- <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="31" value="31" onclick=columnclick(this) color="c3c3c3">
+                        <input type="checkbox" id="check31" />
+                        <label for="check31"  onclick=columnclick(this) value="31">Arrival Date 
+                     </li>
+                     <select class="form_txt columnvalue" id="select31" style="margin: 1%;width: 31%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div> -->
+      <div class="col-md-3 row" style="list-style-type:none;">
+     <li class="col-md-7 columnhighlight" id="38" value="38" onclick=columnclick(this) color="c3c3c3" style="max-height: 42px;">
+                        <input type="checkbox" id="check38" />
+                        <label for="check38"  onclick=columnclick(this) value="38">Destination FPO 
+                        <ul style="list-style-type:none;padding-inline-start: 0;">
+                           <li style="font-size: 10px;">(Article submitted for customs at FPO)</li>
+                        </ul>
+                     </li>
+                     <select class="form_txt columnvalue" id="select38" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="41" value="41" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check41" />
+                     <label for="check41"  onclick=columnclick(this) value="41">  Exam order </li>
+                     <select class="form_txt columnvalue" id="select41" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Scan</option>
+                        <option>Detain</option>
+                        <option>Examination</option>
+                     </select>
+         </div>
+      
+   </div>
+   <div class="row col-md-12">
+     <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="42" value="42" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check42" />
+                     <label for="check42"  onclick=columnclick(this) value="42">  Exam Finding </li>
+                     <select class="form_txt columnvalue" id="select42" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Item Found</option>
+                        <option>Item Not Found</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="43" value="43" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check43" />
+                     <label for="check43"  onclick=columnclick(this) value="43">  Examination Date </li>
+                     <select class="form_txt columnvalue" id="select43" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+     <li class="col-md-7 columnhighlight" id="44" value="44" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check44" />
+                     <label for="check44"  onclick=columnclick(this) value="44">  OOC </li>
+                     <select class="form_txt columnvalue" id="select44" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Given</option>
+                        <option>Pending</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+         <li class="col-md-7 columnhighlight" id="45" value="45" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check45" />
+                     <label for="check45"  onclick=columnclick(this) value="45">  Commercial Import Queue </li>
+                     <select class="form_txt columnvalue" id="select45" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+         </div>
+      
+   </div>
+   <div class="row col-md-12">
+     <!-- <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="38" value="38" onclick=columnclick(this) color="c3c3c3" style="max-height: 42px;">
+                        <input type="checkbox" id="check38" />
+                        <label for="check38"  onclick=columnclick(this) value="38">Response From EDI 
+                        <ul style="list-style-type:none;padding-inline-start: 0;">
+                           <li style="font-size: 10px;">(EDI OOC)</li>
+                        </ul>
+                     </li>
+      </div> -->
+      <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="46" value="46" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check46" />
+                     <label for="check46"  onclick=columnclick(this) value="46">  Detention </li>
+                     <select class="form_txt columnvalue" id="select46" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+      <li class="col-md-7 columnhighlight" id="47" value="47" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check47" />
+                     <label for="check47"  onclick=columnclick(this) value="47">  Delivery Date </li>
+                     <select class="form_txt columnvalue" id="select47" style="margin: 1%;width: 27%;;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                     </select>
+      </div>
+      <div class="col-md-3 row" style="list-style-type:none">
+          <li class="col-md-7 columnhighlight" id="48" value="48" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check48" />
+                     <label for="check48"  onclick=columnclick(this) value="48">  Delivery Acknowledgement </li>
+                     <select class="form_txt columnvalue" id="select48" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Delivery Acknowledgement Pending</option>
+                        <option>Delivered</option>
+                        <option>Not Delivered</option>
+                     </select>
+                     <select class="form_txt columnvalue" id="deliverystatus" style="margin: 1%;width: 25%;display: none;">
+                     
+                     </select>
+         </div>
+      
+   </div>
+   <div class="row col-md-12">
+     <!-- <div class="col-md-3 row" style="list-style-type:none">
+        <li class="col-md-7 columnhighlight" id="43" value="43" onclick=columnclick(this) color="c3c3c3">
+                     <input type="checkbox" id="check43" />
+                     <label for="check43"  onclick=columnclick(this) value="43">  RMS </li>
+                     <select class="form_txt columnvalue" id="select43" style="margin: 1%;width: 27%;display: none;">
+                        <option value="" selected disabled hidden>Select Value</option>
+                        <option value="All" data-name="All">All</option>
+                        <option>Facilitated</option>
+                        <option>Not Facilitated</option>
+                     </select>
+      </div> -->
+      
+   </div>
+</div>         
+         <div align="center" class=" mb-3 mt-2">
+            <button id="runquery" class="btn btn-info" style="font-size:22px" onclick=runquery1()>Run Query</button>
+         </div>
+         <div id="queryQueueshow" class="col-md-12">
+            <a  title="Excel">
+            <button id="ExcelExport" class="btn btn-primary" style="font-size:15px">Export to Excel <i class="fas fa-file-excel" aria-hidden="true"></i></button>
+            </a>
+            <table id="processtable" class="table table-striped table-bordered newtable"
+               style="font-size: 16px; text-align: center;width: 100%;">
+               <thead style="background-color: #a1c4e6;">
+                  <tr>
+                     <th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+                     <th class="tablecolumn" scope="col" tyle="text-align: center;">FPO Site</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Article Id</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Posting Date</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Country Of Origin</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Sender Name</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Sender Address</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Receiver Name</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Receiver Address</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">State</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Pin Code</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">EAD Decision</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Mail class</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Item Category</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Gross Weight</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Item No</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Item Description</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">HS Code in CN23</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Revised HS Code in CN23</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">CTH Assessed</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Value Declared in CN23</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Currency Code</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Exchange Rate</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Assessed Value</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Query</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">D-Call Letter No</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">D-Call Letter Date</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Speed Post No</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Speed Post Delivery Status</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Reply</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Time Taken To Reply</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Reply IP</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Total Duty</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Amount Payable</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Fine</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Penalty</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Arrival OOE</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Arrival Date</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Receptacle ID</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Destination FPO</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Destination FPO Date</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Bag No</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Exam Order</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Exam Finding</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Examination Date</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">OOC</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Commercial Import Queue</th>
+                     <!-- <th class="tablecolumn" scope="col" style="text-align: center;">Response From EDI (EDI OOC)</th> -->
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Detention</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Delivery Date</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Delivery Acknowledgement</th>
+                     <th class="tablecolumn" scope="col" style="text-align: center;">Delivery Status</th>
+                     <!-- <th class="tablecolumn" scope="col" style="text-align: center;">RMS</th> -->
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr th:each="values: ${reportcolumns}" class="" >
+                     <td class="" th:text="${values.id}"></td>
+                      <td class="tablecolumn"  th:text="${values.cusite}"></td>
+                     <td class="tablecolumn" th:text="${values.item_id}"></td>
+                     <td class="tablecolumn" th:text="${values.post_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.coo}"></td>
+                     <td class="tablecolumn" th:text="${values.sender_name}"></td>
+                     <td class="tablecolumn" th:text="${values.sender_addr}"></td>
+                     <td class="tablecolumn" th:text="${values.recp_name}"></td>
+                     <td class="tablecolumn" th:text="${values.rec_addr}"></td>
+                     <td class="tablecolumn" th:text="${values.recp_state}"></td>
+                     <td class="tablecolumn" th:text="${values.recp_zip}"></td>
+                     <td class="tablecolumn" th:text="${values.deci_nm}"></td>
+                     <td class="tablecolumn" th:text="${values.mail_class}"></td>
+                     <td class="tablecolumn" th:text="${values.mail_category}"></td>
+                     <td class="tablecolumn" th:text="${values.gross_wt}"></td>
+                     <td class="tablecolumn" th:text="${values.item_no}"></td>
+                     <td class="tablecolumn" th:text="${values.item_desc}"></td>
+                     <td class="tablecolumn" th:text="${values.cn23}"></td>
+                     <td class="tablecolumn" th:text="${values.revised_code}"></td>
+                     <td class="tablecolumn" th:text="${values.cth}"></td>
+                     <td class="tablecolumn" th:text="${values.item_vlue}"></td>
+                     <td class="tablecolumn" th:text="${values.curr_cd}"></td>
+                     <td class="tablecolumn" th:text="${values.ex_rate}"></td>
+                     <td class="tablecolumn" th:text="${values.assessedval}"></td>
+                     <td class="tablecolumn" th:text="${values.qry}"></td>
+                     <td class="tablecolumn" th:text="${values.dcallno}"></td>
+                     <td class="tablecolumn" th:text="${values.dcall_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.speedpostno}"></td>
+                     <td class="tablecolumn" th:text="${values.speedpostdelstatus}"></td>
+                     <td class="tablecolumn" th:text="${values.rply}"></td>
+                     <td class="tablecolumn" th:text="${values.rlytime}"></td>
+                     <td class="tablecolumn" th:text="${values.replyip}"></td>
+                     <td class="tablecolumn" th:text="${values.duty}"></td>
+                     <td class="tablecolumn" th:text="${values.tot_amt_payable}"></td>
+                     <td class="tablecolumn" th:text="${values.fine_amt}"></td>
+                     <td class="tablecolumn" th:text="${values.penal_amt}"></td>
+                     <td class="tablecolumn" th:text="${values.arriaval_date}"></td>
+                     <td class="tablecolumn" th:text="${values.arr_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.recp_id}"></td>
+                     <td class="tablecolumn" th:text="${values.destfpo}"></td>
+                     <td class="tablecolumn" th:text="${values.destfpo_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.bag_no}"></td>
+                     <td class="tablecolumn" th:text="${values.examination}"></td>
+                     <td class="tablecolumn" th:text="${values.examfind}"></td>
+                     <td class="tablecolumn" th:text="${values.exam_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.ooc_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.QRY_DT}"></td>
+                    <!--  <td class="tablecolumn" th:text="${values.respedi}"></td> -->
+                     <td class="tablecolumn" th:text="${values.detain_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.del_dt}"></td>
+                     <td class="tablecolumn" th:text="${values.delivery_date}"></td>
+                     <td class="tablecolumn" th:text="${values.deliverystatus}"></td>
+                     <!-- <td class="tablecolumn" th:text="${values.rms}"></td> -->
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <script  th:inline="javascript" >
+         /*<![CDATA[*/
+         var columnsarray=["1"];
+         /*]]>*/
+         
+         
+         var fromdate=$("#reloadfromdate").val();
+         var todate=$("#reloadtodate").val();
+         var filter=$("#reloadfilter").val();
+         
+      </script>
+      <script  th:src="@{js/report/process1.js}"></script>
+   </body>
+</html>

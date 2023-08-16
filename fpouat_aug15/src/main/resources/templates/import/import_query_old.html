@@ -1,0 +1,430 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+.scroll_down {
+	height: 425px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+}
+
+hr {
+	border-top: 1px solid rgb(0, 0, 139);
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid black;
+	text-align: center;
+	color: black;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: '#bsb7c1';
+}
+
+.completed span::before {
+	content: '\2713'
+}
+</style>
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div class="container"
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+		<div class="mt-4" align="center">
+			<h2>Process Imported Articles - Assessment Queue</h2>
+			<h3>Imported Articles Query</h3>
+			
+		</div>
+
+
+		<div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.POST_ORG_CD}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div>
+
+		<!--    muchos disgustimos   -->
+		<div class="breadcrumb-pagination mt-3">
+			<div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="active">
+				<span>3</span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="todo">
+				<span>4</span>
+				<p>Exam Order</p>
+			</div>
+			<!-- <div class="todo">
+				<span>5</span>
+				<p>Submit</p>
+			</div> -->
+		</div>
+
+
+
+		<form th:action="@{/editcallmemo}" method="post">
+			<input type="hidden" name="cinNo" th:value="${head.id}"> <input
+				type="hidden" name="ITEM_ID" th:value="${head.ITEM_ID}">
+			<div class="mt-2" align="center">
+				<h5>
+					<strong><i>Clarification Required From Receiver</i></strong>
+				</h5>
+			</div>
+			<!-- 			<div class="row mt-2">
+				<div class="col-md-1">
+					<label class="lab_txt col-form-label">Item No</label>
+				</div>
+				<div class="col-md-3">
+					<label class="lab_txt col-form-label">Desc</label>
+				</div>
+				<div class="col-md-2">
+					<label class="lab_txt col-form-label">CTH</label>
+				</div>
+				<div class="col-md-6">
+					<label class="lab_txt col-form-label">Query entered during
+						Assessment</label>
+				</div>
+			</div> -->
+
+			<!-- 		<div class="row mt-2" th:each="item,iter : ${itemEad}">
+				<div class="col-md-1">
+					<input type="number" style="font-weight: 700"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${item[0]}" name="ITEM_NO">
+				</div>
+				<div class="col-md-3">
+
+					<input type="text" style="font-weight: 700"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${item[1]}" name="ITEM_DESC">
+				</div>
+				<div class="col-md-2">
+					<input type="text" style="font-weight: 700"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${item[2]}" name="CTH">
+				</div>
+				<div class="col-md-6">
+
+					<textarea class="form-control" name="query" th:id="textsend"
+						readonly="readonly" onkeyup="success(id)"
+							th:value="${item[3]}" rows="3"></textarea>
+				</div>
+
+			</div> -->
+
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col" style="width: 8%">Item No</th>
+						<th scope="col">Item Description</th>
+						<th scope="col">Query</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<td>SÁCH, THU¿C PH¿M CH¿C NANG, KH¿U TRANG | BOOK, FUNCTIONAL
+							FOODS, FACE MASK</td>
+						<td>quick release spring bars | quick release spring bars</td>
+
+					</tr>
+
+					<tr>
+						<th scope="row">2</th>
+						<td>cardamom | cardamom</td>
+						<td>RAUCU QUA CHIÊN CHÂN KHÔNG | VEgatarain ribs</td>
+
+					</tr>
+				</tbody>
+			</table>
+
+			<br> <br>
+			<table class="table mt-3">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col" style="width: 6%">Sl No</th>
+						<th scope="col">Default Query</th>
+						<th scope="col">Select</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="check">
+						<th scope="row">1</th>
+						<td id="queryOne"></td>
+						<td><input type="checkbox" name="defualtQueryOne" value="1"></td>
+
+					</tr>
+					<tr class="check">
+						<th scope="row">2</th>
+						<td id="queryTwo"></td>
+						<td><input type="checkbox" name="defualtQueryTwo" value="2"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row">3</th>
+						<td id="queryThree"></td>
+						<td><input type="checkbox" name="defualtQueryThree" value="3"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row">4</th>
+						<td id="queryFour"></td>
+						<td><input type="checkbox" name="defualtQueryFour" value="4"></td>
+					</tr>
+
+				</tbody>
+			</table>
+			<div class="form-group mb-3">
+				<br> <label class="lab_txt">General Remarks : [max
+					2000 characters]</label>
+				<textarea type="text" class="form-control" name="generalRemarks"
+					th:id="generalRemarks" onkeyup="generalRemarksSuccess(id)"
+					placeholder="Enter your Remarks..." rows="3"></textarea>
+			</div>
+			<!--  div class="form-group row mb-3">
+				<p class="col-sm-3" style="color: blue;font-size: 17px">
+					<strong>Document Identification Number : </strong>
+				</p>
+				<div class="col-sm-3">
+					<input type="text" class="form-control form_txt" name="din">
+				</div>
+			</div-->
+			<div class="form-group mb-3">
+				<br> <label class="lab_txt">Departmental Comment : [max
+					2000 characters]</label>
+				<textarea type="text" class="form-control" name="queryRemarks"
+					th:id="textsend" onkeyup="success(id)"
+					placeholder="Enter your Remarks..." rows="5"></textarea>
+			</div>
+
+			<div class="row">
+				<div class="col-md-5"></div>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-info" onclick="goBack()">Back</button>
+					<button type="button" id="lock" onclick="enableNum()"
+						class="btn btn-success" disabled>Submit</button>
+					<button type="button" class="btn btn-info" th:id="${head.id}"
+						onclick="viewDetail1(this);">Next</button>
+				</div>
+				<div class="col-md-3" align="left">
+					<button type="button" id="randomNum" class="btn btn-success"
+						data-toggle="modal" data-target="#exampleModal" disabled>Generate
+						Document Call Letter</button>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h4>If query is raised assessment can be completed only
+								after arrival of the article.</h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<!-- <button type="submit" class="btn btn-primary">Create</button> -->
+							<a href="ead_callletter"><button type="button" class="btn btn-primary">Create</button></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<br>
+	</div>
+
+</body>
+
+<script>
+	function success(e) {
+		if (document.getElementById(e).value === "") {
+			document.getElementById('lock').disabled = true;
+		} else {
+			document.getElementById('lock').disabled = false;
+		}
+	}
+
+	$.each($("[id*=textsend]"), function(i, item) {
+		var iid = $(this).attr('id');
+		var fin = iid.replace('textsend', 'textsend' + (i + 1));
+		$(this).attr('id', fin);
+	});
+
+	function goBack() {
+		window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+	}
+
+	function viewDetail1(e) {
+		//alert(e.id);
+		window.location.href ="import_order?id=" + e.id;
+	}
+
+	function enableNum() {
+		document.getElementById("randomNum").disabled = false;
+	}
+
+	var developerData = {};
+	var resObj = $.ajax({
+		url : 'getDefualtQuery',
+		data : JSON.stringify(developerData),
+		dataType : "json",
+		contentType : "application/json",
+		type : "post",
+		success : function(data) {
+			$("#queryOne").text(data[0]);
+			$("#queryTwo").text(data[1]);
+			$("#queryThree").text(data[2]);
+			$("#queryFour").text(data[3]);
+			console.log(data);
+
+		},
+		fail : function(rs, e) {
+			console.log(rs, responseText);
+		}
+	});
+	
+	function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+</html>

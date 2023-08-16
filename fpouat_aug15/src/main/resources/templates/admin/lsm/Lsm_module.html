@@ -1,0 +1,1414 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<meta  http-equiv="encoding" name="viewport"content="width=device-width, initial-scale=1">
+
+<link th:href="@{css/view-more-down-arrow.css}" rel="stylesheet" type="text/css" /> 
+<link th:href="@{css/animate.min.css}" rel="stylesheet" type="text/css" />
+<style>
+	body {
+		height: 80%;
+	}
+
+	.numradius {
+		border: 2px solid black;
+		background-color: white;
+		color: black;
+		float: right;
+	}
+
+	.buttonstyle {
+		color: white;
+		font-size: 16px;
+		padding: 5px;
+		border-radius: 12px;
+		border: 2px solid white;
+		border-left: solid white 2px;
+		border-top: solid white 2px;
+	}
+
+	.bordstyle {
+		border: 2px solid white;
+		background: #dddbdb;
+		border-radius: 8px;
+		font-weight: bold;
+		font-size: 20px;
+		padding: 2px;
+		color: white;
+		/*margin-left: 20%;
+	margin-right: 20%;*/
+	}
+
+
+	.blink {
+		background-color: gray;
+		font-weight: bold;
+		text-align: center;
+		border-radius: 5px;
+	}
+
+	.disp {
+		font-size: 20px;
+		color: darkyellow;
+		font-weight: bold;
+		background: #7394b1;
+		animation: blink 1s linear infinite;
+	}
+
+	@keyframes blink {
+		0% {
+			opacity: 0;
+		}
+
+		50% {
+			opacity: .5;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+
+	.bordstyles {
+		border: 2px solid white;
+		background: gray;
+		border-radius: 15px;
+		font-weight: bold;
+		padding: 2px;
+		color: yellow;
+	}
+
+	a {
+		color: #ffffff;
+		text-decoration: none;
+		background-color: transparent;
+		-webkit-text-decoration-skip: objects;
+	}
+
+	.vl {
+		margin-left: 62%;
+		border-left: 3px solid white;
+		height: 170px;
+		margin-top: -40%;
+	}
+
+	.dashboard {
+		background-color: #fff;
+		max-width: 95%;
+		border-radius: 10px;
+		box-shadow: 5px 6px 7px grey;
+
+	}
+
+	.D-header {
+		align-items: center;
+	}
+
+	.lnk:hover {
+		color: black;
+	}
+
+	.time {
+		color: #000;
+		font-weight: bold;
+		font-size: small;
+		padding: 0;
+		margin: 0;
+	}
+
+	.label {
+		color: darkgray;
+		font-weight: bold;
+		font-size: small;
+		max-width: 28%;
+		padding: 0;
+		margin: 0;
+	}
+
+	.line {
+		border: 2px solid #8b8585;
+	}
+
+	.chart {
+		height: 162px;
+	}
+
+
+	/* bar chart */
+	/*.highcharts-figure,
+.highcharts-data-table table {
+  min-width: 310px;
+  max-width: 800px;
+  margin: 1em auto;
+}*/
+
+	#pendingCtrContainer {
+		max-height: 900px;
+	}
+
+	.highcharts-data-table table {
+		font-family: Verdana, sans-serif;
+		border-collapse: collapse;
+		border: 1px solid #ebebeb;
+		margin: 10px auto;
+		text-align: center;
+		width: 100%;
+		max-width: 500px;
+	}
+
+	.highcharts-data-table caption {
+		padding: 1em 0;
+		font-size: 1.2em;
+		color: #555;
+	}
+
+	.highcharts-data-table th {
+		font-weight: 600;
+		padding: 0.5em;
+	}
+
+	.highcharts-data-table td,
+	.highcharts-data-table th,
+	.highcharts-data-table caption {
+		padding: 0.5em;
+	}
+
+	.highcharts-data-table thead tr,
+	.highcharts-data-table tr:nth-child(even) {
+		background: #f8f8f8;
+	}
+
+	.highcharts-data-table tr:hover {
+		background: #f1f7ff;
+	}
+
+	/*--------*/
+	.site-chart {
+		height: 270px;
+	}
+
+	.dot {
+		height: 10px;
+		width: 10px;
+		border-radius: 50%;
+		display: inline-block;
+	}
+
+	.title {
+		font-size: 14px;
+	}
+
+	.card-link {
+		box-shadow: 5px 6px 7px grey;
+		margin-top: 15px;
+	}
+
+	.card-link:hover {
+		color: black;
+	}
+	
+	.card-1 {
+		background-image: linear-gradient(to left, rgb(231 152 160), rgb(213 94 121));
+	}
+	.card-2{
+		background-image: linear-gradient(to left, rgb(126 201 176), rgb(121 187 166));
+	}
+	.card-3{
+		background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115));
+	}
+	.card-4{
+		background-image: linear-gradient(to left, rgb(124 201 223), rgb(27 187 213));
+	}
+	.card-5{
+		background-image: linear-gradient(to left, rgb(142 196 233), rgb(53, 152, 231));
+	}
+	.content {
+		    padding: 4px 4px 4px 11px;
+	}
+
+	.icon {
+		font-size: 50%;
+		margin-top: 13px;
+		margin-left: -5px;
+	}
+	
+	
+
+	/*
+@media only screen and (max-width: 1980px) {
+#pieChartInfoText{	
+    text-align: center;
+    font-size: large;
+    margin-left: 7px;
+   font-weight: bold;
+    left: 53.5px;
+    top: 90px;
+}
+}
+*/
+	.leg-text {
+		font-weight: bold;
+	}
+
+	.leg-container {
+		/*background-color: #f33;*/
+	}
+
+	@media only screen and (max-width: 1717px) {
+		.card-link {
+			height: 15%;
+		}
+
+		.title {
+			font-size: 11.99px;
+		}
+
+		.col-md-10 {
+			max-width: 81%;
+		}
+
+		.leg-container {
+			margin-left: -63px;
+		}
+	}
+
+	@media only screen and (max-width: 1590px) {
+		.leg-container {
+			margin-left: -100px;
+		}
+	}
+
+	@media only screen and (max-width: 1531px) {}
+
+	/* .m-content {
+		width: 655px;
+	} */
+	.modal-dialog {
+    	max-width: 60%;
+	}
+	.expand{
+		font-size:20px; 
+		color:#bdb9b9; 
+		cursor:pointer; 
+		position:relative;
+	}
+	a:hover{
+	 	text-decoration: none;
+	}
+	#col-c1{
+    	padding: 0;
+	}
+	.leg-text {
+		font-weight: bold;
+	}
+
+	.leg-container {
+		/*background-color: #f33;*/
+	}
+
+/*	@media only screen and (max-width: 1717px) {
+		.card-link {
+			height: 95%;
+		}
+
+		.title {
+			font-size: 11.99px;
+		}
+
+		.col-md-10 {
+			max-width: 81%;
+		}
+
+		.card-link-postalbag-2 {
+			height: 95%;
+		}
+
+		.card-link-postalbag {
+			height: 95%;
+		}
+
+		.leg-container {
+			margin-left: -63px;
+		}
+	}
+*/
+	@media only screen and (max-width: 1590px) {
+		.leg-container {
+			margin-left: -100px;
+		}
+	}
+
+	@media only screen and (max-width: 1531px) {}
+
+	.modal-dialog {
+    	max-width: 60%;
+	}
+	.expand{
+		font-size:20px; 
+		color:#bdb9b9; 
+		cursor:pointer; 
+		position:relative;
+	}
+	.view-more{
+		text-align:center; 
+		margin-right: 18px;
+		position: relative;
+		font-size:20px;
+		margin-top:-10px;
+		color:#787878;
+    }
+    #vwMore:hover{
+    	cursor:pointer;
+    }
+    .view-more-chart-md {
+    	max-width: 100%;
+    	margin:0;
+	}
+	 p{
+				margin:0
+       }
+       #item_id{
+               padding:3px;
+       }
+       
+       .ACchartMD{
+		margin-top: 0px;
+		max-width: 30%;
+		}
+
+	.act-usr-card {
+  		text-align: center;
+  		position: relative;
+  		/* line-height: 100px; */
+  		/* background: #fffef7; */
+  		height: 85px;
+  		box-shadow: 1px 2px 5px grey;
+  		background: linear-gradient(281deg, #e2ffee 70%, #65c1ac 50%);
+	}
+
+	.act-usr-card:after {
+	  background: linear-gradient(to right, #bcbcbc 25%,#ffcd02 25%, #ffcd02 50%, #e84f47 50%, #e84f47 75%, #65c1ac 75%);
+	  position: absolute;
+	  content: '';
+	  height: 4px;
+	  right: 0;
+	  left: 0;
+	  top: 0;
+	}
+	.act-usr-text{
+	    font-weight: 500;
+   		color: #6e6c6c;
+   		margin-top: 25px;
+	}
+	.usr-count{
+		font-size: xx-large;
+    	color: white;
+    	font-weight: bold;
+	}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+	.view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+    	right: 12.5rem;
+        }
+
+
+
+ .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        right: 5rem;
+    
+    }
+
+.delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+       right: 4.5rem;
+    }
+	
+	.form-control{
+height:auto
+}
+.parent {
+	display: block;
+	position: relative;
+	float: left;
+	line-height: 30px;
+	background-color: #4FA0D8;
+	border-right: #CCC 1px solid;
+}
+
+.parent a {
+	margin: 10px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+
+.parent:hover>ul {
+	display: block;
+	position: absolute;
+}
+
+.child {
+	display: none;
+}
+
+.child li {
+	background-color: #E4EFF7;
+	line-height: 30px;
+	border-bottom: #CCC 1px solid;
+	border-right: #CCC 1px solid;
+	width: 100%;
+}
+
+.child li a {
+	color: #000000;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0px;
+	min-width: 10em;
+	
+}
+
+ul ul ul {
+	left: 100%;
+	top: 0;
+	margin-left: 1px;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+li:hover {
+	background-color: #95B4CA;
+}
+
+.parent li:hover {
+	background-color: #F0F0F0;
+}
+
+.expand {  
+	font-size: 12px;
+	float: right;
+	margin-right: 5px;
+}	
+	
+</style>
+
+<body style="background: #d6dcd9"><!--  <p th:text="${session.data}" th:unless="${session == null}">[...]</p> -->
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div class="container dashboard">
+		<div class="row"  align="center">
+			<div class="col-md-1">
+			<!--	<h6>Activity Log</h6>
+				<span class="row" style="margin: 0; ">
+					<p class="col-sm-4 label">Last Login</p>
+					<p class="col-sm-8 time" th:text="': '+${session.LastLoginetails.data == null ? '-' : session.LastLoginetails.data}"></p>
+				</span>
+				<span class="row" style="margin: 0; ">
+					<p class="col-sm-4 label">Last Logout</p>
+					<p class="col-sm-8 time" th:text="': '+${LastLoginetails.value}"></p>
+				</span>
+				<hr class="line">-->
+			</div>
+			
+			<div class="col-md-10 mt-1">
+			<div>
+					<h2>Postal Imports in Customs - DASHBOARD</h2>
+				</div>
+			
+				<div class="row bordstyle" style="text-align: center;">
+					<div class="col-md-3" align="center" style="padding: 6px; display:flex;">
+						<input type="text" id="item_Id" onkeyup="validateAndAddCharacters()" class="form-control form_txt" style="font-weight: bold"
+							maxlength="13" placeholder="ENTER Article / Item - ID">
+						<div align="center" valign="middle" style="padding: 10px;">
+							<span style="font-size: 20px;">&#8629;</span>
+						</div>
+					</div>
+
+					<div class="col-md-9 blink" align="center" style="padding: 9px;">
+						<input type="text" id="dispval" class="form-control form_txt disp"
+							style="font-weight: bold; background: #7394b1; color: rgb(255, 255, 255)"
+							value="TO VIEW STATUS/QUEUE" readonly>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-1 mt-2" style="text-align: end;position:relative; left:-14px">
+				<button type="button" id = "btn_complaint" class="btn btn-primary" data-toggle="modal" data-target="#complaintModal">
+  				Raise complaint</button>
+  				</div>
+		</div>
+
+
+		<div class="row">
+			<!-- <div class="col-md-2" style="background: #cce3f3;">
+				<div class="chart-head" style="text-align: center">
+					<h6 class="mt-2">Transaction Modules</h6>
+					<h7 class="mt-2"
+						style="
+					    color: #766969;
+					    font-weight: bold;font-size: 11px;
+					">Click	to Enter </h7>
+				</div>
+				<a onclick="showLoader();" href="Lsm_siteUpdate">
+					<div class="card card-link card-1">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-2">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>Site Management</strong>
+										<p>To allocate and edit / remove.</p> <strong>View More </strong>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> 
+				<a onclick="showLoader();" href="allocation_of_roles">
+					<div class="card card-link card-2">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-2">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>User Management</strong>
+										<p>	To Edit, Block or Delete any FPO Site
+											created in this application.
+										</p><strong>View More </strong>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> 
+				<a onclick="showLoader();" href="viewdirectory">
+					<div class="card card-link card-3">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-2">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2">
+									<strong>Directory Management</strong>
+									<p>Pincode Mapping and to view other directories</p>
+									<strong>View More </strong>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				<a onclick="showLoader();" href="misreport">
+					<div class="card card-link card-4">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-2">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>MIS Reports</strong>
+										<p>To view and generate Reports.</p> <strong>View More
+									</strong>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> 
+
+				a href="">
+					<div class="card card-link card-5">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-2">
+									<div class="icon">
+										<i class="fa fa-long-arrow-right"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>Miscellaneous</strong>
+										<p>To Edit, Block or Delete any FPO Site created in this application.</p> <strong>View
+											More </strong>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a
+				
+			</div> -->
+		
+	
+	<div class="col-md-3" style="background: #e7eff1;">
+				<div class="chart-head" style="text-align:center">
+					<h6 class="mt-2">Inbound Articles Info - across this site   </h6>
+				</div>
+				<div class="chart doughnut-chart mt-2" id="doughnutChart"></div>
+				<div class="chart doughnut-chart-ead" id="container"></div>
+				<div class="chart doughnut-chart-ic" id="chartdiv"></div>
+				<div class="chart doughnut-chart-aaf" id="chartdivAAF"></div>
+				
+	</div>
+			<div class="col-md-4" style="background: #f0f9f9;">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card act-usr-card mt-3">
+							<div class="row mt-3">
+								<div class="col-md-4"><span class="usr-count" th:text="${totalActiveUsersCount}">14</span></div>
+								<div class="col-md-8"><span class="act-usr-text">No of Active users <br>
+									for the Site
+								</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="card act-usr-card mt-3">
+							<div class="row mt-3">
+								<div class="col-md-4"><span class="usr-count" th:text="${totalActiveUsersNoRoleCount}">14</span></div>
+								<div class="col-md-8"><span class="act-usr-text">No of SSOID mapped<br>
+									but no role allotted
+								</span></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12" th:each="result : ${activeUserLSM}">
+						<div class="card act-usr-card mt-3">
+							<div class="row mt-3">
+								<div class="col-md-4"><span class="usr-count" th:text="${result.counts}">14</span></div>
+								<div class="col-md-8"><span class="act-usr-text" th:text="'No of '+${result.role}"></span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-md-2" style="background:#f0f9f9;">
+			<div class="card act-usr-card mt-2">
+				<span class="act-usr-text" th:text="'No of SSOID mapped but no role allotted : '+${totalActiveUsersNoRoleCount}"></span>
+			</div>
+			
+	</div> -->
+	<div class="col-md-5" style="background:#f0f9f9; padding:0">
+			<div class="chart-head" style="text-align:center">
+					<h6 class="mt-2">General-Info </h6>
+				</div>
+				<div class="site-chart pie-chart-pc" id="pchart-container"></div>
+				<!--<div class="site-chart ead-chart-IB" id="eadIBContainer"></div>-->
+				<div class="site-chart doughnut-chart-oocPr" id="oocPrContainer"></div>
+				<div class="chart bar-chart-imports" id="import-container"
+					style="background: linear-gradient( #dddbdb, #b7afaf)">
+				</div>
+			</div>
+	</div>
+	<div class="arrow-container animated fadeInDown" id="vwMore">
+					<div class="arrow-2">
+						<i class="fa fa-angle-down"></i>
+					</div>
+					<div class="arrow-1 animated hinge infinite zoomIn"></div>
+				</div>
+				<div class="view-more">View More</div>
+</div>
+<div id="counts"
+				th:attr="eadcount=${eadcount},aaacount=${aaacount},aafcount=${aafcount},totcoultr=${totcoultr}, totcouems=${totcouems}, totcoupar=${totcoupar}, totcouemp=${totcouemp},
+										  totgift=${totgift}, totsg=${totsg}, totcs=${totcs}, totrg=${totrg}, totdoc=${totdoc}, tototh=${tototh},
+										  
+										  couass=${couass}, couexm=${couexm}, couooc=${couooc}, coudet=${coudet},
+										  personalImports=${personalImports}, detained=${detained}, commercialImports=${commercialImports}, pincodeCount=${pincodeCount},
+										  
+										  withDutyArticles=${withDutyArticles}, noArticles=${noArticles},
+										  dutyPayable=${dutyPayable}, withDutyPercentage=${withDutyPercentage}, 
+										  lastMonth=${lastMonth},noDutyConcession=${noDutyConcession},noDutyConcessionPercentage=${noDutyConcessionPercentage},totAmount=${totAmount},
+										  
+										  totooccancel=${totooccancel}, curcoudet=${curcoudet}, curcouooccancel=${curcouooccancel}, curcouass=${curcouass},  curcouexm=${curcouexm},  curcouooc=${curcouooc}, curcouqry=${curcouqry},
+										  
+										  lettersCWS=${ctryWsMidPercentage.letters}, ltrValCWS=${ctryWsMidPercentage.ltrVal}, emsValCWS=${ctryWsMidPercentage.emsVal}, parValCWS=${ctryWsMidPercentage.parVal}, empRecepValCWS=${ctryWsMidPercentage.empRecepVal},
+										  emsCWS=${ctryWsMidPercentage.ems}, parcelsCWS=${ctryWsMidPercentage.parcels}, empRecepCWS=${ctryWsMidPercentage.empRecep},
+										 
+										  giftCWS=${ctryWsInnerPercentage.gift}, saleOfGoodsCWS=${ctryWsInnerPercentage.saleOfGoods}, returnedGoodsCWS=${ctryWsInnerPercentage.returnedGoods},
+										  commercialSampleCWS=${ctryWsInnerPercentage.commercialSample}, documentsCWS=${ctryWsInnerPercentage.documents}, othersCWS=${ctryWsInnerPercentage.others},
+										  
+										  ltrValAsCWS=${ctryWsMidAssValPercentage.ltrVal}, emsValAsCWS=${ctryWsMidAssValPercentage.emsVal}, parValAsCWS=${ctryWsMidAssValPercentage.parVal}, empRecepValAsCWS=${ctryWsMidAssValPercentage.empRecepVal},
+										  lettersAssValCWS=${ctryWsMidAssValPercentage.letters}, emsAssValCWS=${ctryWsMidAssValPercentage.ems}, parcelsAssValCWS=${ctryWsMidAssValPercentage.parcels}, empRecepAssValCWS=${ctryWsMidAssValPercentage.empRecep},
+										  
+										  giftAssValCWS=${ctryWsInnerAssValPercentage.gift}, saleOfGoodsAssValCWS=${ctryWsInnerAssValPercentage.saleOfGoods}, returnedGoodsAssValCWS=${ctryWsInnerAssValPercentage.returnedGoods}
+										  ,commercialSampleAssValCWS=${ctryWsInnerAssValPercentage.commercialSample}, documentsAssValCWS=${ctryWsInnerAssValPercentage.documents}, othersAssValCWS=${ctryWsInnerAssValPercentage.others},
+										  
+										  giftValCWS=${ctryWsInnerPercentage.noOfGift}, saleOfGoodsValCWS=${ctryWsInnerPercentage.noOfSaleOfGoods}, returnedGoodsValCWS=${ctryWsInnerPercentage.noOfReturnedGoods},
+										  commercialSampleValCWS=${ctryWsInnerPercentage.noOfCommercialSample}, documentsValCWS=${ctryWsInnerPercentage.noOfDocuments}, othersValCWS=${ctryWsInnerPercentage.noOfOthers},
+										  
+										  noOfgiftValCWS=${ctryWsInnerAssValPercentage.noOfGift}, noOfsaleOfGoodsValCWS=${ctryWsInnerAssValPercentage.noOfSaleOfGoods}, noOfreturnedGoodsValCWS=${ctryWsInnerAssValPercentage.noOfReturnedGoods},
+										  noOfcommercialSampleValCWS=${ctryWsInnerAssValPercentage.noOfCommercialSample}, noOfdocumentsValCWS=${ctryWsInnerAssValPercentage.noOfDocuments}, noOfothersValCWS=${ctryWsInnerAssValPercentage.noOfOthers}">
+			</div>
+</div>
+
+
+<!--  <div class="modal fade" id="count-chart"  data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content m-content">
+	
+				<!-- Modal Header -->
+			<!--	<div class="modal-header popup-head">
+					<button type="button" class="close model-close" data-dismiss="modal">x</button>
+				</div>  -->
+	
+				<!-- Modal body -->
+			<!--	<div class="modal-body">
+					<div id="chart-modal" style="height: 600px;">
+	
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div> -->
+	
+	<div class="modal fade" id="viewMore"  data-keyboard="false" data-backdrop="static" style=" padding :10px">
+		<div class="modal-dialog view-more-chart-md">
+			<div class="modal-content m-content view-more-chart-mc" >
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head">
+					<button type="button" class="close model-close" data-dismiss="modal" style="padding: 7px;">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body view-more-chart-mb">
+					<div id="more-charts" style="height: 870px;">
+						<div class="row">
+							<!--<div id="pendingCtrContainer"></div>-->
+							<div class="col-md-4" style="padding: 0;">
+								<div id="countryWMCContainer" style="height:870px"></div>
+							</div>
+							<div class="col-md-4" style="padding: 0">
+								<div id="countryWsMultichart"></div>
+								<div id="oocChargableChart"></div>
+							</div>
+							<div class="col-md-4" style="padding: 0">
+								<div id="countryWsAssValMultichart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<div class="modal fade" id="count-chart"  data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content m-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head">
+					<button type="button" class="close model-close" data-dismiss="modal">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div id="chart-modal" style="height: 600px;">
+	
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="country-ass-value-chart-modal" style="z-index: 1080;" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog ACchartMD">
+			<div class="modal-content m-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head" style="padding: 7px;">
+					<button type="button" class="Ac-close model-close close" data-dismiss="modal">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
+					<div id="country-ass-value-chart"  style="height: 900px;">
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="complaintModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin:-7rem">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 30vh; ">
+    <div class="modal-header" style="display:flex;justify-content:end;align-items:center">
+  <button type="button" class="close" data-dismiss="modal"  aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+	<div class="modal-body" style="display:flex;justify-content:center;align-items:center">
+		 <div >
+		 	<h2>Please contact Saksham Seva by sending Email to saksham.seva@icegate.gov.in </h2>
+		 </div>
+	</div>
+	<div class="modal-footer" style="display:flex;justify-content:center;align-items:center">
+		<div>
+			<h6>Ticket Management System for this application is under construction...</h6>
+		</div>
+	</div>
+	</div>
+  </div>
+</div>
+	
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin:-30rem">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 80vh; ">
+    <div class="modal-header">
+ 	<h5 class="modal-title w-100 text-center" style="font-size: 2rem; font-weight: 700; color:#334495;">FPO IMPORT APPLICATION - RAISE COMPLAINTS</h5>
+  <button type="button" class="close" data-dismiss="modal" onclick="goBack()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        <div class="modal-body" th:if="${session.data1=='PAA'}">
+       <h5>PAA Modules</h5>
+
+                    <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 11.6rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+			<li class="parent"><a  nowrap>Site Management</a><span class="expand"></span>
+				<ul style=" white-space: nowrap;" class="child">
+					<li><a  nowrap>Site Update</a></li>
+					<li><a  nowrap>Process Update</a></li>
+					<li><a  nowrap>Process Update History</a></li>
+					
+				</ul></li>
+			<li class="parent"  ><a  nowrap>User Management</a><span class="expand"></span>
+				<ul class="child" style=" width: 185px;  white-space: nowrap; background-color: #E4EFF7" >
+				<ul >	
+				<li><a  nowrap>Role Management</a></li>
+					<li><a  nowrap>View Active</a></li>
+					<li><a  nowrap>View History</a></li>	
+						</ul></ul></li>
+				<li class="parent" > <a nowrap>Directory Management</a><span class="expand"></span>
+				<ul style="white-space: nowrap; width: 185px;"  class="child">
+					<li class="parent"><a  nowrap>Pincode Mapping to <br>FPO Sites</a>
+					<ul class="child">
+					
+						<li><a  nowrap>Pincode Directory</a></li>
+					
+					</ul></li>
+					<li class="parent" ><a  nowrap>View Directory</a>
+					<ul class="child">
+					<li><a  nowrap>Countries Directory</a></li>
+					<li><a  nowrap>Currency Directory</a></li>
+					<li><a  nowrap>States Directory</a></li>
+					<li><a  nowrap>OOE Directory</a></li>
+					<li><a  nowrap>FPO Directory</a></li>
+					<li><a  nowrap>Pincodes Directory</a></li>
+					</ul></li>
+						</ul>
+		
+				</li>
+			<!-- <li >MIS-Report</li> -->
+			<li class="parent"><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul style="overflow-x: scroll;width: 185px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+	
+			</li>
+	
+		</ul></li></ul>
+                  
+                 </div> 
+      <div class="modal-body" th:if="${session.data1=='PLA'}">
+       <h5>PLA Modules</h5>
+        <!-- <select class="control" id="moduleSelect" onchange="checkDivAdd(this)">	
+            <option value="select">Select Type of Modules</option>
+            <option value="Dashboard">Dashboard</option>
+            <option value="Site Management">Site Management</option>
+            <option value="User Management">User Management</option>
+            <option value="Directory Management">Directory Management</option>
+            <option value="MIS-Reports">MIS-Reports</option>
+            </select> -->
+            
+                    <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 11.6rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+			<li class="parent"><a  nowrap>Site Management</a><span class="expand"></span>
+				<ul style=" white-space: nowrap;" class="child">
+					<li><a  nowrap>Site Update</a></li>
+					<li><a  nowrap>Process Update</a></li>
+					<li><a  nowrap>Process Update History</a></li>
+					
+				</ul></li>
+			<li class="parent"  ><a  nowrap>User Management</a><span class="expand"></span>
+				<ul class="child" style=" width: 185px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul >	
+				<li><a  nowrap>Role Management</a></li>
+					<li><a  nowrap>View Active</a></li>
+					<li><a  nowrap>View History</a></li>	
+						</ul></ul></li>
+				<li class="parent" > <a nowrap>Directory Management</a><span class="expand"></span>
+				<ul style="white-space: nowrap;" class="child">
+					<li class="parent"style=" width: 185px; "><a  nowrap>Pincode Mapping<br>to FPO Sites</a>
+					<ul class="child">
+					
+						<li><a  nowrap>Pincode Directory</a></li>
+					
+					</ul></li>
+					<li  class="parent" ><a  nowrap>View Directory</a>
+					<ul class="child">
+					<li><a  nowrap>Countries Directory</a></li>
+					<li><a  nowrap>Currency Directory</a></li>
+					<li><a  nowrap>States Directory</a></li>
+					<li><a  nowrap>OOE Directory</a></li>
+					<li><a  nowrap>FPO Directory</a></li>
+					<li><a  nowrap>Pincodes Directory</a></li>
+					</ul></li>
+						</ul>
+		
+				</li>
+			<!-- <li >MIS-Report</li> -->
+			<li class="parent"><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul style="overflow-x: scroll;width: 185px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+	
+		</ul></li></ul>
+                  
+             </div> 
+  <div id="site" style="display:none; margin-left: 34%; margin-right:37%; margin-bottom: 3rem; " aria-hidden="true ">
+        <div style=" text-align:center;">
+                <h4 id="moduleTitle"></h4>
+            </div>     
+            <div>
+            <textarea style="background: #fff7ed;color: black;font-weight: bolder !important;" placeholder="Text Your Complaint" type="email" class="form-control" id="comments" rows="7"></textarea>
+            <div>* Complaint is required (minimum 6 characters)</div>
+            <div class="invalid-feedback"></div>
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 10px; margin-left: 3.2rem;">
+  <label for="name" style="margin-right: 10px; font-weight: 600;">Name:</label>
+  <div>
+  <input type="text" class="form-control" style="margin-left: 6; height:2rem;margin-right:6.2rem" id="name" name="name" th:value="${session.data3}" disabled>
+</div></div>
+<div style="display: flex; align-items: center; margin-top: 10px; font-weight: 600;margin-left: 3.2rem;">
+  <label for="email" style="margin-right: 10px;">Email:</label>
+  <div>
+  <input type="email" class="form-control" style="margin-left: 11; height:2rem;margin-right:5.9rem;" id="email" name="email" placeholder="Your Email">
+<div class="invalid-feedback" style="margin-left: 11px;"></div></div>
+</div>
+<div style="display: flex; align-items: center; margin-top: 10px; font-weight: 600; margin-left: 3.2rem;">
+  <label for="mobile" style="margin-right: 10px;">Mobile:</label>
+  <div>
+  <input type="tel" class="form-control" style=" height:2rem;margin-right:6.5rem;" id="mobile" name="mobile" placeholder="Your Mobile Number"  maxlength="10" pattern="\d{10}" onkeypress="return isNumberKey(event)" required >
+  <div class="invalid-feedback"></div></div>
+</div>
+                
+      <div style="display: flex; align-items: center; margin-top: 10px;margin-left: 3.2rem;">
+                    <label class="control-label" style="font-weight: 600;">Upload:</label>
+                    
+                         <input class="form-control" 
+                            style="width: 310px;margin-left:10px" type="text" id="kyc-filetxt-1" placeholder="Please Upload the  document" disabled /> 
+                         <input type="file" class="form-control"  id="kyc-file-1"   onchange="uploadFile(this,1)" onclick="this.value=null;" style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn"  onclick="fileUpload(1)"><a>Upload</a></span>
+                     
+                </div>
+     
+    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 100%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>
+
+            <div style="
+    display: flex;
+    align-items: center;
+    margin: 25px 0px 10px 0px;
+    justify-content: space-evenly;">
+
+            <button style="margin-left: 7rem;" class="btn btn-danger btn-sm"  onclick="goBack()">Close</button>
+        <button style="margin-right: 7rem;" id="subcomplnts" type="button" class="btn btn-success btn-sm">Submit</button>
+        
+        </div>
+        </div> 
+     </div>
+  </div>
+</div>
+</div>
+<input id="s-role" type="text" th:value="${session.role}" hidden="hidden">
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+	<input id="s-role" type="text" th:value="${session.role}" hidden="hidden">
+	<!-- <div style="display: flex; justify-content: center;padding-top: 5px">
+		<h4>LOCAL SYSTEM ADMINISTRATOR MODULE</h4>
+	</div> -->
+	<!-- <div class="col-md-12"
+		style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); padding-bottom: 10%; padding-top: 60px; padding-right: 100px; padding-left: 100px; border-left: 4px; border-radius: 10px">
+		<div class="col-md-12" style="padding: 2%;">
+			<div class="row" style="display: flex; justify-content: center;">
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #7777eb;">
+							<i class="fa fa-spinner fa-spin" style="font-size: 27px"></i>
+							<h5 class="card-title">Site Management</h5>
+							<p class="card-text">To allocate and edit / remove.</p>
+							<br> <a href="Lsm_site_mgmt"
+								class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #18b7b6;">
+							<i class="fa fa-file" style="font-size: 27px"></i>
+							<h5 class="card-title">User Management</h5>
+							<p class="card-text">To Edit, Block or Delete any FPO Site
+								created in this application.</p>
+							<a href="allocation_of_roles"
+								class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #ad6aea;">
+							<i class="fas fa-eye" style="font-size: 27px"></i>
+							<h5 class="card-title">Directory Management</h5>
+							<p class="card-text">To Map a pincode or a range of pincode
+								with a FPO Customs Site.</p>
+							<a href="" class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12" style="padding: 2%;">
+			<div class="row" style="display: flex; justify-content: center;">
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #ffb861;">
+							<i class="fa fa-file" style="font-size: 27px"></i>
+							<h5 class="card-title">Reports</h5>
+							<p class="card-text">To allocate and edit / remove.</p>
+							<br> <a href=""
+								class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View 
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #cf4444;">
+							<i class="fas fa-file-import" style="font-size: 27px"></i>
+							<h5 class="card-title">Miscellaneous</h5>
+							<p class="card-text">To Edit, Block or Delete any FPO Site
+								created in this application.</p>
+							<a href="" class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+<!-- <script type="text/javascript">
+$(document).ready(function() {
+$('#nsmbhlheader').hide();
+});
+</script> -->
+<script src="js/dash.js"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+
+	var pincodeCount = /*[[${pincodeCount}]]*/ null;
+	var countrywisePendingArticles = /*[[${countrywisePendingArticles}]]*/ null;
+	var eadInboundArticles = /*[[${eadInboundArticles}]]*/ null;
+	var countryWiseMailClass = /*[[${countryWiseMailClass}]]*/ null;
+	var countryWisePercentage = /*[[${countryWisePercentage}]]*/ null;
+	var countryWiseAssValPercentage = /*[[${countryWiseAssValPercentage}]]*/ null;
+	var userWiseArticlesCount = /*[[${userWiseArticlesCount}]]*/ null;
+	var userwiseMc = /*[[${userwiseMc}]]*/ null;
+	var totalUsWsIcCount = /*[[${totalUsWsIcCount}]]*/ null;
+	
+	var palAlerts = /*[[${palAlerts}]]*/ null;
+	var nalAlerts = /*[[${nalAlerts}]]*/ null;
+	var allCountryWiseAssValPercentage = /*[[${allCountryWiseAssValPercentage}]]*/ null;
+	var oocTotalDutyDetails = /*[[${oocTotalDutyDetails}]]*/ null;
+	var activeUserLSM = /*[[${activeUserLSM}]]*/ null;
+	
+	/*]]>*/
+	
+$(document).ready(function() {
+$('#nsmbhlheader').hide();
+
+ $(document).ready(function() {
+	$('#dashscreen').hide();
+	$('#nodashboard').show();
+});
+});
+
+
+</script>
+
+<script th:src="@{js/custom.js}"></script>
+<script th:src="@{js/chart/highcharts.js}"></script>
+<script th:src="@{js/chart/exporting.js}"></script>
+<script th:src="@{js/chart/export-data.js}"></script>
+<script th:src="@{js/chart/accessibility.js}"></script>
+<script th:src="@{js/chart/highcharts-3d.js}"></script>
+
+
+</body>
+<script language="JavaScript">
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    
+ function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}   
+</script>
+<script>
+
+</script>
+
+</html>

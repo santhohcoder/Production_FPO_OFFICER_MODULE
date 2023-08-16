@@ -1,0 +1,1335 @@
+<!-- <html th:fragment="header">  -->
+<html th:fragment="header" oncontextmenu="return false">
+<head>
+<meta name="viewport" http-equiv="Content-Type" content="width=device-width, initial-scale=1.0;text/html; charset=ISO-8859-1">
+<link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+	<link th:href="@{css/report/jquery-ui.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/datatables.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<link th:href="@{css/select.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery.min.js}"></script>	
+<script th:src="@{js/report/jquery-1.12.4.js}"></script>
+<script th:src="@{js/report/jquery-ui.js}"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/font.js}"></script>
+<script th:src="@{js/select2.js}"></script>
+<script  th:src="@{js/datatables/dataTables.buttons.min.js}"></script>
+<script  th:src="@{js/datatables/jszip.min.js}"></script>
+<script  th:src="@{js/datatables/pdfmake.min.js}"></script>
+<script  th:src="@{js/datatables/vfs_fonts.js}"></script>
+<script  th:src="@{js/datatables/buttons.html5.min.js}"></script>
+<script  th:src="@{js/datatables/buttons.print.min.js}"></script>
+ <script th:src="@{js/report/sweetalert.js}"></script>
+ <script th:src="@{js/sweetalert.min.js}"></script>
+
+<script th:src="@{js/bootstrap-multiselect.min.js}"></script>
+<link th:rel="stylesheet" th:href="@{css/bootstrap-multiselect.css} " />
+
+
+<script th:src="@{js/moment.min.js}"></script>
+
+<style type="text/css">
+
+
+
+.vl {   
+        margin-left: 62%;   
+        border-left: 3px solid white;   
+        height: 170px;  
+        margin-top: -40%;   
+    }   
+    .dashboard {    
+        background-color: #fff; 
+        max-width: 95%; 
+        border-radius: 10px;    
+        box-shadow: 5px 6px 7px grey;   
+    }   
+    .D-header { 
+        align-items: center;    
+    }   
+    .card-link-postalbag-2:hover {  
+        color: black;   
+    }   
+    .card-link-b {  
+        background-image: linear-gradient(to left, rgb(182 220 231), rgb(29 131 219));  
+        box-shadow: 5px 6px 7px grey;   
+        height: 100%;   
+    }   
+    .lnk:hover {    
+        color: black;   
+    }  
+    
+    .time { 
+        color: #000;    
+        font-weight: bold;  
+        font-size: small;   
+        padding: 0; 
+        margin: 0;  
+    }   
+    .label {    
+        color: darkgray;    
+        font-weight: bold;  
+        font-size: small;   
+        max-width: 28%; 
+        padding: 0; 
+        margin: 0;  
+    }   
+    .line { 
+        border: 2px solid #8b8585;  
+    }   
+    .title {    
+        font-size: 15px;    
+    }   
+    .card-link {    
+        background-image: linear-gradient(to left, rgb(231 152 160), rgb(213 94 121));  
+        box-shadow: 5px 6px 7px grey;   
+        /* height: 100%; */ 
+    }   
+    .card-link:hover {  
+        color: black;   
+    }   
+    .content {  
+        padding: 0px 11px;  
+    }   
+    .icon {
+        font-size: 50%; 
+        margin-top: 13px;   
+        margin-left: -5px;  
+    }
+    
+    .card-link-postalbag {  
+        background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115)); 
+        box-shadow: 5px 6px 7px grey;   
+        cursor: pointer;    
+        height: 100%;   
+    }   
+    .card-link-postalbag-2 {    
+        background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115)); 
+        box-shadow: 5px 6px 7px grey;   
+        cursor: default;    
+        height: 100%;   
+    }   
+    .card-link-reallocation {   
+        background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115)); 
+        box-shadow: 5px 6px 7px grey;   
+        height: 100%;   
+    }   
+    .card-link-reallocation:hover { 
+        color: black;   
+    }   
+    .card-link-c {  
+        background-image: linear-gradient(to left, rgb(142 196 233), rgb(53, 152, 231));    
+        box-shadow: 5px 6px 7px grey;   
+        height: 100%;   
+    }   
+    .card-link-c:hover {    
+        color: black;   
+    }   
+    .card-link-d {  
+        background-image: linear-gradient(to left, rgb(126 201 176), rgb(121 187 166)); 
+        box-shadow: 5px 6px 7px grey;   
+        height: 100%;   
+    }   
+    .card-link-d:hover {    
+        color: black;   
+    }   
+    
+    /* HamburgMenu CSS */	
+.navigation_bar{	
+  height: 100%;	
+  position: fixed;	
+  left: 0;	
+ width: 23.7%;	
+  /* margin-top: 90px; */	
+  transform: translateX(-800px);	
+  transition: transform 260ms ease-in-out;	
+  background-color: #cce3f3;	
+  border-left: 1px solid #eee;	
+   z-index: 40;	
+    padding-bottom: 7rem;
+    overflow: auto;
+    font-family:math;
+}	
+.navigation_bar ul {	
+  margin:0;	
+  padding:0;	
+  border-top: 1px solid #eee;	
+}	
+.navigation_bar ul>li {	
+  list-style: none;	
+  color: #fff;	
+  text-transform: uppercase;	
+  font-weight: bold;	
+  /* padding: 20px; */	
+  cursor: pointer;	
+  border-bottom: 1px solid #eee;	
+  transition: .25s	
+}	
+.navigation_bar ul>li span {	
+  display: block;	
+  font-size: 14px;	
+  color: #353535;	
+}	
+.navigation_bar ul>li a {	
+  color: #353535;	
+  text-transform: uppercase;	
+  font-weight: bold;	
+  cursor: pointer;	
+  text-decoration: none;	
+}	
+#dashscreens{	
+	display: flex;	
+    justify-content: space-evenly;	
+    }	
+.navigation_bar ul>li:hover {	
+  background-color: #dddddd;	
+}	
+.navigation_bar li#nav-signup {	
+  list-style: none;	
+  background-color: #00B2D3;	
+}	
+.navigation_bar ul>li#nav-signup span {	
+  color: #00B2D3;	
+}	
+.navigation_bar ul>li#nav-signup a {	
+  color: #ffffff;	
+}	
+.navigation_bar ul>li#nav-signup:hover {	
+  background-color: #006375;	
+}	
+input[type="checkbox"]:checked ~ nav {	
+  transform: translateX(0);	
+  z-index: 40;	
+}	
+input[type=checkbox] {	
+  box-sizing: border-box;	
+ /*  display: none; */	
+  transition: all 0.25s;	
+}	
+.menuIconToggle {	
+  box-sizing: border-box;	
+  cursor: pointer;	
+  /* position: fixed; */	
+  z-index: 40;	
+  height: 100%;	
+  width: 100%;	
+  /* top: 35px;	
+  left: 30px; */	
+  height: 22px;	
+  width: 22px;	
+  transition: all 0.3s;	
+}	
+.hamb-line {	
+  box-sizing: border-box;	
+  position: absolute;	
+  height: 3px;	
+  width: 100%;	
+  background-color: #444;	
+  transition: all 0.25s;	
+}	
+.hor {	
+  transition: all 0.3s;	
+  box-sizing: border-box;	
+  position: relative;	
+  float: left;	
+  margin-top: 3px;	
+}	
+.dia.part-1 {	
+  position: relative;	
+  box-sizing: border-box;	
+  float: left;	
+  transition: all .25s;	
+}
+
+.dia.part-2 {	
+  box-sizing: border-box;	
+  position: relative;	
+  float: left;	
+  margin-top: 3px;	
+  transition: all .25s;	
+}	
+input[type=checkbox]:checked ~ .menuIconToggle > .hor {	
+  box-sizing: border-box;	
+  opacity: 0;	
+  transition: all .25s;	
+}	
+input[type=checkbox]:checked ~ .menuIconToggle > .dia.part-1 {	
+  box-sizing: border-box;	
+  transform: rotate(135deg);	
+  margin-top: 8px;	
+  transition: all .25s;	
+}	
+input[type=checkbox]:checked ~ .menuIconToggle > .dia.part-2 {	
+  box-sizing: border-box;	
+  transform: rotate(-135deg);	
+  margin-top: -9px;	
+  transition: all .25s;	
+}	
+@media screen and (max-width: 640px) {	
+ .navigation_bar {	
+    height: 100%;	
+    width: 100%;	
+    transform: translateX(100%);	
+  } 	
+}	
+
+
+	#forLink {	
+    color: #fff;	
+    text-decoration: none;	
+    background-color: transparent;	
+    -webkit-text-decoration-skip: objects;
+    }
+
+.select2-container--default.select2-container--focus .select2-selection--multiple{
+ text-align : left !important;
+}
+
+.select2-selection.select2-selection--multiple{
+text-align : left !important;
+}
+.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+    align-items:center;
+}
+
+
+
+.h1-row{
+	    background-color: #69d1f1;
+    color: white;
+    width: 100%;
+    margin: 0;
+}
+.h-body{
+	background: #d6dcd9;
+	width: 100%;
+}
+.body {
+-webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+-o-user-select: none;
+user-select: none;
+}
+
+.dashButtonMedia{
+    padding: 0px 0px 0px 0px !important;
+    position: relative;
+    left: 4.8rem;
+  }
+  
+ .mediaBars{
+ 	position: relative;
+    left: 2rem;
+ }
+
+@media (min-width: 736px) and (max-width: 1800px) {
+  .h2-row {
+    font-size: 13px;
+    padding: 7px 25px 5px 11px !important;
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+  }
+  
+  .mediaButton{
+  line-height:13px !important;
+  font-size:13px !important;
+  }
+  
+  .headRowQuery{
+  padding: 0px !important;
+  }
+  
+  .powerQuery{
+  	font-size:24px !important;
+  }
+  
+  .hamburgerQuery{
+  	font-size:20px !important;
+  }
+  
+  .raiseButton{
+  	display:flex;
+  	justify-content:flex-start;
+  	align-items:baseline;
+  	text-align: revert !important;
+    position: relative !important;
+    left: 0 !important;
+  }
+  
+  .dashButtonMedia{
+    padding: 0px 0px 0px 0px !important;
+    position: relative;
+    left: 3.1rem;
+  }
+  
+  .mediaBars{
+  	position: relative;
+    left: 0rem;
+  }
+  
+}
+
+/*  PNA SIDENAV STYLES */
+
+.title-pna {
+	font-size: 15px;
+}
+
+.card-link-pna{
+	background-image : linear-gradient(to left, rgb(124 201 223),rgb(27, 187, 213));
+	box-shadow: 5px 6px 7px grey;
+}
+
+.card-link-pna:hover {
+    color: black;
+}
+
+.content-pna {
+	padding: 4px 4px 4px 11px;
+}
+
+.Pna-p{
+	margin-bottom:5px !important;
+}
+
+
+@media only screen and (max-width: 100px) {
+	.title-pna {
+		font-size: 11.99px;
+	}	
+	.col-md-10 {
+		max-width: 81%;
+	}
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+
+
+
+
+
+
+/* --------------------------------------------- */
+
+</style>
+</head>
+<!-- body style="background: #d6dcd9; overflow-x: hidden;"  oncontextmenu="return false;"-->
+<body class="h-body .body">
+
+<input type=hidden name="imgname" th:value="${logoutimg}">
+<input type=hidden name="role" th:value="${session.data2}">
+<input type=hidden id="sttime" th:value="${session.stime}">
+	<div class="row h1-row">
+		<div class="col-md-1" align="right">
+			<img style="width: 83px;" src="images/CBEC.png">
+		</div>
+		<div class="col-md-4">
+			<h5>
+				<strong style="color: #334495;"> FPO IMPORT APPLICATION - 1.0 (TESTING ENVIRONMENT)</strong>
+			</h5>
+			<h6>
+			
+				<span th:if="${session.data1 == 'PNA'}" class="module"><strong>CUSTOMS ADMINISTRATOR MODULE - NATIONAL</strong></span>
+				<span th:if="${session.data1 == 'PLA' || session.data1 == 'PAA'}" class="module"><strong>CUSTOMS ADMINISTRATOR MODULE</strong></span>
+				<span th:if="${session.data1 != 'PNA' && session.data1 != 'PLA' && session.data1 != 'PAA'}" class="module"><strong>CUSTOMS OFFICER MODULE</strong></span>
+		
+			</h6>
+			<hr style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 35%; float: left; border-top: 2px solid white;">
+			<p style="margin-top: 10px; margin-bottom: 4px;">
+				<strong>Central Board of Indirect Taxes and Customs</strong>
+			</p>
+		</div>
+		<div class="col-md-7" style="display: flex;justify-content: end;" align="left"><div style="margin-right: 20px;" class="mt-4">
+			<h6>
+				<strong>Indian Customs EDI System</strong>
+			</h6>
+			<div id="oth" style="display:none">
+			<hr style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 92%; float: left; border-top: 2px solid white;">
+			<h6 style="margin-top: 10px;">
+				<strong><span th:if="${session.data1 == 'NAL' or session.data1 == 'NRP'}" id="sitenm"> DRI </span> 
+				        <span th:if="${session.data1 != 'NAL' and session.data1 != 'NRP'}" th:text="${session.data4}" id="sitenm"></span> -
+											  <span th:if="${session.data1 == 'PAO' or session.data1 == 'PAC'}">
+											  <span th:if="${session.data2 == 'INBOM5'}" id="cuSite">(INBOM5) <font size=1> Clustered with  INBPS5</font> </span>	
+											  <span th:if="${session.data2 == 'INBPS5'}" id="cuSite">(INBPS5) <font size=1> Clustered with  INBOM5</font> </span>	
+											  <span th:if="${session.data2 == 'INMAA5'}" id="cuSite">(INMAA5)<font size=1>  Clustered with  INFCH5</font> </span>	
+											  <span th:if="${session.data2 == 'INFCH5'}" id="cuSite">(INFCH5) <font size=1> Clustered with  INMAA5</font> </span>	</span>
+											  <span th:if="${(session.data1 != 'PAO' and session.data1 != 'PAC') or (session.data2 != 'INBOM5' and session.data2 != 'INBPS5' and session.data2 != 'INMAA5' and session.data2 != 'INFCH5' )}" th:text="${session.data2}" id="cuSite"></span></strong>
+			</h6>
+			</div>
+			<div id="pna" style="display:none;align:center">
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 96%; float: left; border-top: 2px solid white;">
+			<h6  style="margin-top: 10px;text-align:center">
+				<strong><span th:if="${session.data1 == 'NAL' or session.data1 == 'NRP'}" id="sitenm"> DRI </span> 
+				        <span th:if="${session.data1 != 'NAL' and session.data1 != 'NRP'}" th:text="${session.data4}" id="sitenm"></span> -
+				        <span th:text="${session.data2}" id="cuSite"></span></strong>
+			</h6></div>
+			</div>
+			<div style="padding: 20px 0;margin-top: 4px;"><img src="images/nic_logo.png"></div>
+		</div>
+		<input type="hidden" th:value="${session.data}" id="empId" /> <input
+			type="hidden" th:value="${session.data1}" id="role" />
+			
+			<input type="hidden" th:value="${session.data2}" id="sitecode" />
+		
+	</div>
+	<div class="row h2-row">
+	<div class="col-sm-1 col-md-2 col-xl-1 headRowQuery" id="dashscreens">
+	
+	<div class="row">
+	
+	
+		<div class="col-4 mediaBars" style="margin-top:8px;">
+		<input type="checkbox" style="display:none;" id="openSideMenu" class="openSideMenu">	
+			<label for="openSideMenu" class="menuIconToggle" style="margin-bottom:0px;padding-left:0;">	
+			  <div class="hamb-line dia part-1"></div>	
+			  <div class="hamb-line hor"></div>	
+			  <div class="hamb-line dia part-2"></div>	
+			</label>
+			
+				<nav class="navigation_bar">	
+  <ul>	
+    				
+		<div class="col-12" style="background: #cce3f3;padding-bottom:30px; ">	
+			<!--div class="col-md-3" style="background: #cce3f3; "-->	
+				<!-- <div class="chart-head" style="text-align:center">	
+					<h6 class="mt-2">Transaction Modules </h6>	
+					<h7 class="mt-2" style="	
+					    color: #766969;	
+					    font-weight: bold;font-size: 11px;	
+					">Click to Enter	
+					</h7>	
+				</div> 	
+				</div> --->
+				<div class="row">	
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+					<a onclick="showLoader();" href="nsmHome" id="forLink">
+					<div class="card card-link card-1">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>Site Management</strong>
+									<p class="Pna-p">FPO Site creation,modification,activation etc.</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+				<a onclick="showLoader();" href="usermanagement" id="forLink">
+					<div class="card card-link-d card-2">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>Role Management</strong>
+									<p class="Pna-p">Allocation of National & Local <br>System Administrator</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+				<a onclick="showLoader();" href="viewdirectory" id="forLink">
+					<div class="card card-link-reallocation card-3">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>Directory Management</strong>
+									<p class="Pna-p">Pincode Mapping and to view other directories</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+				
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+				<a onclick="showLoader();" href="chngethreshold" id="forLink">
+					<div class="card card-link-d card-2">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>Threshold Management</strong>
+									<p class="Pna-p">To set threshold value for import Article IDs for auto movement to AC / DC screen.</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+				
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+				<a onclick="showLoader();" href="NSMmisreport" id="forLink">
+					<div class="card card-link-pna card-4">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>MIS Reports</strong>
+									<p class="Pna-p">To view and generate Reports</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+				<a onclick="showLoader();" href="miscellaneous" id="forLink">
+					<div class="card card-link-c card-5">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>Miscellaneous</strong>
+									<p class="Pna-p">See threshold value for AC,view Art-ID/ w/o FPO sites</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+						</div>	
+						
+				<div th:if="${session.data1=='PNA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+				<a onclick="showLoader();" href="releasemanagement" id="forLink">
+					<div class="card card-link-d card-5">
+						<div class="content-pna mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title-pna mt-2">
+									<strong>Release Management</strong>
+									<p class="Pna-p">To view the list of Release Management.</p>
+									<!-- <strong>View More </strong> -->
+									</span>
+								</div>
+							  </div>
+							</div>
+						 </div>
+						</a>
+					 </div>							
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">	
+					    <a  onclick="showLoader();" id="forLink" th:href="${session.data1=='PAO' || session.data1=='PAC' ? 'ead_list' : 'javascript:;'}">	
+							<div class="card card-link">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1" style="padding-top:-3px;">	
+											<div class="icon"><i class="fa fa-refresh fa-spin fa-3x fa-fw center" ></i>	
+											</div>
+										</div>	
+										<div class="col-md-11" id="col-c1" style="padding-top:7px;">	
+											<span class="card-title title-pna mt-2" style="margin:10px;">	
+												<strong>Process EAD - (Electronic Advance Data)	
+												</strong>	
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>	
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" th:href="${session.data1=='PAO' || session.data1=='PAC' ? 'process_ead' : 'javascript:;'}">	
+							<div class="card card-link">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-refresh fa-spin fa-3x fa-fw center"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c3"  style="padding-top:7px;">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>Process AAA - (Articles Awaiting Arrival)	
+												</strong>	
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>	
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" href="import_role">	
+							<div class="card card-link">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i style="font-size:x-large"	
+													class="fa fa-spinner fa-spin center"></i></div>	
+										</div>	
+										<div class="col-md-11" id="col-c5"  style="padding-top:7px;">	
+											<span class="card-title title mt-2" >	
+												<strong>&nbsp;&nbsp;&nbsp;Process AAF - (Articles Arrived at FPO) <span th:text="${session.data1=='PSU' ? ' - OOC' : ''}"></span><span th:text="${session.data1=='PIN' ? ' - EXAMN' : ''}"></span> </strong>	
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>
+					<div th:if="${session.data1=='PIN'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();"  id="forLink" href="queryreplyofficer">	
+							<div class="card card-link-c">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-pencil-square-o"	
+													style="font-size: x-large"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c9"  style="padding-top:7px;">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>Process Query Reply</strong>
+												<!-- <p>&nbsp;&nbsp;(Upload Physically received doc and Query reply)</p>	 -->
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>
+					<div th:if="${session.data1=='PIN' || session.data1=='PAO'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" th:style="${session.data1=='PIN' || session.data1=='PAO' ? 'cursor:pointer' : 'cursor:default; text-decoration: none;'}"	
+							th:href="${session.data1=='PIN' || session.data1=='PAO' ? 'dcallhistory' : 'javascript:;'}" class="lnk">	
+							<div class="card card-link-d">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-eye" style="font-size: x-large"	
+													aria-hidden="true"></i></div>	
+										</div>	
+										<div class="col-md-11" id="col-c12"  style="padding-top:7px;">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>D-Call Letter</strong>	
+												<!-- <p>&nbsp;&nbsp;(Generate D-Call / Push - Email / SMS /	
+													View	
+													History)</p> -->	
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>		
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" href="postaledi">	
+							<div class="card card-link-reallocation">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-upload" style="font-size: x-large"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c4"  style="padding-top:7px;">	
+											<h6 class="card-title title" style="margin:10px;">	
+												<strong>Art-IDs in Commercial Imports Queue</strong>	
+											</h6>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PSU' || session.data1=='PIN' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<div class="card card-link-d">	
+							<div class="content mt-1">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-eye"	
+												style="font-size: x-large; color:#fff;"></i>	
+										</div>	
+									</div>	
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="alloSite" class="lnk">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>Art-IDs w/o PINCODE & pending for Mapping</strong>	
+											</span>	
+										</a>	
+									</div>	
+								</div>	
+							</div>	
+						</div>	
+					</div>
+					<div th:if="${session.data1=='PBS'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" th:href="${session.data1=='PBS' ? 'bagscan' : 'javascript:;'}">	
+							<div class="card card-link-postalbag"	
+								th:class="${session.data1=='PBS' ? 'card card-link-postalbag' : 'card card-link-postalbag-2'}">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i style="font-size: x-large;" class="fa fa-scissors center"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c2"  style="padding-top:7px;">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>Postal Bag Arrival Confirmation / </strong>	<br>
+												<strong> &nbsp; &nbsp;Import Article Scan Report </strong>
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">	
+							<div class="card card-link-c">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1" >	
+											<div class="icon"><i class="fa fa-ban" style="font-size: x-large;color:white;"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c7"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="detained" class="lnk">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>Detained - Import Articles</strong>	
+											</span>	
+											</a>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+					</div>	
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">	
+							<div class="card card-link-c">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-ban" style="font-size: x-large;color:white;"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c7"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="ooccancellation" class="lnk">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>OOC Cancellation</strong>	
+											</span>	
+										</a>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+					</div>	
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PBS' || session.data1=='PSU'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" href="delack">	
+							<div class="card card-link-c">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-pencil-square-o"	
+													style="font-size: x-large"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c9"  style="padding-top:7px;">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>ACK from India Post on Delivery of Articles</strong>	
+											</span>	
+										</div>	
+									</div>	
+								</div>	
+							</div>	
+						</a>	
+					</div>
+					<div th:if="${session.data1=='PAL'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<div class="card card-link-reallocation">	
+							<div class="content mt-1">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-bars"	
+												style="font-size:x-large; color: white;"></i></div>	
+									</div>	
+									<div class="col-md-11" id="col-c6"  style="padding-top:7px;">	
+										<span class="card-title title mt-2" style="margin:10px;">	
+											<a onclick="showLoader();" id="forLink" th:style="${session.data1=='PAL' ? 'cursor:pointer' : 'cursor:default; color: white;text-decoration: none'}"	
+												th:href="${session.data1=='PAL' ? 'aclfunction' : 'javascript:;'}">	
+												<u style="text-decoration: none"><strong>Re-allocation / Priority /	
+														Re-call	
+														/ Alert</strong></u>	
+											</a>	
+										</span>	
+									</div>	
+								</div>	
+							</div>	
+						</div>	
+					</div>
+						<div th:if="${session.data1 != 'PNA' && session.data1 !='PLA' && session.data1 !='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">
+							<div class="card card-link-d">	
+								<div class="content mt-1">	
+									<div class="row">	
+										<div class="col-md-1">	
+											<div class="icon"><i class="fa fa-eye"	
+													style="font-size: x-large; color:#fff;"></i>	
+											</div>	
+										</div>	
+										<div class="col-md-11" id="col-c8"  style="padding-top:7px;">	
+											<a onclick="showLoader();" id="forLink" href="viewarrinfo" class="lnk" >	
+												<span class="card-title title mt-2" style="margin:10px;">	
+													<strong>View Article Arrival Information</strong>	
+												</span>	
+											</a>	
+										</div>	
+									</div>	
+								</div>	
+						</div>	
+					</div>
+					<div th:if="${session.data1 != 'PNA' && session.data1 !='PLA' && session.data1 !='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<div class="card card-link-d">	
+							<div class="content mt-1">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-eye"	
+												style="font-size: x-large; color:#fff;"></i>	
+										</div>	
+									</div>	
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="article" class="lnk">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>View Articles - Track and Trail</strong>	
+											</span>	
+										</a>	
+									</div>	
+								</div>	
+							</div>	
+						</div>	
+					</div>	
+					<div th:if="${session.data1 != 'PNA' && session.data1 !='PLA' && session.data1 !='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">
+						
+						<div class="card card-link-d">	
+							<div class="content mt-1">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-eye"	
+												style="font-size: x-large; color:#fff;"></i>	
+										</div>	
+									</div>	
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="trackarticle" class="lnk">	
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>ICEGATE - Track Article</strong>	
+											</span>	
+										</a>	
+									</div>	
+								</div>	
+							</div>	
+						</div>
+					
+					</div>
+					
+					<div th:if="${session.data1!='ARP' && session.data1 != 'PLA' && session.data1 != 'PNA' && session.data1 !='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<!--<a href="report1">-->	
+						<div class="card card-link-c">	
+							<div class="content">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-file"	
+												style="font-size: x-large; color:#fff"></i>	
+										</div>	
+									</div>	
+									<div class="col-md-11" id="col-c11"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="misreport" class="lnk"><span class="card-title title mt-2" style="margin:10px;">	
+												<strong>MIS	
+													Reports</strong></span></a>	
+									</div>	
+								</div>	
+							</div>	
+						</div>	
+						<!--</a>-->	
+					</div>	
+					<div th:if="${session.data1=='ARP'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<!--<a href="report1">-->	
+						<div class="card card-link-c">	
+							<div class="content">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-file"	
+												style="font-size: x-large; color:#fff"></i>	
+										</div>	
+									</div>	
+									<div class="col-md-11" id="col-c11"  style="padding-top:7px;">	
+										<a onclick="showLoader();" id="forLink" href="report" class="lnk"><span	
+												class="card-title title mt-2"><strong>Analytical	
+													Report</strong></span></a>	
+									</div>	
+								</div>	
+							</div>	
+						</div>	
+						<!--</a>-->	
+					</div>
+					
+					
+					
+					<div th:if="${session.data1 =='PLA' || session.data1=='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">
+					<a onclick="showLoader();" href="Lsm_siteUpdate" id="forLink">
+					<div class="card card-link card-1">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>Site Management</strong>
+										<p class="Pna-p">To allocate and edit / remove.</p> 
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> 
+				</div>
+				<div th:if="${session.data1 =='PLA' || session.data1=='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">
+				<a onclick="showLoader();" href="allocation_of_roles" id="forLink">
+					<div class="card card-link-d card-2">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>User Management</strong>
+										<p class="Pna-p">	To Edit, Block or Delete any FPO Site
+											created in this application.
+										</p>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> 
+				</div>
+				<div th:if="${session.data1 =='PLA' || session.data1=='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">
+				<a onclick="showLoader();" href="viewdirectory" id="forLink">
+					<div class="card card-link-reallocation card-3">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2">
+									<strong>Directory Management</strong>
+									<p class="Pna-p">Pincode Mapping and to view other directories</p>
+									
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+				</div>
+				<div th:if="${session.data1 =='PLA' || session.data1=='PAA'}" class="col-md-12 mt-2" style="vertical-align:center">
+				<a onclick="showLoader();" href="misreport" id="forLink">
+					<div class="card card-link-pna card-4">
+						<div class="content mt-1">
+							<div class="row">
+								<div class="col-md-1" style="padding-right:0px; margin-right:10px;">
+									<div class="icon">
+										<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>
+									</div>
+								</div>
+								<div class="col-md-10" id="col-c1">
+									<span class="card-title title mt-2"> <strong>MIS Reports</strong>
+										<p class="Pna-p">To view and generate Reports.</p>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a> 
+					</div>
+					
+					
+					
+					<div th:if="${session.data1=='PAO' || session.data1=='PSU' || session.data1=='PIN'}" class="col-md-12 mt-2" style="vertical-align:center">	
+						<a onclick="showLoader();" id="forLink" href="recentpro">	
+						<div class="card card-link-postalbag">	
+							<div class="content mt-1">	
+								<div class="row">	
+									<div class="col-md-1">	
+										<div class="icon"><i class="fa fa-eye"	
+												style="font-size: x-large; color:#fff;"></i>	
+										</div>	
+									</div>	
+									<div class="col-md-11" id="col-c9"  style="padding-top:7px;">	
+											
+											<span class="card-title title mt-2" style="margin:10px;">	
+												<strong>Recently Processed</strong>	
+											</span>	
+											
+									</div>	
+								</div>	
+							</div>	
+						</div>	
+</a>	
+					</div>	
+				</div>		
+			</div>
+			</ul>	
+</nav>	
+</div>
+		
+		<!-- <div class="col-8 d-flex justify-content-flex-start dashButtonMedia" id="dash" style="padding: 0px 0px 0px 13px; z-index:1;">
+		<a href="dash"   onclick="showLoader();"><button type="button"   class="btn btn-info mediaButton" style="line-height: 16px;">Dashboard</button></a>
+		</div> -->
+	<div th:if="${home != 1}" class="col-8 d-flex justify-content-flex-start dashButtonMedia" id="dash" style="padding: 0px 0px 0px 13px; z-index:1;margin-top: 2px;">
+			<a th:href="@{'Home' + '?role=' + ${session.data1}}"><button type="button" class="btn btn-info" style="line-height: 16px;">GO TO <svg  height="1em" fill="white" viewBox="0 0 576 512"><path d="M543.8 287.6c17 0 32-14 32-32.1c1-9-3-17-11-24L512 185V64c0-17.7-14.3-32-32-32H448c-17.7 0-32 14.3-32 32v36.7L309.5 7c-6-5-14-7-21-7s-15 1-22 8L10 231.5c-7 7-10 15-10 24c0 18 14 32.1 32 32.1h32v69.7c-.1 .9-.1 1.8-.1 2.8V472c0 22.1 17.9 40 40 40h16c1.2 0 2.4-.1 3.6-.2c1.5 .1 3 .2 4.5 .2H160h24c22.1 0 40-17.9 40-40V448 384c0-17.7 14.3-32 32-32h64c17.7 0 32 14.3 32 32v64 24c0 22.1 17.9 40 40 40h24 32.5c1.4 0 2.8 0 4.2-.1c1.1 .1 2.2 .1 3.3 .1h16c22.1 0 40-17.9 40-40V455.8c.3-2.6 .5-5.3 .5-8.1l-.7-160.2h32z"/></svg></button></a>
+		</div>
+		
+		<div th:if="${home == 1}" class="col-8 d-flex justify-content-flex-start dashButtonMedia" id="dash" style="padding: 0px 0px 0px 13px; z-index:1;margin-top: 2px;">
+		
+		</div>
+		
+	</div>
+	
+	</div>
+		<!-- <div class="col-md-1 col-xl-1 headRowQuery" id="nodashboard" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		 --><div class="col-md-2 col-xl-3 headRowQuery d-flex justify-content-center">
+			<p style="margin-bottom: 0rem;color:slategrey">
+				WELCOME - <span th:text="${session.data3}">Veemanath</span>
+			</p>
+		</div>
+		<div class="col-md-2 headRowQuery d-flex justify-content-end">
+		<Span th:text="'Last Login : '+${session.LastLoginetails == null ? '-' : session.LastLoginetails}"> </span > 
+		</div>
+		<div class="col-md-2 headRowQuery d-flex justify-content-center">
+			<span>Session Time : </span>
+			<span id = "clock1" onload="sessionTime()"></span></div>
+			
+			<div class="col-md-4" Style="text-align: end;">
+		<div class="row align-items-center">
+		<div class="col-md-7">
+				<span th:text="'Role : '+${session.data1}"> PAO </span><!-- <span th:text="1"
+					id="currentDateTime" style="font-weight: 900;"></span> --> <span id = "clock" onload="currentTime()"></span></div>
+			<!--  button type="submit" value="Logout" id="logout" class="btn btn-primary btn-lg" onclick="logout();">LOGOUT</button-->
+			<!-- <img  src="images/logout_fpo.jpg" style="width:10%;height:50%" alt="Click to LOGOUT" onclick="logout();"> -->
+			
+			<div class="col-md-4" id="chngroles" ><button type="button" class="btn btn-info" style="line-height: 16px;">Change Role</button></div>	
+			<div class="col-md-1">
+			<!-- <i class="fa fa-power-off" aria-hidden="true" onclick="logout();" style="cursor: pointer;color: #ef3c3c;font-size: 30px;"></i> -->
+			<div class="row">
+					 <div class="col-12" style="display:flex;justify-content:center;">
+					 		<!-- <img  src="images/logout.png" style="width:28px;transform:rotate(180deg);" alt="Click to LOGOUT" > -->
+					 		<svg class="powerQuery" onclick="logout()" style="transform:rotate(180deg);" width="24" height="24" fill="none" viewBox="0 0 24 24" id="logout"><path fill="#000" fill-rule="evenodd" d="M2 13H14V11H2V13Z" clip-rule="evenodd"></path><path fill="#000" fill-rule="evenodd" d="M4.79282 7.79289L1.29282 11.2929C.902294 11.6834.902294 12.3166 1.29282 12.7071L4.79282 16.2071 6.20703 14.7929 3.41414 12 6.20703 9.20711 4.79282 7.79289zM14.5954 5.5C12.1159 5.5 9.95745 6.93099 8.89246 9.03855L7.10742 8.13653C8.49483 5.39092 11.3226 3.5 14.5954 3.5 19.2491 3.5 22.9999 7.31769 22.9999 12 22.9999 16.6823 19.2491 20.5 14.5954 20.5 11.3226 20.5 8.49483 18.6091 7.10742 15.8635L8.89246 14.9615C9.95745 17.069 12.1159 18.5 14.5954 18.5 18.1205 18.5 20.9999 15.602 20.9999 12 20.9999 8.39803 18.1205 5.5 14.5954 5.5z" clip-rule="evenodd"></path></svg>
+					 </div>
+					<div class="col-12" style="display:flex;justify-content:center;padding-right:9px;">
+							<small >Logout</small>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="incative" class="modal fade" data-backdrop="static" data-keyboard="false"  tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 450px;margin:20.75rem auto" >
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">System is Inactive for more than 45 minutes. Please Logout and Login...</font></h4>
+	  </div>
+	 <div class="modal-footer" style="display:flex;justify-content:center;" >
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="center">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="inactivetime();">OK</button></div>	</div>
+    </div>
+</div>
+</div>	
+	
+	
+	<div id="logoutModal" class="modal fade headRowQuery"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 450px;margin:20.75rem auto">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div>
+</div>
+
+  <div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document" style="max-width: 450px;margin:20.75rem auto">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+</Modal>
+	
+<script src="js/header.js"></script>
+</body>
+
+<script>
+
+
+	$(document).ready(function() {
+		  $(document).click(function(event) {
+		    if (!$(event.target).closest('.mediaBars').length) {
+		      $('#openSideMenu').prop('checked', false);
+		    }
+		  });
+	});
+	
+ 	/* var today = new Date();
+	var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	var dateTime = date+' '+time;
+	var utilDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+	alert(utilDate);
+ 		document.getElementById("currentDateTime").innerHTML = utilDate; 
+ 		var today = new Date();
+ 		var dd = today.getDate();
+
+ 		var mm = today.getMonth()+1; 
+ 		var yyyy = today.getFullYear();
+ 		var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+ 		if(dd<10) 
+ 		{
+ 		    dd='0'+dd;
+ 		} 
+
+ 		if(mm<10) 
+ 		{
+ 		    mm='0'+mm;
+ 		}
+ 		today = dd+'/'+mm+'/'+yyyy;
+ 		console.log(today);
+ 		var dateTime = today+' '+time;
+ 		document.getElementById("currentDateTime").innerHTML = dateTime;*/
+ 		
+</script>
+
+</html>

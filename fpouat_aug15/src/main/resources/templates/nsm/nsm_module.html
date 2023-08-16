@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+	float: right;
+}
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+
+</style>
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div style="display: flex; justify-content: center;padding-top: 5px">
+		<h4>NATIONAL SYSTEM ADMINISTRATOR (PNA)</h4>
+	</div>
+	<!-- <div
+		style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); padding-bottom: 17%; padding-right: 100px; padding-left: 100px; border-left: 4px; border-radius: 10px">
+		<div class="mt-3" align="center">
+			<br>
+			<h3 Style= "color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR</h3>
+		</div>
+		<br>
+		<div style="color: white"> 
+			<div class="row mt-3">
+				<div class="col-sm-3" style="margin-left: 12%">
+					<div class="card" style="background-color: #6b6bef">
+						<div class="card-body">
+							<i class="fa fa-spinner fa-spin" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong style="font-size: 24px">Site Management <br>(Electronic Advance Data)
+								</strong>
+							</h5>
+							<div>
+								<a th:href="@{nsmHome}" class="btn btn-primary">Go To...</a>
+								<span
+									class="numradius">&nbsp;13&nbsp;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card " style="background-color: #53bd53">
+						<div class="card-body">
+							<i class="fa fa-spinner fa-spin" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong style="font-size: 24px">User Management</strong>
+							</h5>
+
+							<div>
+								<a th:href="@{usermanagement}" class="btn btn-primary">Go
+									To...</a>
+								<span
+									class="numradius">&nbsp;541&nbsp;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card" style="background-color: #ad6aea">
+						<div class="card-body">
+							<i class="fas fa-eye" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong style="font-size: 24px">View Directory</strong>
+							</h5>
+							<a th:href="@{viewdirectory}" class="btn btn-primary">Go
+								To...</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="row mt-3">
+
+				<div class="col-sm-3" style="margin-left: 24%">
+					<div class="card" style="background-color: #ffb861">
+						<div class="card-body">
+							<i class="fa fa-file" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong style="font-size: 24px">Reports</strong>
+							</h5>
+							<a th:href="@{report}" class="btn btn-primary">Go To...</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3" style="margin-left: 0px">
+					<div class="card" style="background-color: #ef3c3c">
+						<div class="card-body">
+							<i class="fas fa-file-import" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong style="font-size: 24px">Miscellaneous</strong>
+							</h5>
+
+							<div>
+								<a th:href="@{miscellaneous}" class="btn btn-primary">Go
+									To...</a> <span class="numradius">&nbsp;&nbsp;</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	<div class="col-md-12"
+		style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); padding-bottom: 10%; padding-top : 60px;padding-right: 100px; padding-left: 100px; border-left: 4px; border-radius: 10px">
+		<div class="col-md-12" style="padding: 2%;">
+			<div class="row" style="display: flex; justify-content: center;">
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #7777eb;">
+							<i class="fa fa-spinner fa-spin" style="font-size: 27px"></i>
+							<h5 class="card-title">Site Management</h5>
+							<p class="card-text">FPO Site creation, modification, activation etc.</p><br>
+							 <a href="nsmHome"
+								class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #18b7b6;">
+							<i class="fa fa-file" style="font-size: 27px"></i>
+							<h5 class="card-title">Role Management</h5>
+							<p class="card-text">Allocation of National & Local System Administrator.</p>
+								
+							<a href="usermanagement"
+								class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #ad6aea;">
+							<i class="fas fa-eye" style="font-size: 27px"></i>
+							<h5 class="card-title">Directory Management</h5>
+							<p class="card-text">Pincode mapping and to view other directories</p><br>
+							<a href="viewdirectory" class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12" style="padding: 2%;">
+			<div class="row" style="display: flex; justify-content: center;">
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #ffb861;">
+							<i class="fa fa-file" style="font-size: 27px"></i>
+							<h5 class="card-title">Reports</h5>
+							<p class="card-text">To view and generate reports.</p>
+							<br> <a href="nsmreport"
+								class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body" style="background: #cf4444;">
+							<i class="fas fa-file-import" style="font-size: 27px"></i>
+							<h5 class="card-title">Miscellaneous</h5>
+							<p class="card-text">Set threshold value for AC, view Art-ID w/o FPO sites...</p>
+							<a href="miscellaneous" class="view-more-link view-more-link-new"
+								style="font-size: 15px; color: #f8f9fa; font-weight: 700;">View
+								more <span><i class="fa fa-long-arrow-right"
+									aria-hidden="true"></i></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+$(document).ready(function() {
+$('#nsmbhlheader').hide();
+});
+
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+</body>
+</html>

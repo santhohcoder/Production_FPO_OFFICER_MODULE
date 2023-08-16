@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
+    
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+ -->
+  
+</head>
+
+
+</head>
+	
+
+<style>
+body {
+	background: white !important;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+      
+
+	
+</style>
+</head>
+<body>
+
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Miscellaneous>
+		Release Management</h3>
+		<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR</h3>
+<div style ="font-weight: bold;text-align: center; font-family: times new roman;background: deepskyblue;"><h4>Release Management</h4></div>
+
+
+<div class="mx-4 my-4" id="releasemg" style="padding: 20px;">
+ 	
+		
+	<table id="releasemagmtsitetab" class="table table-bordered table-striped"
+		style="font-size: 14px; text-align: center;">
+		<thead style="background-color: #a1c4e6;">
+			<tr style="background-color: #63cfe0">
+					<th scope="col">S.No</th>
+					<th scope="col">APPNAME</th>
+					<th scope="col">MODNAME</th>
+					<th scope="col">ROLENAME</th>
+					<th scope="col">YEAR</th>
+					<th scope="col">MONTH</th>
+					<th scope="col">VERSION</th>
+					<th scope="col">UPD DATA</th> 
+				 	<th scope="col">UPD DATE</th>  
+
+			</tr>
+		</thead>
+		<tbody id="releasemgmtvalBody">
+		</tbody>
+		<!-- <tbody  th:each="s1 , iter : ${releasemgmtval}">
+			 <tr align="middle" class="rowDis">
+				<td width="1%" style="vertical-align: middle;"
+					th:text="${iter.index+1}"></td>
+				   <td style="vertical-align: middle;"  th:text="${s1[0]}"></td>
+					<td style="vertical-align: middle;"  th:text="${s1[1]}"></td>
+					<td style="vertical-align: middle;"  th:text="${s1[2]}"></td>
+					 <td style="vertical-align: middle;"  th:text="${s1[3]}"></td> 
+					<td style="vertical-align: middle;"  th:text="${s1[4]}"></td>
+					<td style="vertical-align: middle;"  th:text="${s1[5]}"></td>
+					<td style="vertical-align: middle;"  th:text="${s1[6]}"></td>
+					<td style="vertical-align: middle;"  th:text="${s1[7]}"></td> 
+			</tr> 
+		</tbody> -->
+	</table>
+
+</div>
+
+<input type="hidden" th:value="${loginid}" id="lginid">
+<script th:src="@{js/sweetalert.min.js}"></script>
+
+<script src="js/header.js"></script>
+<script>
+function goback() {
+     window.location = "miscellaneous";
+     
+     }   
+     	
+
+   $.ajax({
+    url: "releaseMgmt",
+    type: "GET",
+    data: { list: "releasemgmtval" },
+    success: function(data) {
+        // Use the data returned by the server
+        console.log(data);
+        
+     $('#releasemagmtsitetab').dataTable().fnDestroy();
+		$("#releasemgmtvalBody").empty("");
+		
+   for (var i = 0; i < data.length; i++) {
+    var value = data[i];
+    var index = i;
+	var row = "<tr align='middle' class='rowDis'><td  style='vertical-align: middle;'>" + (index + 1) + "</td><td  style='vertical-align: middle;'>" + value[0] + "</td><td  style='vertical-align: middle;'>" + (value[1] != null ? value[1] : "-") + "</td><td style='vertical-align: middle;'>" + (value[2] != null ? value[2] : "-") + "</td><td style='vertical-align: middle;'>" + (value[3] != null ? value[3] : "-") + "</td><td style='vertical-align: middle;'>" + (value[4] != null ? value[4] : "-") + "</td><td style='vertical-align: middle;'>" + (value[5] != null ? value[5] : "-") + "</td><td style='vertical-align: middle;'>" + (value[6] != null ? value[6] : "-") + " </td><td style='vertical-align: middle;'>" + (value[7] != null ? value[7] : "-") + " </td></tr>";
+    $("#releasemgmtvalBody").append(row);
+    }
+    
+    
+    $("#releasemagmtsitetab").dataTable({
+		"processing": true,
+		"paging": true,
+		"ordering": false,
+		"dom": '<"pull-left"Bl>frtip',
+		//"dom": 'Bfrtip',
+		//buttons: [{ extend: 'excel', className: 'excelButtonAll' }],
+		
+		
+		buttons: [{extend: 'csvHtml5', text: '<i>EXCEL</i>',
+				   	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+					filename:'Release Management',
+				  //filename:'Electronic Advance Data (EAD)-SET ASIDE LIST',
+					message:'Release Management @ ' + sitecode + '\n\r' + datetime,},
+				  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Release Management @ ' + sitecode,
+					filename:'Release Management',
+				     orientation: 'landscape',
+					exportOptions: {
+        				columns: [ 0,1,2,3,4,5,6,7,8],
+						margin: true,
+						modifier:{
+							selected:true
+							},
+      						}, 
+		   		     customize: function(doc, header) {
+					doc.content[1].table.widths = ['5%','10%','10%','10%','10%','10%','15%','15%','15%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize=6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+					
+    		        },
+					},
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'Release Management @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Release Management',
+					customize: function ( win ) {
+					console.log("sucess");
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},
+		 			             
+			}],
+		
+		
+			"initComplete": function(settings) {
+		  $("#releasemagmtsitetab_filter").append('<button type="button" class="btn btn-info" id="clear1" '+
+		    'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+		  $('#clear1').on('click', function() {
+		    $('#releasemagmtsitetab_filter input[type="search"]').val('').trigger('input');
+				var table = $('#releasemagmtsitetab').DataTable();
+				table.search('').draw();
+		
+		  });
+		}
+		
+	});
+    
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.log("Error:", textStatus, errorThrown);
+    }
+});
+
+
+$(document).ready(function() {
+	showLoader();
+	hideLoader();
+	});
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}   
+
+
+
+           
+</script>
+</html>

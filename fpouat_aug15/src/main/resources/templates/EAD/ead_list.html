@@ -1,0 +1,2038 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<link th:href="@{css/bootstrap1.min.css}" rel="stylesheet"
+	type="text/css" />
+ <script th:src="@{js/jquery-3.4.1.min.js}"></script> 
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/font.js}"></script>
+<link th:href="@{css/datatables.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/datatables.min.js}"></script>
+<script  th:src="@{js/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{js/datatables/jszip.min.js}"></script>
+<script th:src="@{js/datatables/pdfmake.min.js}"></script>
+<script th:src="@{js/datatables/vfs_fonts.js}"></script>
+<script  th:src="@{js/datatables/buttons.html5.min.js}"></script>
+<script  th:src="@{js/datatables/buttons.print.min.js}"></script>
+<script th:src="@{js/moment.min.js}"></script>
+
+<title>Electronic Advance data</title>
+<style>
+.lab_txt {
+	font-size: 14px;
+	color: blue;
+}
+
+.scroll_down {
+	/* height: 660px; */
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+
+
+.flash
+{
+
+font-size : 16px;
+
+animation-name:blink;
+animation-duration:1s;
+animation-timing-function:linear;
+animation-iteration-count:infinite;
+}
+
+
+@keyframes blink{
+0%{opacity: 0;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
+
+
+.body {
+-webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+-o-user-select: none;
+user-select: none;
+}
+
+/*table.dataTable thead .sorting {
+    background-image: url(/DataTables-1.10.21images/sort_both.png);
+}
+table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+    cursor: none;
+   
+}*/
+
+.buttonstyle {
+	color: white;
+	font-size: 16px;
+	background: dimgray;
+	padding: 5px;
+	border-radius: 12px;
+	border: 2px solid #4a4d5d;
+	border-left: solid #4a4d5d 2px;
+	border-top: solid #4a4d5d 2px;
+}
+
+
+
+.buttonstyles {
+	border: 2px solid white;
+	border-radius: 20px;
+	color: white;
+	font-size: 20px;
+}
+
+.odd {
+	background: gray;
+	color: white;
+}
+
+.even {
+	background: dimgray;
+	color: white;
+}
+
+btndis {
+	color: white;
+}
+
+.bordstyle {
+	border: 2px solid white;
+	background: dimgray;
+	border-radius: 20px;
+	padding: 2px;
+}
+
+.bordstyleh {
+	border: 2px solid white;
+	background: #6899d0 ;
+    border-radius : 5px;
+	padding: 2px;
+}
+
+html, body {
+	overflow-x: hidden;
+}
+
+.tot_no {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.tot_no1 {
+	font-size: 13px;
+	font-weight: 700;
+	color: red;
+}
+
+.dataTables_wrapper .dataTables_filter {
+	float: right;
+	/* margin-right: 85px; */
+}
+
+.dataTables_wrapper {
+	position: static;
+	clear: both;
+	zoom: 1;
+}
+
+.numradius1 {
+	border: 2px solid #4a4d5d;
+	background-color: #ff6565;
+	color: white;
+	font-size: 16px;
+	border-radius: 20px;
+	padding: 1px;
+}
+
+.numradius2 {
+	color:#47f525;
+	font-size: 16px;
+}
+
+.numradius3 {
+	color:#25ebf5;
+	font-size: 16px;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: #17a2b8;
+	color: white;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.dispval {
+	font-color: white;
+}
+
+.occ_note {
+	background-color: #79a0ca;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 20px;
+}
+
+.gray_note {
+	background-color: #7fa0c3;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 20px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+	padding: 0px 10px;
+}
+
+table.dltrc {
+	width: 100%;
+	align: center;
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: solid darkbrown 2px;
+	border-radius: 8px;
+	font-color: white;
+	font-size: 14px;
+}
+
+tr.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	padding: 2px
+}
+
+td.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-radius: 0px;
+	padding: 2px
+}
+
+tr.dlinfo, td.dlinfo {
+	text-align: center;
+	font-color: black;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-top: solid darkbrown 2px;
+	padding: 2px
+}
+
+td.dlinfo:first-child, td.dlheader:first-child {
+	border-left: none;
+}
+
+td.dlheader:first-child {
+	border-radius: 5px 0 0 0;
+}
+
+td.dlheader:last-child {
+	border-radius: 0 5px 0 0;
+}
+.hiddenac{
+	display : none !important;
+}
+.buttons-excel{
+display: none;
+} 
+
+        #overlay {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            z-index: 9999;
+            width: 100%;
+            background: rgba(255, 255, 255, .7);
+            height: 100%;
+        }
+
+        #loader {
+            position: fixed;
+            display: block;
+            left: 50%;
+            top: 48%;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background-image: url(images/report/loader.gif);
+            background-repeat: no-repeat;
+            margin: -77px 0 0 -75px;
+        }
+
+
+   
+</style>
+<body class=".body" style="background: #d6dcd9; overflow-x: hidden;">
+ <div id="overlay">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+    </div>
+	<input type="hidden" th:value="${session.data2}" id="sitecode" />
+	<input type="hidden" th:value="${session.data}" id="empId" />
+	<input type="hidden" th:value="${session.data1}" id="role" />
+	<input type="hidden" th:value="${allotMailcat}" id="Mailcat" />
+	<input type="hidden" th:value="${cusite}" id="aprcou" />
+	<input type="hidden" th:value="${aclCusite}" id="aclcou" />
+	<input type="hidden" th:value="${aprCusite}" id="aprret" />
+	<input type="hidden" th:value="${cousetasideapr}" id="setasideapr" />
+	<input type="hidden" th:value="${cousetasideacl}" id="setasideacl" />
+	<input type="hidden" id="docyes" th:value="${allotdoc}">
+	<input type=hidden id="sttime" th:value="${session.stime}">
+	<input type="hidden" id="showprodoc" th:value="${prodoc}">
+	<input type="hidden" id="showbulk" th:value="${bulk}">
+	<input type="hidden" id="showbulkexp" th:value="${bulkexp}">
+	<input type="hidden" id="flag" th:value="${flag}">
+
+<div id="backeadlist" align=left style="margin-left: 1%; margin-right: 1%;" >
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">EAD LIST Page
+			</button>
+		</div>
+	<div style="background-color: #f8f9fa;   border-right: 4px ; border-radius: 10px;">
+
+		<!-- <div class="col-md-1"
+			style="margin-left: 1%; margin-top: 5px; padding-top: 10px;">
+			<a href="dash"><button type="button" class="btn btn-info"
+					style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div> -->
+		<div class="mt-1" align="center">
+			<h2>Postal Imports - Electronic Advance Data (EAD)</h2>
+		</div>
+		<div class="row" style="justify-content: center;">
+			<div id="showallot" align=center style="display:none;vertical-align: middle;border-radius: 30px;padding: 11px;">
+			<strong><font color="black" >ALLOTTED  MAIL CLASS : <font color="black"><span th:text="${dispmailcat}"></span></font></strong></div>
+		  
+		</div>
+	
+		<div align="center" class="scroll_down">
+		<div class="barHiding" style="position: relative;margin-left: 80%">
+			  <button type="button" class="btn btn-secondary btn-sm" style="background-color: white; font-weight:500;  border: 2px solid #0e9594; color:#4a4d5d; border-radius: 30px;", id="showitcathidden">"ITEM CATEGORY"wise <br>split up on  allotted Mail Class</button>
+	     </div>	
+				 <!--  div  align="center" class="row mt-2" >
+					<div align="center" class="occ_note" style="margin-left: 2%;margin-right:5%;">
+					<button type="button" class="btn btn-danger btn-sm" 
+							style="background-color: white; font-weight:500;  border: 2px solid #ff6a00; color:#4a4d5d; border-radius: 30px;"
+							id="showitcathidden">ITEM CATEGORY</button>&nbsp;</div>
+					<div  align="center" class="occ_note" style="margin-left:12%;margin-right:13%;"><span style="color: white; font-size: 16px; ">
+						<STRONG>TOTAL &nbsp; ARTICLES &nbsp; IN &nbsp; THE &nbsp; EAD  &nbsp;  QUEUE &nbsp;FOR &nbsp; </STRONG></span><STRONG><span
+							class="dispval" style="color:#47f525"
+							th:text="${session.data2}"></span> &nbsp;</STRONG><font color="white" size="2">&nbsp;(ALL ROLES) &nbsp;: &nbsp;</span><strong><span
+							class="numradius1" th:text="${totcou}"></span> &nbsp;<strong>( &nbsp; PAO &nbsp; - &nbsp; <span
+							class="numradius1" th:text="${totapr}"></span> &nbsp; PAC &nbsp; - &nbsp; <span
+							class="numradius1" th:text="${totacl}"></span>&nbsp; )</strong></font></div>
+					<div align="center" class="occ_note" ><button type="button" class="btn btn-danger btn-sm" 
+							style="background-color:white; color:#4a4d5d; font-weight:500; border: 2px solid #ff6a00; border-radius: 30px;"
+							id="showmacathidden">MAIL CLASS</button></div>	
+				 </div-->
+				
+				    <div align="center" class="row mt-1 barHiding">
+					<div class="col-md-12 itcathidden" style="display: none;">
+					<!--div class="row occ_note mt-2"  style="margin-left: 15px; margin-right:8px; border-radius: 60px;">			     
+							<div class="bordstyle col-md-1"  align="center" 
+								style=" color: white; margin-left:140px;margin-right:100px;background: dimgray; font-size: 16px;">
+								<STRONG> GIFT: <span class="numradius2"
+									th:text="${totgift}"></span></strong>
+								<br><br>	<span  style="font-size: 12px;">
+									(PAO &nbsp;<span class="numradius2" th:text="${cougiftapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${cougiftacl}"></span>)
+									
+							</div>			
+							<div class="bordstyle col-md-1"  align="center" 
+								style="  color: white;  margin-right:100px;background: dimgray; font-size: 16px;">
+								<STRONG> SALE OF <br>GOODS : <span class="numradius2"
+									th:text="${totsg}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${cousgapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${cousgacl}"></span>)
+									
+							</div>
+							<div class="bordstyle col-md-1"  align="center" 
+								style="color: white;  margin-right:100px; background: dimgray; font-size: 16px;">
+								<strong> COMMERCIAL<br> SAMPLE : <span class="numradius2"
+									th:text="${totcs}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${coucsapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${coucsacl}"></span>)
+									
+							</div>
+							<div class="bordstyle col-md-1" align="center" 
+								style="color: white;  margin-right:100px; background: dimgray; font-size: 16px;">
+								<strong> RETURNED <br>GOODS : <span
+									class="numradius2" th:text="${totrg}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${courgapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${courgacl}"></span>)
+									
+							</div>
+							<div class="bordstyle col-md-1"  align="center" 
+								style="color: white;  margin-right:100px; background: dimgray; font-size: 16px;">
+								<strong> DOCUMENTS<br> :<span
+									class="numradius2" th:text="${totdoc}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${coudocapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${coudocacl}"></span>)
+							</div>				
+							<div class="bordstyle col-md-1" align="center" 
+								style=" color: white;   background: dimgray; font-size: 16px;">
+								<strong>OTHERS :<span
+									class="numradius2" th:text="${tototh}"></span></strong>
+									<br><br><span style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${couothapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couothacl}"></span>)
+								
+							</div>
+						</div-->
+						
+						<!--  //adding on jan 23rd-->
+						
+						
+						
+						<!--  //adding on jan 23rd-->
+						</div>
+					<div class="col-md-12 macathidden" style="display: none;">
+					<div class="row occ_note mt-2" style="margin-left: 15px; margin-right:8px; border-radius: 60px;" >
+					      
+							<div class="col-md-2 bordstyle" align="center"
+								style=" margin-left: 140px; color: white; background: dimgray; font-size: 16px;">
+								<STRONG> &nbsp;U - Letters : <span class="numradius2"
+									th:text="${totltr}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+									(PAO - <span class="numradius2" th:text="${totltrapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${coultracl}"></span>)
+									</div>
+							</div>			
+							<div class="col-md-2 bordstyle" align="center" 
+								style="margin-left: 2%;  color: white; background: dimgray; font-size: 16px;">
+								<STRONG> &nbsp;E - EMS : <span class="numradius2"
+									th:text="${totems}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${totemsapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couemsacl}"></span>)
+									</div>
+							</div>
+							<div class="col-md-2 bordstyle" align="center" 
+								style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+								<strong> &nbsp;C - Parcels : <span class="numradius2"
+									th:text="${totpar}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${totparapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couparacl}"></span>)
+									</div>
+							</div>
+							<div class="col-md-3 bordstyle" align="center"
+								style="margin-left:2%;color: white; background: dimgray; font-size: 16px;">
+								<strong> &nbsp;T - Empty Receptacles : <span
+									class="numradius2" th:text="${totemp}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${totempapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couempacl}"></span>)
+									</div>
+							</div>
+						
+						</div>	
+						</div>
+						</div>
+					 
+				<div id="showAPR"  style="display: none" class="col-md-12 mt-1 barHiding">
+				<div align=center class="row gray_note" style="margin-left:3px; margin-right:-5px;">
+					<div align="left" class="col-md-9"
+						style="color: yellow;" >
+					<strong>	TOTAL ARTICLES IN CURRENT QUEUE FOR ALLOTTED MAIL CLASSES: <span
+							class="numradius3" th:text="${coucurapr}"></span></strong>
+					</div>
+					
+					<div align="right" class="col-md-3">
+						<span
+							style="color: white; ">PAO-QUEUE-</span><font color="yellow">NEW</font></span>
+					</div>
+					<div class="col-md-12 mt-1"></div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 4%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn1" onclick="showview(1,1)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'U - Letters'))}"
+							class="buttonstyle">
+							<STRONG> &nbsp;U - Letters : <span class="numradius3"
+								th:text="${allotltr}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn2" onclick="showview(2,1)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'E - EMS'))}"
+							class="buttonstyle">
+							<strong> &nbsp;E - EMS : <span class="numradius3"
+								th:text="${allotems}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn3" onclick="showview(3,1)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'C - Parcels'))}"
+							class="buttonstyle">
+							<strong> &nbsp;C - Parcels : <span class="numradius3"
+								th:text="${allotpar}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn4" onclick="showview(4,1)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'T - Emp.Recp.'))}"
+							class="buttonstyle">
+							<strong> &nbsp;T - Emp.Recp.: <span class="numradius3"
+								th:text="${allotemp}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 1%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn5" onclick="showview(5,1)"
+							class="buttonstyle">
+							<STRONG>ALL : <span class="numradius3"
+								th:text="${coucurapr}"></span>
+							</STRONG>
+						</button>
+					</div>
+				</div>
+				
+				<div style="text-align: right;top: 15px;position: relative;">
+									<button type="button" class="btn btn-success btn-sm" style="background-color:#2b9348; font-weight:450;  border: 2px solid #2b9348; color: white;" id="bulkass"  >Express Assessment</button>
+						<button type="button" class="btn btn-success btn-sm" style="background-color:#2b9348; font-weight:450;  border: 2px solid #2b9348; color: white;" id="bulkdoc"  >Process "De minimis"</button>
+	
+			<button type="button" class="btn btn-success btn-sm" style="background-color:#2b9348; font-weight:450;  border: 2px solid #2b9348; color: white;" id="processdoc"  >Process "DOCUMENTS"</button>
+								<!--  button type="button" class="btn btn-danger btn-sm" style="background-color: white; font-weight:500;  border: 2px solid #ff6a00; color:#4a4d5d; border-radius: 30px;" id="showitcathidden">ITEM CATEGORY</button-->
+			</div>
+			<div class="col-md-12 itcathidden" style="display: none;">
+						<div class="row mt-2"  style="margin-left: 15px;margin-right:8px;border-radius: 60px;justify-content: center;">			     
+						<div class="bordstyle col-md-1"  align="center" 
+								style="color: white;background: dimgray;font-size: 16px;padding: 14px;">
+								<STRONG> GIFT: <span class="numradius2"
+									th:text="${cougiftmc}"></span></strong>
+									
+							</div>			
+							<div class="bordstyle col-md-1"  align="center" 
+								style="  color: white;background: dimgray; font-size: 16px;">
+								<STRONG> SALE OF <br>GOODS : <span class="numradius2"
+									th:text="${cousgmc}"></span></strong>
+									
+									
+							</div>
+							<div class="bordstyle col-md-1"  align="center" 
+								style="color: white;background: dimgray; font-size: 16px;">
+								<strong> COMMERCIAL<br> SAMPLE : <span class="numradius2"
+									th:text="${coucsmc}"></span></strong>
+									
+									
+							</div>
+							<div class="bordstyle col-md-1" align="center" 
+								style="color: white; background: dimgray; font-size: 16px;">
+								<strong> RETURNED <br>GOODS : <span
+									class="numradius2" th:text="${courgmc}"></span></strong>
+								
+							</div>
+							<div class="bordstyle col-md-1"  align="center" 
+								style="color: white; background: dimgray; font-size: 16px;">
+								<strong> DOCUMENTS<br> :<span
+									class="numradius2" th:text="${coudocmc}"></span></strong>
+								
+							</div>				
+							<div class="bordstyle col-md-1" align="center" 
+								style="color: white;background: dimgray;font-size: 16px;padding: 14px;">
+								<strong>OTHERS :<span
+									class="numradius2" th:text="${couothmc}"></span></strong>
+								
+								
+							</div>
+						</div></div>
+              <div class="row mt-2"  style="margin-left:1%">
+              
+				<div class="col-md-1 ">
+					<button type="button" class="btn btn-danger btn-sm"
+					align="center"	id="show-aside-menu">Set aside List - <span
+							class="numradius3" th:text="${cousetasideapr}"></span></button>
+				</div>
+				<div class="col-md-1">
+					<button type="button" class="btn btn-danger btn-sm" 
+					align="center"	id="show-hidden-menu">Returned by AC - <span
+								class="numradius3" th:text="${aprCusite}"></span></button>
+				</div>
+			</div>
+				<div class="mt-1"></div>
+				<!-- <div align="right" style="margin-bottom: -32px;">
+					<button type="button" class="btn btn-info" id="clear"
+						onclick="refreshPage()">Clear</button>
+				</div> -->
+				<div id="allinitview">
+				<div id="allotview" style="display: none;">
+				
+ <div class="col-md-12 row">
+	<!-- div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options">						
+					<a class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+		<div class="col-md-1" style="display:flex;">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div> --></div>  
+					<table id="alltab" class="table table-bordered mt-3 asst1Table"
+						style="font-size: 14px; text-align: center;">
+						<thead style="background-color: #a1c4e6;">
+							<tr style="background-color: #a1c4e6;">
+								<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="17%">Item Category</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="15%">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${allotview}">
+								<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="17%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="15%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button" disabled
+											class="btnDis rowDis" style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="ltrview" style="display: none;">
+	<div class="col-md-12 row">
+<!-- 	<div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" download=""></a>
+				</div> 
+	<a onclick="pdfdownloadLet(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1" style="display:flex;">
+	<a onclick="exceldownloadLet(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div>  --></div>    
+					<table id="ltrtab" class="table table-bordered mt-3 LetasstTable"
+						style="font-size: 14px; text-align: center;">
+						<thead style="background-color: #a1c4e6;">
+							<tr style="background-color: #a1c4e6;">
+							<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="17%">Item Category</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="15%">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${ltrview}">
+							<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+							<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="17%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="15%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button" disabled
+											class="btnDis rowDis" style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="emsview" style="display: none;">
+	  			<div class="col-md-12 row">
+<!--	<div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" download=""></a>
+				</div> 
+	<a onclick="pdfdownloadEms(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1" style="display:flex;">
+	<a onclick="exceldownloadEms(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div>  -->  </div>
+					<table id="emstab" class="table table-bordered mt-3 f"
+						style="font-size: 14px; text-align: center;">
+						<thead style="background-color: #a1c4e6;">
+							<tr style="background-color: #a1c4e6;">
+							<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="17%">Item Category</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="15%">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${emsview}">
+							<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+							  <td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="17%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="15%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button"
+											class="btnDis rowDis" disabled style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="parview" style="display: none;">
+<div class="col-md-12 row">
+<!--	<div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" download=""></a>
+				</div> 
+	<a onclick="pdfdownloadPar(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1" style="display:flex;">
+	<a onclick="exceldownloadPar(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div> --> </div>  
+					<table id="partab" class="table table-bordered mt-3 ParasstTable"
+						style="font-size: 14px; text-align: center;">
+						<thead style="background-color: #a1c4e6;">
+							<tr style="background-color: #a1c4e6;">
+							<th scope="col" width="1%">No</th>
+							<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="17%">Item Category</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="15%">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${parview}">
+					<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+				<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="17%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="15%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button" disabled
+											name="parbtn" class="btnDis rowDis" style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="empview" style="display: none;">
+	 				<div class="col-md-12 row">
+<!--	<div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" download=""></a>
+				</div> 
+	<a onclick="pdfdownloadEmp(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a onclick="exceldownloadEmp(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div>  -->  </div> 
+					<table id="emptab" class="table table-bordered mt-3 EmptyasstTable"
+						style="font-size: 14px; text-align: center;">
+						<thead style="background-color: #a1c4e6;">
+							<tr style="background-color: #a1c4e6;">
+							<th scope="col" width="1%">No</th>
+										<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="17%">Item Category</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="15%">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${empview}">
+					<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+					<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="17%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="15%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button" disabled
+											class="btnDis rowDis" style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</div>
+
+				<!--div class="row mt-1">
+				<div class="col-md-2">
+					<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1%; margin-right: 1%;"
+					align="left"	id="show-aside-menu">Set aside List</button>
+				</div>
+				<div class="col-md-9">
+					<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1%; margin-right: 1%;"
+					align="center"	id="show-hidden-menu">Returned by AC</button>
+				</div>
+				</div-->
+				<!-- div class="col-md-10" align="right">
+				<p class="tot_no">
+					Total no of Articles Returned by AC : <span class="numradius"
+						th:id="queAprCount" th:text="${aprCusite}"> </span>
+				</p>
+			</div>
+		</div-->
+				<div class="row mt-2"></div>
+				<div class="aside-menu mt-5" style="display: none;">
+				<div align=center class="row gray_note"
+					style="margin-left: 1%; margin-right: 1%;">
+					<div align="left" class="col-md-8"
+						style="color: yellow;" >
+						TOTAL ARTICLES IN THE SET ASIDE LIST: <span
+							class="numradius3" th:text="${cousetasideapr}"></span>
+						</font>
+					</div>
+					
+					<div align="right" class="col-md-4">
+						<span
+							style="color: white; ">PAO-QUEUE-</span><font color="yellow">SET ASIDE</font></span>
+					</div>
+			    </div>
+			   <div class="row mt-2"></div>
+				<div id="asideaprview" style="display: none;">
+						<table id="asideapr" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+								<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="17%">Item Category</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="15%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${setasideaprview}">
+				<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+					<td width="15%" th:text="${s1[3]}"></td>
+							 	<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="17%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="15%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="pushead(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;">Resume Assessment</button>
+									</i></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+				</div>
+				<div class="hidden-menu mt-5" id="returnbyac" style="display: none;">
+					<div align=center class="row gray_note"
+						style="margin-left: 1%; margin-right: 1%;">
+						<div class="col-md-6" align="left"
+							style="color: white; font-size: 16px;">
+							<STRONG>TOTAL ARTICLES IN THE EAD: <span
+								class="numradius3" th:text="${aprCusite}"></span>
+							</STRONG></font>
+						</div>
+						<div align="center" class="col-md-2"></div>
+						<div align="right" class="col-md-4">
+							<STRONG><span
+								style="color: white; font-size: 16px;">PAO-QUEUE-</span><font color="YELLOW">RETURNED
+									BY AC</font> </STRONG>
+						</div>
+						<div class="col-md-12 mt-2"></div>
+						<div class="col-md-2 bordstyle" align="center"
+							style="margin-left: 4%; color: white; background: dimgray; font-size: 16px;">
+							<button type="button" style="width: 100%;" id="btn11" onclick="showview(1,2)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'U - Letters'))}"
+								class="buttonstyle">
+								<STRONG> &nbsp;U - Letters : <span class="numradius1"
+									th:text="${coultrapr}"></span></strong>
+							</button>
+						</div>
+						<div class="col-md-2 bordstyle" align="center"
+							style="margin-left: 1%; color: white; background: dimgray; font-size: 16px;">
+							<button type="button" style="width: 100%;" id="btn12" onclick="showview(2,2)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'E - EMS'))}"
+								class="buttonstyle">
+								<strong> &nbsp;E - EMS : <span class="numradius1"
+									th:text="${couemsapr}"></span></strong>
+						</div>
+						<div class="col-md-2 bordstyle" align="center"
+							style="margin-left: 1%; color: white; background: dimgray; font-size: 16px;">
+							<button type="button" style="width: 100%;" id="btn13" onclick="showview(3,2)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'C - Parcels'))}"
+								class="buttonstyle">
+								<strong> &nbsp;C - Parcels : <span class="numradius1"
+									th:text="${couparapr}"></span></strong>
+						</div>
+						<div class="col-md-2 bordstyle" align="center"
+							style="margin-left: 1%; color: white; background: dimgray; font-size: 16px;">
+							<button type="button" style="width: 100%;" id="btn14" onclick="showview(4,2)" th:disabled="${!(#strings.contains(dispmailcat ?: '', 'T - Emp. Receptacles'))}"
+								class="buttonstyle">
+								<strong> &nbsp;T - Emp.Recp.: <span class="numradius1"
+									th:text="${couempapr}"></span></strong>
+						</div>
+						<div class="col-md-2 bordstyle" align="center"
+							style="margin-left: 1%; color: white; background: dimgray; font-size: 16px;">
+							<button type="button" style="width: 100%;" id="btn15" onclick="showview(5,2)"
+								class="buttonstyle">
+								<strong> &nbsp;ALL: <span class="numradius1"
+									th:text="${aprCusite}"></span></strong>
+						</div>
+					</div>
+					<!-- <div align="right" style="margin-bottom: -32px;">
+						<button type="button" class="btn btn-info" id="clear11"
+							onclick="refreshPage(10)">Clear</button>
+					</div> -->
+					<div id="aprview" style="display: none;">
+						<table id="alltabapr" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+								<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${APRview}">
+							<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+		                        <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;"><span th:text="${s1[7]}"></span></button>
+									</i></td>							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="aprltrview" style="display: none;">
+						<table id="ltrtabapr" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+									<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${APRltrview}">
+								<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+	                            <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;"><span th:text="${s1[7]}"></span></button>
+									</i></td>								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="apremsview" style="display: none;">
+						<table id="emstabapr" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+									<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${APRemsview}">
+							<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+	                            <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;"><span th:text="${s1[7]}"></span></button>
+									</i></td>							</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="aprparview" style="display: none;">
+						<table id="partabapr" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+								<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${APRparview}">
+					<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+	                            <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;"><span th:text="${s1[7]}"></span></button>
+									</i></td>								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div id="aprempview" style="display: none;">
+						<table id="emptabapr" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+									<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${APRempview}">
+						<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+	                            <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;"><span th:text="${s1[7]}"></span></button>
+									</i></td>							</tr>
+							</tbody>
+						</table>
+					</div>
+					</div-->
+				</div>
+
+			</div>
+		
+		<div style="display: none" id="showACL" class="mt-1">
+		<div align=center class="row gray_note"
+					style="margin-left: 1%; margin-right: 1%;">
+					<div align="left" class="col-md-9"
+						style="color: yellow;" >
+						TOTAL ARTICLES IN CURRENT QUEUE : <span
+							class="numradius3" th:text="${aclCusite}"></span>
+						</font>
+					</div>
+					
+					<div align="right" class="col-md-3">
+						<span
+							style="color: white; ">PAC-QUEUE-</span><font color="yellow">NEW</font></span>
+					</div>
+					<div class="col-md-12 mt-1"></div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 4%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn1" onclick="showview(1,3)" 
+							class="buttonstyle">
+							<STRONG> &nbsp;U - Letters : <span class="numradius3"
+								th:text="${coultracl}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn2" onclick="showview(2,3)" 
+							class="buttonstyle">
+							<strong> &nbsp;E - EMS : <span class="numradius3"
+								th:text="${couemsacl}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn3" onclick="showview(3,3)" 
+							class="buttonstyle">
+							<strong> &nbsp;C - Parcels : <span class="numradius3"
+								th:text="${couparacl}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn4" onclick="showview(4,3)"
+							class="buttonstyle">
+							<strong> &nbsp;T - Emp.Recp.: <span class="numradius3"
+								th:text="${couempacl}"></span></strong>
+						</button>
+					</div>
+					<div class="col-md-2 bordstyle" align="center"
+						style="margin-left: 1%; color: white; background: dimgray; font-size: 16px;">
+						<button type="button" style="width: 100%;" id="btn5" onclick="showview(5,3)"
+							class="buttonstyle">
+							<STRONG>ALL : <span class="numradius3"
+								th:text="${aclCusite}"></span>
+							</STRONG>
+						</button>
+					</div>
+				</div>
+		<div class="row mt-2"  style="margin-left:1%">
+		<div class="col-md-2" th:if="${session.data1 == 'PAO'}">
+		<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1%; margin-right: 1%;"
+					align="left"	id="show-asideacl-menu">Set aside List</button>
+		</div>
+		</div>
+			<div class="mt-2"></div>
+			<!-- <div align="right" style="margin-bottom: -32px;">
+				<button type="button" class="btn btn-info" id="clear"
+					onclick="refreshPage()">Clear</button>
+			</div> -->
+			<div id="acltab">
+			<div id="ACLview" style="display: none;margin: 0 30px;">
+				<table id="alltabacl" class="table table-bordered mt-3 asstTable"
+					style="font-size: 14px; text-align: center;">
+					<thead style="background-color: #a1c4e6;">
+						<tr style="background-color: #a1c4e6;">
+						<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="13%">Assessable Val (INR)</th>
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="12%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr valign="middle" class="rowDis" th:each="s1,iter : ${ACLview}">
+						<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="13%" th:text="${s1[7]}"></td>
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="12%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+									<!-- <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled th:text="${s1[9]}"
+												class="btnDis rowDis" style="padding: 0px;"></button>
+									</i></td> -->
+									<td width="25%" align="center">
+									<i aria-hidden="true">
+											<button th:id="${s1[0]}" onclick="viewDetail(this);" type="button"  th:text="${s1[9]}"
+												class="btn btn-success btnDis rowDis" style="padding: 0px;"></button>
+									</i>
+								</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="ACLltrview" style="display: none;">
+				<table id="ltrtabacl" class="table table-bordered mt-3 asstTable"
+					style="font-size: 14px; text-align: center;">
+					<thead style="background-color: #a1c4e6;">
+						<tr style="background-color: #a1c4e6;">
+						<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr valign="middle" class="rowDis"
+							th:each="s1,iter : ${ACLltrview}">
+					<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+				                <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled th:text="${s1[9]}"
+												class="btnDis rowDis" style="padding: 0px;"></button>
+									</i></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="ACLemsview" style="display: none;">
+				<table id="emstabacl" class="table table-bordered mt-3 asstTable"
+					style="font-size: 14px; text-align: center;">
+					<thead style="background-color: #a1c4e6;">
+						<tr style="background-color: #a1c4e6;">
+					<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr valign="middle" class="rowDis"
+							th:each="s1,iter : ${ACLemsview}">
+					   	<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+				                <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled th:text="${s1[9]}"
+												class="btnDis rowDis" style="padding: 0px;"></button>
+									</i></td>						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="ACLparview" style="display: none;">
+				<table id="partabacl" class="table table-bordered mt-3 asstTable"
+					style="font-size: 14px; text-align: center;">
+					<thead style="background-color: #a1c4e6;">
+						<tr style="background-color: #a1c4e6;">
+						<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr valign="middle" class="rowDis"
+							th:each="s1,iter : ${ACLparview}">
+						<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+	                            <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled  th:text="${s1[9]}"
+												class="btnDis rowDis" style="padding: 0px;"></button>
+									</i></td>					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="ACLempview" style="display: none;">
+				<table id="emptabacl" class="table table-bordered mt-3 asstTable"
+					style="font-size: 14px; text-align: center;">
+					<thead style="background-color: #a1c4e6;">
+						<tr style="background-color: #a1c4e6;">
+					<th scope="col" width="1%">No</th>
+									<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+							
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr valign="middle" class="rowDis"
+							th:each="s1,iter : ${ACLempview}">
+						<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+		                        <td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+											<button th:id="${iter.index+1}" type="button" disabled  th:text="${s1[9]}"
+												class="btnDis rowDis" style="padding: 0px;"></button>
+									</i></td>					</tr>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		<!--div class="row mt-2">
+		<div class="col-md-2">
+		<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1%; margin-right: 1%;"
+					align="left"	id="show-asideacl-menu">Set aside List</button>
+		</div>
+		</div-->
+		<div class="row mt-2"></div>
+		<div class="asideacl-menu" style="display: none;">
+		<div align=center class="row gray_note"
+					style="margin-left: 1%; margin-right: 1%;">
+					<div align="left" class="col-md-8"
+						style="color: yellow;" >
+						TOTAL ARTICLES IN THE SET ASIDE LIST: <span
+							class="numradius3" th:text="${cousetasideacl}"></span>
+						</font>
+					</div>
+					
+					<div align="right" class="col-md-4">
+						<span
+							style="color: white; ">PAC-QUEUE-</span><font color="yellow">SET ASIDE</font></span>
+					</div>
+			    </div>
+	    <div class="row mt-2"></div>
+		<div id="asideaclview" style="display: none;">
+						<table id="asideacl" class="table table-bordered mt-3 asstTable"
+							style="font-size: 14px; text-align: center;">
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+								<th scope="col" width="1%">No</th>
+								<th scope="col" width="15%">Article ID / Item ID</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								
+								<th scope="col" width="1%">MailClass</th>
+								<th scope="col" width="35%">Item Category</th>
+								<th scope="col" width="1%">COO</th>
+								<th scope="col" width="25%">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr valign="middle" class="rowDis"
+									th:each="s1,iter : ${setasideaclview}">
+							<td  width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+								<td width="15%" th:text="${s1[3]}"></td>
+								<td width="1%" th:text="${s1[2]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								
+								<td width="1%" th:text="${s1[5]}"></td>
+								<td width="35%" th:text="${s1[6]}"></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="pushead(this);">
+											<button th:id="${iter.index+1}" type="button" disabled
+												class="btnDis rowDis" style="padding: 0px;">REMOVE SET ASIDE</button>
+									</i></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					
+		</div></div>
+					<div id="itdocview" style="display: none;position: relative;">
+	<div align="center" >
+					<strong><font size=5>	Process "DOCUMENTS" </font></strong>
+					</div>
+  	<div class="col-md-12 row">
+<!--	<div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options col-mb-1" >						
+					<a style="display: none;" class="download-Docs" href="#" download=""></a>
+				</div> 
+	<a onclick="pdfdownloadLet(this)" title="PDF">
+				<button class="btn btn-primary" >Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1" style="display:flex;">
+	<a onclick="exceldownloadLet(this)" title="PDF">
+				<button class="btn btn-success" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div> --> </div>  
+				        <div class="col-md-12 " style="margin-top: 15px;">
+						<table id="doctab" class="table table-bordered   " 
+							style="text-align: center;align:center;width:100%;display: block;font-size:14px;"  >
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+									<th scope="col" width="1%">No</th>
+							
+				<th scope="col" width="10%">Article ID / Item ID (Click <img style="transform: rotate(180deg);" src="images/handdownpointerde.png" width="20px" height="20px"> to view CN22/23 Summary)</th>
+											<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="6%">Item Category</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="7%">Duty(INR)</th>
+								<th scope="col" width="7%">Duty Payable(INR)</th>
+								<th scope="col" style="vertical-align: middle;" width="8%">Select Many <br><input type="checkbox" id="chkselallass"  style="width:24px;height:24px;vertical-align: middle;" ><br>Bulk Assess</th>
+								<th scope="col" width="20%">Action</th>
+								</tr>
+							</thead>
+							<tbody id="doctabbody">
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${docview}" >
+							<td  width="1%" style="height:15px;vertical-align: middle;" th:text="${iter.index+1}"></td>
+							<input type="hidden" id="cinno" name="cinno" th:value="${s1[0]}" />
+						    <input type="hidden" id="itmid" name="itmid" th:value="${s1[3]}" />
+							  <td width="10%" th:text="${s1[3]}" th:id="${iter.index+1}" onclick="viewSummary(this)"></td>
+								<td width="1%" th:text="${s1[2]}" ></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="6%" th:text="${s1[6]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="7%" th:text="${s1[9]}"></td>
+								<td width="7%" th:text="${s1[10]}"></td>
+								<td  width="8%" style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkboxass" class="chckbx" name="chkboxass[]" style="width:24px;height:24px"
+												 title="Check to finish ASSESSMENT..." ></td>
+								<td width="20%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button"
+											class="btnDis rowDis" disabled style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+						</table>
+						</div>
+					<div class="col-md-4" align="center"><button type="button" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+						onclick="asssubmitall()" id="suball" disabled><strong>Click to complete EAD assessment for all the selected Articles</strong></button></div>
+					<div class="row">
+					<div class="col-md-12" style="margin-left:5%;" align="left">
+					Note:<br>1.  Click any Article ID / Item ID  to view the CN22 / 23  Summary of the Article ID<br>2. To set aside, to give first check, to raise query / generate D-CALL letter or to give Examination Order, please click Process EAD for detailed assessment.
+					</div></div>
+					</div>
+					
+					
+					
+					<div id="bulkview" style="display: none;position: relative;">
+	<div align="center" >
+					<strong><font size=5>	Process "De minimis" </font></strong>
+					</div>
+  	<div class="col-md-12 row">
+<!--	<div class="col-md-10" style="display: flex;justify-content : end;margin-left: 90px;">
+				<div class="Export-options col-mb-1" >						
+					<a style="display: none;" class="download-Docs" href="#" download=""></a>
+				</div> 
+	<a onclick="pdfdownloadLet(this)" title="PDF">
+				<button class="btn btn-primary" >Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1" style="display:flex;">
+	<a onclick="exceldownloadLet(this)" title="PDF">
+				<button class="btn btn-success" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div> --> </div>  
+				        <div class="col-md-12 " style="margin-top: 15px;">
+						<table id="bulktab" class="table table-bordered   " 
+							style="text-align: center;align:center;width:100%;display: block;font-size:14px;"  >
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+									<th scope="col" width="1%">No</th>
+							<th scope="col" width="10%">Article ID / Item ID (Click <img style="transform: rotate(180deg);" src="images/handdownpointerde.png" width="20px" height="20px"> to view CN22/23 Summary)</th>
+								<th scope="col" width="1%">Posting Dt</th>
+								<th scope="col" width="1%">Country</th>
+								<th scope="col" width="5%">MailClass</th>
+								<th scope="col" width="6%">Item Category</th>
+								<th scope="col" width="11%">CIN</th>
+								<th scope="col" width="10%">CIN Dt</th>
+								<th scope="col" width="10%">No. of Items</th>
+								<th scope="col" width="12%">Assessable Val(INR)</th>
+								<th scope="col" width="7%">Duty(INR)</th>
+								<th scope="col" width="7%">Duty Payable(INR)</th>
+								<th scope="col" style="vertical-align: middle;" width="8%">Select Many <br><input type="checkbox" id="chkselblkass"  style="width:24px;height:24px;vertical-align: middle;" ><br>Bulk Assess</th>
+								<th scope="col" width="20%">Action</th>
+								</tr>
+							</thead>
+							<tbody id="bulktabbody">
+							<tr valign="middle" class="rowDis" th:each="s1,iter : ${bulkview}" >
+							<td  width="1%" style="height:15px;vertical-align: middle;" th:text="${iter.index+1}"></td>
+							<input type="hidden" id="cinno" name="cinno" th:value="${s1[0]}" />
+						    <input type="hidden" id="itmid" name="itmid" th:value="${s1[3]}" />
+							  <td width="10%" th:text="${s1[3]}" th:id="${iter.index+1}" onclick="viewSummaryb(this)"></td>
+								<td width="1%" th:text="${s1[2]}" ></td>
+								<td width="1%" th:text="${s1[4]}"></td>
+								<td width="5%" th:text="${s1[5]}"></td>
+								<td width="6%" th:text="${s1[6]}"></td>
+								<td  width="11%" th:text="${s1[0]}"></td>
+								<td width="10%" th:text="${s1[1]}"></td>
+								<td width="10%" th:text="${s1[8]}"></td>
+								<td width="12%" th:text="${s1[7]}"></td>
+								<td width="7%" th:text="${s1[9]}"></td>
+								<td width="7%" th:text="${s1[10]}"></td>
+								<td  width="8%" style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkboxblk" class="chckbxblk" name="chkboxblk[]" style="width:24px;height:24px"
+												 title="Check to finish ASSESSMENT..." ></td>
+								<td width="20%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button"
+											class="btnDis rowDis" disabled style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr>
+						</tbody>
+						</table>
+						</div>
+					<div class="col-md-4" align="center"><button type="button" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+						onclick="asssubmitallblk()" id="suballblk" disabled><strong>Click to complete EAD assessment for all the selected Articles</strong></button></div>
+					<div class="row">
+					<div class="col-md-12" style="margin-left:5%;" align="left">
+					Note:<br>1.  Click any Article ID / Item ID  to view the CN22 / 23  Summary of the Article ID<br>2. To set aside, to give first check, to raise query / generate D-CALL letter or to give Examination Order, please click Process EAD for detailed assessment.
+					</div></div>
+					</div>
+					
+		<div id="bulkexpview" style="display: none;position: relative;">
+	<div align="center" >
+					<strong><font size=5>Process "Express Assessment" </font></strong>
+					</div>
+  	<div class="col-md-12 row">			
+				        <div class="col-md-12 " style="margin-top: 15px;">
+						<table id="bulkexptab" class="table table-bordered" 
+							style="text-align: center;align:center;width:100%;display: block;font-size:14px;"  >
+						<!-- <thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+									<th scope="col" width="1%">No</th>
+							<th scope="col" width="10%">Article ID / Item ID (Click <img style="transform: rotate(180deg);" src="images/handdownpointerde.png" width="20px" height="20px"> to view CN22/23 Summary)</th>
+								<th rowspan=2 scope="col" width="1%" style="vertical-align: middle;">Posting Dt</th>
+								<th rowspan=2 scope="col" width="1%" style="vertical-align: middle;">Country</th>
+								<th rowspan=2 scope="col" width="5%" style="vertical-align: middle;">MailClass</th>
+								<th rowspan=2 scope="col" width="6%" style="vertical-align: middle;">Item Category</th>
+							    <th rowspan=2 scope="col" width="19%" style="vertical-align: middle;">Name & Address of the Recipient</th>
+								<th rowspan=2 scope="col" width="2%" style="vertical-align: middle;">No. <br>of <br>Items</th>
+								<th rowspan=2 scope="col" width="25%" style="vertical-align: middle;">Item Description</th>
+								<th rowspan=2 scope="col" width="5%" style="vertical-align: middle;">Total <br>Assessable <br>Val(INR)</th>
+						        <th colspan=2 scope="col" width="10%">(Click <img style="transform: rotate(180deg);" src="images/handdownpointerde.png" width="20px" height="20px"> to view Duty Details)</th>
+								<th rowspan=2  scope="col" style="vertical-align: middle;" width="5%">Select</th>
+								<th rowspan=2  scope="col" width="10%" style="vertical-align: middle;">For Query / Examination</th>
+								</tr>
+								<tr>
+								<th scope="col" width="5%">Total <br>Duty<br>(INR)</th>
+								<th scope="col" width="5%">Total <br>Duty <br>Payable(INR)</th></tr>
+							</thead> -->
+							<thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+								<th rowspan=2 scope="col" style="vertical-align: middle;" width="1%">No</th>
+								<th rowspan=2 scope="col" style="vertical-align: middle;" width="10%">Article ID / Item ID (Click <img style="transform: rotate(180deg);" src="images/handdownpointerde.png" width="20px" height="20px"> to view CN22/23 Summary)</th>
+								<th rowspan=2 scope="col" width="1%" style="vertical-align: middle;">Posting Dt</th>
+								<th rowspan=2 scope="col" width="1%" style="vertical-align: middle;">Country</th>
+								<th rowspan=2 scope="col" width="5%" style="vertical-align: middle;">MailClass</th>
+								<th rowspan=2 scope="col" width="6%" style="vertical-align: middle;">Item Category</th>
+							    <th rowspan=2 scope="col" width="19%" style="vertical-align: middle;">Name & Address of the Recipient</th>
+								<th rowspan=2 scope="col" width="2%" style="vertical-align: middle;">No. <br>of <br>Items</th>
+								<th rowspan=2 scope="col" width="25%" style="vertical-align: middle;">Item Description</th>
+								<th rowspan=2 scope="col" width="5%" style="vertical-align: middle;">Total <br>Assessable <br>Val(INR)</th>
+						        <th colspan=2 scope="col" width="10%">(Click <img style="transform: rotate(180deg);" src="images/handdownpointerde.png" width="20px" height="20px"> to view Duty Details)</th>
+								<th rowspan=2  scope="col" style="vertical-align: middle;" width="5%">Select</th>
+								<th rowspan=2  scope="col" width="10%" style="vertical-align: middle;">For Query / Examination</th>
+								
+								</tr>
+								<tr>
+								<th scope="col" width="5%">Total <br>Duty<br>(INR)</th>
+								<th scope="col" width="5%">Total <br>Duty <br>Payable(INR)</th></tr>
+							</thead>
+							
+							
+							<tbody id="bulkexptabbody">
+							 <tr valign="middle" class="rowDis" th:each="s1,iter : ${bulkexpview}" >
+							<td  width="1%" style="height:15px;vertical-align: middle;" th:text="${iter.index+1}"></td>
+							<input type="hidden" id="cinno" name="cinno" th:value="${s1[0]}" />
+						    <input type="hidden" id="itmid" name="itmid" th:value="${s1[3]}" />
+							  <td width="10%" style="vertical-align: middle;" th:text="${s1[3]}" th:id="${iter.index+1}" onclick="viewSummaryC(this)"></td>
+								<td width="1%" style="vertical-align: middle;" th:text="${s1[2]}" ></td>
+								<td width="1%" style="vertical-align: middle;" th:text="${s1[4]}"></td>
+								<td width="5%" style="vertical-align: middle;" th:text="${s1[5]}"></td>
+								<td width="6%" style="vertical-align: middle;" th:text="${s1[6]}"></td>
+								<td width="19%" style="vertical-align: middle;"th:text="${s1[7]}"></td>
+								<td width="2%" style="vertical-align: middle;" th:text="${s1[8]}"></td>
+								<td width="25%" style="vertical-align: middle;" th:text="${s1[9]}"></td>
+								<td width="5%" style="vertical-align: middle;" th:text="${s1[10]}"></td>
+								<td width="5%"  style="vertical-align: middle;"th:text="${s1[11]}"></td>
+								<td width="5%" style="vertical-align: middle;" th:text="${s1[12]}"></td>
+								<td  width="5%" style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkboxblkexp" class="chckbxblkexp" name="chkboxblkexp[]" style="width:24px;height:24px"
+												 title="Check to finish Express ASSESSMENT..." ></td>
+								<td width="10%" align="center" style="vertical-align: middle;"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="viewDetail(this);">
+										<button th:id="${iter.index+1}" type="button"
+											class="btnDis rowDis" disabled style="padding: 0px;">Process
+											EAD</button>
+								</i></td>
+							</tr> 
+						</tbody>
+						</table>
+						</div>
+					</div>
+					<div class="col-md-4" align="center"><button type="button" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+						onclick="asssuballexpblk()" id="suballblkexp" disabled><strong>Click to complete Express EAD assessment for all the selected Articles</strong></button></div>
+					<div class="row">
+					<div class="col-md-12" style="margin-left:5%;" align="left">
+					Note:<br>1.  Click any Article ID / Item ID  to view the CN22 / 23  Summary of the Article ID<br>2. To set aside, to give first check, to raise query / generate D-CALL letter or to give Examination Order, please click Process EAD for detailed assessment.
+					</div>
+					</div>
+					
+					
+					
+		
+	 </div>
+	<br><br>
+	</div>
+	
+	<div id="logout" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div></div>
+
+     <div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+	<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+
+
+
+ <div class="modal fade" id="exampleModalass" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4 id="assmsg"></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="asssuball()" style="background-color:green">Yes</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="bulkconf">
+		<div class="modal-dialog  modal-dialog-centered" align="center">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4 id="blkassmsg">
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="bulkcont()" style="background-color:green">Yes</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="bulkdocconf">
+		<div class="modal-dialog  modal-dialog-centered" align="center">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4 id="blkdocassmsg">
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="bulkdocuments()" style="background-color:green">Yes</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="bulkexpassconf" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document" align="center">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4 id="blkexpassmsg">
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="bulkexpcont()" style="background-color:green">Yes</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<!--div class="modal fade" id="assModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">ASSESSMENT IS COMPLETED FOR ALL SELECTED</font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-12" align="right">
+					<!--button type="button" class="btn btn-primary" onclick="refresh()" style="background-color:green">OK</button></div>
+					<button type="button" class="btn btn-primary" style="background-color:green" onclick="asscomp()">OK</button></div>
+							
+					</a>
+				</div>
+			</div>
+		</div>
+	</div-->
+	
+	
+	
+	
+	<div class="modal fade"  id="dispalldetpopup"  >	
+		<div class="modal-dialog  modal-lg" style="max-width: max-content;border-color:darkblue;margin-top:10%" role="document">	
+			<div class="modal-content">	
+				<div class="modal-body dispalldet"  align="center" style="postion:relative;vertical-align:middle;">	
+				<input type="hidden" th:id="rowcount">	
+				<h4 align="center" id="dispitmid"></h4>
+				<table width="100%" id="ITEMREC" class="table" border=2 bordercolor="gray"	
+							style="background: none; padding:15px;">	
+							<thead class="table-primary">								
+								<tr class="dlheader" style="background-color: #a1c4e6;">	
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; ITMNO&nbsp;&nbsp; </td>	
+									<td class="dlheader" align=center style="color: black;">&nbsp;&nbsp; DESCRIPTION&nbsp;&nbsp; </td>	
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; CTH&nbsp;&nbsp; </td>	
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; QTY&nbsp;&nbsp; </td>	
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; ASS.VAL&nbsp;&nbsp; </td>	
+									<td class="dlheader" align=center style="color:black;">&nbsp;&nbsp; TOTAL DUTY&nbsp;&nbsp; </td>	
+									<td class="dlheader"  align=center style="color:black;">&nbsp;&nbsp; BCD&nbsp;&nbsp; </td>	
+									<td class="dlheader" align=center style="color:black;">&nbsp;&nbsp; IGST&nbsp;&nbsp; </td>	
+									<td class="dlheader"  align=center style="color:black;">&nbsp;&nbsp; SWS&nbsp;&nbsp; </td>	
+									<td class="dlheader"  align=center style="color:black;">&nbsp;&nbsp; OTHER DUTY&nbsp;&nbsp; </td>	
+								</tr>	
+							</thead>	
+							<tbody style="color: gray;" id="dataid">	
+								<tr>	
+								<td class="dlinfo" align=center id="itmno">	
+								<td class="dlinfo" align=center id="itmdesc">	
+								<td class="dlinfo" align=center id="cth">	
+								<td class="dlinfo" align=center id="nou">	
+								<td class="dlinfo" align=center id="assval">	
+								<td class="dlinfo" align=center id="duty">	
+								<td class="dlinfo" align=center id="bcd">	
+								<td class="dlinfo" align=center id="igst">	
+								<td class="dlinfo" align=center id="sws">	
+								<td class="dlinfo" align=center id="oth">	
+								</tr>	
+							</tbody>	
+				  </table>
+				  <div  align="right">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="deltabledata()" style="background-color:green">OK</button>
+					</div>	
+				   </div>	
+			  </div>	
+	   </div>	
+	   </div>	
+	</Modal>
+	
+	
+	
+	
+	
+	
+	
+	<div class="modal fade" id="decisionModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="max-width: 650px!important;border-color:darkblue;" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 align="center" id="compmsg"></h4>
+				</div>
+				<div class="bg_clr" style="margin: 0 20px;">
+				<table class="table mt-3" border="1" style="border-color:darkred;text-align: center;">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col" style="align:center" ></th>
+							<th scope="col" style="align:center" >EAD Decision Communicated to India Post</th>
+							<th scope="col" style="align:center" >Select</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="col" style="align:center" >1</th>
+							<th scope="col" style="align:center" >Item must be presented</th>
+							<th scope="col" style="align:center" th:text="'&#10004;&#65039;'"></th>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+				<div class="modal-body" align="center">
+					<h4><font color="black">All the completed assessment Article IDs<br> will be moved to OOC Queue on arrival of the articles.</font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-12" align="right">
+					<!--button type="button" class="btn btn-primary" onclick="refresh()" style="background-color:green">OK</button></div-->
+					<button type="button" class="btn btn-primary" style="background-color:green" onclick="movooc()">OK</button></div>
+							
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="summaryModalTitle" style="font-weight: bold;text-transform: uppercase;">Article Summary</h5>
+                    <button type="button" class="close" onclick="closeSummaryModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="summaryModalBody">
+                </div>
+                	<div  align="right">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="closeSummaryModal()" style="background-color:green">OK</button>
+					</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/ead_list.js"></script>
+<script src="js/header.js"></script>
+<script language="JavaScript">
+ /*  document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+       
+    } */
+    
+  /*      function goback() {
+     window.location = "ead_list";
+     } */
+</script>
+</html>

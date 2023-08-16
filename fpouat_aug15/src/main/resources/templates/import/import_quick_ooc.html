@@ -1,0 +1,636 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<link th:href="@{css/bootstrap1.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<!--script th:src="@{js/font.js}"></script-->
+<link th:href="@{css/datatables.min.css}" rel="stylesheet"
+	type="text/css" />
+ <script th:src="@{js/report/sweetalert.js}"></script>
+ <script th:src="@{js/sweetalert.min.js}"></script> 
+<script th:src="@{js/moment.min.js}"></script>
+
+
+<style>
+
+.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+
+
+.lab_txt {
+	font-size: 14px;
+	color: blue;
+}
+
+.scroll_down{
+	height: 620px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.scroll_item {
+	height: 460px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.flash
+{
+padding : 12px 15px;
+font-size : 16px;
+border-radius : 5px;
+animation-name:blink;
+animation-duration:1s;
+animation-timing-function:linear;
+animation-iteration-count:infinite;
+}
+
+
+@keyframes blink{
+0%{opacity: 0;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
+
+
+/*table.dataTable thead .sorting {
+    background-image: url(/DataTables-1.10.21images/sort_both.png);
+}
+table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+    cursor: none;
+   
+}*/
+
+.buttonstyle {
+	color: white;
+	font-size: 12px;
+	background: dimgray;
+	padding: 10px;
+	border-radius: 30px;
+	border: 2px solid #4a4d5d;
+	border-left: solid #4a4d5d 2px;
+	border-top: solid #4a4d5d 2px;
+}
+
+.buttonstyles {
+	border: 2px solid white;
+	border-radius: 20px;
+	color: white;
+	font-size: 20px;
+}
+
+.odd {
+	background: gray;
+	color: white;
+}
+
+.even {
+	background: dimgray;
+	color: white;
+}
+
+btndis {
+	color: white;
+}
+
+.bordstyle {
+	border: 2px solid white;
+	background: dimgray;
+	border-radius: 20px;
+	padding: 2px;
+}
+
+.bordstyleh {
+	border: 2px solid white;
+	background: #1d90b3 ;
+    border-radius : 5px;
+	padding: 2px;
+}
+
+html, body {
+	overflow-x: hidden;
+}
+
+.tot_no {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.tot_no1 {
+	font-size: 13px;
+	font-weight: 700;
+	color: red;
+}
+
+.dataTables_wrapper .dataTables_filter {
+	float: right;
+	margin-right: 85px;
+}
+
+.dataTables_wrapper {
+	position: static;
+	clear: both;
+	zoom: 1;
+}
+
+.numradius1 {
+	border: 2px solid #4a4d5d;
+	background-color: #ff6565;
+	color: white;
+	font-size: 16px;
+	border-radius: 20px;
+	padding: 1px;
+}
+
+.numradius2 {
+	color:#47f525;
+	font-size: 16px;
+}
+
+.numradius3 {
+	color:#25ebf5;
+	font-size: 16px;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: #17a2b8;
+	color: white;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.dispval {
+	font-color: white;
+}
+
+.occ_note {
+	background-color: #4a4d5d;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 20px;
+}
+
+.gray_note {
+	background-color: #808080;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 20px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+	padding: 10px 10px;
+}
+
+table.dltrc {
+	width: 100%;
+	align: center;
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: solid darkbrown 2px;
+	border-radius: 8px;
+	font-color: white;
+	font-size: 14px;
+}
+
+tr.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	padding: 2px
+}
+
+
+tr.dlinfo, td.dlinfo {
+	text-align: center;
+	font-color: black;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-top: solid darkbrown 2px;
+	padding: 1px
+}
+
+td.dlinfo:first-child, td.dlheader:first-child {
+	border-left: none;
+}
+
+td.dlheader:first-child {
+	border-radius: 5px 0 0 0;
+}
+
+td.dlheader:last-child {
+	border-radius: 0 5px 0 0;
+}
+
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+</style>
+
+<body style="background: #d6dcd9; overflow-x: hidden;">
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />   
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<input type="hidden" th:value="${session.data}" id="empId" />
+	<input type="hidden" th:value="${session.data1}" id="role" />
+	<input type="hidden" th:value="${allotmailcat}" id="mailcat" />
+	<input type="hidden" th:value="${cusite}" id="aprcou" />
+	<input type="hidden" th:value="${aclCusite}" id="aclcou" />
+	<input type="hidden" th:value="${aprCusite}" id="aprret" />
+	<input type="hidden" th:value="${cousetasideapr}" id="setasideapr" />
+	<input type=hidden id="sttime" th:value="${session.stime}">
+	<input type="hidden" id="fname" th:value="import_quick_ooc"> 
+
+
+	<div class="">
+	<div style="background-color: #67acb5;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;">
+		<div class="col-md-1" style="margin-top: 5px;padding-top: 10px;padding-left: 5px;">
+			<a href="import_role"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div><div class="mt-1" align="center">
+			<h2>Postal Imports -  Articles Arrived at FPO - BULK OOC</h2>
+		</div>
+               
+
+		<div class="row" style="margin-left : 1%; margin-right: 1%;">
+			<div class="col-md-6" >
+				
+			</div>
+			<div class="col-md-6" align="right">
+				<p class="tot_no">
+					<span style="color: white; font-size: 16px;">
+						TOTAL ARTICLES IN THE OOC QUEUE <span class="numradius" th:text="${couooc}" >
+					</span>
+				</p>
+			</div>
+		</div>
+		<div class="row">
+		<div class="col-md-2"></div>
+       <div id="showallotooc" class="col-md-7 bordstyleh" align=center style="display:none;">
+			<strong><font color="yellow" >ALLOTTED MAIL CLASSES FOR OOC &nbsp; : &nbsp;<font color="white"><span th:text="${dispmailcat}"></span></font></strong></div>
+       
+	   </div>
+<div class="row mt-2" align="center">
+            <!--div class="scroll_item"-->			
+            <div id="quickooctab" class="col-md-11" align="center" style="display: block; margin-left: 4%;">
+			<table   id="ooctab" class="table table-bordered mt-3 oocTable"
+				style="font-size: 14px; text-align: center; vertical-align: middle;">
+				<thead style="background-color: #9abed8cc;">
+					<tr class="dlheader" style="background-color: #9abed8cc;font-weight:bold">
+						<th style="vertical-align: middle;" scope="col" width="1%">No</th>
+						<th style="vertical-align: middle;" scope="col" width="12%">ARTICLE ID / ITEM ID<br>POSTING DT</th>
+						<th style="vertical-align: middle;" scope="col" width="8%">CIN <br>Date</th>
+						<th style="vertical-align: middle;" scope="col" width="5%">EAD <br>Decision<br>Date</th>	
+						<th style="vertical-align: middle;" scope="col" width="5%">Arrival<br>Date</th>					
+						<!-- th style="vertical-align: middle;" scope="col" width="8%">Ass.Val<br>Duty</th-->
+						<th style="vertical-align: middle;" scope="col" width="3%">COO</th>
+						<th style="vertical-align: middle;" scope="col" width="3%">Mail<br>Class</th>
+						<th style="vertical-align: middle;" scope="col" width="5%">Item<br>Category</th>
+						<th style="vertical-align: middle;" cope="col" width="8%">From</th>
+						<th style="vertical-align: middle;" cope="col" width="8%">Personal / Commercial</th>
+						<!--th style="vertical-align: middle;" cope="col" width="8%">RMS</th-->
+						<!--th style="vertical-align: middle;" scope="col" width="5%">Facilitated</th>
+						<th style="vertical-align: middle;" scope="col" width="5%">Assmt</th>
+						<th style="vertical-align: middle;" scope="col" width="5%">Examn</th-->
+						<th style="vertical-align: middle;" scope="col" width="5%">Detain</th>						
+						<th scope="col" style="vertical-align: middle;" width="10%">Select Many <br><input type="checkbox" id="chkselall"  style="width:24px;height:24px;vertical-align: middle;" onclick="selall();"><br>Bulk OOC</th>
+						<th  style="vertical-align: middle;"  scope="col" width="15%">Detailed OOC<font size=1><br>(Re-Assmt/<br>Detention/<br>OOC)</font></th>
+					</tr>
+				</thead>
+					<tbody>
+					<tr class="dlinfo" valign="middle" 
+									th:each="s1,iter : ${check}">
+						<td  style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+						<input type="hidden" id="cinno" name="cinno" th:value="${s1[0]}" />
+						<input type="hidden" id="itmid" name="itmid" th:value="${s1[1]}" />
+						<td style="vertical-align: middle;" th:id="${iter.index+1}" onclick="dispalldet(this)"><span th:text="${s1[1]}" width="1%"></span><br><span th:text="${s1[10]}">123</span></td>
+						<td style="vertical-align: middle;" th:id="${iter.index+1}" onclick="dispalldet(this)"><span th:text="${s1[0]}"></span><br><span th:text="${s1[2]}">123</span></td>
+						<td style="vertical-align: middle;"><span  th:text="${s1[4]}" width="5%"></span></td>
+						<td style="vertical-align: middle;"><span th:text="${s1[17]}">123</span></td>
+						<td style="vertical-align: middle;"><span th:text="${s1[3]}" width="12%"></span></td>
+						<td style="vertical-align: middle;"><span th:text="${s1[13]}" width="12%"></span></td>												
+						<td style="vertical-align: middle;"><span th:text="${s1[14]}">123</span></td>
+						<td style="vertical-align: middle;" th:text="${s1[9]}" width="5%">Yes</td>
+						<td style="vertical-align: middle;"><span th:text="${s1[18]  == null ? 'PERSONAL' : 'COMMERCIAL'}"></span></td>
+						<!--  td style="vertical-align: middle;"  width="5%"><button type="button"  style="buttonstyle;border-radius:30px;background:#1c80ec80;color:white" title="CLICK to view RMS Instructions;" id="rmsview"  onclick="rmsview();"><font size="1">VIEW<br>RMS</font></button></td-->
+						<input type="hidden" id="fac"name="fac" th:value="${s1[5]}" />
+						<!--td style="vertical-align: middle;">
+						<div id="showclosefac" style="display:none" >
+						<i style="color: green;font-size:24px; font-align:center"
+										class="fa fa-check" ></i></div>	
+						<div id="showcheckfac" style="display:none" >					
+						<i style="color: red;font-size:24px;font-align:center"
+										class="fa fa-close"></i></div>	
+						</td-->			
+						<input type="hidden" id="ass" name="ass" th:value="${s1[6]}" />
+ 						<!--td  style="vertical-align: middle;">
+ 						<div id="showcheckass" style="display:none" >
+						<i style="color: green;font-size:24px; font-align:center"
+										class="fa fa-circle" ></i></div>	
+						<div id="showcloseass" style="display:none">					
+						<i style="color: red;font-size:24px;font-align:center"
+										class="fa fa-circle"></i></div>		
+ 						</td-->
+						<input type="hidden" id="exm" name="exm" th:value="${s1[7]}" />
+ 						<!--td  style="vertical-align: middle;"> 
+						<div id="showcheckexm" style="display:none" >
+						<i style="color: green;font-size:24px; font-align:center"
+										class="fa fa-circle" ></i></div>	
+						<div id="showcloseexm" style="display:none">				
+						<i style="color: red;font-size:24px;font-align:center"
+										class="fa fa-circle"></i></div>	</td-->
+						<input type="hidden" id="det" name="det" th:value="${s1[8]}" />
+ 						<td style="vertical-align: middle;">
+ 						<div id="showdet" style="display:none">
+						<img src="images/detention.jfif"  width="40px" height="40px"></i></div>						
+ 						</td>
+						<td  style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkbox" class="quickooc" name="chkbox[]" style="width:24px;height:24px"
+												 title="Check to give OOC..." ></td>
+						<td style="vertical-align: middle;"  width="5%"><i aria-hidden="true" th:id="${s1[0]}" title="Click to send back to Assessment / to Detain / Seize"
+							onclick="viewdetooc(this);"><img src="images/handicon.png" width="20px" height="20px">
+							</img></td>
+						</tr>
+				</tbody>
+		<!--/div-->
+	     <!--tfoot-->
+	     <tr style="border:none;"> <td colspan=13 style="border:none;">
+	     <div class="row">
+	     <div class="col-md-4" align="left" style="margin-left:1%">Note: Click any Item ID or CIN to see the brief of the article.</div>
+	     <div class="col-md-4" align="center"><button type="button" class="btn btn-primary"  id="quickoocbtn" style="background-color:green;border-radius:30px"
+						onclick="oocsubmitall()" disabled><strong>Issue OOC</strong></button></div>
+			<!-- div class="col-md-12" align="center" ><button type="button" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+	     					onclick="oocsubmitall()"><strong>Issue OOC</strong></button></div-->
+		 </div></td></tr>
+		<!--/tfoot-->
+		 </table>
+		 </div>
+		 				<br><br>
+		</div>
+	</div>
+	</div>
+	<Modal>
+	 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want to give OOC for all checked ?</font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="suballchecked()" style="background-color:green">Yes</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="oocModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">OOC IS GIVEN FOR ALL SELECTED</font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-12" align="right">
+					<button type="button" class="btn btn-primary" onclick="refresh()" style="background-color:green">OK</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+   	<div class="modal fade"  id="dispalldetpopup"  >
+		<div class="modal-dialog  modal-lg" style="max-width: max-content;postion:relative;">
+			<div class="modal-content">
+				<div class="modal-body dispalldet"  align="center" style="postion:relative;vertical-align:middle;">
+				<input type="hidden" th:id="rowcount">
+				<table border=1>
+				<tr><td colspan="8" align="center"  style= "color:black;background-color: #a1c4e6;"><strong> ARTICLE ID / ITEM ID :&nbsp;&nbsp; <span  th:id="itmiddisp"></span></strong></td></tr>
+				<tr><td align="right"  style= "color:black;background-color: #a1c4e6;"><strong>Receiver Name : </strong>&nbsp;<td align=left colspan=7>&nbsp;&nbsp;<span  th:id="rname"></span></td></tr>
+				<tr><td align="right"  style="color:black;background-color: #a1c4e6;"><strong>&nbsp;&nbsp;Receiver Address : </strong>&nbsp;<td align=left colspan=7>&nbsp;&nbsp;<span th:id="raddr"></span></td></tr>
+				<tr><td align="right" style="color:black;background-color: #a1c4e6;"><strong>Gross Weight : </strong>&nbsp;<td align=left>&nbsp;&nbsp;<span th:id="gwt"></span>&nbsp;&nbsp;</td>
+				<td align="right" style="color:black;background-color: #a1c4e6;"><strong>&nbsp;&nbsp;Total Amount Payable : </strong>&nbsp;<td align=left>&nbsp;&nbsp;<span th:id="totduty"></span>&nbsp;&nbsp;</td>
+				<td align="tight" style="color:black;background-color: #a1c4e6;"><strong>&nbsp;&nbsp;Penalty : </strong>&nbsp;<td align=left>&nbsp;&nbsp;<span th:id="pen"></span>&nbsp;&nbsp;</td>
+				<td align="right" style="color:black;background-color: #a1c4e6;"><strong>&nbsp;&nbsp;Fine : </strong>&nbsp;<td align=left>&nbsp;&nbsp;<span th:id="fin"></span>&nbsp;&nbsp;</td></tr>
+				</table><br>
+				<table width="100%" id="OOCITEMREC" class="table" border=2 bordercolor="gray"
+							style="background: none; padding:15px;">
+							<thead class="table-primary">							
+								<tr class="dlheader" style="background-color: #a1c4e6;">
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; ITMNO&nbsp;&nbsp; </td>
+									<td class="dlheader" align=center style="color: black;">&nbsp;&nbsp; DESCRIPTION&nbsp;&nbsp; </td>
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; CTH&nbsp;&nbsp; </td>
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; QTY&nbsp;&nbsp; </td>
+									<td class="dlheader"  align=center style="color: black;">&nbsp;&nbsp; ASS.VAL&nbsp;&nbsp; </td>
+									<td class="dlheader" align=center style="color:black;">&nbsp;&nbsp; TOTAL DUTY&nbsp;&nbsp; </td>
+									<td class="dlheader"  align=center style="color:black;">&nbsp;&nbsp; BCD&nbsp;&nbsp; </td>
+									<td class="dlheader" align=center style="color:black;">&nbsp;&nbsp; IGST&nbsp;&nbsp; </td>
+									<td class="dlheader"  align=center style="color:black;">&nbsp;&nbsp; SWS&nbsp;&nbsp; </td>
+									<td class="dlheader"  align=center style="color:black;">&nbsp;&nbsp; OTHER DUTY&nbsp;&nbsp; </td>
+									<!--td class="dlheader" width="12%" align=center style="color:black;">Penalty</td>
+									<td class="dlheader" width="12%" align=center style="color:black;">Fine</td-->
+								</tr>
+							</thead>
+							<tbody style="color: gray;" id="dataid">
+								<tr>
+								<td class="dlinfo" align=center id="itmno">
+								<td class="dlinfo" align=center id="itmdesc">
+								<td class="dlinfo" align=center id="cth">
+								<td class="dlinfo" align=center id="nou">
+								<td class="dlinfo" align=center id="assval">
+								<td class="dlinfo" align=center id="duty">
+								<td class="dlinfo" align=center id="bcd">
+								<td class="dlinfo" align=center id="igst">
+								<td class="dlinfo" align=center id="sws">
+								<td class="dlinfo" align=center id="oth">
+								<!--  td class="dlinfo" align=center id="pen">
+								<td class="dlinfo" align=center id="fin"-->
+								</tr>
+							</tbody>
+				  </table>
+				<table border=1>
+				<tr><td colspan="12" align="center"  style= "color:black;background-color: #a1c4e6;"><strong> RMS INSTRUCTIONS</strong></td></tr>
+				<tr border=0><td colspan="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+				<tr border=0><td colspan="12" align="center"> - NIL - </td></tr>
+				<tr border=0><td colspan="12">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+				</table><br>
+				  		<div class="row"></div>
+					<div  align="right">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="deltabledata()" style="background-color:green">OK</button>
+					</div>
+			   </div>
+			  </div>
+	   </div>
+	   </div>
+	   
+	 
+<div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+	<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+
+	   
+	   
+	</Modal>
+	<div id="logout" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div>
+</div>
+
+</body>
+<script src="js/header.js"></script>
+<script src="js/datatables.min.js"></script>
+<script src="js/importsearchooc.js"></script>
+
+<script type="text/javascript">
+
+
+function refresh()
+    {
+      window.location.href = "import_quick_ooc";
+    }
+	
+
+$(document).ready(function() {
+	$("#ooctab").dataTable({
+		"paging": true,		
+		"lengthMenu": [ 5, 10, 15, 20, 25 ],
+		"pageLength": 10,
+		"dom": '<"pull-left"Bl>frtip',
+		//"dom": '<"pull-left"B><"pull-left"l>frtip', 
+		buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					message:'OOC BULK SELECTION @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+					}	
+						},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A3',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'OOC BULK SELECTION @ ' + sitecode +
+           					'\n\r' + ' SSO ID: ' + empid,
+					message:datetime, 
+					filename:'OOC BULK SELECTION',
+				     orientation: 'landscape',
+		   		     customize: function(doc, header) {
+				   	 doc.defaultStyle.alignment = 'center'
+      			   	 //doc.styles.tableHeader.fontSize = 10;
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.styles.title.fontSize=20;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 12;
+				    doc.styles.message.alignment = "right";
+    		        },
+				},
+					//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'OOC BULK SELECTION @ ' + sitecode + '\n\r' + datetime ,
+	             }],
+	            "initComplete": function( settings ) {
+	     $("#ooctab_filter").append('<button type="button" class="btn btn-info" id="clear6" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+          $("#ooctab_filter input[type='search']").attr('id', 'searchooctab');
+		$('#clear6').click(function() {	
+		document.getElementById("searchooctab").value=""
+		var table = $('#ooctab').DataTable();
+		table.search('').draw();
+	   })
+    	}	
+               });    
+
+	 if ($('#role').val()=="PSU")
+	  { $('#showallotooc').show();
+	    $("#ooctab").show();}
+	    hideLoader();
+});
+</script>
+
+</html>

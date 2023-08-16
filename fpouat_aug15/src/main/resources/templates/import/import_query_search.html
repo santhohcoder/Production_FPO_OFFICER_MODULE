@@ -1,0 +1,630 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/font.js}"></script>
+<script th:src="@{js/sweetalert.min.js}"></script> 
+<script th:src="@{js/datatables.min.js}"></script>
+<script  th:src="@{js/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{js/datatables/jszip.min.js}"></script>
+<script th:src="@{js/datatables/pdfmake.min.js}"></script>
+<script th:src="@{js/datatables/vfs_fonts.js}"></script>
+<script  th:src="@{js/datatables/buttons.html5.min.js}"></script>
+<script  th:src="@{js/datatables/buttons.print.min.js}"></script>
+<script th:src="@{js/moment.min.js}"></script>
+<title>Articles Arrived at FPO Query Queue</title>
+
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+
+
+.lab_txt {
+	font-size: 14px;
+	color: blue;
+	font-weight: 700;
+}
+
+.tot_no {
+	font-size: 14px;
+	font-weight: 700;
+	color: blue;
+}
+
+.numradius {
+	border: 2px solid #ff4957;
+	background-color: #ff4957;
+	color: white;
+	border-radius: 20px;
+	padding: 10px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+	padding: 0px 10px;
+}
+
+.buttons-excel{
+display: none;
+} 
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+</style>
+<body style="background: #d6dcd9">
+
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data1}" id="role" />
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+
+<!--div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div-->
+    <input type="hidden" id="cinno">
+	<div 
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;margin-left:1%;margin-right:1%;">
+		<!-- <div class="col-md-1" style="padding-left: 10px;margin-top: 10px;padding-top: 10px;">
+			<button type="button" onclick="goBack();" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div> -->
+		
+		<div class="col-md-1" style="padding-left: 10px;margin-top: 10px;padding-top: 10px;">
+			<a href="import_list"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div>
+		
+		<div align="center">
+			<h2>Postal Imports - Articles Arrived at FPO (AAF)</h2> 
+			<h2>Query Queue</h2>
+		</div>
+<div  th:if="${session.data1=='PAO'}" align="center" class="mt-3">
+					<strong>Query Queue for Allotted  Mail Class : <font color="black"><span th:text="${dispmailcat}"></span></strong>
+			</div>
+	<div align="right" style="margin-right:25px">
+				<p class="tot_no">
+					Total No. of Articles in the Query Queue &nbsp; <span class="numradius" th:text="${couqry}" >
+					</span>
+				</p>
+			</div>
+		
+		
+		<!-- div class="row" style="text-align: center;">
+			<div class="col-md-2" style="margin-top: 12px;">
+				<br>
+				<h5>Enter Article Details :</h5>
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">CIN_NO</p>
+				<input type="text" id="cin_No" class="form-control form_txt">
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">ITEM_ID</p>
+				<input type="text" id="item_Id" class="form-control form_txt">
+			
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">EAD DATE</p>
+				<input type="text" id="qry_Dt" class="form-control form_txt">
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">ORGIN_CD</p>
+				<input type="text" id="org_Cd" class="form-control form_txt">
+			</div>
+			<div class="col-md-2" style="margin-top: 12px;">
+				<br>
+				<button class="btn btn-secondary" id="btnSearch" type="button" value="Yes" onclick="searchshow(this)">
+					<i class="fa fa-search"></i> Search
+				</button>
+			</div>
+		</div-->
+<!--div align="right" style="margin-bottom: -32px;">
+<button type="button" class="btn btn-info"
+id="clear" onclick="refreshPage()">Clear</button> 
+</div-->
+    
+	<div id="onsearch" style="display: none;margin-left:1%;margin-right:1%;">
+			<table border=1 class="table table-articleDet" 
+				style="font-size: 14px; text-align: center;">
+						<thead>
+			<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+					<th scope="col">Article ID / Item ID</th>
+								<th scope="col">Posting Dt</th>
+								<th scope="col">CIN</th>
+								<th scope="col">CIN Dt</th>
+								<th scope="col">Mail Class</th>
+								<th scope="col">Item Category</th>
+								<th scope="col">COO</th>
+								<th scope="col">Action</th>
+
+					</tr>
+					</tr>
+				</thead>
+				<tbody>
+			<tr th:each="s1,iter : ${check}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>						
+						<td th:text="${s1[6]}"></td>
+						
+					<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qry"
+									onclick="viewquery(this);" th:id="${s1[0]}"
+									 style="padding: 0px" th:text="${s1[8]}"></button>
+						</i></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<!-- div class="row mt-1">
+			<div class="col-md-6" style="margin-left:1%">
+				[Note : Use any of the above one or the combination of the
+					data field to  search.]</div>
+			<div class="col-md-5" align="right">
+					<button type="button" class="btn btn-info" id="clear" onclick="refreshPage()">Clear</button> 
+			</div>
+		</div-->
+		<!--  div class="row mt-2" >
+			<div class="col-md-6" style="margin-left:1%">
+				[Note : Use any of the above one or the combination of the
+					data field to  search.]</div>
+			<div class="col-md-4" align="right">
+					<button type="button" class="btn btn-info" id="clear" onclick="refreshPage()">Clear</button> 
+			</div>
+			<div class="col-md-1" align="center">
+				<button type="button" id="btnPassport" value="Yes"
+					onclick="ShowHideDiv(this)" class="btn btn-info">LIST
+					ALL</button>
+			</div>
+		</div-->
+		<div class="row mt-2">
+		<div class="col-md-12">
+		<div id="dvPassport" style="display: block;margin-left:1%;margin-right:1%">
+		
+<!-- div class="col-md-12 row">
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a onclick="pdfdwnldimprtsrchlist(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a onclick="exceldwnldimprtsrchlist(this)" title="EXCEL">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>  -->
+				
+			<table class="table table-bordered" id="asstTable"
+
+				style="font-size: 14px; text-align: center;">
+				<thead>
+			<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No1.</th>
+					<th scope="col">Article ID / Item ID</th>
+								<th scope="col">Posting Dt</th>
+								<th scope="col">CIN</th>
+								<th scope="col">CIN Dt</th>
+								<th scope="col">Mail Class</th>
+								<th scope="col">Item Category</th>
+								<th scope="col">COO</th>
+								<th scope="col">D-Call Letter Delivery Status</th>
+								<th scope="col">Reply Pending days</th>
+								<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+			<tr th:each="s1,iter : ${check}">
+						<td th:text="${iter.index+1}">1</td>
+					     <td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>						
+						<td th:text="${s1[6]}"></td>
+											
+						<td th:text="${s1[9]}"></td>
+						<td th:text="${s1[10]}"></td>
+						
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qry"
+									onclick="viewquery(this);" th:id="${s1[0]}"
+									 style="padding: 0px" th:text="${s1[8]}"></button>
+
+						</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div></div>
+		</div>
+	</div>
+	<Modal>
+		<div id="querypopup" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="col-md-12 rcord-qry-resp">
+						<div class="modal-body recordqryresp" align="left">
+							<h2>Record Query Response</h2>
+						</div>
+						<hr>
+						<div class="row">
+							<form>
+								<div class="form-group row" align="left">
+									<label for="inputEmail3" class="col-md-6 font-weight-bold "
+										style="text-indent: 25px; color: blue;"> D.Call Letter
+										No:</label>
+									<div class="col-md-6" align="center">
+										<input type="text" class="form-control d-call-letter"
+											id="query_din" style="text-align: center;" readonly>
+									</div>
+								</div>
+							</form>
+
+							<form>
+								<div class="form-group row" align="right">
+									<label for="inputEmail1" class="col-md-8 font-weight-bold "
+										style="text-indent: 300px; color: blue;"> Date:</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control date-value"
+											id="qry_date" style="text-align: center;" readonly>
+									</div>
+								</div>
+							</form>
+
+							<table id="table2" class="table" border="2">
+								<thead class="table-primary">
+									<tr id="columns">
+										<th scope="col" style="width: 1%; text-align: center;">Item</th>
+										<th scope="col" style="width: 30%; text-align: center;">Description</th>
+										<th scope="col" style="width: 33%; text-align: center;">Query</th>
+										<th scope="col" style="width: 36%; text-align: center;">Record
+											Response</th>
+
+									</tr>
+								</thead>
+								<tbody id="penaltyId">
+									<tr>
+
+										<td align="center" class=" font-weight-bold " id="item_id"></td>
+
+
+										<td align="center" class=" font-weight-bold " id="item_Desc"></td>
+
+
+										<td align="center" class=" font-weight-bold " id="item_qry"></td>
+
+
+										<td class=" green-border-focus" colspan="2" align="left">
+											<!-- <textarea
+												class="form-control font-weight-normal" name="address"
+												rows="1" id="Recrdresp" placeholder="Enter response" ></textarea> -->
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+							<br>
+							<table class="table" id="tb2" border="2">
+								<thead class="table-primary">
+									<tr align="center">
+										<th style="width: 9%; text-align: center;">Default Query</th>
+
+										<th style="width: 10%; text-align: center;">Record
+											Response</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+
+										<td class=" font-weight-bold " style="text-align: justify;"
+											id="Def_qury"><br></td>
+										<td class=" green-border-focus" colspan="2" align="left"><textarea
+												class="form-control font-weight-normal" name="address"
+												rows="3" id="defQrey" placeholder="Enter response"></textarea></td>
+								</tbody>
+							</table>
+
+							<div class="form-group mb-3 " id="deptcmtsApr">
+								<br> <label class="lab_txt font-weight-bold"
+									style="text-indent: 22px; color: blue;">Department
+									Comments : </label>
+								<textarea class="form-control deptcmtsApr font-weight-normal"
+									id="dpcments" placeholder="Enter your Remarks..." rows="5"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+
+						<p class="col-md-8">
+							<span style="color: blue; font-weight: bold">Note :</span><strong>
+								Please provide remarks in department comments box.</strong>
+						</p>
+
+						<button class="btn btn-secondary col-md-2" id="closepopup">Close</button>
+
+						<button class=" submit btn btn-primary col-md-2" id="pnext"
+							data-target="#asspop">Submit</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="assediPopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Send to</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="movedi(this);">EDI Queue</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="movass(this);">Process Personal Imports </button></div>	</div>
+    </div>
+</div>
+</div>
+
+	<div id="recassPopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 50%;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Proceed to</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-success"  id="replyFor" style="background-color:green"
+						onclick="recqryreply(this);">Record Reply Received via post and Upload document by officer </button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="movass(this);"> Assessment as no reply received </button></div>	</div>
+    </div>
+</div>
+</div>
+		
+		<div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="document" style="max-width: 95%;">
+  				<div class="modal-content">
+  				<div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+        			<h5 class="modal-title" style="font-weight: bold;">QUERY REPLY</h5>
+        				<button type="button" class="close" data-dismiss="modal" onclick="$('#qryreplycontent').html('')" aria-label="Close">
+          					<span aria-hidden="true">x</span>
+        				</button>
+      				</div>
+  					<div class="modal-body" id="qryreplycontent" style="background: #b8daff;">
+	  				</div>
+    			</div>
+			</div>
+		</div>	
+		
+			<div class="modal fade" id="asspop" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<!-- <h5 class="modal-title" id="exampleModalLabel">Assement
+							Done/Not-Done</h5> -->
+						<!-- <button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button> -->
+					</div>
+					<div class="modal-body">
+						<h4 id="assement"></h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="assbtn" class="btn btn-success">Ok</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</Modal>
+</body>
+
+
+	<div id="logout" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div>
+</div>
+
+<Modal>
+<div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+	<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+</Modal>
+</body>
+
+<script src="js/header.js"></script>
+<script th:src="@{js/importsearchqry.js}"></script>
+
+<!-- <script th:src="@{js/importsearch.js}"></script> -->
+
+
+<script type="text/javascript"> 
+ function refreshPage(){
+    location.href=localStorage.getItem("currentUrl");
+} 
+function goBack() {
+	window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+}
+
+ </script>
+<!-- <script type="text/javascript">
+	$(document).ready(function() {
+		$("#asstTable").dataTable({
+			"processing" : true,
+			"paging" : true
+		});
+	});
+	
+	
+	function ShowHideDiv(btnPassport) {
+		var dvPassport = document.getElementById("dvPassport");
+		if (btnPassport.value == "Yes") {
+			dvPassport.style.display = "block";
+			btnPassport.value = "No";
+		} else {
+			dvPassport.style.display = "none";
+			btnPassport.value = "Yes";
+		}
+	}
+
+	function viewDetail(e) {
+		window.location.href ="import_submit?id=" + e.id;
+	}
+
+	$("table tbody tr").each(
+			function() {
+				var textval = $(this).find("td:eq(0)").text().trim();
+				//	var textval2 = $(this).find("td:eq(1)").text().trim();
+				if (textval > 1) {
+					$('#' + textval).prop('disabled', true);
+					//$(this).find("td:eq(0)").attr('disabled', true);
+				} else {	
+					$("tr.rowDis input, tr.rowDis select, tr.rowDis textarea")
+							.prop('disabled', true);
+					//$('#submitBtn').prop('disabled', false);
+				}
+			});
+</script> -->
+
+</html>

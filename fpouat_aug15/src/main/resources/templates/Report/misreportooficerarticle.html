@@ -1,0 +1,569 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+         .multiselected {
+    color: #495057 !important;
+    background-color: #fff !important;
+    border: 1px solid #ced4da !important;
+
+    }  
+    
+   #commonDiv{
+    position: relative;
+      top: -50px;
+    left: 59rem;
+    }
+
+        
+       #roleSelecting{
+       font-weight: 400;
+    background-color: white;
+    font-size: 17px;
+    padding: 3px 5px;
+    border: none;
+    border-radius: 3px;
+       }
+       
+       .swal-text {
+    font-size: 18.5px !important;
+    font-weight: 700 !important;
+}
+    
+</style>
+
+
+<input id="roleget" type="hidden" th:value="${session.offId }" />
+<input id="cussite" type="hidden"  th:value="${session.data2 }" />
+<input id="role"   type="hidden"  th:value="${session.data1 }" />
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div id="queryQueueshow" class="col-md-12">
+
+ <input type="hidden" id="clock">
+ <input type="hidden" id="ordervalues" th:value="${order}">
+ 
+ 
+	 <div id="commonDiv"  th:if="${order=='1'}"  class="col-3">
+	<div id="roleselectdiv" style="padding-left:5rem">
+		<label for="rolesSSOID" style="font-weight: 700;">Select Role:</label> 
+		<select id="roleSelecting"  onchange="handleSelectChange(event)">
+			<option value="" selected>Select a role</option>
+			<option th:if="${roleone == 'PBS'}" th:each="role : ${roleone}"
+				th:value="${role}" th:text="${role}"></option>
+			<option th:if="${roletwo =='OtherRoles'}" th:each="role : ${roletwo}"
+				th:value="${role}" th:text="${role}"></option>
+		</select>
+
+	</div>
+
+	<!-- <div style="display: none;" id="otherRoles">
+		<label class="form_txt ml-2 " for="birthday"> Other
+			Roles: </label> <select name="otherrols" title="Select Value..." multiple
+			class="form-control multiselected" id="otherrols">
+
+			<option th:each="data, iter : ${rolesassigned}" th:value="${data}"
+				th:text="${data}" th:attr="data-name=${data}">option</option>
+		</select>
+	</div> -->
+	</div> 
+
+
+
+	<div align="center" class=" mt-2" style="margin: 1%;">
+<label style="vertical-align: -webkit-baseline-middle;font-weight: 500;color: blue;">List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</label>
+		</div> 
+		
+		
+	
+	<div id="mainTableDiv">	
+		
+		<div id="processtablediv" >
+			<table id="processtabless" 
+				class="table table-striped table-bordered newtable"
+				style="font-size: 16px; text-align: center; width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th scope="col" id="sinid" style="width: 45px;">DummyColnametoDataTable</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Article Id</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">FPO Site</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Posting Date</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Mail Class</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Total Assessed Value</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">BCD Amount</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">IGST Amount</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">SW Amount</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Other Duty</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Total Duty</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Duty FG</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Duty Charged</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">OOC Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values, iter: ${reportcolumns}" class="">
+						<td class="tablecolumn" th:text="${iter.index+1}"></td>
+						<td class="tablecolumn" th:text="${values.roletype}"></td>
+						<td class="tablecolumn" th:text="${values.item_id}"></td>
+						<td class="tablecolumn" th:text="${values.cussite}"></td>
+						<td class="tablecolumn" th:text="${values.post_dt}"></td>
+						<td class="tablecolumn" th:text="${values.mail_class}"></td>
+						<td class="tablecolumn" th:text="${values.TOT_ASS_VAL}"></td>
+						<td class="tablecolumn" th:text="${values.bcd_amt}"></td>
+						<td class="tablecolumn" th:text="${values.igst_amt}"></td>
+						<td class="tablecolumn" th:text="${values.sw_amt}"></td>
+						<td class="tablecolumn" th:text="${values.other_duty}"></td>
+						<td class="tablecolumn" th:text="${values.TOT_DUTY}"></td>
+						<td class="tablecolumn" th:text="${values.TOT_DUTY_FG}"></td>
+						<td class="tablecolumn" th:text="${values.TOT_AMT_PAYABLE}"></td>
+						<td class="tablecolumn" th:text="${values.OOC_DT}"></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+			
+			<div id="ptable1div" >
+			<table id="ptable1" 
+				class="table table-striped table-bordered newtable"
+				style="font-size: 16px; text-align: center; width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th class="tablecolumn" scope="col"  style="width: 10%">Sl.No.</th>
+						<th class="tablecolumn" scope="col" style="width: 15%">Role</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;width: 15%">FPO Site</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;width: 20%">Recp id / Bag No</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;width: 15%">Arrival Entry Date</th>
+					<th class="tablecolumn" scope="col" style="text-align: center;width: 15%">Scanned Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="pbsdata,iter : ${pbsreportcolumns}" class="">
+						
+						<td class="tablecolumn" th:text="${iter.index+1}"></td>
+						<td class="tablecolumn">PBS - Postal Bag Scan Entry</td>
+						<td class="tablecolumn" th:text="${pbsdata[3]}"></td>
+						<td class="tablecolumn" th:text="${pbsdata[0]}"></td>
+						<td class="tablecolumn" th:text="${pbsdata[2]}"></td>
+						<td class="tablecolumn" th:text="${pbsdata[1]}"></td>
+						
+						
+		</tr>
+				</tbody>
+			</table>
+			</div>
+			</div>
+			<input type="hidden" id="rolesCountSSOID" th:value="${order == '0' ? 0 : 1}" >
+			<input type="hidden" id="rolesSSOID" th:value="${rolesassigned}" th:attr="value='${#strings.arrayToJson(rolesassigned)}'">
+			
+			
+			
+		</div>
+		
+		<script th:inline="javascript"> 
+		
+		
+		function generateReport(number, type,name,category) {
+  var datetime = new Date().toLocaleString();
+  var role = document.getElementById("roleget").value;
+  var site = document.getElementById("cussite").value;
+  var rolename = document.getElementById("role").value;
+  var data = {
+    number: number,
+    type: type,
+    datetime: datetime,
+    role: role,
+    name:name,
+    site:site,
+    rolename:rolename,
+    category:category
+  };
+
+  $.ajax({
+  
+    url:'savereportdetails',
+    method: "POST",
+    data: data,
+    success: function(response) {
+    
+      console.log("Data saved successfully");
+    },
+    error: function(error) {
+      console.log(error);
+      alert("Error occurred while saving data");
+    }
+  });
+}
+		
+		
+		$(document).ready(function(){
+		$(function(){
+		$('.multiselected')
+			.multiselect({
+				allSelectedText: 'All',
+				maxHeight: 200,
+				includeSelectAllOption: true
+			})
+			.multiselect('selectAll', false)
+			.multiselect('updateButtonText');
+})
+
+
+		});
+		
+	
+		
+		
+	
+	if (document.getElementById("ordervalues").value == '1') {
+ swal({
+  text: "Please choose specific role from the dropdown 😊",
+  icon: "info",
+ timer: 2000,
+  
+});
+  var selectElement = document.getElementById("roleSelecting");
+  selectElement.dispatchEvent(new Event('change'));
+}
+else{
+document.getElementById("processtablediv").style.display="none";
+document.getElementById("ptable1div").style.display="none";
+}
+function handleSelectChange(event) {
+
+    var selectElement = event.target;
+    var values = selectElement.value;
+  console.log(values);
+  //var otherRoles = document.getElementById("otherRoles");
+  var tableone = document.getElementById("processtablediv");
+  var tabletwo = document.getElementById("ptable1div");
+	
+	if(values=="PBS"){
+	tabletwo.style.display="block";
+	tableone.style.display="none";
+	//otherRoles.style.display = "none";
+	 
+	}
+
+  else if (values == "OtherRoles") {
+   // otherRoles.style.display = "block";
+  	var rolesAssigned = (document.getElementById("rolesSSOID").value);
+    tableone.style.display="block";
+    tabletwo.style.display="none";
+   
+  } 
+  else{
+   tabletwo.style.display="none";
+  	tableone.style.display="none";
+  	//otherRoles.style.display = "none"; 
+  }
+  
+};
+		
+		 $('.datesel').css('display','inline-flex');
+ 
+document.title="Total no of articles processed and cleared for the selected period (OOC Given) from "+$('#fromdate').val()+" to "+$('#todate').val()+" as on " + $('#clock').val();
+       
+        $("#processtabless").dataTable({
+		"processing": true,
+		"paging": true,
+
+		"ordering": false,
+		//"dom": 'Bfrtip',
+		//buttons: ['excel', 'pdf', 'print']
+		"dom": '<"pull-left"Bl>frtip',
+		buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+		exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						  
+						if ( column == 1 ) 
+        					return "Role";
+        				else
+        					return data;
+						
+        				}}},
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:'  List of Art/Item IDs processed by an officer for any select period',
+					message:'   List of Art/Item IDs processed by an officer for any select period @ ' + sitecode + '\n\r' + datetime, 
+						customize: function (doc) {
+					generateReport(2,"excel"," List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)","Miscellaneous Reports");
+					
+					}},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				     orientation: 'landscape',
+				     exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						  
+						if ( column == 1 ) 
+        					return "Role";
+        				else
+        					return data;
+						
+        				}}},
+		   		     customize: function(doc, header) {
+		   		      generateReport(2,"pdf"," List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)","Miscellaneous Reports");
+					
+		   		     doc.content[1].table.widths = ['3%','6%','6%','6%','9%','7%','9%','7%','8%','8%','6%','6%','6%','6%','7%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+' List of Art/Item IDs processed by an officer for any select period @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:' List of Art/Item IDs processed by an officer for any select period ',
+},
+			//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+			      exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						  
+						if ( column == 1 ) 
+        					return "Role";
+        				else
+        					return data;
+						
+        				}}},
+				  message:'  List of Art/Item IDs processed by an officer for any select period @ ' + sitecode + '\n\r' + datetime ,
+					filename:' List of Art/Item IDs processed by an officer for any select period ',	
+				customize: function ( win ) {
+				generateReport(2,"print"," List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)","Miscellaneous Reports");
+				
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+						
+			 initComplete: function() {
+			 	   this.api().columns([1]).every(function() {
+        var column = this;
+        var coldata = column[0];
+        if (coldata == 1) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700"><option value="">Role</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+         
+      });
+     
+
+      $("#processtabless_filter").append('<button type="button" class="btn btn-info" id="clear" style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+      $('#clear').on('click', function() {
+        $('#processtabless_filter input[type="search"]').val('').trigger('input');
+        var table = $('#processtabless').DataTable();
+        table.search('').draw();
+      });
+    }
+	
+		
+		
+	});
+	
+	$("#ptable1").dataTable({
+		"processing": true,
+		"paging": false,
+
+		"ordering": false,
+		//"dom": 'Bfrtip',
+		//buttons: ['excel', 'pdf', 'print']
+		"dom": '<"pull-left"Bl>frtip',
+		buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+		
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:'  List of Art/Item IDs processed by an officer for any select period',
+					message:'   List of Art/Item IDs processed by an officer for any select period @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+					generateReport(20,"excel"," List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)");
+					
+					}},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				     orientation: 'landscape',
+				  
+		   		     customize: function(doc, header) {
+		   		     generateReport(20,"pdf"," List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)");
+					
+		   		     doc.content[1].table.widths = ['10%','18%','18%','18%','18%','18%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+' List of Art/Item IDs processed by an officer for any select period @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:' List of Art/Item IDs processed by an officer for any select period ',
+},
+			//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+			    
+				  message:'  List of Art/Item IDs processed by an officer for any select period @ ' + sitecode + '\n\r' + datetime ,
+					filename:' List of Art/Item IDs processed by an officer for any select period ',	
+				customize: function ( win ) {
+				generateReport(20,"print"," List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)");
+					
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+						
+			 initComplete: function() {
+		
+     
+
+      $("#ptable1_filter").append('<button type="button" class="btn btn-info" id="clear1" style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+      $('#clear1').on('click', function() {
+        $('#ptable1_filter input[type="search"]').val('').trigger('input');
+        var table = $('#ptable1').DataTable();
+        table.search('').draw();
+      });
+    }
+	
+		
+		
+	});
+
+
+	
+	$("#ExcelExport").on('click', function() {
+		$(".buttons-excel").trigger('click');
+		this.blur();
+	});
+	
+	
+   function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+
+         
+      </script>

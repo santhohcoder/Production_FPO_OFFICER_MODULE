@@ -1,0 +1,927 @@
+<html>
+<head lang="en" th:replace="header :: header">
+</head>
+<link th:href="@{css/datatables.min.css}" rel="stylesheet" type="text/css" />
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+table.dltrc {
+	width: 100%;
+	align: center;
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: solid darkbrown 2px;
+	border-radius: 8px;
+	font-color: white;
+	font-size: 14px;
+}
+
+tr.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	padding: 2px
+}
+
+td.dlheader {
+	
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-radius: 0px;
+	padding: 2px
+}
+
+tr.dlinfo, td.dlinfo {
+	text-align: center;
+	font-color: black;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-top: solid darkbrown 2px;
+	padding: 2px
+}
+
+td.dlinfo:first-child, td.dlheader:first-child {
+	border-left: none;
+}
+
+td.dlheader:first-child {
+	border-radius: 5px 0 0 0;
+}
+
+td.dlheader:last-child {
+	border-radius: 0 5px 0 0;
+}
+
+
+
+.dispval {
+	
+	font-color: white;
+	
+}
+
+.dispvalb {
+	
+	font-color: black;
+	
+}
+
+.occ_note {
+	background-color: #4a4d5d ;
+
+	padding: 10px;
+	font-size: 14px;
+	border-radius: 20px;
+}
+
+.bordstyle {
+	border: 2px solid white;
+	background : dimgray;
+	border-radius: 20px;
+}
+
+
+
+.buttonstyle {
+	
+	
+	color: white;
+	font-size: 20px;
+}
+
+
+.buttonstyles {
+	border: 2px solid white;
+	border-radius: 20px;
+	color: white;
+	font-size: 20px;
+}
+.occ_val {
+	font-weight: 700
+}
+
+hr {
+	display: block;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	margin-left: auto;
+	margin-right: auto;
+	border-style: inset;
+	border-width: 1px;
+	/* width: 109%; */
+	margin-left: -15px;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px !important;
+	font-weight: 700 !important;
+	color: blue !important;
+}
+
+.tab-link p {
+	font-weight:400 !important;
+	cursor:pointer !important;
+}
+
+/* .form-group {
+	margin-bottom: 0rem;
+} */
+
+.scroll_down {
+	/* height: 450px; */
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.scrollitem {
+	height: 250px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid black;
+	text-align: center;
+	color: black !important;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.selected span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.selected p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+.white-color{
+	color:white !important;
+}
+.tab-link{
+	cursor:pointer;
+}
+
+.row.occ_note div{
+	line-height:35px;
+}
+
+.selected span {
+    background-color: #b93655 !important;
+    color: #fff !important;
+    border: 2px solid white !important;
+}
+
+.completed span {
+    background-color: #498d3d !important;
+    color: white !important;
+    border: 2px solid white !important;
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.bg_rec p,.bg_rec strong,#scanReportTitle {
+	color: initial;
+}
+
+.detain-remarks-btn {
+    margin-top: 10px;
+    background: red;
+    margin-left: 10px;
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+.detain-remarks-btn:not(:disabled):not(.disabled).active:focus,
+.detain-remarks-btn:not(:disabled):not(.disabled):active:focus,
+.show>.detain-remarks-btn.dropdown-toggle:focus,
+.detain-remarks-btn:hover {
+    color: white;
+    background: red;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+</style>
+
+<body style="background: #d6dcd9">
+ <input type="hidden" id="depexamcmts" th:value="${examdepcmts}">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div
+		style="background-color: #67acb5;max-width: 100%;margin: 0px 10px;box-shadow: 5px 0px rgb(74 223 131);border-radius: 10px;padding: 15px;">
+		<div class="col-md-1" style="padding-left: 10px;">
+			<a href="javascript:;" onclick="goBack();"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div><div class="row mt-4">
+			 <div th:if==${examdepcmts!=null}  class="col-md-3" align="center">
+			    <button th:attr="articleId=${head.ITEM_ID}" onclick="viewexamdepcmts(this)" style="margin-right:10px;white-space: break-spaces;" class="btn btn-info">Dept. Comments - Examined Ofcr </button>
+	   		</div>
+ 			<div th:if==${examdepcmts==null} class="col-md-3"></div>
+			<div class="col-md-6" align="center">
+				<h2>Postal Imports -  Articles Arrived at FPO - OOC Queue</h2>
+			</div>
+			<div class="col-md-3" style="text-align:end;">
+			    <button th:attr="articleId=${head.ITEM_ID}" onclick="viewScanReport(this)" style="margin-right:10px;white-space: break-spaces;" th:classappend="${scanReportExist} ? 'detain-remarks-btn' : ''" class="btn btn-info">View Import RID / Bag Arrival Confirmation & Scan Report</button>
+			</div>
+		</div>
+		 <div id="disphead">
+            </div>
+          <input type="hidden" name="opt" id="opt">
+          <input type="hidden" name="det" th:id="detsave" th:value="${det}">
+          <input type="hidden" name="enbl" th:id="enbl"  th:value="${oocenbl}"> 
+		<!-- div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%;margin-left: 2%;" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text" id="itemId"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.ITEM_ID}">
+				    
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.POST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 15%" align="center">
+					<label class="lab_txt">NATURE OF TRANSN</label> <input
+						type="text"  style="text-align: center;" class="form-control form_txt" readonly="readonly"
+						th:value="${head.NATURE_TYPE_CD}">
+				</div>
+				<div class="px-1" style="width: 7%" align="center">
+					<label class="lab_txt">MAILCLASS</label> <input
+						type="text" style="text-align: center;" class="form-control form_txt" readonly="readonly"
+						th:value="${head.MAIL_CLASS_CD}">
+				</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div-->
+		<input type="hidden" id="inputPassword" th:value="${head.id}">
+		<input type="hidden" id="cinno" th:value="${head.id}">
+		<!-- <div class="mt-2" style="float: right;">
+			<a class="nav-link btn btn-secondary btn-sm" style="color: white;"
+				onclick="goBack()">Back </a>
+		</div> -->
+		<div id="tab-view" class="breadcrumb-pagination mt-3">
+			<div class="completed tab-link" tab-count="1">
+				<span></span>
+				<p>Summary</p>
+			</div>
+			<div class="completed tab-link" tab-count="2">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="completed tab-link" tab-count="3">
+				<span></span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="completed tab-link" tab-count="4">
+				<span></span>
+				<p>Examination</p></div>
+			<div class="selected tab-link" tab-count="5">
+				<span>5</span>
+			<p class="white-color">OOC</p>	
+			</div>
+		</div>
+		<div id="main-content" class="scroll_down">
+			<div class="col-md-12 mt-2">
+				<div class="row occ_note">
+				    <div align="center"  class="col-md-12 bordstyle"><font style="color:white;background:dimgray" ><STRONG>PARCEL INFORMATION</STRONG></font></div>
+					<div class="col-md-12 mt-2">
+					<table class="dltrc">
+						<tbody style="color: white;">
+							<!--  tr>
+								<td align="center" colspan=8 class="bordstyle"><font style="color:white;background:dimgray" ><STRONG>PARCEL INFORMATION</STRONG></font></td>
+							</tr-->
+						
+							
+							<tr>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong> &nbsp;Tot. No. of Items :<br> <span
+									class="dispval" th:text="${counoitems}"></span></strong></td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong> &nbsp;Tot. Ass. Value
+									(INR) :<br> <span class="dispval" th:id="TOT_ASS_VAL" th:text="${head.TOT_ASS_VAL}">123</span>
+								</td>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong>Tot. Duty (INR) :<br> <span
+									class="dispval" th:id="TOT_DUTY" th:text="${head.TOT_DUTY}">123</span></td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong>Tot Wgt (in KGs) :<br> <span
+									class="dispval" th:text="${head.GROSS_WT}">123</span></td>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong>Assessment Completed :<br>
+									<span class="dispval" th:text="${ass}">123</span>
+								</td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong>Examination :<br> <span
+									class="dispval" th:text="${exm}">123</span></td>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong>First Check : <br><span
+									class="dispval" th:text="${fchk}">123</span></td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong>For Detention :<br> <span
+									class="dispval" th:text="${det}"></span></td>
+							</tr>
+							</tbody>
+					</table></div>
+					<div class="col-md-3 bordstyle mt-2" style="background:#e0fffe;border:solid 3px gray;">
+						<p align=center class="bordstyle">
+							<font style="color:white;background:dimgray" ><STRONG>RECEIVER</STRONG></font>
+						</p>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Name</strong> </div>
+						<div class="col-md-9">	<span class="dispvalb" th:text="${head.RECP_NAME}"></span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"><strong>Address</strong>  </div>
+						<div class="col-md-9" style="height: 75px;">	<span class="dispvalb" th:text="${head.RECP_ADD1}">123</span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"><strong>City</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_CITY}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>State </strong> </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_STATE}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>EMAIL </strong> </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_EMAILID}"></span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Country</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_CNTRY_CD}"></span></div></div>
+					</div>
+					<div class="col-md-6 bordstyle mt-2 " style="background:#e6faff; border:solid 3px gray;">
+						<p align=center class="bordstyle">
+							<font style="color:white;background:dimgray" ><STRONG>ITEM
+									INFORMATION</b></STRONG></font>
+						</p>
+						<div class="scrollitem">
+						<table id="OOCREC" class="dltrc" border=1 bordercolor="gray"
+							style="background: none">
+							<tbody style="color: gray;" >
+								<tr class="dlheader" style="background-color: #a1c4e6;">
+									<td class="dlheader" width="6%" align=center style="color: black;">ITMNO</td>
+									<td class="dlheader" width="35%" align=center style="color: black;">DESCRIPTION</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">CTH</td>
+									<td class="dlheader" width="8%"a lign=center style="color: black;">QTY</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">ASS.VAL</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">BCD</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">IGST</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">SWS</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">OTHER DUTY</td>
+									<td class="dlheader" width="11%" align=center style="color:black;">TOTAL DUTY</td>
+								</tr>
+								<tr class="dlinfo" th:each="s1,iter : ${item}">
+									<td class="dlinfo" style="color: black;"  width="6%"  th:text="${s1[0]}">464654654</td>
+									<td class="dlinfo"  style="color: black;" width="40%" th:text="${s1[1]}">5648912</td>
+									<td class="dlinfo"  style="color: black;" width="6%" th:text="${s1[2]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="5%" th:id="cth" th:text="${s1[3]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="assval" th:text="${s1[4]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="bg" th:text="${s1[5]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="ic" th:text="${s1[6]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="sw" th:text="${s1[7]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="du" th:text="${s1[9]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="11%" th:id="ot" th:text="${s1[8]}">01.01.2020</td>
+								</tr>
+								<tr  ><td colspan=4 style="color: black;" align=right><strong> Total</strong>&nbsp;&nbsp; </td>
+								<td class="dlinfo" align="right" style="color: black;" width="5%" th:id="assval" th:text="${gtot[0][0]!=null ? gtot[0][1] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="bcd" th:text="${gtot[0][1]!=null ? gtot[0][2] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="igst" th:text="${gtot[0][2]!=null ? gtot[0][3] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="sws" th:text="${gtot[0][3]!=null ? gtot[0][4] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="oth" th:text="${gtot[0][4]!=null ? gtot[0][5] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="duty" th:text="${gtot[0][5]!=null ? gtot[0][6] : '-'}">01.01.2020</td>															
+								</tr>
+								<tr><td colspan=9 align="right" style="color: black;align:right" ><strong>Fine</strong>&nbsp;&nbsp;  </td>
+								<td  align="right" class="dlinfo" style="color: black;" width="8%" th:id="fine" th:text="${gtot[0][6]!=null ? gtot[0][8] : '-'}">01.01.2020</td>	</tr>
+								<tr><td colspan=9 align="right" style="color: black;" ><strong>Penalty</strong>&nbsp;&nbsp;</td>
+								<td align="right" class="dlinfo" style="color: black;" width="8%" th:id="penal" th:text="${gtot[0][7]!=null ? gtot[0][9] : '-'}">01.01.2020</td>	</tr>
+								<tr><td colspan=9 align="right" style="color: black;"  ><strong>Grand Total</strong>&nbsp;&nbsp;</td>
+								<td  align="right" class="dlinfo" style="color: black;" width="8%" th:id="totduty" th:text="${gtot[0][8]!=null ? gtot[0][7] : '-'}">01.01.2020</td>	</tr>
+								<tr><td colspan=9 align="right" style="color: black;"><strong>Total Amount Chargeable</strong>&nbsp;&nbsp; </td>
+								<td align="right" class="dlinfo" style="color: black;" width="8%" th:id="totpay" th:text="${gtot[0][9]!=null ? gtot[0][10] : '-'}">01.01.2020</td>	</tr>
+							</tbody>
+
+						</table>
+						</div>
+					</div>
+					<div class="col-md-3 bordstyle mt-2" style="background:#e0fffe; border:solid 3px gray;">
+						<p align=center class="bordstyle">
+							<font style="color:white;background:dimgray" ><STRONG>SENDER</STRONG></font>
+						</p>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Name</strong>  </div>
+						<div class="col-md-9">	<span class="dispvalb" th:text="${head.SEND_NAME}"></span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"  style="height: 75px;"><strong>Address</strong>  </div>
+						<div class="col-md-9">	<span class="dispvalb" th:text="${head.SEND_ADD1}">123</span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"><strong>City</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_CITY}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>State</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_STATE}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>EMAIL</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_EMAILID}"></span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Country</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_CNTRY_CD}"></span></div></div>
+					</div>
+					<!-- <div class="col-md-3 bordstyle mt-2">
+						<p align=center class="bordstyle">
+							<STRONG><font style="background: blue">SENDER</font></STRONG>
+						</p>
+						<p>
+							Name : <span class="dispval" th:text="${head.SEND_NAME}"></span>
+						</p>
+						<p>
+							Address : <span class="dispval" th:text="${head.SEND_ADD1}">123</span>
+						</p>
+						<p>
+							City : <span class="dispval" th:text="${head.SEND_CITY}">123</span>
+						</p>
+						<p>
+							State : <span class="dispval" th:text="${head.SEND_STATE}">123</span>
+						</p>
+						<p>
+							EMAIL : <span class="dispval" th:text="${head.SEND_EMAILID}"></span>
+						</p>
+						<p>
+							Country : <span class="dispval" th:text="${head.SEND_CNTRY_CD}"></span>
+						</p>
+					</div> -->
+				</div>
+			</div>
+
+			<div class="col-md-12 mt-3" >
+				<!-- div class="row occ_note" -->
+				<div class="row">
+					<div class="col-md-4" align="right">
+						<button  type="button" class="buttonstyle" style="background:#e8452b; border: solid 2px #e8452b" id="myCheck" title="Click this to send back to Assessment">
+							<strong> Send Back to Assessment</strong>
+						</button>
+					</div>
+					<div class="col-md-4" align="center">
+						<button type="button" class="buttonstyle" title="Click this to send to Detain / Seize" style="background:#dc3545;  border: solid 2px #dc3545" id="myCheck1">
+							<strong> Detain &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;Seize</strong>
+						</button>
+					</div>
+					<div class="col-md-4" align="left">
+						<button type="button" class="buttonstyle hideOoc" title="Click this to give OOC"  style="background:darkgreen;  border: solid 2px darkgreen" id="myCheck2" disabled >
+							<strong> Out&nbsp; Of&nbsp; Customs&nbsp; Charge</strong>
+						</button>
+					</div>
+                   
+				<!--  /div--->
+			</div>
+			</div>
+			
+			
+			<!--  <table class="dltrc" border=1 bordercolor="white" style="background-color: #344179;" >
+				 <tbody style="color:white;">
+                 <tr><td class="bordstyle" align="center">1. Send back to assessment / Examination<span> <input type="checkbox" id="myCheck" value=""></span> </td>
+				  <td class="bordstyle" align="center">2. Detained / Seize <span> <input type="checkbox" id="myCheck1" value=""> </span></td>  
+				  <td class="bordstyle" align="center">3. Out of customs charge <span> <input type="checkbox" id="myCheck2" value=""> </span></td>  
+				  </tr></tbody></table>  -->
+			<div class="row mt-2">
+				<div class="col-md-9">
+					<div id="depcmtdiv" style="display: none" valign="middle"><span data-toggle="modal" data-target="#saveModal">
+						<label class="lab_txt">&nbsp;&nbsp;<font color="white">Departmental Comment : [min 6 characters ; max 2000
+							characters]</label>
+						<textarea class="form-control" id="depcmtfield" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="row mt-5 col-md-2">
+					<div align="center" valign="center">
+						<button type="button" id="savedepcmts" class="buttonstyles" onclick="proceedsave();"
+							style="display: none;" >
+							 <font color="blue"><strong>Submit</strong></style></font>
+						</button>
+					</div>
+				</div>
+					<br>
+		<br>
+		<br>
+				<br>
+			</div>
+		</div>
+
+	<!-- 			<div class="col-md-1"></div> -->
+	<!-- 			<div class="col-md-4 " > -->
+	<!-- 				<p class="check"> -->
+	<!-- 					1. Send back to assessment / Examination<span> <input -->
+	<!-- 						type="checkbox" id="myCheck" value=""> -->
+	<!-- 					</span> -->
+	<!-- 				</p> -->
+
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-3" align="center"> -->
+	<!-- 				<p class="check"> -->
+	<!-- 					2. Detained / Seize <span> <input type="checkbox" -->
+	<!-- 						id="myCheck1" value=""> -->
+	<!-- 					</span> -->
+	<!-- 				</p> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-3"> -->
+	<!-- 				<p class="check"> -->
+	<!-- 					3. Out of customs charge <span> <input type="checkbox" -->
+	<!-- 						id="myCheck2" value=""> -->
+	<!-- 					</span> -->
+	<!-- 				</p> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-2"></div> -->
+	<!-- 		</div> -->
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<font color="black"><h4 id="oocsub"></h4></font>
+				</div>
+				<div class="modal-footer">
+					<div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" th:id="${head.id}" style="background-color:green"
+						onclick="oocsubmit(this)">Yes</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="detModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want to Detain / Seize</font></h4>
+				</div>
+				<div class="modal-footer">
+				    <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" th:id="${head.id}" th:itemId="${head.ITEM_ID}" style="background-color:green"
+						onclick="savedepcmts(this)">Yes</button></div>
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="assModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content" >
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want send back to Assessment?</font></h4>
+				</div>
+				<div class="modal-footer">
+				<div class="row mt-1"></div>
+				<div class="col-md-6" align="left">
+				<button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+				<div class="col-md-6" align="right">
+				<button type="button" class="btn btn-primary" th:id="${head.id}" th:itemId="${head.ITEM_ID}" style="background-color:green"
+						onclick="savedepcmts(this)">Yes</button></div>
+					<!-- a href="import_ooc_search"-->
+					</a>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+<div th:if==${examdepcmts!=null} id="depexamcmtsModal" class="modal fade"   tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 1200px;">
+	<div class="modal-content">
+		  <div class="modal-body" align="center" >
+			   <div th:if="${depcmtsead != null}"></div>
+					<h4><font color="black">Departmental Comments - Examined Officer </h4>
+				<div>
+				<textarea style="background: #fff7ed;color: black;font-weight: bolder !important;" class='form-control font-weight-normal' rows='5' id="depcmtsexam"  th:text="${examdepcmts}" disabled><span th:text="${examdepcmts}"></span></textarea>
+		  </div>
+		  <div class="modal-footer">
+		  <div class="row mt-1"></div>
+				<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-danger" style="background-color:green"	data-dismiss="modal">Close</button>
+				</div>
+			</div>
+    	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="scanReportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scanReportTitle" style="font-weight: bold;text-transform: uppercase;">Scan Report</h5>
+                <button type="button" class="close" onclick="closeScanReportModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="scanReportBody">
+            </div>
+        </div>
+    </div>
+</div>
+	<!-- <script>
+	$("#myCheck").click(function(){
+		($("#myCheck").is(':checked'))
+			$("#myCheck1").prop("checked",false);
+			$("#myCheck2").prop("checked",false);
+			if($("#myCheck").is(':checked')==true){
+				text.style.display = "block";
+			}else{
+				text.style.display = "none";
+				
+			}
+			
+	});
+	
+	 	$("#myCheck1").click(function() {
+        		 ($("#myCheck1").is(':checked')) 
+				$("#myCheck2").prop("checked", false);
+					$("#myCheck").prop("checked", false);
+					if($("#myCheck1").is(':checked')==true){
+						text.style.display = "block";
+					}else{
+						text.style.display = "none";
+						
+					}
+		});
+		
+		$('#myCheck2').click(function() {
+			 ($('#myCheck2').is(':checked')) 
+				$("#myCheck1").prop("checked", false);
+			    $("#myCheck").prop("checked", false);
+				if($("#myCheck2").is(':checked')==true){
+					text.style.display = "none";
+				}
+		}); 
+		
+	
+	</script> -->
+	<script type = "text/javascript" >
+		    $('.tab-link').click(function() {
+		    $("#tab-view").find('.selected').each(function() {
+		        $(this).removeClass('selected');
+		        $(this).addClass('completed');
+		        $(this).find('span').text('');
+		        $(this).find('p').removeClass('white-color');
+		    })
+		    $(this).removeClass('completed')
+		    $(this).addClass('selected')
+		    $(this).find('span').text($(this).attr('tab-count'))
+		    $(this).find('p').addClass('white-color')
+		    urlLink = 'getExamFindings?id=' + itemId;
+		    var urlLink = '';
+		    if ($(this).attr('tab-count') === '1') {
+		        urlLink = 'getSummary?id=' + $("#itemId").val();
+		    } else if ($(this).attr('tab-count') === '2') {
+		      //  urlLink = 'getAssessment?id=' + $("#itemId").val();
+		        urlLink = 'getAssessment?id=' + $("#itemId").val()+'&ead=true'; 
+		    } else if ($(this).attr('tab-count') === '3') {
+		        urlLink = 'getdcallLetter?id=' + $("#itemId").val();
+		    } else if ($(this).attr('tab-count') === '4') {
+		        urlLink = 'getExamFindings?id=' + $("#itemId").val();
+		    } else {
+		    	location.href=localStorage.getItem("currentUrl");
+		    	return false;
+		    }
+		    $.ajax({
+		        url: urlLink,
+		        type: "post",
+		        success: function(data) {
+		            $("#main-content").html(data);
+		        },
+		        error: function(rs, e) {
+		            if(this.url.includes('getExamFindings?id=')){
+		            	$("#main-content").html('<h1 style="text-align: center;margin: 100px;color: ghostwhite;text-transform: uppercase;">Examination not ordered</h1>');
+		            }
+		        }
+		    });
+		});
+		
+		function getDcallFilePath(itemId) {
+		    $.ajax({
+		        url: "getDcallLetter?itemId=" + itemId,
+		        type: "post",
+		        success: function(data) {
+		            if (data.status == 'Success') {
+		                window.open("pdf/" + data.fileName);
+		                $("#main-content").html('<h1 style="text-align: center;margin: 100px;color: gold;">Generated D-Call Letter Viewed</h1>');
+		            } else {
+		                alert("Error in nextPageRedirect");
+		                $("#main-content").html('<h1 style="text-align: center;margin: 100px;color: #a7406f;">D-Call Letter not Generated</h1>');
+		            }
+		        },
+		        error: function(rs, e) {
+		            alert("Error in nextPageRedirect");
+		        }
+		    });
+		}
+	
+		function viewexamdepcmts(){
+			$("#depexamcmtsModal").modal('show');	
+		}
+	
+	
+	function closeScanReportModal() {
+		$("#scanReportBody").html('');
+		$("#scanReportModal").modal('toggle');	
+	}
+	
+	$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+         
+	</script>
+	<script src="js/importsubmit.js"></script>
+</body>
+</html>

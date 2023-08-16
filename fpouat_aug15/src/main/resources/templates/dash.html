@@ -1,0 +1,2381 @@
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+
+
+<meta http-equiv="encoding" name="viewport" content="width=device-width, initial-scale=1" />
+<!--<link th:href="@{css/custom.css}" rel="stylesheet" type="text/css" /> -->
+<link th:href="@{css/view-more-down-arrow.css}" rel="stylesheet" type="text/css" /> 
+<link th:href="@{css/animate.min.css}" rel="stylesheet" type="text/css" />
+
+<style>
+	body {
+		height: 100%;
+	}
+
+	.numradius {
+		border: 2px solid black;
+		background-color: white;
+		color: black;
+		float: right;
+	}
+
+	.buttonstyle {
+		color: white;
+		font-size: 16px;
+		padding: 5px;
+		border-radius: 12px;
+		border: 2px solid white;
+		border-left: solid white 2px;
+		border-top: solid white 2px;
+	}
+
+	.bordstyle {
+		/* border: 2px solid white; */
+		background: #dddbdb;
+		border-radius: 8px;
+		font-weight: bold;
+		font-size: 20px;
+		padding: 0px;
+		color: white;
+		/*margin-left: 20%;
+	margin-right: 20%;*/
+	}
+
+
+	.blink {
+		background-color: gray;
+		font-weight: bold;
+		text-align: center;
+		border-radius: 5px;
+	}
+
+	.disp {
+		font-size: 20px;
+		color: darkyellow;
+		font-weight: bold;
+		background: #7394b1;
+		animation: blink 1s linear infinite;
+	}
+
+	@keyframes blink {
+		0% {
+			opacity: 0;
+		}
+
+		50% {
+			opacity: .5;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+
+	.bordstyles {
+		border: 2px solid white;
+		background: gray;
+		border-radius: 15px;
+		font-weight: bold;
+		padding: 2px;
+		color: yellow;
+	}
+
+	a {
+		color: #ffffff;
+		text-decoration: none;
+		background-color: transparent;
+		-webkit-text-decoration-skip: objects;
+	}
+
+	.vl {
+		margin-left: 62%;
+		border-left: 3px solid white;
+		height: 170px;
+		margin-top: -40%;
+	}
+
+	.dashboard {
+		background-color: #fff;
+		max-width: 95%;
+		border-radius: 10px;
+		box-shadow: 5px 6px 7px grey;
+
+	}
+
+	.D-header {
+		align-items: center;
+	}
+
+	.card-link-postalbag-2:hover {
+		color: black;
+	}
+
+	.card-link-b {
+		background-image: linear-gradient(to left, rgb(182 220 231), rgb(29 131 219));
+		box-shadow: 5px 6px 7px grey;
+		height: 100%;
+	}
+
+
+	.lnk:hover {
+		color: black;
+	}
+
+	.time {
+		color: #000;
+		font-weight: bold;
+		font-size: small;
+		padding: 0;
+		margin: 0;
+	}
+
+	.label {
+		color: darkgray;
+		font-weight: bold;
+		font-size: small;
+		max-width: 28%;
+		padding: 0;
+		margin: 0;
+	}
+
+	.line {
+		border: 2px solid #8b8585;
+	}
+
+	.chart {
+		height: 142px;
+	}
+
+
+	/* bar chart */
+	/*.highcharts-figure,
+.highcharts-data-table table {
+  min-width: 310px;
+  max-width: 800px;
+  margin: 1em auto;
+}*/
+
+	#pendingCtrContainer {
+		max-height: 900px;
+	}
+
+	.highcharts-data-table table {
+		font-family: Verdana, sans-serif;
+		border-collapse: collapse;
+		border: 1px solid #ebebeb;
+		margin: 10px auto;
+		text-align: center;
+		width: 100%;
+		max-width: 500px;
+	}
+
+	.highcharts-data-table caption {
+		padding: 1em 0;
+		font-size: 1.2em;
+		color: #555;
+	}
+
+	.highcharts-data-table th {
+		font-weight: 600;
+		padding: 0.5em;
+	}
+
+	.highcharts-data-table td,
+	.highcharts-data-table th,
+	.highcharts-data-table caption {
+		padding: 0.5em;
+	}
+
+	.highcharts-data-table thead tr,
+	.highcharts-data-table tr:nth-child(even) {
+		background: #f8f8f8;
+	}
+
+	.highcharts-data-table tr:hover {
+		background: #f1f7ff;
+	}
+
+	/*--------*/
+	.site-chart {
+		height: 265px;
+	}
+
+	.dot {
+		height: 10px;
+		width: 10px;
+		border-radius: 50%;
+		display: inline-block;
+	}
+
+	.title {
+		font-size: 15px;
+	}
+
+	.card-link {
+		background-image: linear-gradient(to left, rgb(231 152 160), rgb(213 94 121));
+		box-shadow: 5px 6px 7px grey;
+		height: 100%;
+
+	}
+
+	.card-link:hover {
+		color: black;
+	}
+
+	.content {
+		padding: 0px 11px;
+	}
+
+	.icon {
+		font-size: 50%;
+		margin-top: 13px;
+		margin-left: -5px;
+	}
+
+	.card-link-postalbag {
+		background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115));
+		box-shadow: 5px 6px 7px grey;
+		cursor: pointer;
+		height: 100%;
+	}
+
+	.card-link-postalbag-2 {
+		background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115));
+		box-shadow: 5px 6px 7px grey;
+		cursor: default;
+		height: 100%;
+	}
+
+	.card-link-reallocation {
+		background-image: linear-gradient(to left, rgb(225 173 148), rgb(223 150 115));
+		box-shadow: 5px 6px 7px grey;
+		height: 100%;
+	}
+
+	.card-link-reallocation:hover {
+		color: black;
+	}
+
+	.card-link-c {
+		background-image: linear-gradient(to left, rgb(142 196 233), rgb(53, 152, 231));
+		box-shadow: 5px 6px 7px grey;
+		height: 100%;
+	}
+
+	.card-link-c:hover {
+		color: black;
+	}
+
+	.card-link-d {
+		background-image: linear-gradient(to left, rgb(126 201 176), rgb(121 187 166));
+		box-shadow: 5px 6px 7px grey;
+		height: 100%;
+	}
+
+	.card-link-d:hover {
+		color: black;
+	}
+
+	/*
+@media only screen and (max-width: 1980px) {
+#pieChartInfoText{	
+    text-align: center;
+    font-size: large;
+    margin-left: 7px;
+   font-weight: bold;
+    left: 53.5px;
+    top: 90px;
+}
+}
+*/
+	.leg-text {
+		font-weight: bold;
+	}
+
+	.leg-container {
+		/*background-color: #f33;*/
+	}
+
+	@media only screen and (max-width: 1717px) {
+		.card-link {
+			height: 95%;
+		}
+
+		.title {
+			font-size: 11.99px;
+		}
+
+		.col-md-10 {
+			max-width: 81%;
+		}
+
+		.card-link-postalbag-2 {
+			height: 95%;
+		}
+
+		.card-link-postalbag {
+			height: 95%;
+		}
+
+		.leg-container {
+			margin-left: -63px;
+		}
+	}
+
+	@media only screen and (max-width: 1590px) {
+		.leg-container {
+			margin-left: -100px;
+		}
+	}
+
+	@media only screen and (max-width: 1531px) {}
+
+	.modal-dialog {
+    	max-width: 60%;
+	}
+	.expand{
+		font-size:20px; 
+		color:#bdb9b9; 
+		cursor:pointer; 
+		position:relative;
+	}
+	.view-more{
+		text-align:center; 
+		margin-right: 18px;
+		position: relative;
+		font-size:20px;
+		margin-top:-10px;
+		color:#787878;
+    }
+    #vwMore:hover{
+    	cursor:pointer;
+    }
+    .view-more-chart-md {
+    	max-width: 100%;
+    	margin:0;
+	}
+	 p{
+				margin:0
+       }
+       #item_id{
+               padding:3px;
+       }
+       
+       .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+       
+       .ACchartMD{
+		margin-top: 0px;
+		max-width: 30%;
+		}
+       .count-card{
+  padding:11px;
+  background: #87cefa;
+  width: 370px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  position: absolute;
+  /* justify-content: end; */
+  border-radius: 1px 50px 50px 1px;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+}
+
+ .count-smallcard{
+  padding-left: 15px !important;
+  padding:5px;
+  background: rgb(188, 223, 162);
+  width: 270px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  position: relative;
+  justify-content: center; 
+  border-radius: 1px 50px 50px 1px;
+  box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+}
+.circle {
+        height: 50px;
+    width: 50px;
+    background-color: #fff3f3;
+    border-radius: 50%;
+    border: 5px solid #4d51a0;
+    text-align: center;
+    margin-left: 17px;
+}
+
+.smallcircle {
+   /*  height: 50px;
+    width: 50px; */
+    height: 40px;
+    width: 55px;
+    background-color: #fff3f3;
+    border-radius: 50%;
+    border: 5px solid rgb(33, 97, 5);
+    text-align: center;
+    margin-left: 5px;
+}
+.count{
+        position: absolute;
+    margin-top: 8px;
+    margin-left: -9px;
+    padding: 0px;
+}
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+
+.body {
+-webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+-o-user-select: none;
+user-select: none;
+}
+
+ .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+    	right: 12.5rem;
+        }
+
+
+
+ .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        right: 5rem;
+    
+    }
+
+.delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+       right: 4.5rem;
+    }
+
+.parent {
+	display: block;
+	position: relative;
+	float: left;
+	line-height: 30px;
+	background-color: #4FA0D8;
+	border-right: #CCC 1px solid;
+}
+
+.parent a {
+	margin: 10px;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+
+.parent:hover>ul {
+	display: block;
+	position: absolute;
+}
+
+.child {
+	display: none;
+}
+
+.child li {
+	background-color: #E4EFF7;
+	line-height: 30px;
+	border-bottom: #CCC 1px solid;
+	border-right: #CCC 1px solid;
+	width: 100%;
+}
+
+.child li a {
+	color: #000000;
+}
+
+ul {
+	list-style: none;
+	margin: 0;
+	padding: 0px;
+	min-width: 10em;
+	
+}
+
+ul ul ul {
+	left: 100%;
+	top: 0;
+	margin-left: 1px;
+}
+
+li:hover {
+	background-color: #95B4CA;
+}
+
+.parent li:hover {
+	background-color: #F0F0F0;
+}
+
+.expand {  
+	font-size: 12px;
+	float: right;
+	margin-right: 5px;
+}
+
+</style>
+
+<body class=".body">
+<!--  No. of Receptacle ID / Bags in Bag Arrival Confirmation / Scan Queue -->
+ <div id="overlay" style="display: block;">
+ <div id="loader">
+ <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+ </div></div>
+<input type="hidden" id="totdetain"  th:value="${curcoudet}">
+	<div class="container dashboard">
+<div class="row"  align="center">
+			<div class="col-md-1">
+			<!--	<h6>Activity Log</h6>
+				<span class="row" style="margin: 0; ">
+					<p class="col-sm-4 label">Last Login</p>
+					<p class="col-sm-8 time" th:text="': '+${session.LastLoginetails.data == null ? '-' : session.LastLoginetails.data}"></p>
+				</span>
+				<span class="row" style="margin: 0; ">
+					<p class="col-sm-4 label">Last Logout</p>
+					<p class="col-sm-8 time" th:text="': '+${LastLoginetails.value}"></p>
+				</span>
+				<hr class="line">-->
+			</div>
+			
+			<div class="col-md-10 mt-1">
+			<div>
+					<h2>Postal Imports in Customs - DASHBOARD</h2>
+				</div>
+			
+			
+				<div class="row bordstyle" style="text-align: center;">
+					<div class="col-md-3" align="center" style="padding: 6px; display:flex;">
+						<input type="text" id="item_Id" onkeyup="validateAndAddCharacters()" class="form-control form_txt" style="font-weight: bold"
+							maxlength="13" placeholder="ENTER Article / Item - ID">
+						<div align="center" valign="middle" style="padding: 10px;">
+							<span style="font-size: 20px;">&#8629;</span>
+						</div>
+					</div>
+
+					<div class="col-md-9 blink" align="center" style="padding: 9px;">
+						<input type="text" id="dispval" class="form-control form_txt disp"
+							style="font-weight: bold; background: #7394b1; color: rgb(255, 255, 255)"
+							value="TO VIEW STATUS/QUEUE" readonly>
+					</div>
+				</div>
+			
+			</div>
+			<div class="col-md-1 mt-2" style="text-align:end;position:relative; left:-14px" >
+				<button type="button" id = "btn_complaint" class="btn btn-primary" data-toggle="modal" data-target="#complaintModal">
+  				Raise complaint</button>
+  				</div>
+		</div>
+
+		<div class="row">
+		<!-- <div class="col-md-3" style="background: #cce3f3;padding-bottom:30px; ">
+			div class="col-md-3" style="background: #cce3f3; "
+				<div class="chart-head" style="text-align:center">
+					<h6 class="mt-2">Transaction Modules </h6>
+					<h7 class="mt-2" style="
+					    color: #766969;
+					    font-weight: bold;font-size: 11px;
+					">Click to Enter
+					</h7>
+				</div>
+				<div class="row">
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">
+					    <a  onclick="showLoader();" th:href="${session.data1=='PAO' || session.data1=='PAC' ? 'ead_list' : 'javascript:;'}">
+							<div class="card card-link">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1" style="padding-top:-3px;">
+											<div class="icon"><i class="fa fa-refresh fa-spin fa-3x fa-fw center" ></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c1" style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Process EAD - (Electronic Advance Data)
+												</strong>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" th:href="${session.data1=='PAO' || session.data1=='PAC' ? 'process_ead' : 'javascript:;'}">
+							<div class="card card-link">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i class="fa fa-refresh fa-spin fa-3x fa-fw center"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c3"  style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Process AAA - (Articles Awaiting Arrival)
+												</strong>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" href="import_role">
+							<div class="card card-link">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i style="font-size:x-large"
+													class="fa fa-spinner fa-spin center"></i></div>
+										</div>
+										<div class="col-md-11" id="col-c5"  style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Process AAF - (Articles Arrived at FPO) <span th:text="${session.data1=='PSU' ? ' - OOC' : ''}"></span><span th:text="${session.data1=='PIN' ? ' - EXAMN' : ''}"></span> </strong>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+						<div th:if="${session.data1=='PIN'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" href="queryreplyofficer">
+							<div class="card card-link-c">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i class="fa fa-pencil-square-o"
+													style="font-size: x-large"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c9"  style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Process Query Reply - </strong>
+												<p>&nbsp;&nbsp;(Upload Physically received doc and Query reply)</p>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='PIN' ||  session.data1=='PAO' }" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" th:style="${session.data1=='PIN' ||  session.data1=='PAO' ? 'cursor:pointer' : 'cursor:default; text-decoration: none;'}"
+							th:href="${session.data1=='PIN' ||  session.data1=='PAO' ? 'dcallhistory' : 'javascript:;'}" class="lnk">
+							<div class="card card-link-d">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i class="fa fa-eye" style="font-size: x-large"
+													aria-hidden="true"></i></div>
+										</div>
+										<div class="col-md-11" id="col-c12"  style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>D-Call Letter</strong>
+												<p>&nbsp;&nbsp;(Generate D-Call / Push - Email / SMS /
+													View
+													History)</p>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+						<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" href="postaledi">
+							<div class="card card-link-reallocation">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i class="fa fa-upload" style="font-size: x-large"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c4"  style="padding-top:7px;">
+											<h6 class="card-title title" style="margin:10px;">
+												<strong>Art-IDs in Commercial Imports Queue</strong>
+											</h6>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PSU' || session.data1=='PIN'|| session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<div class="card card-link-d">
+							<div class="content mt-1">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-eye"
+												style="font-size: x-large; color:#fff;"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="alloSite" class="lnk">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Art-IDs w/o PINCODE & pending for Mapping</strong>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div th:if="${session.data1=='PBS'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" th:href="${session.data1=='PBS' ? 'bagscan' : 'javascript:;'}">
+							<div class="card card-link-postalbag"
+								th:class="${session.data1=='PBS' ? 'card card-link-postalbag' : 'card card-link-postalbag-2'}">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i style="font-size: x-large;" class="fa fa-scissors center"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c2"  style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Postal Bag Arrival Confirmation / </strong>	<br>
+												<strong>&nbsp;&nbsp;Import Article Scan Report </strong>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">
+							<div class="card card-link-c">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1" >
+											<div class="icon"><i class="fa fa-ban" style="font-size: x-large;color:white;"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c7"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="detained" class="lnk">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Detained - Import Articles</strong>
+											</span>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="col-md-12 mt-2" style="vertical-align:center">
+							<div class="card card-link-c">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i class="fa fa-ban" style="font-size: x-large;color:white;"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c7"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="ooccancellation" class="lnk">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>OOC Cancellation</strong>
+											</span>
+										</a>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+					<div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PBS' || session.data1=='PSU'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" href="delack">
+							<div class="card card-link-c">
+								<div class="content mt-1">
+									<div class="row">
+										<div class="col-md-1">
+											<div class="icon"><i class="fa fa-pencil-square-o"
+													style="font-size: x-large"></i>
+											</div>
+										</div>
+										<div class="col-md-11" id="col-c9"  style="padding-top:7px;">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>ACK from India Post on Delivery of Articles</strong>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='PAL'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<div class="card card-link-reallocation">
+							<div class="content mt-1">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-bars"
+												style="font-size:x-large; color: white;"></i></div>
+									</div>
+									<div class="col-md-11" id="col-c6"  style="padding-top:7px;">
+										<span class="card-title title mt-2" style="margin:10px;">
+											<a onclick="showLoader();" th:style="${session.data1=='PAL' ? 'cursor:pointer' : 'cursor:default; color: white;text-decoration: none'}"
+												th:href="${session.data1=='PAL' ? 'aclfunction' : 'javascript:;'}">
+												<u style="text-decoration: none"><strong>Re-allocation / Priority /
+														Re-call
+														/ Alert</strong></u>
+											</a>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12 mt-2" style="vertical-align:center">
+						<div class="card card-link-d">
+							<div class="content mt-1">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-eye"
+												style="font-size: x-large; color:#fff;"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="viewarrinfo" class="lnk" >
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>View Article Arrival Information</strong>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-12 mt-2" style="vertical-align:center">
+						<div class="card card-link-d">
+							<div class="content mt-1">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-eye"
+												style="font-size: x-large; color:#fff;"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="article" class="lnk">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>View Articles - Track and Trail</strong>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						<div class="col-md-12 mt-2" style="vertical-align:center">
+						<div class="card card-link-d">
+							<div class="content mt-1">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-eye"
+												style="font-size: x-large; color:#fff;"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c8"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="trackarticle" class="lnk">
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>ICEGATE - Track Article</strong>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div th:if="${session.data1!='ARP' && session.data1 !='NRP'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a href="report1">
+						<div class="card card-link-c">
+							<div class="content">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-file"
+												style="font-size: x-large; color:#fff"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c11"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="misreport" class="lnk"><span class="card-title title mt-2" style="margin:10px;">
+												<strong>MIS
+													Reports</strong></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						</a>
+					</div>
+					
+					<div th:if="${session.data1!='ARP' && session.data1=='NRP'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a href="report1">
+						<div class="card card-link-c">
+							<div class="content">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-file"
+												style="font-size: x-large; color:#fff"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c11"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="NSMmisreport" class="lnk"><span class="card-title title mt-2" style="margin:10px;">
+												<strong>MIS
+													Reports</strong></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						</a>
+					</div>
+					<div th:if="${session.data1=='ARP'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a href="report1">
+						<div class="card card-link-c">
+							<div class="content">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-file"
+												style="font-size: x-large; color:#fff"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c11"  style="padding-top:7px;">
+										<a onclick="showLoader();" href="report" class="lnk"><span
+												class="card-title title mt-2"><strong>Analytical
+													Report</strong></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						</a>
+					</div>
+					
+				<div th:if="${session.data1=='PAO' || session.data1=='PAC'  || session.data1=='PSU' || session.data1=='PIN'}" class="col-md-12 mt-2" style="vertical-align:center">
+						<a onclick="showLoader();" href="recentpro">
+						<div class="card card-link-postalbag">
+							<div class="content mt-1">
+								<div class="row">
+									<div class="col-md-1">
+										<div class="icon"><i class="fa fa-eye"
+												style="font-size: x-large; color:#fff;"></i>
+										</div>
+									</div>
+									<div class="col-md-11" id="col-c9"  style="padding-top:7px;">
+										
+											<span class="card-title title mt-2" style="margin:10px;">
+												<strong>Recently Processed</strong>
+											</span>
+										
+									</div>
+								</div>
+							</div>
+						</div>
+</a>
+					</div>
+				</div>
+				
+				
+			</div> -->
+		
+
+
+
+
+
+
+
+
+			<div id="counts"
+				th:attr="eadcount=${eadcount},aaacount=${aaacount},aafcount=${aafcount},totcoultr=${totcoultr}, totcouems=${totcouems}, totcoupar=${totcoupar}, totcouemp=${totcouemp},
+										  totgift=${totgift}, totsg=${totsg}, totcs=${totcs}, totrg=${totrg}, totdoc=${totdoc}, tototh=${tototh},
+										  
+										  couass=${couass}, couexm=${couexm}, couooc=${couooc}, coudet=${coudet},
+										  personalImports=${personalImports}, detained=${detained}, commercialImports=${commercialImports}, pincodeCount=${pincodeCount},
+										  
+										  totooccancel=${totooccancel}, curcoudet=${curcoudet}, curcouooccancel=${curcouooccancel}, curcouass=${curcouass},  curcouexm=${curcouexm},  curcouooc=${curcouooc}, curcouqry=${curcouqry},
+										  
+										  recpcou=${recpcou}, bagcou=${bagcou},
+										  
+										  withDutyArticles=${withDutyArticles}, noArticles=${noArticles},
+										  dutyPayable=${dutyPayable}, withDutyPercentage=${withDutyPercentage}, 
+										  lastMonth=${lastMonth},noDutyConcession=${noDutyConcession},noDutyConcessionPercentage=${noDutyConcessionPercentage},totAmount=${totAmount},
+										  
+										  lettersCWS=${ctryWsMidPercentage.letters}, ltrValCWS=${ctryWsMidPercentage.ltrVal}, emsValCWS=${ctryWsMidPercentage.emsVal}, parValCWS=${ctryWsMidPercentage.parVal}, empRecepValCWS=${ctryWsMidPercentage.empRecepVal},
+										  emsCWS=${ctryWsMidPercentage.ems}, parcelsCWS=${ctryWsMidPercentage.parcels}, empRecepCWS=${ctryWsMidPercentage.empRecep},
+										 
+										  giftCWS=${ctryWsInnerPercentage.gift}, saleOfGoodsCWS=${ctryWsInnerPercentage.saleOfGoods}, returnedGoodsCWS=${ctryWsInnerPercentage.returnedGoods},
+										  commercialSampleCWS=${ctryWsInnerPercentage.commercialSample}, documentsCWS=${ctryWsInnerPercentage.documents}, othersCWS=${ctryWsInnerPercentage.others},
+										  
+										  ltrValAsCWS=${ctryWsMidAssValPercentage.ltrVal}, emsValAsCWS=${ctryWsMidAssValPercentage.emsVal}, parValAsCWS=${ctryWsMidAssValPercentage.parVal}, empRecepValAsCWS=${ctryWsMidAssValPercentage.empRecepVal},
+										  lettersAssValCWS=${ctryWsMidAssValPercentage.letters}, emsAssValCWS=${ctryWsMidAssValPercentage.ems}, parcelsAssValCWS=${ctryWsMidAssValPercentage.parcels}, empRecepAssValCWS=${ctryWsMidAssValPercentage.empRecep},
+										  
+										  giftAssValCWS=${ctryWsInnerAssValPercentage.gift}, saleOfGoodsAssValCWS=${ctryWsInnerAssValPercentage.saleOfGoods}, returnedGoodsAssValCWS=${ctryWsInnerAssValPercentage.returnedGoods}
+										  ,commercialSampleAssValCWS=${ctryWsInnerAssValPercentage.commercialSample}, documentsAssValCWS=${ctryWsInnerAssValPercentage.documents}, othersAssValCWS=${ctryWsInnerAssValPercentage.others},
+										  
+										  giftValCWS=${ctryWsInnerPercentage.noOfGift}, saleOfGoodsValCWS=${ctryWsInnerPercentage.noOfSaleOfGoods}, returnedGoodsValCWS=${ctryWsInnerPercentage.noOfReturnedGoods},
+										  commercialSampleValCWS=${ctryWsInnerPercentage.noOfCommercialSample}, documentsValCWS=${ctryWsInnerPercentage.noOfDocuments}, othersValCWS=${ctryWsInnerPercentage.noOfOthers},
+										  
+										  noOfgiftValCWS=${ctryWsInnerAssValPercentage.noOfGift}, noOfsaleOfGoodsValCWS=${ctryWsInnerAssValPercentage.noOfSaleOfGoods}, noOfreturnedGoodsValCWS=${ctryWsInnerAssValPercentage.noOfReturnedGoods},
+										  noOfcommercialSampleValCWS=${ctryWsInnerAssValPercentage.noOfCommercialSample}, noOfdocumentsValCWS=${ctryWsInnerAssValPercentage.noOfDocuments}, noOfothersValCWS=${ctryWsInnerAssValPercentage.noOfOthers}">
+			</div>
+
+			<div class="col-md-3" style="background:#f0f9f9;align:center">
+				<div class="chart-head" style="text-align:center">
+					<h6 class="mt-2">User-Task-Info </h6><font size=2>(Data shown below is specific to user roles)</font>
+				<br><font size=2>No. of  <span th:text="${quenm}"> </span> Queue as below
+				<br><span th:if="${session.data1=='PBS'}">Note : (Only for Article Arrival Information fully received)</span></font>
+				</div>
+				<div class="chart" id="doughnutChart-user"></div >
+				<div class="chart" id="userEADcontainer"></div >
+				<div class="chart" id="userIc"></div >
+				<div class="chart" id="userAAF" style="display:none"></div>
+				
+				<div class="chart" id="userPAL" style="display:none"></div>
+				<div class="chart" id="userNAL" style="display:none"></div>
+				<div class="chart" id="userARP" style="display:none"></div>
+				<div class="chart" id="userNRP" style="display:none"></div>
+				<div class="chart" id="userREP" style="display:none"></div>
+				<div class="chart" id="userCOM" style="display:none"></div>
+				
+				<!--<div class="line-chart mb-3 mt-2">
+										<div class="aspect-ratio">
+											<canvas id="chart"></canvas>
+										</div>
+									</div>-->
+				<br>
+			<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="row" id="detain" style=" margin-left: -5px;">
+				
+				<!-- <div class="col-md-1"></div> -->
+				
+				<div class="count-smallcard col-md-5" style="align:center;height: 60px;   margin: 0 1rem;">
+					    <span class="count-text" style="padding-left:10px;margin-right:20px;margin-top: 5px; font-size: 13px;display: contents;">No. of Art IDs in Detained Queue</span>
+						<div class="smallcircle" style="align:center;">
+						<div style="margin-right: -10px;margin-top: -2px;">
+							<span class="count" style="align:center;font-size: small;" th:text="${totcoudet}"></span>
+						</div></div>
+				</div>
+				
+				<br>
+			<!-- 	<div class="col-md-1"></div>	 -->				
+				<div class="count-smallcard col-md-5" style="align:center;height: 60px;    margin: 0 1rem;">
+					    <span class="count-text" style="padding-left:10px;margin-right:20px;margin-top: 5px; font-size: 13px;display: contents;">No. of Dcall  Pending for Printing</span>					
+						<div class="smallcircle" style="align:center;">	
+						<div style="margin-right: 3px;margin-top: -3px;"> 						
+							<span class="count" style="align:center;font-size: small;" th:text="${pendingprint}"></span>
+						</div></div>
+				</div>		
+				<div class="col-md-"></div>
+				</div>
+				<br>
+				
+				<div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="row" id="ooccancel" style=" margin-left: -5px;">
+				
+				<!-- <div class="col-md-1"></div> -->				
+				<div class="count-smallcard col-md-5" style="align:center;height: 60px;   margin: 0 1rem;">
+					    <span class="count-text" style="padding-left:10px;margin-top: 5px; font-size: 13px;display: contents;">No. of Art IDs in OOC Cancellation Queue</span>
+						<!-- <div class="smallcircle" style="align:center;">
+						<div style="margin-right: -10px;margin-top: -2px;">
+							<span class="count" style="align:center;font-size: small;" th:text="${totooccancel}"></span>
+						</div></div> -->
+						
+						<div class="smallcircle" style="align:center;">	
+						<div style="margin-right: -10px;margin-top: -2px;"> 						
+							<span class="count" style="align:center;font-size: small;" th:text="${totooccancel}"></span>
+						</div></div>
+				</div>
+				
+				
+				<div class="count-smallcard col-md-5" style="align:center;height:60px;   margin: 0 1rem;">
+					    <span class="count-text" style="padding-left:10px;margin-top: 5px; font-size: 13px;display: contents;">No. of Dispatch Details  Entry Pending</span>
+						<!-- <div class="smallcircle" style="align:center;">
+						<div style="margin-right: -10px;margin-top: -2px;">
+							<span class="count" style="align:center;font-size: small;" th:text="${totooccancel}"></span>
+						</div></div> -->
+						
+						<div class="smallcircle" style="align:center;">	
+						<div style="margin-right: 3px;margin-top: -3px;"> 						
+							<span class="count" style="align:center;font-size: small;" th:text="${size}"></span>
+						</div></div>
+				</div>
+
+				</div>
+				
+			
+
+			</div>
+				<div class="col-md-3" style="background: #e7eff1;vertical-align:center;align:center">
+				<div class="chart-head" style="text-align:center">
+					<h6 class="mt-2">FPO-Site-Info </h6>
+				</div>
+				<div class="chart doughnut-chart mt-2" id="doughnutChart"></div>
+				<div class="chart doughnut-chart-ead" id="container"></div>
+				<div class="chart doughnut-chart-ic" id="chartdiv"></div>
+				<div class="chart doughnut-chart-aaf" id="chartdivAAF"></div>
+				<div class="count-card"  style="padding-top:7px;">
+					<div class="row">
+						<span class="count-text" style="margin-left: 13px;margin-top: 10px; font-size:small;">No. of articles pending for
+							mapping with this site: <br>
+							<center>(Article IDs received in EAD without pincode)</center>
+						</span>
+						<div class="circle">
+							<span class="count" th:text="${totalCountWp}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-6" style="background:#f7ffff; padding:0">
+			<div class="chart-head" style="text-align:center">
+					<h6 class="mt-2">General-Info </h6>
+				</div>
+				<div class="site-chart pie-chart-pc" id="pchart-container"></div>
+				<!--<div class="site-chart ead-chart-IB" id="eadIBContainer"></div>-->
+				<div class="site-chart doughnut-chart-oocPr" id="oocPrContainer"></div>
+				<div class="chart bar-chart-imports" id="import-container"
+					style="background: linear-gradient( #dddbdb, #b7afaf)">
+				</div>
+			</div>
+		</div>
+		<div class="arrow-container animated fadeInDown" id="vwMore">
+					<div class="arrow-2">
+						<i class="fa fa-angle-down"></i>
+					</div>
+					<div class="arrow-1 animated hinge infinite zoomIn"></div>
+				</div>
+				<div class="view-more">View More</div>
+	</div>
+	
+	<div class="modal fade" id="count-chart" style="z-index: 1080;" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content m-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head">
+					<button type="button" class="close model-close" data-dismiss="modal">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div id="chart-modal" style="height: 600px;">
+	
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="viewMore"  data-keyboard="false" data-backdrop="static" style=" padding :10px">
+		<div class="modal-dialog view-more-chart-md">
+			<div class="modal-content m-content view-more-chart-mc" >
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head">
+					<button type="button" class="close model-close" data-dismiss="modal" style="padding: 7px;">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body view-more-chart-mb">
+					<div id="more-charts" style="height: 870px;">
+						<div class="row">
+							<!--<div id="pendingCtrContainer"></div>-->
+							<div class="col-md-4" style="padding: 0;">
+								<div id="countryWMCContainer" style="height:870px"></div>
+							</div>
+							<div class="col-md-4" style="padding: 0">
+								<div id="countryWsMultichart"></div>
+								<div id="oocChargableChart"></div>
+							</div>
+							<div class="col-md-4" style="padding: 0">
+								<div id="countryWsAssValMultichart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="country-ass-value-chart-modal" style="z-index: 1080;" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog ACchartMD">
+			<div class="modal-content m-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head" style="padding: 7px;">
+					<button type="button" class="Ac-close model-close close" data-dismiss="modal">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
+					<div id="country-ass-value-chart"  style="height: 900px;">
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade" id="curdet-modal" style="z-index: 1080;" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<div class="modal-content m-content">
+	
+				<!-- Modal Header -->
+				<div class="modal-header popup-head" style="padding: 7px;">
+					<button type="button" class="Ac-close model-close close" data-dismiss="modal">x</button>
+				</div>
+	
+				<!-- Modal body -->
+				<div class="modal-body" style="padding-top: 0px; padding-bottom: 0px;">
+					<div id="curdet-chart"  style="height: 900px;">
+					</div>
+				</div>
+	
+	
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="complaintModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin:-7rem">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 30vh; ">
+    <div class="modal-header" style="display:flex;justify-content:end;align-items:center">
+  <button type="button" class="close" data-dismiss="modal"  aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+	<div class="modal-body" style="display:flex;justify-content:center;align-items:center">
+		 <div >
+		 	<h2>Please contact Saksham Seva by sending Email to saksham.seva@icegate.gov.in </h2>
+		 </div>
+	</div>
+	<div class="modal-footer" style="display:flex;justify-content:center;align-items:center">
+		<div>
+			<h6>Ticket Management System for this application is under construction...</h6>
+		</div>
+	</div>
+	</div>
+  </div>
+</div>
+	
+
+
+
+	<div class="row"></div>
+	<!--  <p th:text="${session.data}" th:unless="${session == null}">[...]</p> -->
+
+	<!--<div class="container"
+		style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px; display:block">
+		<div class="mt-2" align="center">
+			<h2>Postal Imports in Customs - DASHBOARD</h2>
+		</div>
+		<div class="row bordstyle" 
+			style="text-align: center; margin-left: 2%; margin-right: 2%;">
+			<div align="center" style="padding: 6px; width: 22%">
+				<input type="text" id="item_Id" class="form-control form_txt"
+					style="font-weight: bold" maxlength="13" placeholder="ENTER ITEM_ID">
+			</div>
+			
+			<div align="center" valign="middle" style="padding: 10px;">
+				<span style="font-size: 20px;">&#8629;</span>
+			</div>
+			<div align="center" class="blink"
+				style="padding: 3px; margin-right: 1%; width: 74%">
+				<input type="text" id="dispval" class="form-control form_txt disp"
+					style="font-weight: bold; background: #7394b1; color: yellow"
+					value="TO VIEW STATUS/QUEUE" readonly>
+			</div>
+		</div>
+
+
+		<div style="color: white">
+
+			<div class="row mt-2">
+				<div class="col-sm-4">
+					<a href="ead_list"><div class="card"
+							style="background-color: #4e97d6 ; height: 97%;">
+							<div class="card-body">
+								<i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size: 30px"></i>
+							<h5 class="card-title mt-2" style="width: 75%;">
+									<strong>Process EAD <br>(Electronic Advance Data)
+									</strong>
+								</h5>
+								<div class="vl" style="margin-top: -47%;"></div>
+								
+								<p
+									style="margin-left: 65%; margin-bottom: -8px; margin-top: -50%;">
+									Letter(U) <span th:text="${coultr}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 9%;">231</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 66%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									EMS(E) <span th:text="${couems}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 25%;">16</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+
+								<p
+									style="margin-left: 67%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									Parcels(C) <span th:text="${coupar}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 10%;">09</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 67%; margin-top: -3%; margin-bottom: -8px; font-size: 13px;">
+									Emp.Recp(T) <span th:text="${couemp}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px;">0</span>
+								</p>
+
+
+							</div>
+						</div></a>
+				</div>
+				<div class="col-sm-4">
+					<a href="process_ead"><div class="card "
+							style="background-color: #6ea5d4; height: 97%;">
+							
+							<div class="card-body">
+								<i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="width: 55%;">
+									<strong>Process Articles <br>Awaiting Arrival 
+									</strong>
+								</h5>
+								<div class="vl" style="margin-top: -39%;"></div>
+								
+								<p
+									style="margin-left: 73%; margin-bottom: -8px; margin-top: -50%;">
+									Query <span th:text="${coupqry}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 7%;">23</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									Exam <span th:text="${coupexm}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 22%;">16</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									OOC <span th:text="${coupooc}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 25%;">09</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 13px;">
+									EDI <span th:text="${coupedi}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 39%;">0</span>
+								</p>
+
+
+							</div>
+
+						</div></a>
+				</div>
+				<div class="col-sm-4">
+					<a href="import_role"><div class="card"
+							style="background-color: #8dbee8; height: 97%;">
+							<div class="card-body">
+								<i class="fa fa-spinner fa-spin" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="width: 55%;">
+									<strong>Process Articles<br> Arrived at FPO</strong>
+								</h5>
+								<div class="vl" style="margin-top: -39%;"></div>
+
+								
+								<p
+									style="margin-left: 73%; margin-bottom: -8px; margin-top: -50%;">
+									Assess <span th:text="${couass}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 10%;">0</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									Exam <span th:text="${couexm}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 27%;">0</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									OOC <span th:text="${couooc}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 30%;">0</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 13px;">
+									Detain <span th:text="${coudet}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 21%;">0</span>
+								</p>
+							</div>
+						</div></a>
+				</div>
+			</div>
+			<div class="row mt-2">
+			<div class="col-sm-4">
+			<a th:href="${session.data1=='PBS' ? 'bagscan' : 'javascript:;'}">
+			<div class="card" th:style="${session.data1=='PBS' ? 'cursor:pointer;background-color: #7e2b37' : 'cursor:default;background: #7e2b37;color:white;'}">
+							<div class="card-body">
+								<i class="fa fa-scissors" style="font-size: 27px"></i>
+								<h5 class="card-title mt-2">
+									<u><strong>Postal Bag Arrival Confirmation / Import Article Scan Report</strong></u>
+								</h5>
+							</div>
+							
+						</div></a>
+				</div>
+			<div class="col-sm-4">
+					<div class="card"
+							style="background-color: #ec6565">
+							<div class="card-body">
+								<h5 class="card-title" style="font-size: large"><span><i class="fas fa-stream" style="font-size: 27px"></i></span><a th:style="${session.data1=='ACL' ? 'cursor:pointer' : 'cursor:default;color: white;text-decoration: none'}" th:href="${session.data1=='ACL' ? 'aclfunction' : 'javascript:;'}" >
+									<span style="margin-left:50px;"><u style="text-decoration: none"><strong>Re-allocation / Priority / Re-call / Alert</strong></u></span>
+								</a></h5>
+
+								 
+								
+							</div>
+					</div>		
+				</div>
+				<div class="col-sm-4">
+					<a href="postaledi"><div class="card"
+							style="background-color: #ffb861">
+							<div class="card-body">
+								<i class="fa fa-upload" style="font-size: 27px"></i>
+								<h5 class="card-title mt-2">
+									<strong>Articles selected for EDI- Bill of Entry</strong>
+								</h5>
+							</div>
+							
+						</div></a>
+				</div>
+			</div>
+			</div>
+			
+			
+			<div class="row mt-2">
+				<div class="col-sm-4">
+					<a href="detention"><div class="card" style="background-color: #ef3c3c">
+						<div class="card-body">
+							<i class="fa fa-ban" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong>Detained <br>Import Articles</strong>
+							</h5>
+
+						</div>
+				</div>
+			</div>
+				<div class="col-sm-4 ">
+					<a href="deliveryarticles"><div class="card" style="background-color: #CD853F">
+							<div class="card-body">
+								<i class="fa fa-pencil-square-o" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="font-size: 19px;">
+									<strong>Acknowledgement from Post on Delivery of Articles</strong>
+								</h5>
+							</div>
+
+						</div></a>
+				</div>
+				<div class="col-sm-4 mb-2">
+					<div class="card"
+							style="background-color: #a68ea7;max-height: 139px;">
+							<div class="card-body">
+								<i class="fa fa-file" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2">
+									<a href="report1" style="font-weight: bolder;">MIS Reports</a>
+								</h5>
+								<h5 class="card-title mt-2">
+									<a href="report" style="font-weight: bolder;">Analytical Report</a>
+								</h5>
+								<br>
+							</div>
+						</div></a>
+				</div>
+			</div>
+			
+			<div class=" row mt-2">
+				<div class="col-sm-4 mb-2">
+					<div class="card"
+							style="background-color: #3fcdcd;max-height: 139px;">
+							<div class="card-body">
+								<i class="fa fa-eye" style="font-size: 30px"></i>
+								<a href="article"><h5 class="card-title mt-2">
+									<strong>View Articles - Track and Trail</strong>
+								</h5></a>
+								
+								<a href="trackarticle"><h5 class="card-title mt-2">
+									<strong>ICEGATE - Track Article</strong>
+								</h5></a>
+								<br>
+							</div>
+						</div>
+				</div>
+				<div class="col-sm-4 mb-2">
+					<div class="card"
+							style="background-color: #007bff;max-height: 139px;">
+							<div class="card-body">
+								<i class="fa fa-eye" style="font-size: 30px"></i>
+								<a href="alloSite"><h5 class="card-title mt-2">
+									<strong>CUSITM / AAI - Without Pincodes</strong>
+								</h5></a>
+
+								<br>
+							</div>
+						</div>
+				 </div>
+				<div class="col-sm-4 mb-2" th:if="${session.role == 'APR'}">
+					<a href="dcallhistory"><div class="card" style="background-color: #b56464">
+							<div class="card-body">
+								<i class="fa fa-eye" style="font-size: 30px" aria-hidden="true"></i>
+								<h5 class="card-title mt-2" style="font-size: 19px;">
+									<strong>D-Call Letter</strong>
+									<p style="font-size: 12px;">(Generate D-Call / Push - Email / SMS / View History)</p>
+								</h5>
+							</div>
+
+						</div></a>
+				</div>
+			</div>
+		</div>
+	</div  >-->
+	
+	
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin:-30rem">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 80vh; ">
+    <div class="modal-header">
+ 	<h5 class="modal-title w-100 text-center" style="font-size: 2rem; font-weight: 700; color:#334495;">FPO IMPORT APPLICATION - RAISE COMPLAINTS</h5>
+  <button type="button" class="close" data-dismiss="modal" onclick="goBack()" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+        <div   class="modal-body" th:if="${session.data1=='PAO'}">
+       <h5>PAO Modules</h5>
+       
+        <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 21.3rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap; width: 21.3rem;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+			<li class="parent"><a  nowrap>Process EAD-(Electronic Advance Data)</a><span class="expand"></span>
+				<ul style=" white-space: nowrap;  width: 193px;" class="child">
+					<li><a  nowrap>Set Aside List</a></li>
+					<li><a  nowrap>Returned by AC</a></li>
+					<li><a  nowrap>Process "De minimis"</a></li>
+					<li><a  nowrap>Process "DOCUMENTs"</a></li>
+					<li><a  nowrap>Process EAD</a></li>
+				</ul></li>
+		<li class="parent" > <a nowrap>Process AAA-(Articles Awaiting Arrival)</a><span class="expand"></span>
+				<ul style="white-space: nowrap; width: 12rem;" class="child">
+					<li class="parent"style="text-align: center;"><a  nowrap>Record Query Response <br> / Complete
+					Assessment</a>
+					<ul class="child">
+					</ul></li>
+					<li class="parent" ><a  nowrap>Other Queues (View only)</a>
+					<ul class="child" style="text-align: center;">
+					<li><a  nowrap>Examination Queue</a></li>
+					<li><a  nowrap>OOC Queue</a></li>
+					<li ><a  nowrap>Commercial Imports<br> Queue</a></li>
+					</ul></li>
+						</ul>
+				</li>
+				<li class="parent"  ><a  nowrap>Process AAF-(Articles Arrived at FPO)</a><span class="expand"></span>
+				<ul class="child" style=" width: 195px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul>	<li><a  nowrap>Assessment Queue</a></li>
+					<li><a  nowrap>Query Queue</a></li>
+				</ul></ul></li>
+				<li class="parent"><a  nowrap>D-call Letter</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;   white-space: nowrap; background-color: #E4EFF7">
+				<ul style="width:26rem;">
+					<li><a  nowrap>D-Call Letter Generated TODAY</a></li>
+					<li><a  nowrap>D-Call Letter NOT PRINTED Yet</a></li>
+					<li><a  nowrap>Print D-Call Letter Again and Push Email / SMS</a></li>
+					<li><a  nowrap>Enter Speed Post Consign.No of D-Call Letter Dispatched</a></li>
+					<li><a  nowrap>D-Call Letter Speed Post Consign.No History</a></li>
+					<li><a  nowrap>Status of D-Call Letters (OOC Not Given) </a></li>
+					</ul>
+				</ul></li>
+				<li class="parent"  ><a  nowrap>Art.IDs in Commercial Imports Queue</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 80px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 26rem;">	<li><a  nowrap>BE Declaration and Assessment <font size="2">(MANUAL ENTRY)</font></a></li>
+					<li><a  nowrap>Art.IDs Under Process / Processed in Commercial Queue</a></li>
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>Art-IDs w/o PINCODE & Pending for Mapping)</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 60rem;">	<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  
+				<font size="2">(MAPPED TO THIS SITE AND ARTICLE ARRIVAL INFORMATION RECEIVED)</font></a></li>
+					<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  - ALL INDIA
+					<font size="2">(NOT MAPPED TO ANY SITE AND ARTICLE ARRIVAL INFORMATION NOT YET RECEIVED)</font> </a></li>  
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>Detained-Import Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 80px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 25rem;">	<li><a  nowrap>Detained Articles</a></li>
+					<li><a  nowrap>Post Detention Proceedings / Detained Articles History</a></li>	
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>OOC Cancellation</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 13rem;">	<li><a  nowrap>Initiate OOC Cancellation</a></li>
+				<li><a  nowrap>Process OOC Cancellation</a></li>
+					<li><a  nowrap>OOC cancelled History</a></li>
+						
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>ACK from India Post on Delivery of Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 20rem;">	<li><a  nowrap>OOC Sent to Post</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Received</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Not Received</a></li>	
+						</ul></ul></li>
+			<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+			
+				<li class="parent"><a  nowrap>Recently Processed</a><span class="expand"></span>
+				</li>
+		</ul></li></ul>
+
+        
+        
+        
+       </div> 
+       <div   class="modal-body" th:if="${session.data1=='PIN'}">
+       <h5>PIN Modules</h5>
+       
+         <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 21.85rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+				<li class="parent"  ><a  nowrap>Process AAF-(Articles Arrived at FPO)</a><span class="expand"></span>
+				<ul class="child" style=" width: 193px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul>	<li><a  nowrap>Scan / Exam Queue</a></li>
+				</ul></ul></li>
+					<li class="parent"><a  nowrap>Process Query Reply</a><span class="expand"></span>
+				<ul style=" white-space: nowrap; width: 193px;" class="child">
+					<li><a  nowrap>Query Reply</a></li>
+					<li><a  nowrap>Query Reply History</a></li>
+				</ul></li>
+				<li class="parent"><a  nowrap>D-call Letter</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;   white-space: nowrap; background-color: #E4EFF7">
+				<ul style="width:26rem;">
+					<li><a  nowrap>D-Call Letter Generated TODAY</a></li>
+					<li><a  nowrap>D-Call Letter NOT PRINTED Yet</a></li>
+					<li><a  nowrap>Print D-Call Letter Again and Push Email / SMS</a></li>
+					<li><a  nowrap>Enter Speed Post Consign.No of D-Call Letter Dispatched</a></li>
+					<li><a  nowrap>D-Call Letter Speed Post Consign.No History</a></li>
+					<li><a  nowrap>Status of D-Call Letters (OOC Not Given) </a></li>
+					</ul>
+				</ul></li>
+			<li class="parent"  ><a  nowrap>Art-IDs w/o PINCODE & Pending for Mapping</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 60rem;">	<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  
+				<font size="2">(MAPPED TO THIS SITE AND ARTICLE ARRIVAL INFORMATION RECEIVED)</font></a></li>
+					<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  - ALL INDIA
+					<font size="2">(NOT MAPPED TO ANY SITE AND ARTICLE ARRIVAL INFORMATION NOT YET RECEIVED)</font> </a></li>  
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>ACK from India Post on Delivery of Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 20rem;">	<li><a  nowrap>OOC Sent to Post</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Received</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Not Received</a></li>	
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+						
+						
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+				<li class="parent"><a  nowrap>Recently Processed</a><span class="expand"></span>
+				</li>
+		</ul></li></ul>
+        
+      </div>
+     <div   class="modal-body" th:if="${session.data1=='PAC'}">
+       <h5>PAC Modules</h5>
+        <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 21.85rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+			<li class="parent"><a  nowrap>Process EAD-(Electronic Advance Data)</a><span class="expand"></span>
+				<ul style=" white-space: nowrap;  width: 192px;" class="child">
+					<li><a  nowrap>Set Aside List</a></li>
+					<li><a  nowrap>Returned by AC</a></li>
+					<li><a  nowrap>Process "De minimis"</a></li>
+					<li><a  nowrap>Process "DOCUMENTs"</a></li>
+					<li><a  nowrap>Process EAD</a></li>
+				</ul></li>
+			<li class="parent" > <a nowrap>Process AAA-(Articles Awaiting Arrival)</a><span class="expand"></span>
+				<ul style="white-space: nowrap;" class="child">
+					<li class="parent"style="text-align: center;"><a  nowrap>Record Query Response <br> / Complete
+					Assessment</a>
+					<ul class="child">
+					</ul></li>
+					<li class="parent" ><a  nowrap>Other Queues (View only)</a>
+					<ul class="child" style="text-align: center;">
+					<li><a  nowrap>Examination Queue</a></li>
+					<li><a  nowrap>OOC Queue</a></li>
+					<li ><a  nowrap>Commercial Imports<br> Queue</a></li>
+					</ul></li>
+						</ul>
+		
+				</li>
+				<li class="parent"  ><a  nowrap>Process AAF-(Articles Arrived at FPO)</a><span class="expand"></span>
+				<ul class="child" style=" width: 195px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul>	<li><a  nowrap>Assessment Queue</a></li>
+				
+				</ul></ul></li>
+				<li class="parent"  ><a  nowrap>Art.IDs in Commercial Imports Queue</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 80px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 26rem;">	<li><a  nowrap>BE Declaration and Assessment <font size="2">(MANUAL ENTRY)</font></a></li>
+					<li><a  nowrap>Art.IDs Under Process / Processed in Commercial Queue</a></li>
+						</ul></ul></li>
+								<li class="parent"  ><a  nowrap>Art-IDs w/o PINCODE & Pending for Mapping</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 60rem;">	<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  
+				<font size="2">(MAPPED TO THIS SITE AND ARTICLE ARRIVAL INFORMATION RECEIVED)</font></a></li>
+					<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  - ALL INDIA
+					<font size="2">(NOT MAPPED TO ANY SITE AND ARTICLE ARRIVAL INFORMATION NOT YET RECEIVED)</font> </a></li>  
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>Detained-Import Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 80px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 25rem;">	<li><a  nowrap>Detained Articles</a></li>
+					<li><a  nowrap>Post Detention Proceedings / Detained Articles History</a></li>	
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>OOC Cancellation</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 13rem;">	<li><a  nowrap>Initiate OOC Cancellation</a></li>
+				<li><a  nowrap>Process OOC Cancellation</a></li>
+					<li><a  nowrap>OOC cancelled History</a></li>
+						
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>ACK from India Post on Delivery of Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 20rem;">	<li><a  nowrap>OOC Sent to Post</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Received</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Not Received</a></li>	
+						</ul></ul></li>
+			<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+						
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+		</ul></li></ul>
+       </div>   
+       <div   class="modal-body" th:if="${session.data1=='PSU'}">
+       <h5>PSU Modules</h5>
+        <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 21.85rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+				<li class="parent"  ><a  nowrap>Process AAF-(Articles Arrived at FPO)</a><span class="expand"></span>
+				<ul class="child" style=" width: 195px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul>	<li><a  nowrap>Assessment Queue</a></li>
+				
+				</ul></ul></li>
+								<li class="parent"  ><a  nowrap>Art-IDs w/o PINCODE & Pending for Mapping</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;   white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 60rem;">	<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  
+				<font size="2">(MAPPED TO THIS SITE AND ARTICLE ARRIVAL INFORMATION RECEIVED)</font></a></li>
+					<li><a  nowrap>LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  - ALL INDIA
+					<font size="2">(NOT MAPPED TO ANY SITE AND ARTICLE ARRIVAL INFORMATION NOT YET RECEIVED)</font> </a></li>  
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>ACK from India Post on Delivery of Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 20rem;">	<li><a  nowrap>OOC Sent to Post</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Received</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Not Received</a></li>	
+						</ul></ul></li>
+			<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+						
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			</li>
+			<li class="parent"><a  nowrap>Recently Processed</a><span class="expand"></span>
+				</li>
+		</ul></li></ul>
+        
+       </div>    
+       
+      <div th:if="${session.data1=='PBS'}"  class="modal-body">
+       <h5>PBS Modules</h5>       
+        <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 20rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+						<li class="parent"  ><a  nowrap>Postal Bag Arrival Confirmation/Import <br>Article Scan Report</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 47rem;">	<li><a  nowrap>A. Confirmation
+                    of Arrival at fpo<font size="2">(Art-IDs for which Article Arrival Information Received in full)</font></a></li>
+				<li><a  nowrap>B. Confirmation of Arrival at FPO<font size="2"> (Art-IDs for which Art.Arrival Info Received Partial / Art.Arrival Information Not Received) </font></a></li>
+					<li><a  nowrap>Confirmation History for  "A"</a></li>
+				   <li><a  nowrap>Confirmation History for  "B"</a></li>
+						</ul></ul></li>
+						<li class="parent"  ><a  nowrap>ACK from India Post on Delivery of Articles</a><span class="expand"></span>
+				<ul class="child" style="overflow: scroll; overflow-x:scroll; width: 190px;  height: 110px; white-space: nowrap; background-color: #E4EFF7" >
+				<ul style="width: 37rem;">	<li><a  nowrap>OOC Sent to Post</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Received</a></li>
+					<li><a  nowrap>Delivery Acknowledgement Not Received</a></li>	
+						</ul></ul></li>
+							<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+					
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+			
+		</ul></li></ul>
+      </div>
+      <div   class="modal-body" th:if="${session.data1=='ARP'}">
+       <h5>ARP Modules</h5>
+        
+       <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 20rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+				<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+					
+		</ul></li></ul>
+      </div>
+       <div   class="modal-body" th:if="${session.data1=='NRP'}">
+       <h5>NRP Modules</h5>
+       
+          <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 20rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+			<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>		
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+		</ul></li></ul>
+        
+             </div>
+           <div   class="modal-body" th:if="${session.data1=='PAL'}">
+       <h5>PAL Modules</h5>
+        <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 20rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+				<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+				<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+				<li class="parent"  ><a  nowrap>Re-allocation/Priority/Re-call/Alert</a><span class="expand"></span>
+				<ul class="child" style=" width: 190px;  white-space: nowrap; background-color: #E4EFF7" >
+				<ul >	<li><a  nowrap>Re-allocation</a></li>
+					<li><a  nowrap>Priority</a></li>
+					<li><a  nowrap>Re-Call</a></li>	
+					<li><a  nowrap>Alert</a></li>	
+						</ul></ul></li>
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+		</ul></li></ul>
+     
+             </div>
+      <div   class="modal-body" th:if="${ session.data1=='REP'}">
+       <h5>REP Modules</h5>
+         <ul id="moduleSelect" onclick="checkDivAddUl(event)" class="menu" >
+            <li class="parent" onclick="mainLayer()" style="width: 20rem;"><a >Select  Modules</a> <br>
+             <a id="selected-module" ></a> 
+             <button id="close" onclick="goBacks()" style="display:none">Reset</button>
+		<ul style=" white-space: nowrap;" class="child"  onclick="firstLayer()">
+			<li><a >Dashboard</a></li>
+			<li class="parent"  ><a  nowrap>View Article Arrival Information</a><span class="expand"></span>
+				</li>
+			<li class="parent"  ><a  nowrap>View Articles-Track and Trail</a><span class="expand"></span>
+				</li>
+						
+				<li class="parent"  ><a  nowrap>ICEGATE-Track Article</a><span class="expand"></span>
+				</li>
+			<li id="dropdown1" class="parent" ><a nowrap>MIS-Report</a><span class="expand"></span>
+			<ul  style="overflow-x: scroll;width: 190px;   height: 220px;white-space: nowrap;background-color: #E4EFF7" class="child">
+					<ul style="width: 79rem;">
+					<li><a  nowrap>Total no of articles processed and cleared for the selected period (OOC Given)</a></li>
+					<li><a  nowrap>Total no of Articles pending in various queues (OOC  not given articles)</a></li>
+					<li><a nowrap>Total no. of Article IDs received as EAD without PINCODE and mapped to this site</a></li>
+					<li><a  nowrap>Total no of pending Articles for which Query is raised and status ( only for 1st query)</a></li>
+					<li><a  nowrap>Total no of pending Articles for which more than one query is raised and status</a></li>
+					<li><a  nowrap>Top IMPORTS - Mail Class- countries of Postal Imports at the FPO site for last month or any select period ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Imports - Item Category - countries of Postal Imports at the FPO site for last month or any select period - for Item Catgeories ( based on EAD data received for select period)</a></li>
+					<li><a  nowrap>Top Duty - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Top Duty - Mail Class - countries of Postal Imports at the FPO Site for last month or any select period ( OOC given date )</a></li>
+					<li><a  nowrap>Total no. of Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>Articles given OOC during last month or any select period and Delivery status</a></li>
+					<li><a  nowrap>No. of Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>Receptacle IDs processed at the OOE for last month or for any select period</a></li>
+					<li><a  nowrap>No. of Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>Bags processed at the FPO for last month or for any select period</a></li>
+					<li><a  nowrap>No of articles detained and processed during last month or for any select period</a></li>
+					<li><a  nowrap>Article Status - Enter Article/ Item ID</a></li>
+					<li ><a  nowrap>No. of articles - OOC cancelled during last month or for any select period</a></li>
+					<li><a  nowrap>No. of Art/Item ID which are yet to arrive at FPO as on date</a></li>
+					<li ><a  nowrap>List of Art/Item IDs processed by an officer for any select period (Enter SSOID and Roles) (OOC given articles)</a></li>
+					<li ><a  nowrap>Total no. of Article IDs Received as EAD during the period (Countrywise / Mail-Classwise / Item-Categorywise)</a></li>
+					<li ><a  nowrap>Total no.of Article IDs Pending in Commercial Queue</a></li>
+					<li><a  nowrap>List of Article IDs Processed under Commercial Imports</a></li>
+					</ul></ul>
+			
+			</li>
+		</ul></li></ul>
+             
+             </div>
+       <div id="site" style="display:none; margin-left: 42%; margin-right:28%; margin-bottom: 3rem; " aria-hidden="true ">
+        <div style=" text-align:center;">
+                <h5 id="moduleTitle"></h5>
+            </div>     
+            <div>
+            <textarea style="background: #fff7ed;color: black;font-weight: bolder !important;" placeholder="Text Your Complaint" type="email" class="form-control" id="comments" rows="7"></textarea>
+            <div>* Complaint is required (minimum 6 characters)</div>
+            <div class="invalid-feedback"></div>
+            </div>
+            <div style="display: flex; align-items: center; margin-top: 10px; margin-left: 3.2rem;">
+  <label for="name" style="margin-right: 10px; font-weight: 600;">Name:</label>
+  <div>
+  <input type="text" class="form-control" style="margin-left: 6; height:2rem;margin-right:6.2rem" id="name" name="name" th:value="${session.data3}" disabled>
+</div></div>
+<div style="display: flex; align-items: center; margin-top: 10px; font-weight: 600;margin-left: 3.2rem;">
+  <label for="email" style="margin-right: 10px;">Email:</label>
+  <div>
+  <input type="email" class="form-control" style="margin-left: 11; height:2rem;margin-right:5.9rem;" id="email" name="email" placeholder="Your Email">
+<div class="invalid-feedback" style="margin-left: 11px;"></div></div>
+</div>
+<div style="display: flex; align-items: center; margin-top: 10px; font-weight: 600; margin-left: 3.2rem;">
+  <label for="mobile" style="margin-right: 10px;">Mobile:</label>
+  <div>
+  <input type="tel" class="form-control" style=" height:2rem;margin-right:6.5rem;" id="mobile" name="mobile" placeholder="Your Mobile Number"  maxlength="10" pattern="\d{10}" onkeypress="return isNumberKey(event)" required >
+  <div class="invalid-feedback"></div></div>
+</div>
+                
+      <div style="display: flex; align-items: center; margin-top: 10px;margin-left: 3.2rem;">
+                    <label class="control-label" style="font-weight: 600;">Upload:</label>
+                    
+                         <input class="form-control" 
+                            style="width: 310px;margin-left:10px" type="text" id="kyc-filetxt-1" placeholder="Please Upload the  document" disabled /> 
+                         <input type="file" class="form-control"  id="kyc-file-1"   onchange="uploadFile(this,1)" onclick="this.value=null;" style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn"  onclick="fileUpload(1)"><a>Upload</a></span>
+                     
+                </div>
+     
+    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 100%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>
+
+            <div style="
+    display: flex;
+    align-items: center;
+    margin: 25px 0px 10px 0px;
+    justify-content: space-evenly;">
+
+            <button style="margin-left: 7rem;" class="btn btn-danger btn-sm"  onclick="goBack()">Close</button>
+        <button style="margin-right: 7rem;" id="subcomplnts" type="button" class="btn btn-success btn-sm">Submit</button>
+        
+        </div>
+        </div> 
+     </div>
+  </div>
+</div>
+	
+	
+	
+	
+	
+<input id="s-role" type="text" th:value="${session.role}" hidden="hidden">
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type=hidden id="sttime" th:value="${session.stime}"/>
+
+
+</body>
+
+<script src="js/dash.js"></script>
+
+<script th:inline="javascript">
+
+
+
+	/*<![CDATA[*/
+
+	var pincodeCount = /*[[${pincodeCount}]]*/ null;
+	var countrywisePendingArticles = /*[[${countrywisePendingArticles}]]*/ null;
+	var eadInboundArticles = /*[[${eadInboundArticles}]]*/ null;
+	var countryWiseMailClass = /*[[${countryWiseMailClass}]]*/ null;
+	var countryWisePercentage = /*[[${countryWisePercentage}]]*/ null;
+	var countryWiseAssValPercentage = /*[[${countryWiseAssValPercentage}]]*/ null;
+	var userWiseArticlesCount = /*[[${userWiseArticlesCount}]]*/ null;
+	var userwiseMc = /*[[${userwiseMc}]]*/ null;
+	var totalUsWsIcCount = /*[[${totalUsWsIcCount}]]*/ null;
+	
+	var palAlerts = /*[[${palAlerts}]]*/ null;
+	var nalAlerts = /*[[${nalAlerts}]]*/ null;
+	var allCountryWiseAssValPercentage = /*[[${allCountryWiseAssValPercentage}]]*/ null;
+	var oocTotalDutyDetails = /*[[${oocTotalDutyDetails}]]*/ null;
+	
+	
+	/*]]>*/
+ 
+</script>
+<script language="JavaScript">
+ /*   document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }*/
+</script>
+<!--<script th:src="@{js/chart-jquery.min.js}"></script>
+<script th:src="@{js/chart/Chart.js}"></script>-->
+<script th:src="@{js/custom.js}"></script>
+<script th:src="@{js/chart/highcharts.js}"></script>
+<script th:src="@{js/chart/exporting.js}"></script>
+<script th:src="@{js/chart/export-data.js}"></script>
+<script th:src="@{js/chart/accessibility.js}"></script>
+<script th:src="@{js/chart/highcharts-3d.js}"></script>
+<script>
+
+</script>
+</html>

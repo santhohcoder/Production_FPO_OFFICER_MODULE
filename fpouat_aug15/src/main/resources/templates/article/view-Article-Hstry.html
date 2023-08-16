@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+	
+	<style type="text/css">
+			button:focus{
+				outline:none
+			}	
+			
+			
+			.table-bordered td, .table-bordered th {
+    border: 1px solid #dee2e6;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+	</style>
+</head>
+
+<body>
+
+<div class="row">
+	<div class="col-11">
+			<h4 style="text-align: left;margin-bottom: 20px; text-transform: uppercase;
+    font-weight: bolder;
+    font-size: 25px;"> ARTICLE IDS OF <span th:style="${bagType == 'BAG -' ? 'color: #bb0e0e;font-weight:bold;' : 'color: blue;font-weight:bold;'}" th:text="${(bagType=='BAG -' ? 'BAG-' : 'RID-')}"></span> <span th:text="${bagNo}"></span></h4>
+	</div>
+	
+	<!-- <div class="col-1">
+		<button type="button" class="close queryinfobtncancel"
+            onclick="bodyScroll()" data-dismiss="modal" aria-hidden="true">&times;
+    </button>
+	</div> -->
+</div>
+
+<div style="text-transform: uppercase; font-weight: bolder; text-align:center; display: flex; width: 100%; background: antiquewhite; padding: 10px;">
+	
+<table border=0  style="text-align: center;width:100%;font-size: 20px;" >
+
+
+
+<tr><td id="bagnonote">&nbsp;&nbsp;&nbsp;</td></tr>
+ <tr><td  width="35%" class="scan-find-label" style="font-size:14px;font-weight:bold;valign:middle;align:right">Enter Scan Findings / Report for the Recpt.Id / Bag : </td>
+ <td width="65%"><textarea type='textbox' th:text="${statusRprt}" id="articleOverallReport" disabled="disabled" rows=2 style='width:100%;' ></textarea></td></tr>
+</table>
+</div>
+<div class="mt-2" style="background-color: #f8f9fa; padding: 15px;">
+ <div><input type="hidden" id="bagNoDetails">
+    <small class="form-text text-muted smalltexthelp" style="color: blue !important;text-transform: initial;"><span style="color: red;">**</span>
+     Note : "-" in "Assessment Site" column as against EAD Article IDs indicates that those are not assigned to any FPO site for want of PINCODE.
+     <span th:if="${bagFlag}"> </span></small></div>
+<div  class="mt-3"  style="align:center;text-align: center;" >	
+         <table id="confirmHistry-B" class="table table-striped mt-3 newtable" style="font-size: 16px; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;"><font size="3">Sl<br>NO</font></th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTICLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;"> EAD</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">Assessment Site</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;" th:if="${bagType!='RID -'}">DESTN. FPO<br>(Clearance Site)</th>
+                       <!--th scope="col" style="text-align: center; vertical-align: middle;">CATEGORY</th--> 
+                        <th scope="col" style="text-align: center; vertical-align: middle;">ORIGIN COUNTRY</th>    
+                         <th scope="col" style="text-align: center; vertical-align: middle;">EXAMN. ORDER</th>
+                        <th   scope="col" style="text-align: center; vertical-align: middle;">RECORDED SCAN FINDINGS / ARTICLE WISE REPORT</th>
+                       <!--  <input type="checkbox"  style="width:24px;height:24px;vertical-align: middle;" id="chkallnfscan" onclick="checkAllnfBagRecpt();"><br>(MANDATORY)</th>				   
+           -->           </tr>
+               </thead>
+                <tbody>
+                     
+                     <tr th:each="Ch,iter : ${viewArticleHistry}" class="">
+                        <td th:text="${iter.index+1}"></td>
+                       
+                         <td th:text="${Ch[0]}"></td>
+                          <!--  <td type='button' th:id="${Ch[0]}" style="color:blue; text-decoration:underline; font-weight:bold" th:text="${Ch[1]}" onclick="viewSummaryB(this)" value='Click'></td> -->
+                         <!--   <td th:id="${Ch[0]}" th:text="${Ch[1]} == 'yes' ? 'Click' : ${Ch[1]}">
+  <span th:if="${Ch[1]} == 'yes'" style="color:blue; text-decoration:underline; font-weight:bold" onclick="viewSummaryB(this)"></span>
+</td> -->						
+
+
+	<td th:if="${Ch[1] == 'YES'}" type='button' th:id="${Ch[0]}" style="color:blue; text-decoration:underline; font-weight:bold;cursor:pointer;"  th:text="${Ch[1]}"  onclick="viewSummaryB(this)" value='Click'></td>
+
+<td th:if="${Ch[1] == 'NO'}" th:text="${Ch[1]}"></td>
+
+                             <td th:if="${bagType!='RID -'}" th:text="${Ch[2]}"></td>
+                             <td th:text="${Ch[4]}"></td>
+                             <td th:text="${Ch[8]}"></td>
+                            <!--  <td th:text="${Ch[5]}"></td> -->
+                             <td th:if="${Ch[5] == 'YES'}" type='button' th:id="${Ch[0]}"  style="color:blue; text-decoration:underline; font-weight:bold;cursor:pointer;" th:text="${Ch[5]}" onclick="viewExamOrder(this)" value='Click'  ></td>
+<td th:if="${Ch[5] == 'NO'}" th:text="${Ch[5]}"></td>
+                             <td  th:text="${Ch[6]}"></td>	
+                         
+                       
+                     </tr>
+                </tbody>
+   </table>
+   </div>
+
+
+<!-- <div class="modal fade" id="getConfirmModal1" data-backdrop="static" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered"
+			style="width: auto; height: auto; max-width: 90%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"
+						style="text-transform: uppercase; font-weight: bolder; font-size: 20px;"
+						>CN 22- 23 Summary</h4>
+					<button type="button" class="close queryinfobtncancel"
+						onclick="bodyScroll()" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body" id="getConfirmBody1"></div>
+			</div>
+		</div>
+	</div> -->
+</body>
+</html>
+  
+ 
+ 
+	
+	
+	
+	<script type="text/javascript">
+$("#confirmHistry-B").dataTable({
+		"paging": true,		
+		"lengthMenu": [ 5, 10, 15, 20, 25 ],
+		"pageLength": 10,
+		"dom": '<"pull-left"l>frtip'
+		
+		});
+		
+		function viewSummaryB(e) {
+		var id=e.id;
+		
+ 		$.ajax({ 
+ 			url: "getSummary?id=" + id ,
+ 			type : "post",
+ 			success: function(data){
+ 				$("#getConfirmationBSummary").modal('show');
+ 			$("#getConfirmationBSummaryBody").html(data);
+ 			},
+ 			error: function(re, e){
+ 				swal('OOPS!', 'Something', 'error');
+ 			}
+ 		 })
+ 		}
+ 		
+ 		function viewExamOrder(e) {
+		var id=e.id;
+		
+ 		$.ajax({ 
+ 			url: "getExamOrder?qrylevel=EAD&id=" + id ,
+ 			type : "post",
+ 			success: function(data){
+ 				$("#getConfirmationBExamBody").html(data);
+ 				$("#getConfirmationBExam").modal('show');
+ 			},
+ 			error: function(re, e){
+ 				swal('OOPS!', 'Something', 'error');
+ 			}
+ 		 })
+ 		}
+</script>

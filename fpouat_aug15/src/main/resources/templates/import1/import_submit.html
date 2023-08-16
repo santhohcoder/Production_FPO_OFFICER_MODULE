@@ -1,0 +1,682 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+table.dltrc {
+	width: 100%;
+	align: center;
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: solid darkbrown 2px;
+	border-radius: 8px;
+	font-color: white;
+	font-size: 14px;
+}
+
+tr.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	padding: 2px
+}
+
+td.dlheader {
+	
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-radius: 0px;
+	padding: 2px
+}
+
+tr.dlinfo, td.dlinfo {
+	text-align: center;
+	font-color: black;
+	font-size: 14px;
+	border-left: solid darkbrown 2px;
+	border-top: solid darkbrown 2px;
+	padding: 2px
+}
+
+td.dlinfo:first-child, td.dlheader:first-child {
+	border-left: none;
+}
+
+td.dlheader:first-child {
+	border-radius: 5px 0 0 0;
+}
+
+td.dlheader:last-child {
+	border-radius: 0 5px 0 0;
+}
+
+
+
+.dispval {
+	
+	font-color: white;
+	
+}
+
+.dispvalb {
+	
+	font-color: black;
+	
+}
+
+.occ_note {
+	background-color: #4a4d5d ;
+
+	padding: 10px;
+	font-size: 14px;
+	border-radius: 20px;
+}
+
+.bordstyle {
+	border: 2px solid white;
+	background : dimgray;
+	border-radius: 20px;
+}
+
+
+
+.buttonstyle {
+	
+	
+	color: white;
+	font-size: 20px;
+}
+
+
+.buttonstyles {
+	border: 2px solid white;
+	border-radius: 20px;
+	color: white;
+	font-size: 20px;
+}
+.occ_val {
+	font-weight: 700
+}
+
+hr {
+	display: block;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	margin-left: auto;
+	margin-right: auto;
+	border-style: inset;
+	border-width: 1px;
+	width: 109%;
+	margin-left: -15px;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+.scroll_down {
+	height: 450px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.scrollitem {
+	height: 190px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid black;
+	text-align: center;
+	color: black;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: '#bsb7c1';
+}
+
+.completed span::before {
+	content: '\2713'
+}
+
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+</style>
+
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div class="container "
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+		<div class="mt-4" align="center">
+			<h2>Process Imported Articles - OOC Queue</h2>
+		</div>
+		<div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.ITEM_ID}">
+				     <input type="hidden" name="opt" id="opt">
+                    <input type="hidden" name="enbl" th:id="enbl"  th:value="${oocenbl}"> 
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.POST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div>
+		<div class="mt-2" style="float: right;">
+			<a class="nav-link btn btn-secondary btn-sm" style="color: white;"
+				onclick="goBack()">Back </a>
+		</div>
+		<div class="breadcrumb-pagination mt-3">
+			<div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>Exam Findings</p>
+			</div>
+			<div class="active">
+				<span>5</span>
+			<p><font color="white">OOC</p></font>	
+			</div>
+		</div>
+		<div class="scroll_down">
+			<div class="col-md-12 mt-2">
+				<div class="row occ_note">
+				    <div align="center"  class="col-md-12 bordstyle"><font style="color:white;background:dimgray" ><STRONG>PARCEL INFORMATION</STRONG></font></div>
+					<div class="col-md-12 mt-2">
+					<table class="dltrc">
+						<tbody style="color: white;">
+							<!--  tr>
+								<td align="center" colspan=8 class="bordstyle"><font style="color:white;background:dimgray" ><STRONG>PARCEL INFORMATION</STRONG></font></td>
+							</tr-->
+						
+							
+							<tr>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong> &nbsp;Tot. No. of Items :<br> <span
+									class="dispval" th:text="${counoitems}"></span></strong></td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong> &nbsp;Tot. Ass. Value
+									(INR) :<br> <span class="dispval" th:id="TOT_ASS_VAL" th:text="${head.TOT_ASS_VAL}">123</span>
+								</td>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong>Tot. Duty (INR) :<br> <span
+									class="dispval" th:id="TOT_DUTY" th:text="${head.TOT_DUTY}">123</span></td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong>Tot Wgt (in KGs) :<br> <span
+									class="dispval" th:text="${head.GROSS_WT}">123</span></td>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong>Assessment Completed :<br>
+									<span class="dispval" th:text="${ass}">123</span>
+								</td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong>Examination :<br> <span
+									class="dispval" th:text="${exm}">123</span></td>
+								<td class="bordstyle" align="center" style="background:dimgray; font-size: 12px;"><strong>First Check : <br><span
+									class="dispval" th:text="${fchk}">123</span></td>
+								<td class="bordstyle" align="center" style="background:gray; font-size: 12px;"><strong>For Detention :<br> <span
+									class="dispval" th:text="${det}"></span></td>
+							</tr>
+							</tbody>
+					</table></div>
+					<div class="col-md-3 bordstyle mt-2" style="background:#e0fffe;border:solid 3px gray;">
+						<p align=center class="bordstyle">
+							<font style="color:white;background:dimgray" ><STRONG>RECEIVER</STRONG></font>
+						</p>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Name</strong> </div>
+						<div class="col-md-9">	<span class="dispvalb" th:text="${head.RECP_NAME}"></span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"><strong>Address</strong>  </div>
+						<div class="col-md-9" style="height: 75px;">	<span class="dispvalb" th:text="${head.RECP_ADD1}">123</span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"><strong>City</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_CITY}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>State </strong> </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_STATE}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>EMAIL </strong> </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_EMAILID}"></span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Country</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.RECP_CNTRY_CD}"></span></div></div>
+					</div>
+					<div class="col-md-6 bordstyle mt-2 " style="background:#e6faff; border:solid 3px gray;">
+						<p align=center class="bordstyle">
+							<font style="color:white;background:dimgray" ><STRONG>ITEM
+									INFORMATION</b></STRONG></font>
+						</p>
+						<div class="scrollitem">
+						<table id="OOCREC" class="dltrc" border=1 bordercolor="gray"
+							style="background: none">
+							<tbody style="color: gray;">
+								<tr class="dlheader">
+									<td class="dlheader" width="10%" align=center style="color: black;">ITMNO</td>
+									<td class="dlheader" width="56%" align=center style="color: black;">DESCRIPTION</td>
+									<td class="dlheader" width="10%"a lign=center style="color: black;">QTY</td>
+									<td class="dlheader" width="12%" align=center style="color: black;">ASS.VAL</td>
+									<td class="dlheader" width="12%" align=center style="color:black;">DUTY</td>
+								</tr>
+								<tr class="dlinfo" th:each="s1,iter : ${item}">
+									<td class="dlinfo" style="color: black;"  width="10%"  th:text="${s1[0]}">464654654</td>
+									<td class="dlinfo"  style="color: black;" width="56%" th:text="${s1[1]}">5648912</td>
+									<td class="dlinfo"  style="color: black;" width="10%" th:text="${s1[2]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="12%" th:id="assval" th:text="${s1[3]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="12%" th:id="duty" th:text="${s1[4]}">01.01.2020</td>
+								</tr>
+						</table>
+						</div>
+					</div>
+					<div class="col-md-3 bordstyle mt-2" style="background:#e0fffe; border:solid 3px gray;">
+						<p align=center class="bordstyle">
+							<font style="color:white;background:dimgray" ><STRONG>SENDER</STRONG></font>
+						</p>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Name</strong>  </div>
+						<div class="col-md-9">	<span class="dispvalb" th:text="${head.SEND_NAME}"></span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"  style="height: 75px;"><strong>Address</strong>  </div>
+						<div class="col-md-9">	<span class="dispvalb" th:text="${head.SEND_ADD1}">123</span></div></div>
+						<div class="row mt-3">
+						<div class="col-md-3"><strong>City</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_CITY}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>State</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_STATE}">123</span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>EMAIL</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_EMAILID}"></span></div></div>
+						<div class="row mt-1">
+						<div class="col-md-3"><strong>Country</strong>  </div>
+						<div class="col-md-9"><span class="dispvalb" th:text="${head.SEND_CNTRY_CD}"></span></div></div>
+					</div>
+					<!-- <div class="col-md-3 bordstyle mt-2">
+						<p align=center class="bordstyle">
+							<STRONG><font style="background: blue">SENDER</font></STRONG>
+						</p>
+						<p>
+							Name : <span class="dispval" th:text="${head.SEND_NAME}"></span>
+						</p>
+						<p>
+							Address : <span class="dispval" th:text="${head.SEND_ADD1}">123</span>
+						</p>
+						<p>
+							City : <span class="dispval" th:text="${head.SEND_CITY}">123</span>
+						</p>
+						<p>
+							State : <span class="dispval" th:text="${head.SEND_STATE}">123</span>
+						</p>
+						<p>
+							EMAIL : <span class="dispval" th:text="${head.SEND_EMAILID}"></span>
+						</p>
+						<p>
+							Country : <span class="dispval" th:text="${head.SEND_CNTRY_CD}"></span>
+						</p>
+					</div> -->
+				</div>
+			</div>
+
+			<div class="col-md-12 mt-3" >
+				<!-- div class="row occ_note" -->
+				<div class="row">
+					<div class="col-md-4" align="right">
+						<button  type="button" class="buttonstyle" style="background:#e8452b; border: solid 2px #e8452b" id="myCheck" title="Click this to send back to Assessment">
+							<strong> Send Back to Assessment</strong>
+						</button>
+					</div>
+					<div class="col-md-4" align="center">
+						<button type="button" class="buttonstyle" title="Click this to send to Detain / Seize" style="background:#dc3545;  border: solid 2px #dc3545" id="myCheck1">
+							<strong> Detain &nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;Seize</strong>
+						</button>
+					</div>
+					<div class="col-md-4" align="left">
+						<button type="button" class="buttonstyle hideOoc" title="Click this to give OOC"  style="background:darkgreen;  border: solid 2px darkgreen" id="myCheck2" disabled >
+							<strong> Out&nbsp; Of&nbsp; Customs&nbsp; Charge</strong>
+						</button>
+					</div>
+                   
+				<!--  /div--->
+			</div>
+			</div>
+			
+			
+			<!--  <table class="dltrc" border=1 bordercolor="white" style="background-color: #344179;" >
+				 <tbody style="color:white;">
+                 <tr><td class="bordstyle" align="center">1. Send back to assessment / Examination<span> <input type="checkbox" id="myCheck" value=""></span> </td>
+				  <td class="bordstyle" align="center">2. Detained / Seize <span> <input type="checkbox" id="myCheck1" value=""> </span></td>  
+				  <td class="bordstyle" align="center">3. Out of customs charge <span> <input type="checkbox" id="myCheck2" value=""> </span></td>  
+				  </tr></tbody></table>  -->
+			<div class="row mt-2">
+				<div class="col-md-9">
+					<div id="depcmtdiv" style="display: none" valign="middle"><span data-toggle="modal" data-target="#saveModal">
+						<label class="lab_txt">&nbsp;&nbsp;<font color="white">Departmental Comment : [max 2000
+							characters]</label>
+						<textarea class="form-control" id="depcmtfield" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="row mt-5 col-md-2">
+					<div align="center" valign="center">
+						<button type="button" id="savedepcmts" class="buttonstyles" onclick="proceedsave();"
+							style="display: none;" >
+							 <font color="blue"><strong>Submit</strong></style></font>
+						</button>
+					</div>
+				</div>
+					<br>
+		<br>
+		<br>
+				<br>
+			</div>
+		</div>
+
+	<!-- 			<div class="col-md-1"></div> -->
+	<!-- 			<div class="col-md-4 " > -->
+	<!-- 				<p class="check"> -->
+	<!-- 					1. Send back to assessment / Examination<span> <input -->
+	<!-- 						type="checkbox" id="myCheck" value=""> -->
+	<!-- 					</span> -->
+	<!-- 				</p> -->
+
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-3" align="center"> -->
+	<!-- 				<p class="check"> -->
+	<!-- 					2. Detained / Seize <span> <input type="checkbox" -->
+	<!-- 						id="myCheck1" value=""> -->
+	<!-- 					</span> -->
+	<!-- 				</p> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-3"> -->
+	<!-- 				<p class="check"> -->
+	<!-- 					3. Out of customs charge <span> <input type="checkbox" -->
+	<!-- 						id="myCheck2" value=""> -->
+	<!-- 					</span> -->
+	<!-- 				</p> -->
+	<!-- 			</div> -->
+	<!-- 			<div class="col-md-2"></div> -->
+	<!-- 		</div> -->
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want to give OOC ?</font></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" th:id="${head.id}"
+						onclick="oocsubmit(this)">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="detModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want to Detain / Seize</font></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" th:id="${head.id}"
+						onclick="savedepcmts(this)">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="assModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content" >
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want send back to Assessment?</font></h4>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-primary" th:id="${head.id}"
+						onclick="savedepcmts(this)">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+					<!-- a href="import_ooc_search"-->
+					</a>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<!-- <script>
+	$("#myCheck").click(function(){
+		($("#myCheck").is(':checked'))
+			$("#myCheck1").prop("checked",false);
+			$("#myCheck2").prop("checked",false);
+			if($("#myCheck").is(':checked')==true){
+				text.style.display = "block";
+			}else{
+				text.style.display = "none";
+				
+			}
+			
+	});
+	
+	 	$("#myCheck1").click(function() {
+        		 ($("#myCheck1").is(':checked')) 
+				$("#myCheck2").prop("checked", false);
+					$("#myCheck").prop("checked", false);
+					if($("#myCheck1").is(':checked')==true){
+						text.style.display = "block";
+					}else{
+						text.style.display = "none";
+						
+					}
+		});
+		
+		$('#myCheck2').click(function() {
+			 ($('#myCheck2').is(':checked')) 
+				$("#myCheck1").prop("checked", false);
+			    $("#myCheck").prop("checked", false);
+				if($("#myCheck2").is(':checked')==true){
+					text.style.display = "none";
+				}
+		}); 
+		
+	
+	</script> -->
+	<script src="js/importsubmit.js"></script>
+</body>
+</html>

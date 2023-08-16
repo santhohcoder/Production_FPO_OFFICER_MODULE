@@ -1,0 +1,2284 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+p.clorRed {
+	color: red;
+	clear: both;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.lg_clr {
+	background-color: #ff9c9c;
+	border: none;
+	color: black;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.custom-select {
+	height: 27px;
+	padding: 1px;
+}
+
+.table td, .table th {
+	padding: .75rem;
+	vertical-align: top;
+	border-top: none;
+}
+
+.bg_item {
+	background-color: white;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.bg_item1 {
+	background-color: white;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+.scroll_down {
+	height: 425px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+}
+
+hr {
+	border-top: 1px solid rgb(0, 0, 139);
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.custom-select:disabled {
+	font-weight: 700;
+	color: black;
+	background-color: #e9ecef;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+
+/* .modal {
+	top: 120px;
+} */
+
+.form-control {
+	padding: 0px;
+}
+
+@media ( min-width : 576px) {
+	.modal-dialog {
+		max-width: 1121px;
+	}
+}
+
+.pointer-class{
+    	cursor:pointer;
+    }
+   #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        } 
+      .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }  
+        
+        input[type=number]::-webkit-inner-spin-button, 
+		input[type=number]::-webkit-outer-spin-button { 
+		  -webkit-appearance: none; 
+		  margin: 0; 
+		}
+		        
+</style>
+
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<input type="hidden" id="itemId" th:value="${head.ITEM_ID}">
+<input type="hidden" id="clrsite" th:value="${clrsite}">
+<input type="hidden" id="cinno" th:value="${head.id}">
+<input type="hidden" id="inputPassword" th:value="${head.id}">
+<input type="hidden" id="fpoassdepcmts" th:value="${depcmtsaaa}">
+<input type="hidden" id="fpoassdepcmtsead" th:value="${depcmtsead}">
+	<div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+		<div class="row mt-2">
+			<div class="col-md-2">
+				<a style="margin-left: 5px;" th:href="@{pen_ead_query?id={id}(id = ${head.id})}"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button></a>
+			</div>
+			<div class="col-md-7" align="center">
+				<h2>Postal Imports - Articles Awaiting for Arrival (AAA)</h2>
+				<h3>Item wise</h3>
+			</div>
+			<div class="col-md-3 mt-4" align="right">
+				<p class="lab_txt">
+					Tot no of Items : <span
+						style="background: #00abc9; border-radius: 8px; padding: 10px;">
+						<strong id="noOfItems" th:text="2">&nbsp;2&nbsp;</strong>
+					</span>
+				</p>
+			</div>
+		</div>
+        <input type="hidden" id="isqry" >
+        <input type="hidden" id="itemcou" th:value="${totitem}"> 
+         <input type="hidden" th:value="${back}" id="back">
+         <input type="hidden" th:value="${qryNo}" id="qryNo"> 
+		<input type="hidden" th:value="${assNo}" id="assNo">
+		<input type="hidden" th:value="${updenable}" id="upd">
+        <input type="hidden" th:value="${assvalacl}" id="maxval">
+        <input type="hidden" th:value="${duty0limit}" id="dutylim">
+        <input type="hidden" th:value="${dutycat}" id="cat">
+        <input type="hidden" th:value="${dutycatlimit}" id="catlimit">
+        <input type="hidden" th:value="${fpocat}" id="category">
+        <input type="hidden" th:value="${head.NATURE_TYPE_CD}" id="natcd">
+        <input type="hidden" id="acfirst" th:value="${ACLfirsttime}">
+        <input type="hidden" th:value="${head.ACL_OFFID}" id="acloffid">
+         <input type="hidden" th:value="${totassval}" id="totassval">
+         
+            <div id="disphead">
+            </div>
+		<!-- div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					id="itemId" class="form-control form_txt"
+					style="text-align: center;" readonly="readonly"
+					th:value="${head.ITEM_ID}"> <input type="hidden"
+					name="MODIFIED" th:value="${head.MODIFIED}" id="modify">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					th:id="postDate" style="text-align: center;"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+			</div>
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					th:id="postTime" style="text-align: center;"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.POST_ORG_CD}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					style="text-align: center;" th:value="${head.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE OF TRANS.</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					style="text-align: center;" th:value="${head.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					style="text-align: center;" th:value="${head.id}"
+					id="inputPassword"> <input type="hidden"
+					class="form-control form_txt" th:value="${head.CIN_DT}" id="cinDt">
+				<input type="hidden" class="form-control form_txt"
+					th:value="${head.CUS_SITE}" id="cusSite"> <input
+					type="hidden" class="form-control form_txt" th:value="${head.ROLE}"
+					id="role"> <input type="hidden"
+					class="form-control form_txt" th:value="${head.OFF_ID}" id="offId">
+			</div>
+		</div-->
+		<!--    muchos disgustimos   -->
+		<div class="breadcrumb-pagination mt-3">
+			<a style="color: #b3b7c1;" th:attr="href=|pen_main?id=${head.id}|"><div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div></a>
+			<div class="completed" th:classappend ="${curque== 'N2' || curque== 'N3' || curque== 'N1'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','pen_ead_query')|">
+				<span></span>
+				<p>Query Reply & D-Call Letter</p>
+			</div>
+			<div class="active">
+				<span>3</span>
+				<p>Assessment</p>
+			</div>
+			<div class="todo" th:classappend ="${curque== 'N3'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','pen_order')|">
+				<span>4</span>
+				<p>Exam Order</p>
+			</div>
+		</div>
+
+
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-end">
+				<li class="page-item " th:disabled="${itemcou==1}"  >
+					<button class="page-link previousitmu" type="button" th:id="${head.id}"
+						th:value="previous" onclick="nextItemNo('previousItem')"
+						aria-label="previous">
+						<span aria-hidden="true">&laquo;</span><span class="sr-only">previous</span>
+					</button>
+				</li>
+				<li class="page-item"><strong class="page-link"
+					id=nextItemPegination1 th:text="1" th:value="previous"> 2 </strong></li>
+				<li class="page-item" th:disabled="${itemcou==1}" >
+					<button class="page-link nextitmu" type="button" th:id="${head.id}"
+						onclick="nextItemNo('nextItem')" aria-label=""previous"">
+						<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+					</button>
+				</li>
+			</ul>
+		</nav>
+
+		<div style="line-height: 30px;">
+			<div class="row">
+				<div class="col-md-12">
+					<form action="#" th:action="@{/addDutydetails}" method="post">
+						<input type="hidden" th:value="${head.id}" name="cinNo"> <input
+							type="hidden" th:value="${head.ITEM_ID}" name="ITEM_ID">
+						<div style="background: #B0B0B0; border-radius: 8px; padding: 10px;" th:each="s1,iter : ${check}">
+							<div
+								style="background: #B0B0B0; border-radius: 8px; padding: 10px;">
+								<div class="bg_item1">
+									<div class="row">
+										<div class="col-md-5"></div>
+										<div class="col-md-4">
+											<h4>Declared Details</h4>
+										</div>
+										<div class="col-md-3" align="right">
+											<p class="lab_txt">
+												Item No : <span
+													style="background: #00abc9; border-radius: 8px; padding: 10px;">
+													<strong id="itemPagination"
+													style="background: #00abc9; border-radius: 8px; padding: 10px;"
+													th:text="1"> 2 </strong>
+												</span>
+											</p>
+										</div>
+									</div>
+									<div class="form-group row mt-2">
+										<p class="col-sm-1 lab_txt col-form-label1">ITEM</p>
+										<div class="col-sm-2">
+											<input id="itemNoChange" style="font-weight: 700"
+												readonly="readonly" class="form-control form_txt"
+												name="ITEM_NO" th:value="${s1.ITEM_NO}">
+										</div>
+										<input type="hidden" th:id="assdt" th:value="${s1.ASS_DT}">
+										<input type="hidden" th:id="updassdt" th:value="${s1.UPDASS_DT}">
+										<p class="col-sm-1 "></p>
+										<p class="col-sm-1 lab_txt col-form-label1">DESC</p>
+										<div class="col-sm-7">
+											<input id="itemDESChange" type="text" readonly="readonly"
+												class="form-control form_txt" name="ITEM_DESC"
+												th:value="${s1.ITEM_DESC}">
+										</div>
+									</div>
+									<div class="form-group row">
+										<p class="col-sm-1 lab_txt col-form-label1">HS</p>
+										<div class="col-sm-3">
+											<input id="itemCthChange" type="number" readonly="readonly"
+												onKeyPress="if(this.value.length==8) return false;"
+												class="form-control form_txt" name="CTH"
+												th:value="${s1.CTH}">
+										</div>
+										<p class="col-sm-1 lab_txt col-form-label1">REVISED_HS</p>
+										<div class="col-sm-3">
+											<input id="itemRevisedCthChange" type="number"
+												readonly="readonly"
+												onKeyPress="if(this.value.length==8) return false;"
+												class="form-control form_txt" name="CTH_REVISED"
+												th:value="${s1.CTH_REVISED}">
+										</div>
+										<p class="col-sm-1 lab_txt col-form-label1">UNITS</p>
+										<div class="col-sm-3">
+											<input id="itemNouChange" type="number" readonly="readonly"
+												onKeyPress="if(this.value.length==6) return false;"
+												class="form-control form_txt" name="NOU"
+												th:value="${s1.NOU}">
+										</div>
+									</div>
+									<div class="form-group row">
+										<p class="col-sm-1 lab_txt col-form-label1">NETWT (kgs)</p>
+										<div class="col-sm-3">
+											<input id="itemNetWtChange" type="number" readonly="readonly"
+												class="form-control form_txt" name="NETWT"
+												th:value="${s1.NETWT}">
+										</div>
+										<p class="col-sm-1 lab_txt col-form-label1">DECL_VAL</p>
+										<div class="col-sm-3">
+											<input id="itemDeclValChange" type="number"
+												readonly="readonly"
+												onKeyPress="if(this.value.length==16) return false;"
+												class="form-control form_txt" name="DECL_VAL"
+												th:value="${s1.DECL_VAL}">
+										</div>
+										<p class="col-sm-1 lab_txt col-form-label1">CURRCD</p>
+										<div class="col-sm-3">
+											<input id="itemCurCdChange" maxlength="3" readonly="readonly"
+												onkeypress="return /[A-Z]/i.test(event.key)"
+												class="form-control form_txt" name="CURRCD"
+												th:value="${s1.CURRCD}">
+										</div>
+									</div>
+									<div class="form-group row">
+										<p class="col-sm-1 lab_txt col-form-label1">ORGN_CD</p>
+										<div class="col-sm-3">
+											<input id="itemOrgCntryCdChange" type="number"
+												readonly="readonly"
+												onKeyPress="if(this.value.length==2) return false;"
+												class="form-control form_txt" name="ORIGCNTRYCD"
+												th:value="${s1.ORIGCNTRYCD}">
+										</div>
+										<label for="inputPassword"
+											class="col-sm-1 lab_txt col-form-label">Ex. RATE</label>
+										<div class="col-sm-3">
+											<input id="itemRateChange" type="text" readonly="readonly"
+												class="form-control form_txt" name="RATE"
+												th:value="${s1.Rate}">
+										</div>
+										<!-- 	<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label"
+										style="padding-top: 8px;">DUTY</label>
+									<div class="col-sm-3">
+										<input id="itemDutyChange" type="text" readonly="readonly"
+											class="form-control form_txt" name="DUTY"
+											th:value="${s1.DUTY}">
+									</div> -->
+									</div>
+								</div>
+								<!--div class="bg_item1 mt-1" id="qryShHd" >
+									<div class="form-group row" >
+										<div class="col-md-2">
+											<p class="lab_txt col-form-label1">Raise query for the
+												item</p>
+										</div>
+										<div class="col-md-9" >
+											<textarea class="form-control QryEad" name="query" th:id="query"
+												th:text="${s1.query}" placeholder="Query for Item..." disabled="disabled"
+												rows="2"></textarea>
+										</div>
+										<!--  div class="col-md-1" display:none>
+											<button type="button" th:id="${head.id}"
+												th:value="${s1.ITEM_NO}"
+												class="btn btn-primary btn-sm txthide"
+												onclick="updateQry(id,value)" disabled="disabled">Submit</button>
+										</div-->
+									</div>
+									<!--p class="lab_txt col-form-label1" style="margin-bottom: 0px;">
+										Note : <span style="color: black">To save the query
+											please submit</span>
+									</p-->
+								<!--div-->
+								<div class="bg_item1 mt-1" id="calcShHd">
+									<div class="form-group row">
+										<p class="col-sm-1 lab_txt col-form-label1">CTH</p>
+										<div style="width: 10%;">
+
+											<select th:id="${s1.ITEM_NO}" class="custom-select cthClass"
+												onchange="selectSn(this)" th:value="${s1.GEN_CTH}"
+												name="GEN_CTH">
+												<option>Select CTH</option>
+												<div th:each="s5,iter : ${genCth}">
+													<option th:text="${s5}"></option>
+												</div>
+												<option th:id="optionBlue">Others</option>
+											</select>
+
+										</div>
+										<div style="width: 4%;" class="blueClass">
+											<select class="custom-select"
+												onchange="getOtherFourDigit(this)" id="getOtherFourDigi">
+												<option>CH</option>
+												<div th:each="s5,iter : ${othersTwoDigi}">
+													<option th:text="${s5}"></option>
+												</div>
+											</select>
+										</div>
+										<div style="width: 6%;" class="blueClass">
+											<select class="custom-select"
+												onchange="getOtherEightDigit(this)" id="getOtherEightDigi">
+												<option>Head</option>
+												<div th:each="s5,iter : ${othersFourDigi}">
+													<option th:text="${s5}"></option>
+												</div>
+											</select>
+										</div>
+										<div style="width: 9%;" class="blueClass">
+											<select class="custom-select" id="getOtherDigit"
+												onchange="bcdOthersNotn(this)">
+												<option>Tariff</option>
+												<!-- <div th:each="s5,iter : ${othersFourDigi}">
+													<option th:text="${s5}"></option>
+												</div> -->
+											</select>
+										</div>
+										<div style="width: 4%;" class="blueClass"></div>
+
+										<div class="col-md-3 yellowClass"></div>
+										<div class="col-md-2">
+											<h4>Duty Details</h4>
+										</div>
+										<div class="col-md-2 blueClass"></div>
+										<div class="col-md-2 yellowClass"></div>
+										<p class="col-sm-1 lab_txt col-form-label1">Assessable
+											Value(INR)</p>
+										<div style="width: 13%;">
+											<input type="text" class="form-control form_txt"
+												th:id="assessVal" style="text-align: right;"
+												readonly="readonly" th:value="${s1.ASSVAL_INSFRT}">
+										</div>
+									</div>
+									<div id="blue" class="blueClass">
+										<div class="form-group row">
+											<table id="myTable" class="table order-list1 lab_txt">
+												<thead>
+													<td>DUTY</td>
+													<td style="width: 10%;">RT. OF DUTY</td>
+													<td style="width: 12%;">NOTN</td>
+													<td style="width: 10%;">SL.NO</td>
+													<td>RT. OF DUTY(EFF)</td>
+													<td>DUTY AMOUNT <br> <span
+														style="font-weight: 500; font-size: 11px;">(please
+															enter manually)</span></td>
+													<td>DUTY AMT FG</td>
+												</thead>
+												<tbody id="tbOtrDt">
+													<div th:each="othDty,iter : ${othersDuty}">
+														<tr th:if="${othDty.DUTY_CD != null}">
+															<td><select class="custom-select" name="DUTY[]"
+																th:id="customDropDown" onchange="bcdOthersNotn(this)">
+																	<option>Select Duty</option>
+																	<div th:each="s5,iter : ${duty}">
+																		<option class="dutyOth" th:text="${s5[1]}"
+																			th:value="${s5[0]}"></option>
+																	</div>
+															</select></td>
+															<td><input type="text" name="RATE_OF_DUTY[]"
+																th:value="${othDty.DUTY_RTA}" readonly="readonly"
+																th:id="rateDuty1" class="form-control" required="true" /></td>
+															<td><select class="custom-select" name="NOTN[]"
+																th:id="notn" onchange="othersSlNo(this)">
+																	<option>Select NOTN</option>
+																	<!-- <div th:each="s5,iter : ${duty}">
+																	<option class="notnOth" th:text="${s5[1]}" th:value="${s5[0]}"></option>
+																</div> -->
+															</select></td>
+															<td><select class="custom-select" name="SL.NO[]"
+																onchange="selectEachNsNo(this)" th:id="slno">
+																	<option>Select SL.NO</option>
+																	<!-- <div th:each="s5,iter : ${duty}">
+																	<option class="slNoOth" th:text="${s5[1]}"
+																		th:value="${s5[0]}"></option>
+																</div> -->
+															</select></td>
+															<td><input type="text" name="EFF.RATE[]"
+																readonly="readonly" th:id="effRate" class="form-control"
+																th:value="${othDty.RATE}" /></td>
+															<td><input type="text" name="DUTY_AMOUNT[]"
+																th:value="${othDty.DUTY_AMT}" style="text-align: right;"
+																onblur="calTotDuty(2)" th:id="dutyAmount"
+																class="form-control" /></td>
+															<td><input type="text" name="DUTY_FG[]"
+																th:value="${othDty.DUTY_FG}" style="text-align: right;"
+																onblur="calTotDutyFg()" th:id="dutyAmountFg"
+																class="form-control" /></td>
+															<td><a class="deleteRow"></a></td>
+														</tr>
+													</div>
+												</tbody>
+												<tfoot>
+													<tr>
+														<td colspan="1"></td>
+														<td colspan="1"></td>
+														<td colspan="1"></td>
+														<td colspan="1"></td>
+														<td colspan="1"></td>
+														<td colspan="1"></td>
+														<td style="text-align: -webkit-right;"><input
+															type="button" style="width: 20%;"
+															class="btn btn-block btn-sm" id="addrow1" value=" + " /></td>
+													</tr>
+
+												</tfoot>
+											</table>
+										</div>
+
+										<!-- Other enter duty Assessment -->
+
+										<div class="row mt-3" id="manualdutyO" style="display: none;" >
+											<div class="col-md-6">
+												<button type="button" class="btn lg_clr btn-sm"
+													id="show-hidden-menu2">
+													Insert More Duty (If any)<br> <span
+														style="font-weight: 500; font-size: 11px;">(please
+														enter manually)</span>
+												</button>
+											</div>
+										</div>
+										<div class="hidden-menu2" style="display: none;">
+											<div class="form-group row">
+												<table id="myTable" class="table order-list6 lab_txt">
+													<thead style="font-size: 11px;">
+														<td>DUTY</td>
+														<td>RT. OF DUTY</td>
+														<td>NOTN</td>
+														<td>SL.NO</td>
+														<td>RATE OF DUTY (EFF)</td>
+														<td>DUTY AMOUNT</td>
+														<td>DUTY AMT FG</td>
+													</thead>
+													<tbody id="enterOthDuty">
+														<tr>
+															<td style="width: 20%;"><input type="text"
+																th:id="enterDropDown" name="DUTY[]" class="form-control"
+																required="true" /></td>
+															<td style="width: 10%;"><input type="number"
+																th:id="enterRateDuty" name="RATE_OF_DUTY[]"
+																class="form-control" required="true" /></td>
+															<td style="width: 12%;"><input type="text"
+																th:id="enterNotn" value="Enter NOTN" onfocus="this.value=''" name="NOTN[]" class="form-control"
+																required="true" /></td>
+															<td style="width: 10%;"><input type="text"
+																th:id="enterSlno"  value="Enter Sl.NO" onfocus="this.value=''"  name="SL.NO[]" class="form-control"
+																required="true" /></td>
+															<td style="width: 15%;"><input type="number"
+																th:id="enterEffRate" name="EFF.RATE[]"
+																class="form-control" required="true" /></td>
+															<td><input type="number" name="DUTY_AMOUNT[]"
+																th:id="enterDutyAmount" class="form-control"
+																onblur="calTotDuty(3)" required="true" /></td>
+															<td><input type="text" name="DUTY_FG[]"
+																th:id="dutyFgAmt" class="form-control" required="true" /></td>
+															<td><a class="deleteRow"></a></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td style="text-align: -webkit-right;"><input
+																type="button" style="width: 20%;"
+																class="btn btn-block btn-sm" id="addrow6" value=" + " /></td>
+														</tr>
+													</tfoot>
+												</table>
+											</div>
+										</div>
+
+										<div class="form-group row">
+											<div class="col-md-6"></div>
+											<div style="width: 16%" align="right">
+												<label class="lab_txt">TOTAL</label>
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" type="text"
+													style="text-align: right;" class="form-control form_txt"
+													name="otherDuty"  onblur="calTotDuty(2)" 
+													th:id="totalOthersDuty" th:value="0">
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" type="text"
+													style="text-align: right;" class="form-control form_txt"
+													name="DUTY_FG" th:id="totalOthersDutyFg" th:value="0">
+											</div>
+										</div>
+									</div>
+
+									<div id="yellow" class="yellowClass">
+										<div class="row">
+											<div class="col-md-1">
+												<label class="lab_txt">DUTY</label>
+											</div>
+											<div class="col-md-2" align="center">
+												<label class="lab_txt">RATE OF DUTY</label>
+											</div>
+											<div class="col-md-2" align="center">
+												<label class="lab_txt">NOTN</label>
+											</div>
+											<div class="col-md-1" align="center">
+												<label class="lab_txt">SL.NO</label>
+											</div>
+											<div class="col-md-2" align="center">
+												<label class="lab_txt">RATE OF DUTY (EFF)</label>
+											</div>
+											<div class="col-md-2" align="center">
+												<label class="lab_txt">DUTY AMOUNT</label>
+											</div>
+											<div class="col-md-2" align="center">
+												<label class="lab_txt">DUTY AMOUNT FG</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-1">
+												<label class="lab_txt">BCD</label>
+											</div>
+											<div class="col-md-2">
+												<input type="text" class="form-control form_txt"
+													style="text-align: center;" readonly="readonly" value="35%">
+											</div>
+											<div class="col-md-2">
+												<select id="itemBcdNoNtChange" class="custom-select"
+													onchange="selectBcdNoNt(this)" th:value="${s1.BCD_NOTN}"
+													name="BCD_NOTN">
+													<option>Select NOTN</option>
+													<div th:each="s5,iter : ${genNOTN}">
+														<option th:text="${s5}"  th:selected="${s1.BCD_NOTN==s5}"></option>
+													</div>
+												</select>
+											</div>
+											<div class="col-md-1">
+												<select id="itemBcdNsNoChange" class="custom-select"
+													onchange="selectBcdNsNo(this)" th:value="${s1.BCD_NSNO}"
+													name="BCD_NSNO">
+													<option>Select SNO</option>
+													<option th:text="${s1.BCD_NSNO}" th:selected="${s1.BCD_NSNO!= null}"></option>
+												</select>
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" style="text-align: center;"
+													id="itemBcdRtaChange" type="text"
+													class="form-control form_txt" name="BCD_RTA"
+													th:value="${s1.BCD_RTA}">
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" style="text-align: right;"
+													id="itemBcdAmtChange" type="text"
+													class="form-control form_txt" name="BCD_AMT"
+													th:value="${s1.BCD_AMT}">
+											</div>
+											<div class="col-md-2">
+												<input id="itemBcdAmtFgChange" type="text"
+													style="text-align: right;" readonly="readonly"
+													class="form-control form_txt " name="BCD_AMT_FG"
+													th:value="${s1.BCD_AMT_FG}">
+											</div>
+										</div>
+										<div class="row mt-2">
+											<div class="col-md-1">
+												<label class="lab_txt">IGST</label>
+											</div>
+											<div class="col-md-2">
+												<input type="text" class="form-control form_txt"
+													style="text-align: center;" readonly="readonly" value="28%">
+											</div>
+											<div class="col-md-2">
+												<strong><select id="itemIgstNoNtChange"
+													class="custom-select" th:value="${s1.IGST_NOTN}"
+													onchange="selectIgstNoNt(this)" name="IGST_NOTN">
+														<option>Select NOTN</option>
+														<div th:each="s5,iter : ${genIGSTNOTN}">
+															<option th:text="${s5}"></option>
+														</div>
+												</select> </strong>
+											</div>
+											<div class="col-md-1">
+												<select id="itemIgstNsNoChange" class="custom-select"
+													onchange="selectIgstNsNo(this)" th:value="${s1.IGST_NSNO}"
+													name="IGST_NSNO">
+													<option>Select SNO</option>
+												</select>
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" id="itemIgstRtaChange"
+													type="text" style="text-align: center;"
+													class="form-control form_txt" name="IGST_RTA"
+													th:value="${s1.IGST_RTA}">
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" id="itemIgstAmtChange"
+													style="text-align: right;" type="text"
+													class="form-control form_txt" th:value="${s1.IGST_AMT}"
+													name="IGST_AMT">
+											</div>
+											<div class="col-md-2">
+												<input id="itemIgstAmtFgChange" type="text"
+													style="text-align: right;" readonly="readonly"
+													class="form-control form_txt " th:value="${s1.IGST_AMT_FG}"
+													name="IGST_AMT_FG">
+											</div>
+										</div>
+										<div class="row mt-2">
+											<div class="col-md-1">
+												<label class="lab_txt">SW</label>
+											</div>
+											<div class="col-md-2">
+												<input type="text" class="form-control form_txt"
+													style="text-align: center;" readonly="readonly" value="10%">
+
+											</div>
+											<div class="col-md-2" id="itemSwNoNtChangeHideDiv">
+												<select id="itemSwNoNtChange" class="custom-select"
+													onchange="selectSwNoNt(this)" th:value="${s1.SW_NOTN}"
+													name="SW_NOTN">
+													<option>Select NOTN</option>
+												</select>
+											</div>
+											<div class="col-md-1">
+												<select id="itemSwNsNoChange" class="custom-select"
+													onchange="selectSwNoNt(this)" th:value="${s1.SW_NSNO}"
+													name="SW_NSNO">
+													<option>Select SNO</option>
+												</select>
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" id="itemSwRtaChange" type="text"
+													style="text-align: center;" class="form-control form_txt"
+													th:value="${s1.SW_RTA}" name="SW_RTA">
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" id="itemSwAmtChange" type="text"
+													style="text-align: right;" class="form-control form_txt"
+													th:value="${s1.SW_AMT}" name="SW_AMT">
+											</div>
+											<div class="col-md-2">
+												<input id="itemSwAmtFgChange" type="text"
+													readonly="readonly" style="text-align: right;"
+													class="form-control form_txt " th:value="${s1.SW_AMT_FG}"
+													name="SW_AMT_FG">
+											</div>
+										</div>
+
+										<!-- 9804 enter duty Assessment -->
+										<div class="row mt-3">
+											<div class="col-md-6" id="manualduty" style="display: none;">
+												<button type="button" class="btn lg_clr btn-sm"
+													id="show-hidden-menu1">
+													Insert More Duty (If any)<br> <span
+														style="font-weight: 500; font-size: 11px;">(please
+														enter manually)</span>
+												</button>
+											</div>
+										</div>
+										<div class="hidden-menu1" style="display: none;">
+											<div class="form-group row">
+												<table id="etr98AssTab" class="table order-list7 lab_txt">
+													<thead style="font-size: 11px;">
+														<td>DUTY</td>
+														<td>RT. OF DUTY</td>
+														<td>NOTN</td>
+														<td>SL.NO</td>
+														<td>RATE OF DUTY (EFF)</td>
+														<td>DUTY AMOUNT</td>
+														<td>DUTY AMT FG</td>
+													</thead>
+													<tbody id="etr98DutyAss">
+														<tr>
+															<td style="width: 9%;"><input type="text"
+																th:id="etr98DropDown" name="DUTY[]" class="form-control"
+																required="true" /></td>
+															<td style="width: 16%;"><input type="number"
+																th:id="etr98RateDuty" name="RATE_OF_DUTY[]"
+																class="form-control" required="true" /></td>
+															<td style="width: 16%;"><input type="text"
+																th:id="etr98Notn" name="NOTN[]" class="form-control"
+																required="true" /></td>
+															<td style="width: 10%;"><input type="text"
+																th:id="etr98Slno" name="SL.NO[]" class="form-control"
+																required="true" /></td>
+															<td style="width: 16%;"><input type="number"
+																th:id="etr98EffRate" name="EFF.RATE[]"
+																class="form-control" required="true" /></td>
+															<td style="width: 17%;"><input type="number"
+																name="DUTY_AMOUNT[]" th:id="etr98DutyAmount"
+																class="form-control" onblur="calTotDutyNineEgtAss('B')"
+																required="true" /></td>
+															<td><input type="text" name="DUTY_FG[]"
+																th:id="etr98dtFgAmt" class="form-control"  onblur="calTotDutyNineEgtAss('C')"
+																required="true" /></td>
+															<td style="display: none;"><a class="deleteRow"></a></td>
+														</tr>
+													</tbody>
+													<tfoot>
+														<tr>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td colspan="1"></td>
+															<td style="text-align: -webkit-right;"><input
+																style="width: 20%;" type="button"
+																class="btn btn-block btn-sm" id="addrow7" value=" + " /></td>
+														</tr>
+													</tfoot>
+												</table>
+											</div>
+										</div>
+
+										<div class="row mt-2">
+											<div class="col-md-6"></div>
+											<div class="col-md-2" align="right">
+												<label class="lab_txt">TOTAL</label>
+											</div>
+											<div class="col-md-2">
+												<input readonly="readonly" id="itemDutyChange" type="text"
+													style="text-align: right;" class="form-control form_txt"
+													th:value="${s1.DUTY}" name="DUTY">
+											</div>
+											<div class="col-md-2">
+												<input id="itemDutyFgChange" type="text" readonly="readonly"
+													style="text-align: right;" class="form-control form_txt "
+													th:value="${s1.DUTY_FG}" name="DUTY_FG">
+											</div>
+										</div>
+									</div>
+
+								</div>
+								 <div class="mt-2" align="right">
+									<!--div class="col-md-8" id="markDiv">
+										<!--  div class="form-check">
+											<input type="checkbox" class="form-check-input"
+												th:value="${s1.mark}" th:id="bothAssQry"> <label
+												class="form-check-label" for="exampleCheck1"
+												style="color: blue;">Select to enable assessment, if
+												query is raised.<br> <small>[System by default
+													disables assessment if query is raised]</small>
+											</label>
+										</div-->
+       <nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-end">
+			<li><font color="white"><b>Note :</b> Click 'Update' to complete Assessment.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></li>
+				<li class="page-item "  >
+					<button class="page-link previousitmd" type="button" th:id="${head.id}" th:disabled="${itemcou==1}"
+						th:value="previous" onclick="nextItemNo('previousItem')"
+						aria-label="previous">
+						<span aria-hidden="true">&laquo;</span><span class="sr-only">previous</span>
+					</button>
+				</li>
+				<li class="page-item"><strong class="page-link"
+					id=nextItemPegination2 th:text="1" th:value="previous"> 2 </strong></li>
+				<li class="page-item" >
+					<button class="page-link nextitmd" type="button" th:id="${head.id}" th:disabled="${itemcou==1}"
+						onclick="nextItemNo('nextItem')" aria-label=""previous"">
+						<span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span>
+					</button>
+				</li>
+			</ul>
+		</nav>
+
+
+									<div class="row">
+									<div class="col-md-12" align="right">
+										<a th:href="@{pen_ead_query?id={id}(id = ${head.id})}">
+										<button type="button" class="btn btn-info">Back</button></a>
+										<!--button type="button" class="btn btn-primary updateAss"
+											th:id="${head.id}" th:value="${s1.ITEM_NO}"
+											onclick="updateAssessment(id,value)">Update</button-->
+										<button type="button" class="btn btn-primary assdepcmts"
+											th:id="${head.id}"
+											onclick="cmtsentpopup(id, value)">Departmental Comments</button>											
+										<button type="button" class="btn btn-primary updateAss"
+											th:id="${head.id}" th:value="${s1.ITEM_NO}"
+											onclick="Dutyentpopup(id, value)">Update</button>
+										<!--button type="button" class="btn btn-primary changeAss"
+											th:id="changeButton" th:value="${s1.ITEM_NO}"
+											onclick="changeDetails(value,1);" data-toggle="modal"
+											data-target="#exampleModalLongAddItem">Amend</button-->
+										<!--button type="button" class="btn btn-primary changeAss"
+											th:id="changeButton" th:value="${s1.ITEM_NO}"
+											onclick="changeDetails(value,1);">Amend</button-->	
+										<button type="button" th:id="nextPageButton"
+											th:value="${head.id}" class="btn btn-info"
+											onclick="nextPage(value)">Exam. Order</button>
+										<button type="button" th:id="nextPageButton" th:if="${totassval < assvalacl}"
+											th:value="${head.id}" class="btn btn-info nxtooc"
+											onclick="movOOC()">Move to OOC</button>
+											<button type="button" th:id="nextPageButton" 
+											th:value="${head.id}" class="btn btn-primary movedi"
+											onclick="pedifile(id)">Move to Commercial Imports</button>
+									</div>								
+								</div>
+								</div>
+								</div>
+							</!--div-->
+						</!--div>
+					</form>
+				</div>
+			</div>
+			<!--div class="row">
+				<div class="col-md-7"></div>
+				<div class="col-md-5">
+					<p style="margin-bottom: 0rem;">
+						<strong>Note :</strong>
+					</p>
+					<p style="font-size: 13px;">Use Amend button if required to
+						change the updated assessment details.</p>
+				</div>
+			</div-->
+		</div>
+
+		<!-- Change Model -->
+		<form action="#" th:action="@{/eadItemDeclaredUpdate}" method="post">
+			<input type="hidden" name="MODIFIED" th:value="${head.MODIFIED}">
+			<input type="hidden" name="cinNo" th:value="${head.id}"> <input
+				type="hidden" name="UNIQUE_ID" th:value="${head.UNIQUE_ID}">
+			<input type="hidden" name="ITEM_ID" th:value="${head.ITEM_ID}">
+			<div class="modal fade" style="margin-top: -90px;"
+				id="exampleModalLongAddItem" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header"
+							style="color: white; background-color: #7aa4de;">
+							<h5 class="modal-title" id="exampleModalLongTitle">Change /
+								Process item</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div th:each="s1,iter : ${check}">
+								<div class="col-md-12">
+									<div th:each="s1,iter : ${check}">
+										<div
+											style="background: #B0B0B0; border-radius: 8px; padding: 10px;">
+											<div class="bg_item1">
+												<div class="row">
+													<div class="col-md-5"></div>
+													<div class="col-md-4">
+														<h4>Declared Details</h4>
+													</div>
+												</div>
+												<div class="form-group row mt-2">
+													<p class="col-sm-1 lab_txt col-form-label1">ITEM</p>
+													<div class="col-sm-2">
+														<input id="itemNoChanges" style="font-weight: 700"
+															readonly="readonly" class="form-control form_txt"
+															name="ITEM_NO" th:value="${s1.ITEM_NO}">
+													</div>
+													<p class="col-sm-1 "></p>
+													<p class="col-sm-1 lab_txt col-form-label1">DESC</p>
+													<div class="col-sm-7">
+														<input id="itemDESChanges" type="text"
+															onblur="setFlagReq('N')" class="form-control form_txt"
+															name="ITEM_DESC" th:value="${s1.ITEM_DESC}">
+													</div>
+												</div>
+												<div class="form-group row">
+													<p class="col-sm-1 lab_txt col-form-label1">HS</p>
+													<div class="col-sm-3">
+														<input id="itemCthChanges" type="number"
+															onblur="setFlagReqNinEght('N')"
+															onKeyPress="if(this.value.length==8) return false;"
+															class="form-control form_txt" name="CTH"
+															th:value="${s1.CTH}">
+													</div>
+													<p class="col-sm-1 lab_txt col-form-label1">REVISED_HS</p>
+													<div class="col-sm-3">
+														<input id="itemRevisedCthChanges" type="number"
+															onblur="setFlagReqNinEght('N')"
+															onKeyPress="if(this.value.length==8) return false;"
+															class="form-control form_txt" name="CTH_REVISED"
+															th:value="${s1.CTH_REVISED}">
+													</div>
+													<p class="col-sm-1 lab_txt col-form-label1">UNITS</p>
+													<div class="col-sm-3">
+														<input id="itemNouChanges" type="number"
+															onblur="setFlagReqNinEght('N')"
+															onKeyPress="if(this.value.length==6) return false;"
+															class="form-control form_txt" name="NOU"
+															th:value="${s1.NOU}">
+													</div>
+												</div>
+												<div class="form-group row">
+													<p class="col-sm-1 lab_txt col-form-label1">NETWT</p>
+													<div class="col-sm-3">
+														<input id="itemNetWtChanges" type="number"
+															onblur="setFlagReqNinEght('N')"
+															class="form-control form_txt" name="NETWT"
+															th:value="${s1.NETWT}">
+													</div>
+													<p class="col-sm-1 lab_txt col-form-label1">DECL_VAL</p>
+													<div class="col-sm-3">
+														<input id="itemDeclValChanges" type="number"
+															onblur="setFlagReqNinEght('N')"
+															onKeyPress="if(this.value.length==16) return false;"
+															class="form-control form_txt" name="DECL_VAL"
+															th:value="${s1.DECL_VAL}">
+													</div>
+													<p class="col-sm-1 lab_txt col-form-label1">CURRCD</p>
+													<div class="col-sm-3">
+														<input id="itemCurCdChanges" maxlength="3"
+															onblur="setFlagReqNinEght('N')"
+															onkeypress="return /[A-Z]/i.test(event.key)"
+															class="form-control form_txt" name="CURRCD"
+															th:value="${s1.CURRCD}">
+													</div>
+												</div>
+												<div class="form-group row">
+													<p class="col-sm-1 lab_txt col-form-label1">ORGN_CD</p>
+													<div class="col-sm-3">
+														<input id="itemOrgCntryCdChanges" type="number"
+															onblur="setFlagReqNinEght('N')"
+															onKeyPress="if(this.value.length==2) return false;"
+															class="form-control form_txt" name="ORIGCNTRYCD"
+															th:value="${s1.ORIGCNTRYCD}">
+													</div>
+													<label for="inputPassword"
+														class="col-sm-1 lab_txt col-form-label">Ex. RATE</label>
+													<div class="col-sm-3">
+														<input id="itemRateChanges" type="text"
+															onblur="setFlagReqNinEght('N')"
+															class="form-control form_txt" name="RATE"
+															th:value="${s1.Rate}">
+													</div>
+
+												</div>
+											</div>
+											<div class="bg_item1 mt-1" >
+												<div class="form-group row">
+													<div class="col-md-2" >
+														<p class="lab_txt col-form-label1">Raise query for the
+															item</p>
+													</div>
+													<div class="col-md-10">
+														<textarea class="form-control" name="query"
+															th:id="queryChange" placeholder="Query for Item..."
+															onblur="setFlagReqQry('Q')" rows="2" disabled="disabled"></textarea>
+													</div>
+												</div>
+											</div>
+											<div class="bg_item1 mt-1">
+												<div class="form-group row">
+													<p class="col-sm-1 lab_txt col-form-label1">CTH</p>
+													<div style="width: 10%;">
+														<select th:id="2" class="custom-select cthClass"
+															onchange="selectSnAmend(this)" th:value="${s1.GEN_CTH}"
+															name="GEN_CTH">
+															<option>Select CTH Value</option>
+															<div th:each="s5,iter : ${genCth}">
+																<option th:text="${s5}"></option>
+															</div>
+															<option th:id="optionBlue">Others</option>
+														</select>
+													</div>
+
+													<div style="width: 4%;" class="blueClass1">
+														<select class="custom-select"
+															onchange="getOtherFourDigiAmend(this)"
+															id="getOtherFourDigitAmend">
+															<option>CH</option>
+															<div th:each="s5,iter : ${othersTwoDigi}">
+																<option th:text="${s5}"></option>
+															</div>
+														</select>
+													</div>
+													<div style="width: 6%;" class="blueClass1">
+														<select class="custom-select"
+															onchange="getOtherEightDigiAmend(this)"
+															id="getOtherEightDigitAmend">
+															<option>Head</option>
+															<div th:each="s5,iter : ${othersFourDigi}">
+																<option th:text="${s5}"></option>
+															</div>
+														</select>
+													</div>
+													<div style="width: 9%;" class="blueClass1">
+														<select class="custom-select"
+															onchange="getOtherDigiAmend(this)"
+															id="getOtherDigitAmend">
+															<option>Tariff</option>
+															<div th:each="s5,iter : ${othersFourDigi}">
+																<option th:text="${s5}"></option>
+															</div>
+														</select>
+													</div>
+													<div style="width: 4%;" class="blueClass1"></div>
+													<div class="col-md-3 yellowClass1"></div>
+													<div class="col-md-2">
+														<h4>Duty Details</h4>
+													</div>
+													<div class="col-md-2 blueClass1"></div>
+													<div class="col-md-2 yellowClass1"></div>
+													<p class="col-sm-1 lab_txt col-form-label1">Assessable Value(INR)</p>
+														<div style="width: 13%;">
+														<input type="text" class="form-control form_txt"
+															name="ASSESS_VAL" id="assessVal" readonly="readonly"
+															style="text-align: right;" th:value="${s1.ASSVAL_INSFRT}">
+													</div>
+												</div>
+
+												<!-- others Amendment  -->
+												<div id="blue" class="blueClass1">
+													<div class="form-group row">
+														<table id="myTable" class="table order-list lab_txt">
+															<thead>
+																<td>DUTY</td>
+																<td>RT. OF DUTY</td>
+																<td>NOTN</td>
+																<td>SL.NO</td>
+																<td>RATE OF DUTY (EFF)</td>
+																<td>DUTY AMOUNT <br> <span
+																	style="font-weight: 500; font-size: 11px;">(please
+																		enter manually)</span></td>
+																<td>DUTY AMT FG</td>
+															</thead>
+
+															<tbody id="amOt">
+																<div th:each="othDty,iter : ${othersDuty}">
+																	<tr th:if="${othDty.DUTY_CD != null}">
+																		<td><select class="custom-select" name="DUTY[]"
+																			th:id="cusAmDrpDn" onchange="othersNotnAmd(this)">
+																				<option>Select Duty</option>
+																				<div th:each="s5,iter : ${duty}">
+																					<option class="dutyOth" th:text="${s5[1]}"
+																						th:value="${s5[0]}"></option>
+																				</div>
+																		</select></td>
+																		<td><input type="text" name="RATE_OF_DUTY[]"
+																			th:value="${othDty.DUTY_RTA}" readonly="readonly"
+																			th:id="cusAmDtRt" class="form-control"
+																			required="true" /></td>
+																		<td><select class="custom-select" name="NOTN[]"
+																			th:id="cusAmNt" onchange="othersSlNoAmd(this)">
+																				<option>Select NOTN</option>
+																				<!-- <div th:each="s5,iter : ${duty}">
+																	<option class="notnOth" th:text="${s5[1]}" th:value="${s5[0]}"></option>
+																</div> -->
+																		</select></td>
+																		<td><select class="custom-select" name="SL.NO[]"
+																			onchange="selectEachNsNoAmd(this)" th:id="cusAmSln">
+																				<option>Select SL.NO</option>
+																				<!-- <div th:each="s5,iter : ${duty}">
+																	<option class="slNoOth" th:text="${s5[1]}"
+																		th:value="${s5[0]}"></option>
+																</div> -->
+																		</select></td>
+																		<td><input type="text" name="EFF.RATE[]"
+																			readonly="readonly" th:id="cusAmRt"
+																			class="form-control" th:value="${othDty.RATE}" /></td>
+																		<td><input type="text" name="DUTY_AMOUNT[]"
+																			th:value="${othDty.DUTY_AMT}"
+																			style="text-align: right;" onblur="calTotDutyAmd()"
+																			th:id="cusAmAmt" class="form-control" /></td>
+																		<td><input type="text" name="DUTY_FG[]"
+																			th:value="${othDty.DUTY_FG}"
+																			style="text-align: right;" onblur="calTotDutyFg()"
+																			th:id="cusAmAmtFg" class="form-control" /></td>
+																		<td><a class="deleteRow"></a></td>
+																	</tr>
+																</div>
+															</tbody>
+
+
+
+															<tfoot>
+																<tr>
+																	<td colspan="1"></td>
+																	<td colspan="1"></td>
+																	<td colspan="1"></td>
+																	<td colspan="1"></td>
+																	<td colspan="1"></td>
+																	<td colspan="1"></td>
+																	<td style="text-align: -webkit-right;"><input
+																		style="width: 20%;" type="button"
+																		class="btn btn-block btn-sm" id="addrow" value=" + " /></td>
+																</tr>
+															</tfoot>
+														</table>
+													</div>
+
+													<!-- Others enter Duty Amendment -->
+
+													<div class="row mt-3">
+														<div class="col-md-6">
+															<button type="button" class="btn lg_clr btn-sm"
+																id="show-hidden-menu4">Insert More Duty (If
+																any)</button>
+														</div>
+													</div>
+													<div class="hidden-menu4" style="display: none;">
+														<div class="form-group row">
+															<table id="myTable" class="table order-list9 lab_txt">
+																<thead>
+																	<td>DUTY</td>
+																	<td>RT. OF DUTY</td>
+																	<td>NOTN</td>
+																	<td>SL.NO</td>
+																	<td>RATE OF DUTY (EFF)</td>
+																	<td>DUTY AMOUNT</td>
+																	<td>DUTY AMT FG</td>
+																</thead>
+																<tbody id="amOtEnter">
+																	<tr>
+																		<td><input type="text" th:id="enterDropDownAm"
+																			name="DUTY[]" class="form-control" required="true" /></td>
+																		<td><input type="text" name="RATE_OF_DUTY[]"
+																			th:id="enterRateDutyAm" class="form-control"
+																			required="true" /></td>
+																		<td><input type="text" th:id="enterNotnAm"
+																			name="NOTN[]" class="form-control" required="true" /></td>
+																		<td><input type="text" th:id="enterSlnoAm"
+																			name="SL.NO[]" class="form-control" required="true" /></td>
+																		<td><input type="number" th:id="enterEffRateAm"
+																			name="EFF.RATE[]" class="form-control"
+																			required="true" /></td>
+																		<td><input type="number" name="DUTY_AMOUNT[]"
+																			th:id="enterDutyAmountAm" class="form-control"
+																			onblur="calTotDutyAmd()" required="true" /></td>
+																		<td><input type="text" name="DUTY_FG[]"
+																			th:id="dutyFgAmtAm" class="form-control"
+																			required="true" /></td>
+																		<td><a class="deleteRow"></a></td>
+																	</tr>
+																</tbody>
+																<tfoot>
+																	<tr>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td style="text-align: -webkit-right;"><input
+																			type="button" style="width: 20%;"
+																			class="btn btn-block btn-sm" id="addrow9" value=" + " /></td>
+																	</tr>
+
+																</tfoot>
+															</table>
+														</div>
+													</div>
+
+													<div class="row mt-2">
+														<div class="col-md-6"></div>
+														<div class="col-md-2" align="right">
+															<label class="lab_txt">TOTAL</label>
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" id="itemDutyChange"
+																type="text" style="text-align: right;"
+																class="form-control form_txt" th:value="${s1.DUTY}"
+																name="DUTY">
+														</div>
+														<div class="col-md-2">
+															<input id="itemDutyFgChange" type="text"
+																readonly="readonly" style="text-align: right;"
+																class="form-control form_txt " th:value="${s1.DUTY_FG}"
+																name="DUTY_FG">
+														</div>
+													</div>
+												</div>
+
+												<div id="yellow" class="yellowClass1">
+													<div class="row">
+														<div class="col-md-1">
+															<label class="lab_txt">DUTY</label>
+														</div>
+														<!-- 	<div class="col-md-2" align="center">
+															<label class="lab_txt">RATE OF DUTY</label>
+														</div> -->
+														<div class="col-md-2" align="center">
+															<label class="lab_txt">NOTN</label>
+														</div>
+														<div class="col-md-2" align="center">
+															<label class="lab_txt">SL.NO</label>
+														</div>
+														<div class="col-md-2" align="center">
+															<label class="lab_txt">RATE OF DUTY (EFF)</label>
+														</div>
+														<div class="col-md-2" align="center">
+															<label class="lab_txt">DUTY AMOUNT</label>
+														</div>
+														<div class="col-md-2" align="center">
+															<label class="lab_txt">DUTY AMOUNT FG</label>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-1">
+															<label class="lab_txt">BCD</label>
+														</div>
+														<!-- <div class="col-md-2">
+															<input type="text" class="form-control form_txt"
+																style="text-align: center;" readonly="readonly"
+																value="35%">
+														</div> -->
+														<div class="col-md-2">
+															<select id="itemBcdNoNtChanges" class="custom-select"
+																onchange="selectBcdNoNtAmend(this)"
+																th:value="${s1.BCD_NOTN}" name="BCD_NOTN">
+																<option>Select NOTN</option>
+																<div th:each="s5,iter : ${genNOTN}">
+																	<option th:text="${s5}"></option>
+																</div>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<select id="itemBcdNsNoChanges" class="custom-select"
+																onchange="selectBcdNsNoAmend(this)"
+																th:value="${s1.BCD_NSNO}" name="BCD_NSNO">
+																<option>Select SNO</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" style="text-align: center;"
+																id="itemBcdRtaChanges" type="text"
+																class="form-control form_txt" name="BCD_RTA"
+																th:value="${s1.BCD_RTA}">
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" style="text-align: right;"
+																id="itemBcdAmtChanges" type="text"
+																class="form-control form_txt" name="BCD_AMT"
+																th:value="${s1.BCD_AMT}">
+														</div>
+														<div class="col-md-2">
+															<input id="itemBcdAmtFgChanges" type="text"
+																style="text-align: right;" readonly="readonly"
+																class="form-control form_txt " name="BCD_AMT_FG"
+																th:value="${s1.BCD_AMT_FG}">
+														</div>
+													</div>
+													<div class="row mt-2">
+														<div class="col-md-1">
+															<label class="lab_txt">IGST</label>
+														</div>
+														<!-- <div class="col-md-2">
+															<input type="text" class="form-control form_txt"
+																style="text-align: center;" readonly="readonly"
+																value="28%">
+														</div> -->
+														<div class="col-md-2">
+															<strong><select id="itemIgstNoNtChanges"
+																class="custom-select" th:value="${s1.IGST_NOTN}"
+																onchange="selectIgstNoNtAmend(this)" name="IGST_NOTN">
+																	<option>Select NOTN</option>
+																	<div th:each="s5,iter : ${genIGSTNOTN}">
+																		<option th:text="${s5}"></option>
+																	</div>
+															</select> </strong>
+														</div>
+														<div class="col-md-2">
+															<select id="itemIgstNsNoChanges" class="custom-select"
+																onchange="selectIgstNsNoAmend(this)"
+																th:value="${s1.IGST_NSNO}" name="IGST_NSNO">
+																<option>Select SNO</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" id="itemIgstRtaChanges"
+																type="text" style="text-align: center;"
+																class="form-control form_txt" name="IGST_RTA"
+																th:value="${s1.IGST_RTA}">
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" id="itemIgstAmtChanges"
+																style="text-align: right;" type="text"
+																class="form-control form_txt" th:value="${s1.IGST_AMT}"
+																name="IGST_AMT">
+														</div>
+														<div class="col-md-2">
+															<input id="itemIgstAmtFgChanges" type="text"
+																style="text-align: right;" readonly="readonly"
+																class="form-control form_txt "
+																th:value="${s1.IGST_AMT_FG}" name="IGST_AMT_FG">
+														</div>
+													</div>
+													<div class="row mt-2">
+														<div class="col-md-1">
+															<label class="lab_txt">SW</label>
+														</div>
+														<!-- <div class="col-md-2">
+															<input type="text" class="form-control form_txt"
+																style="text-align: center;" readonly="readonly"
+																value="10%">
+
+														</div> -->
+														<div class="col-md-2" id="itemSwNoNtChangeHideDiv">
+															<select id="itemSwNoNtChanges" class="custom-select"
+																onchange="selectSwNoNtAmend(this)"
+																th:value="${s1.SW_NOTN}" name="SW_NOTN">
+																<option>Select NOTN</option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<select id="itemSwNsNoChanges" class="custom-select"
+																onchange="selectSwNsNoAmend(this)"
+																th:value="${s1.SW_NSNO}" name="SW_NSNO">
+																<option></option>
+															</select>
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" id="itemSwRtaChanges"
+																type="text" style="text-align: center;"
+																class="form-control form_txt" th:value="${s1.SW_RTA}"
+																name="SW_RTA">
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" id="itemSwAmtChanges"
+																type="text" style="text-align: right;"
+																class="form-control form_txt" th:value="${s1.SW_AMT}"
+																name="SW_AMT">
+														</div>
+														<div class="col-md-2">
+															<input id="itemSwAmtFgChanges" type="text"
+																readonly="readonly" style="text-align: right;"
+																class="form-control form_txt "
+																th:value="${s1.SW_AMT_FG}" name="SW_AMT_FG">
+														</div>
+													</div>
+
+
+													<!-- 9804 enter duty Amendment -->
+													<div class="row mt-3">
+														<div class="col-md-6">
+															<button type="button" class="btn lg_clr btn-sm"
+																id="show-hidden-menu3">Insert More Duty (If
+																any)</button>
+														</div>
+													</div>
+													<div class="hidden-menu3" style="display: none;">
+														<div class="form-group row">
+															<table id="myTable" class="table order-list8 lab_txt">
+																<tbody id="etr98Amnd">
+																	<tr style="margin-left: 0px;">
+																		<td style="width: 9%"><input type="text"
+																			th:id="etr98DrpDnAm" name="DUTY[]"
+																			class="form-control" required="true" /></td>
+																		<td style="width: 9%"><input type="text"
+																			th:id="etr98RateDutyAm" name="RATE_OF_DUTY[]"
+																			class="form-control" required="true" /></td>
+																		<td style="width: 16%"><input type="text"
+																			th:id="enter98NotnAm" name="NOTN[]"
+																			class="form-control" required="true" /></td>
+																		<td style="width: 17%"><input type="text"
+																			th:id="enter98SlnoAm" name="SL.NO[]"
+																			class="form-control" required="true" /></td>
+																		<td style="width: 17%"><input type="number"
+																			th:id="enter98EffRateAm" name="EFF.RATE[]"
+																			class="form-control" required="true" /></td>
+																		<td style="width: 16%"><input type="number"
+																			name="DUTY_AMOUNT[]" th:id="enter98DutyAmountAm"
+																			class="form-control"
+																			onblur="calTotDutyNineEgtAmd('U')" required="true" /></td>
+																		<td style="width: 17%"><input type="text"
+																			name="DUTY_FG[]" th:id="enter98DutyFgAmtAm"
+																			onblur="calTotDutyNineEgtAmd('U')"
+																			class="form-control" required="true" /></td>
+																		<td><a class="deleteRow"></a></td>
+																	</tr>
+																</tbody>
+																<tfoot>
+																	<tr>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td colspan="1"></td>
+																		<td style="text-align: -webkit-right;"><input
+																			type="button" style="width: 20%;"
+																			class="btn btn-block btn-sm" id="addrow8" value=" + " /></td>
+																	</tr>
+																</tfoot>
+															</table>
+														</div>
+													</div>
+
+													<div class="row mt-2">
+														<div class="col-md-5"></div>
+														<div class="col-md-2">
+															<label class="lab_txt">TOTAL DUTY / FG FOR ITEM</label>
+														</div>
+														<div class="col-md-2">
+															<input readonly="readonly" id="itemDutyChanges"
+																type="text" style="text-align: right;"
+																class="form-control form_txt" th:value="${s1.DUTY}"
+																name="DUTY">
+														</div>
+														<div class="col-md-2">
+															<input id="itemDutyFgChanges" type="text"
+																readonly="readonly" style="text-align: right;"
+																class="form-control form_txt " th:value="${s1.DUTY_FG}"
+																name="DUTY_FG">
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="col-md-10">
+								<!-- div class="form-check">
+									<input type="checkbox" class="form-check-input"> <label
+										class="form-check-label" for="exampleCheck1"
+										style="color: blue;">Select to enable assessment, if
+										query is raised.<br> <small>[System by default
+											disables assessment if query is raised]</small>
+									</label>
+								</div-->
+							</div>
+							<button type="button" class="btn btn-danger"
+								data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-success"
+								onClick="updateAmendment(this);">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1">
+					<label class="lab_txt">TOTAL DUTY</label>
+				</div>
+				<div class="col-md-2">
+					<input readonly="readonly" type="text" style="text-align: right;"
+						th:id="allItemDuty" name="allItemDuty" onchange="calTotPayable()"
+						class="form-control form_txt" th:value="${head.TOT_DUTY}">
+				</div>
+				<div class="col-md-1">
+					<label class="lab_txt">TOTAL DUTY FG</label>
+				</div>
+				<div class="col-md-2">
+					<input type="text" readonly="readonly" style="text-align: right;"
+						th:id="allItemDutyFg" class="form-control form_txt "
+						name="allItemDutyFg" th:value="${head.totalDutyFg}">
+				</div>
+
+				<!-- send back to APR btn -->
+
+				<div class="col-md-4 sendbtnshow" style="display: none;">
+					<label class="lab_txt">AC's remarks to AO</label>
+					<textarea class="form-control" name="sndbackcmts"
+						th:id="sndbackcmts" onkeyup="success(id)"
+						placeholder="Dept. Comments" rows="3"></textarea>
+				</div>
+				<div class="col-md-2 mt-4 sendbtnshow">
+					<button type="button" id="lock" style="font-size: 11px;"
+						onclick="sendAprBack(value)" class="btn btn-danger btn-sm"
+						disabled>
+						Save & <br> Send back to AO
+					</button>
+				</div>
+				
+				<!-- send back to PAC btn -->
+
+				<div class="col-md-4 sendpaobtnshow" style="display: none;">
+					<label class="lab_txt">AO's remarks to AC</label>
+					<textarea class="form-control" name="aprsndbackcmts"
+						th:id="aprsndbackcmts" onkeyup="success1(id)"
+						placeholder="Dept. Comments" rows="3"></textarea>
+				</div>
+				<div class="col-md-2 mt-4 sendpaobtnshow">
+					<button type="button" id="lock2" style="font-size: 11px;"
+						onclick="sendAclBack(value)" class="btn btn-danger btn-sm"
+						disabled>
+						Save & <br> Send back to AC
+					</button>
+				</div>
+
+			</div>
+
+		</form>
+		<div class="row">
+			<div class="col-md-2">
+				<button type="button" class="btn btn-danger btn-sm"
+					id="show-hidden-menu">Fine and Penalty</button>
+			</div>
+		</div>
+		<div class="hidden-menu" style="display: none;">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group row">
+						<table id="myTable" class="table order-list2 lab_txt">
+							<thead>
+								<td style="width: 50%;">Fine Amount</td>
+								<td style="width: 50%;">Under Section</td>
+							</thead>
+							<tbody id="fineId">
+								<div th:each="fine,iter : ${allFine}">
+									<tr>
+										<td><input type="text" name="FINE[]" th:id="addFine1"
+											style="text-align: right;" th:value="${fine.fineAmt}"
+											onblur="addFine()" class="form-control" /></td>
+										<td><input type="text" value="Sec. "
+											th:value="${fine.fineUs}" oninput="inputValue(this)"
+											name="FINE_US[]" class="form-control" /></td>
+										<td><a class="deleteRow" name="addFinebtn"></a></td>
+									</tr>
+								</div>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="1"></td>
+									<td colspan="1" style="text-align: right;"><input
+										type="button" name="addFinebtn" class="btn btn-info btn-sm"
+										id="addrow2" value="Add Fine" /></td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group row">
+						<table id="myTable" class="table order-list3 lab_txt">
+							<thead>
+								<td style="width: 50%;">Penalty Amount</td>
+								<td style="width: 50%;">Under Section</td>
+							</thead>
+							<tbody id="penaltyId">
+								<div th:each="penalty,iter : ${allPenalty}">
+									<tr>
+										<td><input type="text" name="PENALTY[]"
+											style="text-align: right;" th:id="addPenalty1"
+											onblur="addPenalty()" th:value="${penalty.penalAmt}"
+											class="form-control" /></td>
+										<td><input type="text" value="Sec. "
+											th:value="${penalty.penalUs}" oninput="inputValue(this)"
+											name="PENALTY_US[]" class="form-control" /></td>
+										<td><a class="deleteRow" name="addPenaltybtn"></a></td>
+									</tr>
+								</div>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="1"></td>
+									<td colspan="1" style="text-align: right;"><input
+										type="button" name="addPenaltybtn" class="btn btn-info btn-sm"
+										id="addrow3" value="Add Penalty" /></td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-4 mt-3">
+					<textarea class="form-control" name="deptComts" id="deptComts"
+						th:text="${head.DEP_CMTS}" placeholder="Dept. Comments" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-1">
+					<label class="lab_txt">TOTAL FINE</label>
+				</div>
+				<div class="col-md-2">
+					<input type="text" readonly="readonly" th:id="totalFine"
+						onblur="calTotPayable()" th:value="${head.TOT_FINE}"
+						class="form-control form_txt" style="text-align: right;"
+						name="totFine">
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-1">
+					<label class="lab_txt">TOTAL PENALTY</label>
+				</div>
+				<div class="col-md-2">
+					<input type="text" readonly="readonly" th:id="totalPenalty"
+						onchange="calTotPayable()" th:value="${head.TOT_PENAL}"
+						class="form-control form_txt" style="text-align: right;"
+						name="totPenalty">
+				</div>
+				<div class="col-md-5" align="right">
+					<button type="button" class="btn btn-info btn-sm" th:id="saveBtn"
+						onclick="finePenal()">Save F&P</button>
+					<button type="button" class="btn btn-info btn-sm amendBtn"
+						data-toggle="modal" data-target="#AmendFine">Amend F&P</button>
+				</div>
+			</div>
+		</div>
+		<div class="mt-3"
+			style="background: #B0B0B0; border-radius: 8px; padding: 10px;">
+			<div class="bg_item1">
+				<div class="row">
+					<div class="col-md-8"></div>
+					<div class="col-md-2">
+						<label class="lab_txt">TOT. AMT PAYABLE</label>
+					</div>
+					<div class="col-md-2">
+						<input type="text" readonly="readonly" th:id="totaldutyPayable"
+							th:value="${totpayable}" 
+							class="form-control form_txt" style="text-align: right;"
+							name="dutyPayable">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<input type="hidden" th:value="${head.TOT_DUTY}" id="totDuty">
+
+	<!-- Modal 2 -->
+	<Modal>
+	<div class="modal fade" id="nxtModal" tabindex="-1" 
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered " style="max-width: 450px;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>
+						<font color="black">This will move to OOC queue for Clearance or Detention queue  awating on arrival of the parcel</font>
+					</h4>
+				</div>
+				<div class="modal-footer">
+				    <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary"
+					style="background-color:red"	data-dismiss="modal">CANCEL</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" th:id="${head.id}"
+					style="background-color:green"	onclick="OOCDet(this)">OK</button></div>
+					<!-- a href="import_ooc_search"-->
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	
+	<div id="myModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+
+					<h2>
+						System by default processes the postal article advance data for
+						the <br> tariff item "9804" as intended for personal use.
+					</h2>
+					<br>
+					<p>1. Select appropriate notification to extend duty benefits
+						if any.</p>
+
+					<h5>If found otherwise</h5>
+					<p>2(a). Select appropriate CTH under "other" and assess
+						accordingly.</p>
+					<!--p>(or)</p>
+					<p>
+						2(b). Process in EDI bill of entry for postal imports which are
+						commercial in nature.<br>(Select file bill of entry under
+						proceed to submit)
+					</p-->
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" id="next" onclick="changeExRt()">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Button trigger modal -->
+	<!-- Modal -->
+	<div class="modal fade" id="AmendFine" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered"
+			style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Amend Fine
+						/ Penalty</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group row">
+								<table id="myTable" class="table order-list4 lab_txt">
+									<thead>
+										<td style="width: 50%;">Fine Amount</td>
+										<td style="width: 50%;">Under Section</td>
+									</thead>
+									<tbody id="fineAmendId">
+										<div th:each="fine,iter : ${allFine}">
+											<tr>
+												<td><input type="text" name="FINE[]"
+													class="form-control" onblur="addAmendFine()"
+													th:value="${fine.fineAmt}" style="text-align: right;" /></td>
+												<td><input type="text" value="Sec. "
+													oninput="inputValue(this)" name="FINE_US[]"
+													th:value="${fine.fineUs}" class="form-control" /></td>
+												<td><a class="deleteRow"></a></td>
+											</tr>
+										</div>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="1"></td>
+											<td colspan="1" style="text-align: right;"><input
+												type="button" class="btn btn-info btn-sm" id="addrow4"
+												value="Add Fine" /></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group row">
+								<table id="myTable" class="table order-list5 lab_txt">
+									<thead>
+										<td style="width: 50%;">Penalty Amount</td>
+										<td style="width: 50%;">Under Section</td>
+									</thead>
+									<tbody id="AmendpenaltyId">
+										<div th:each="penalty,iter : ${allPenalty}">
+											<tr>
+												<td><input type="text" name="PENALTY[]"
+													class="form-control" onblur="addAmendPenalty()"
+													th:value="${penalty.penalAmt}" style="text-align: right;" /></td>
+												<td><input type="text" value="Sec. "
+													oninput="inputValue(this)" name="PENALTY_US[]"
+													class="form-control" th:value="${penalty.penalUs}" /></td>
+												<td><a class="deleteRow"></a></td>
+											</tr>
+										</div>
+									</tbody>
+									<tfoot>
+										<tr>
+											<td colspan="1"></td>
+											<td colspan="1" style="text-align: right;"><input
+												type="button" class="btn btn-info btn-sm" id="addrow5"
+												value="Add penalty" /></td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+						<div class="col-md-4 mt-3">
+							<textarea class="form-control" name="deptComts" id="deptComts1"
+								th:text="${head.DEP_CMTS}" placeholder="Dept. Comments" rows="3"></textarea>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-1">
+							<label class="lab_txt">Tot. Fine</label>
+						</div>
+						<div class="col-md-2">
+							<input type="text" readonly="readonly"
+								class="form-control form_txt" th:id="totalAmendFine"
+								th:value="${head.TOT_FINE}" style="text-align: right;"
+								name="totFine">
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-1">
+							<label class="lab_txt">Tot. Penalty</label>
+						</div>
+						<div class="col-md-2">
+							<input type="text" readonly="readonly"
+								class="form-control form_txt" th:id="totalAmendPenalty"
+								th:value="${head.TOT_PENAL}" style="text-align: right;"
+								name="totPenalty">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger"
+						data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-success"
+						onclick="finePenalAmend()">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	 <div id="updatePopup" class="modal fade">
+		<div class="modal-dialog modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Assessment is completed for all the items.</h4>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div id="updatePopupACL" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Assessment updated. This will move to AC.</h4>
+
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="qryupdatePopupACL" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Query / Assessment updated. This will move to AC.</h4>
+
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="qryupdatePopup" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Query / Assessment is completed for all the items.</h4>
+
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div id="commclrPopup" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Article ID will move to Commercial Imports Queue.<br> However, the Article ID will be available for data entry and further process of Manual BE in<br> "Article IDs in Commercial Imports Queue sub-module" <br>only after confirmation of the arrival of the Article is carried out in <br>"Postal Bag  Arrival Confirmation/ Import Article Scan Report Module"</h4>
+
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" onclick="edipopup()" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="otherdutyPopup" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Duty has to be calculated manually and entered in the
+						field 'Duty Amount'</h4>
+
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="commsampPopup" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center" vertical-align="middle">
+					<h4>Import of Commercial Samples under Notification No. 154/94- Cus dated 13.07.1994, 
+				    <br>as amended, warrants filing of Bill of Entry as it is limited to IEC holders and 
+                    <br>subject to various other conditions including value limits.</h4>
+            	</div>
+				<div class="modal-footer">
+                <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">Cancel</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success" th:id="${head.id}" style="background-color:green"
+						onclick="commpsamp_process(id);">OK</button></div>	
+	            </div>
+			</div>
+		</div>
+	</div>
+	
+<div id="cmtsentPopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 1200px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+	  <div th:if="${depcmtsead != null}">
+	  <h4><font color="black">Departmental Comments - EAD </h4>
+		<textarea style="background: #fff7ed;color: black;font-weight: bolder !important;" class='form-control font-weight-normal' rows='5' id="eadpaodepcmts"  placeholder='Enter the Departmental Comments' disabled></textarea>
+	  </div>
+		<h4><font color="black">Departmental Comments - AAA </h4>
+		<textarea style="background: #fff7ed;color: black;font-weight: bolder !important;" class='form-control font-weight-normal' rows='5' id="paodepcmts"  placeholder='Enter the Departmental Comments'></textarea>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">Cancel</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success" th:id="${head.id}" style="background-color:green"
+						onclick="updatedepcmts(id,value);">Save</button></div>	
+	</div>
+    </div>
+</div>
+</div>
+	
+	
+	
+	<div id="valupdPopup" class="modal fade">
+		<div class="modal-dialog" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Values Are Updated Successfully</h4>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<div id="upddutyentPopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure with the duty entered</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">Cancel</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success" th:id="${head.id}" style="background-color:green"
+						onclick="updateAssessment(id,value);">OK</button></div>	</div>
+    </div>
+</div>
+</div>
+
+  <div id="edifilePopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+        <div class="modal-content">
+            <div class="modal-body" align="center">
+                <h4>
+                    <font color="black">Do you want to move this Article to Commercial Imports Queue to process further?
+                </h4>
+            </div>
+            <div class="modal-footer">
+                <div class="row mt-1"></div>
+                <div class="col-md-6" align="left"><button type="button" class="btn btn-danger" style="background-color:red" data-dismiss="modal">No</button></div>
+                <div class="col-md-6" align="right"><button type="button" class="btn btn-success" th:id="${head.id}" style="background-color:green" onclick="pmovedi(id);">Yes</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+	<div id="aclWarningMsg" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>
+						PAO has done the primary assessment / raised query.<br>PAC may alter PAO's assesment / Query if required and complete the process.
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div id="exchangeRate" class="modal fade" data-keyboard="false"
+		data-backdrop="static">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Please Enter the Applicable Exchange Rate.</h4>
+					<br>
+					<div class="form-group row mt-2" align="center">
+						<p class="col-sm-1 lab_txt col-form-label1">Country</p>
+						<div class="col-sm-4">
+							<input style="font-weight: 700" readonly="readonly"
+								th:id="countryName" th:value="1" class="form-control form_txt">
+						</div>
+						<p class="col-sm-1 "></p>
+						<p class="col-sm-1 lab_txt col-form-label1">Ex.Rate (INR)</p>
+						<!-- <div class="col-sm-2">
+							<input id="upExRt" class="form-control form_txt" type="number"
+								onblur="validate()"
+								onKeyPress="if(this.value.length>16 && this.value.length<1) return false;">
+							<span id="spanId" class="error"><p class="clorRed"
+									id="dinErr" type="text"></p></span>
+						</div> -->
+						<div class="col-sm-2">
+						  <input id="upExRt" class="form-control form_txt" type="number" onkeyup="validate()"
+						    onKeyPress="if(this.value.length>16 && this.value.length<1) return false;">
+						    <span id="spanId" class="error">
+							<p class="clorRed" id="dinErr" type="text"></p>
+						    </span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success"
+						id="confirmBtton" onclick="updateExRt()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /* swasthik 20/04/2023 */ -->
+	<div id="basiceffrateModal" class="modal fade">		
+					<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body"  align="center" >
+					<h4>By Unselecting Notification, the Basic rate of Duty as in the Tariff will be applied. For extending any notification benefits, respective Notification may have to be selected from the Dropdown alongwith the respective Sl.No. from the next Dropdown. <br> Do you want to proceed ?</h4>
+				</div>
+				<div class="modal-footer">
+				<div class="row"></div>
+					<div class="col-md-6" align="left">
+					<button type="button" class="btn btn-danger"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button class="btn btn-success" onclick="calcbasiceffrt()">Yes</button></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</Modal>
+</body>
+<script type="text/javascript">
+$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+         
+</script>
+<script src="js/pen_declared.js"></script>
+</html>

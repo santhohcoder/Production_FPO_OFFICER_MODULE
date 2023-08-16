@@ -1,0 +1,840 @@
+<html>
+
+<head>
+    <link th:href="@{css/bootstrap1.min.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{js/font.js}"></script>
+    <link th:href="@{css/datatables.min.css}" rel="stylesheet" type="text/css" />
+    <!--link rel="stylesheet" href="/code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"-->
+    <script src="@{js/jquery-1.12.4.js}"></script>
+    <script th:src="@{js/report/jquery-ui.js}"></script>
+    <link th:href="@{css/select2.min.css}" rel="stylesheet" type="text/css" />
+    <script src="@{js/select2.min.js}"></script>
+</head>
+<style>
+.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+    .lab_txt {
+        font-size: 14px;
+        color: blue;
+    }
+
+    .scroll_down {
+        height: 550px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .flash {
+        padding: 12px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        animation-name: blink;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /*table.dataTable thead .sorting {
+      background-image: url(/DataTables-1.10.21images/sort_both.png);
+      }
+      table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+      cursor: none;
+      }*/
+    .buttonstyle {
+        color: white;
+        font-size: 16px;
+        background: dimgray;
+        padding: 5px;
+        border-radius: 12px;
+        border: 2px solid #4a4d5d;
+        border-left: solid #4a4d5d 2px;
+        border-top: solid #4a4d5d 2px;
+    }
+
+    .buttonstyles {
+        border: 2px solid white;
+        border-radius: 20px;
+        color: white;
+        font-size: 20px;
+    }
+
+    btndis {
+        color: white;
+    }
+
+    .bordstyle {
+        border: 2px solid white;
+        background: dimgray;
+        border-radius: 20px;
+        padding: 2px;
+    }
+
+    .bordstyleh {
+        border: 2px solid white;
+        background: #6899d0;
+        border-radius: 5px;
+        padding: 2px;
+    }
+
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    .tot_no {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .tot_no1 {
+        font-size: 13px;
+        font-weight: 700;
+        color: red;
+    }
+
+    .dataTables_wrapper {
+        position: static;
+        clear: both;
+        zoom: 1;
+    }
+
+    .numradius1 {
+        border: 2px solid #4a4d5d;
+        background-color: #ff6565;
+        color: white;
+        font-size: 16px;
+        border-radius: 20px;
+        padding: 1px;
+    }
+
+    .numradius2 {
+        color: #47f525;
+        font-size: 16px;
+    }
+
+    .numradius3 {
+        color: #25ebf5;
+        font-size: 16px;
+    }
+
+    .numradius {
+        border: 2px solid black;
+        background-color: #17a2b8;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .dispval {
+        font-color: white;
+    }
+
+    .occ_note {
+        background-color: #79a0ca;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+    }
+
+    .gray_note {
+        background-color: #7fa0c3;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+    }
+
+    table.dltrc {
+        width: 100%;
+        align: center;
+        border-collapse: separate;
+        border-spacing: 0px;
+        border: solid darkbrown 2px;
+        border-radius: 8px;
+        font-color: white;
+        font-size: 14px;
+    }
+
+    tr.dlheader {
+        text-align: center;
+        font-weight: bold;
+        font-color: white;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        padding: 2px
+    }
+
+    td.dlheader {
+        text-align: center;
+        font-weight: bold;
+        font-color: white;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        border-radius: 0px;
+        padding: 2px
+    }
+
+    tr.dlinfo,
+    td.dlinfo {
+        text-align: center;
+        font-color: black;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        border-top: solid darkbrown 2px;
+        padding: 2px
+    }
+
+    td.dlinfo:first-child,
+    td.dlheader:first-child {
+        border-left: none;
+    }
+
+    td.dlheader:first-child {
+        border-radius: 5px 0 0 0;
+    }
+
+    td.dlheader:last-child {
+        border-radius: 0 5px 0 0;
+    }
+
+    .pl-1.pad,
+    .px-1.pad {
+        padding-left: 10.25rem !important;
+    }
+
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+    body {
+        height: 100%;
+        background: #FAFAFA;
+        font-family: 'Roboto', sans-serif;
+
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .tab-bar {
+        margin: 20px 10px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        list-style-type: none;
+        -webkit-padding-start: 0;
+
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .tab {
+        width: 150px;
+        padding: 20px 0;
+        background: white;
+        color: #28a745;
+        overflow: hidden;
+        text-align: center;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        cursor: pointer;
+        position: relative;
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+    .indicator {
+        width: 270px;
+        height: 3px;
+        background: #28a745;
+        position: absolute;
+        margin-top: 62px;
+        margin-left: 0;
+
+        -webkit-transition: margin 0.5s ease;
+
+        transition: margin 0.5s ease;
+    }
+
+    .cercle {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+    }
+
+    .light .cercle {
+        background: white
+    }
+
+    .dark .cercle {
+        background: black
+    }
+
+    .anim {
+        opacity: 0.2;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+        -webkit-animation: touch 1.2s ease-out;
+        animation: touch 1.2s ease-out;
+    }
+
+    @-webkit-keyframes touch {
+        100% {
+            width: 600px;
+            height: 600px;
+            border-radius: 600px;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            margin: -300px;
+        }
+    }
+
+    @keyframes touch {
+        100% {
+            width: 600px;
+            height: 600px;
+            border-radius: 600px;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            margin: -300px;
+        }
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #000000 !important;
+    }
+
+    body {
+        overflow-y: scroll;
+        background: aliceblue !important;
+    }
+
+    .filter {
+        width: 850px;
+        padding: 25px;
+        border: 1px solid black;
+        margin: 25px;
+        float: left;
+    }
+
+    .col {
+        width: 100%;
+        display: block;
+        margin-right: 10px;
+    }
+
+    .col label {
+        vertical-align: top;
+        float: left;
+        width: 267px;
+    }
+
+    .mr-10 {
+        margin-right: 10px;
+    }
+
+    .fbold {
+        font-weight: bold;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 35px;
+        font-weight: bold;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 35px;
+    }
+
+    .select2-results__option {
+        font-weight: bolder;
+    }
+
+    .error-color {
+        text-align: center;
+        color: red;
+        margin-bottom: 0;
+        position: relative;
+        right: 50px;
+        bottom: 5px;
+    }
+    
+    li.tab.wave.dark:hover {
+    background: #f5f7f7;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div></div> </div>
+
+    <div class="row" style="background-color: #69d1f1; color: white;">
+        <div class="col-md-1" align="right">
+            <img style="width: 83px;" src="images/CBEC.png">
+        </div>
+        <div class="col-md-9" style="font-family: initial;">
+            <h5>
+                <strong> FPO IMPORT APPLICATION - 1.0 (TESTING ENVIRONMENT)</strong>
+            </h5>
+            <h6>
+                <strong> CUSTOMS OFFICER MODULE </strong>
+            </h6>
+            <hr style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 31%; float: left; border-top: 2px solid white;">
+            <p style="margin-top: 10px; margin-bottom: 4px;">
+                <strong>Central Board of Indirect Taxes and Customs</strong>
+            </p>
+        </div>
+        <div class="col-md-2 mt-4">
+            <h6>
+                <strong>Indian Customs EDI System</strong>
+            </h6>
+            <hr style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 89%; float: left; border-top: 2px solid white;">
+            <h6 style="margin-top: 19px;">
+                <strong>Foreign Post Office - <span th:text="${session.data2}" id="cuSite"></span></strong>
+            </h6>
+        </div>
+    </div>
+   	<div class="row h2-row">
+		<div class="col-md-1" id="dashscreen"><a href="dash"><button type="button" class="btn btn-info" style="line-height: 16px;">Dashboard</button></a></div>
+		<div class="col-md-1" id="nodashboard" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		<div class="col-md-2">
+			<p style="margin-bottom: 0rem;">
+				WELCOME - <span th:text="${session.data3}">Vignesh</span>
+			</p>
+		</div>
+		<div class="col-md-3">
+		<Span th:text="'Last Login : '+${session.LastLoginetails == null ? '-' : session.LastLoginetails}"> </span > 
+		</div>
+		<div class="col-md-2">
+			<span>Session Time : </span>
+			<span id = "clock1" onload="sessionTime()"></span></div>
+			
+		<div class="col-md-4" Style="text-align: end;">
+		<div class="row">
+		<div class="col-md-7">
+				<span th:text="'Role : '+${session.data1}"> PAO </span><!-- <span th:text="1"
+					id="currentDateTime" style="font-weight: 900;"></span> --> <span id = "clock" onload="currentTime()"></span></div>
+			<!--  button type="submit" value="Logout" id="logout" class="btn btn-primary btn-lg" onclick="logout();">LOGOUT</button-->
+			<!-- <img  src="images/logout_fpo.jpg" style="width:10%;height:50%" alt="Click to LOGOUT" onclick="logout();"> -->
+		<div class="col-md-4" id="chngroles" ><button type="button" class="btn btn-info" style="line-height: 16px;">Change Role</button></div>	
+			<div class="col-md-1">
+			<i class="fa fa-power-off" aria-hidden="true" onclick="logout();" style="cursor: pointer;color: #ef3c3c;font-size: 30px;"></i></div></div>
+		</div>
+	</div>
+
+    <div style="margin: 10px;display: flex;">
+        <p class="fbold">From Date: <input type="text" id="fromdatepicker" readonly></p>
+        <p class="fbold" style="margin-left: 20px">To Date: <input type="text" id="todatepicker" readonly></p>
+    </div>
+    <div class="tags">
+        <div class="col">
+            <label>
+                <input type="checkbox" class="mr-10" rel="receipt-of-cusitm" />Receipt Of CUSITM</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="ead-date" />EAD Date</label>
+            <!-- <label>
+                <input type="checkbox" class="mr-10" rel="entry-date" />Entry Date</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="exit-date" />Exit Date</label> -->
+            <label>
+                <input type="checkbox" class="mr-10" rel="query-date" />Query Date</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="order-date" />Order Date</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="ooc-date" />OOC Date</label>
+        </div>
+    </div>
+    <div class="" style="display: flex;justify-content: center;">
+        <div align="center" style="padding: 6px; width: 17%;">
+            <select type="text" id="item_Id" class="form-control form_txt" style="font-weight: bold">
+            </select>
+        </div>
+        <div align="center" valign="middle" style="padding: 5px;">
+            <button type="button" onclick="assignCinId()" class="btn btn-success">Submit</button>
+        </div>   
+    </div>
+    <p class="error-color" id="error-article" style="display : none;">Please Select any Article Id</p>
+    <div id="mainContent" style="display :none;">
+
+        <div style="margin: 10px 30px;">
+            <table class="table table-bordered mt-3 asstTable" style="text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr style="background-color: #a1c4e6;">
+                        <th scope="col">Receipt of CUSITM</th>
+                        <th scope="col">EAD Date</th>
+                        <!-- <th scope="col">Entry Date</th>
+                        <th scope="col">Exit Date</th> -->
+                        <th scope="col">Query Date</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">OOC Date</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="tableContent"></tbody>
+            </table>
+        </div>
+        <ul class="tab-bar" id="button-list" style="position: relative;">
+            <li data-num="1" name="summary" class="tab wave dark">CN 22 / CN 23 SUMMARY</li>
+            <li data-num="2" name="assessment" class="tab wave dark">ASSESSMENT</li>
+            <li data-num="3" name="eaddecision" class="tab wave dark">EAD DECISION</li>
+            <li data-num="4" name="eadquery" class="tab wave dark">EAD QUERY</li>
+            <li data-num="5" name="examorder" class="tab wave dark">EXAM ORDER</li>
+            <li data-num="6" name="fpomovement" class="tab wave dark">ARTICLE ID MOVEMENT</li>
+            <li data-num="7" name="ood" class="tab wave dark">OOC</li>
+            <div class="indicator" style="display:none;"></div>
+        </ul>
+        <div id="buttonContent"></div>
+    </div>
+    
+   <Modal>
+    <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+	<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+</Modal>
+
+</body>
+<script type="text/javascript">
+    var waveBtn = (function() {
+        'use strict';
+        var btn = document.querySelectorAll('.wave'),
+            tab = document.querySelector('.tab-bar'),
+            indicator = document.querySelector('.indicator'),
+            indi = 0;
+        indicator.style.marginLeft = indi + 'px';
+
+        for (var i = 0; i < btn.length; i++) {
+            btn[i].onmousedown = function(e) {
+                var newRound = document.createElement('div'),
+                    x, y;
+
+                newRound.className = 'cercle';
+                this.appendChild(newRound);
+
+                x = e.pageX - this.offsetLeft;
+                y = e.pageY - this.offsetTop;
+
+                newRound.style.left = x + "px";
+                newRound.style.top = y + "px";
+                newRound.className += " anim";
+
+                indicator.style.marginLeft = indi + (this.dataset.num - 1) * 269 + 'px';
+
+                setTimeout(function() {
+                    newRound.remove();
+                }, 1200);
+            };
+        }
+    }());
+
+    $(function() {
+        $("#fromdatepicker").datepicker({
+            dateFormat: "dd/mm/yy",
+            onSelect: function(date) {
+                $("#todatepicker").datepicker('option', 'minDate', date);
+                getArticleIds();
+            }
+        });
+
+        $("#todatepicker").datepicker({
+            dateFormat: "dd/mm/yy"
+        });
+
+        $.ajax({
+            url: 'getArticles',
+            type: "post",
+            success: function(data) {
+                var options = '<option value="">SELECT ARTICLE_ID</option>';
+                data.articles.forEach(article => {
+                    options = options + '<option val="' + article + '">' + article + '</option>';
+                })
+                $("#item_Id").html(options);
+            },
+            error: function(rs, e) {
+                console.log("Error");
+            }
+        });
+
+        $("#item_Id").select2();
+
+    });
+
+    var cinId = '';
+    var currentPage = '';
+
+    function assignCinId() {
+        if ($("#item_Id").val() == '') {
+            $("#error-article").show();
+            return false;
+        }
+        if (cinId !== $("#item_Id").val()) {
+            $("#error-article").hide();
+            cinId = $("#item_Id").val();
+            currentPage = '';
+            $("#mainContent").show();
+            $("#buttonContent").html('');
+            $(".indicator").hide();
+            var formData = new FormData();
+            formData.append("id", cinId);
+            $.ajax({
+                url: "getArticleDates",
+                type: "post",
+                global: false,
+                data: formData,
+                dataType: 'text',
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    var resp = JSON.parse(data);
+                    var receiptOfCusItm = resp.viewarticle.receiptOfCusItm != undefined ? resp.viewarticle.receiptOfCusItm : 'NIL';
+                    var eadDecision = resp.viewarticle.eadDecision != undefined ? resp.viewarticle.eadDecision : 'NIL';
+                    var entryDate = resp.viewarticle.entryDate != undefined ? resp.viewarticle.entryDate : 'NIL';
+                    var exitDate = resp.viewarticle.exitDate != undefined ? resp.viewarticle.exitDate : 'NIL';
+                    var queryDate = resp.viewarticle.queryDate != undefined ? resp.viewarticle.queryDate : 'NIL';
+                    var orderDate = resp.viewarticle.orderDate != undefined ? resp.viewarticle.orderDate : 'NIL';
+                    var oocDate = resp.viewarticle.oocDate != undefined ? resp.viewarticle.oocDate : 'NIL';
+                    var status = resp.viewarticle.status != undefined ? resp.viewarticle.status : 'NIL';
+                    $("#tableContent").html('<tr><td>' + receiptOfCusItm + '</td><td>' + eadDecision + '</td>' +
+                        //'<td>' + entryDate + '</td><td>' + exitDate + '</td>
+                        '<td>' + queryDate + '</td>' +
+                        '<td>' + orderDate + '</td><td>' + oocDate + '</td><td>' + status + '</td></tr>');
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+        }
+    }
+
+    $(".tags .col input[type='checkbox']").change(function() {
+        getArticleIds();
+    });
+
+    $("#todatepicker").change(function() {
+        getArticleIds();
+    });
+
+    function getArticleIds() {
+        var formData = new FormData();
+        $('.mr-10:checkbox:checked').each(function() {
+            if ($(this).attr('rel') === 'receipt-of-cusitm') {
+                formData.append("receiptOfCusItm", true);
+            }
+            if ($(this).attr('rel') === 'ead-date') {
+                formData.append("eadDate", true);
+            }
+            if ($(this).attr('rel') === 'entry-date') {
+                formData.append("entryDate", true);
+            }
+            if ($(this).attr('rel') === 'exit-date') {
+                formData.append("exitDate", true);
+            }
+            if ($(this).attr('rel') === 'query-date') {
+                formData.append("queryDate", true);
+            }
+            if ($(this).attr('rel') === 'order-date') {
+                formData.append("orderDate", true);
+            }
+            if ($(this).attr('rel') === 'ooc-date') {
+                formData.append("oocDate", true);
+            }
+        })
+        formData.append("fromDate", $("#fromdatepicker").val());
+        formData.append("toDate", $("#todatepicker").val());
+        $.ajax({
+            url: "getArticles",
+            type: "post",
+            global: false,
+            data: formData,
+            dataType: 'text',
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                var resp = JSON.parse(data);
+                var options = '<option value="">SELECT ARTICLE_ID</option>';
+                resp.articles.forEach(article => {
+                    options = options + '<option val="' + article + '">' + article + '</option>';
+                })
+                $("#item_Id").html(options);
+            },
+            error: function(rs, e) {
+                console.log("Error");
+            }
+        });
+    }
+
+    $("#button-list li").click(function() {
+        $(".indicator").show();
+        var buttonName = $(this).attr('name');
+        if (currentPage != buttonName) {
+            currentPage = buttonName;
+            var urlLink = '';
+            if (buttonName === 'summary') {
+                urlLink = 'getSummary?id=' + cinId;
+            } else if (buttonName === 'eadquery') {
+                urlLink = 'getEadQuery?id=' + cinId;
+            } else if (buttonName === 'examorder') {
+                urlLink = 'getExamOrder?id=' + cinId;
+            } else if (buttonName === 'eaddecision') {
+                urlLink = 'getEadDecision?id=' + cinId;
+            } else if (buttonName === 'fpomovement') {
+                urlLink = 'getFpoMovement?id=' + cinId;
+            }
+            $.ajax({
+                url: urlLink,
+                type: "post",
+                success: function(data) {
+                    $("#buttonContent").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+        }
+    });
+   function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+} 
+</script>
+<script src="js/dash.js"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+
+</html>

@@ -1,0 +1,147 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="col-md-12">
+    <div class="bg_rec">
+   
+         <h4 class="mt-1" style="margin-bottom: 25px;">
+            <strong style="text-decoration: underline;">Article Arrival Information : </strong>
+        </h4>
+         <div class="row"  th:if="${report!='NO'}">
+            <p class="col-sm-1 lab_txt col-form-label">ARTICLE STATUS</p>
+                <p style="font-weight: 700" th:text="${report}"></p>
+            </div>
+         
+        <div class="row"  th:if="${report=='NO'}">
+            <div class="col-5 row">
+              <p class="col-sm-5 lab_txt col-form-label">ARTICLE STATUS</p>
+            <div class="col-sm-7">
+                <p style="font-weight: 700" th:text="${articleStatus[0][0]!=null ? articleStatus[0][0] : '-NIL-'}"></p>
+            </div>
+            </div>
+
+            <div class="col-7">
+            <div class="row">
+	             <p class="col-sm-3 lab_txt col-form-label">ARTICLE ENTERED
+	                AT OOE</p>
+	                <div class="row"  th:if="${articleStatus[0][1] != null || articleStatus[0][2] != null || articleStatus[0][5] != null }">
+				  <p style="font-weight: 700" th:text="${articleStatus[0][1]!=null ? articleStatus[0][1] : '-NIL-'}"></p>&nbsp;&nbsp;;&nbsp;
+				  <p style="font-weight: 700" th:text="${articleStatus[0][2]!=null ? articleStatus[0][2] : '-NIL-'}"></p>&nbsp;&nbsp;;&nbsp;
+				  <p><span style="width: 20%; color: #bb0e0e; font-weight:bold;">RID-</span><span th:text="${articleStatus[0][5]!=null ? articleStatus[0][5] : '-NIL-'}"></span></p>
+				</div>
+				<div class="row" th:if="${articleStatus[0][1] == null && articleStatus[0][2] == null && articleStatus[0][5] == null}">
+				  <p style="font-weight: 700;"><span th:text="'-NIL-'"></span></p>
+				</div>
+	            </div>
+            </div>
+            
+           <div class="col-12">
+            <div class="row">  
+	            <p class="col-sm-3 lab_txt col-form-label">ARTICLE ENTERED AT
+	                DESTINATION FPO</p>
+	            <div class="row"  th:if="${articleStatus[0][3] != null || articleStatus[0][4] != null || articleStatus[0][6] != null }">
+				  <p style="font-weight: 700" th:text="${articleStatus[0][3]!=null ? articleStatus[0][3] : '-NIL-'}"></p>&nbsp;&nbsp;;&nbsp;
+				  <p style="font-weight: 700" th:text="${articleStatus[0][4]!=null ? articleStatus[0][4] : '-NIL-'}"></p>&nbsp;&nbsp;;&nbsp;
+				  <p><span style="width: 20%; color: blue; font-weight:bold;">BAG-</span><span th:text="${articleStatus[0][6]!=null ? articleStatus[0][6] : '-NIL-'}"></span></p>
+				</div>
+				<div class="row" th:if="${articleStatus[0][3] == null && articleStatus[0][4] == null && articleStatus[0][6] == null}">
+				  <p style="font-weight: 700;"><span th:text="'-NIL-'"></span></p>
+				</div>
+	        </div>
+	       </div>
+        </div>
+       
+        <h4 class="mt-1" style="margin-bottom: 25px;">
+            <strong style="text-decoration: underline;">Article Scan Report : </strong>
+        </h4>
+        
+        <div class="row" >
+
+            <p class="col-sm-3 lab_txt col-form-label">SCAN REPORT ENTERED
+                AT OOE</p>
+            <div class="col-sm-3 row">
+                <p style="font-weight: 700" th:text="${not #lists.isEmpty(fposcanooe) ? fposcanooe[0].scanReport : '-NIL-'}"></p>
+            </div>
+
+            <p class="col-sm-3 lab_txt col-form-label">SCAN REPORT ENTERED 
+                AT DESTINATION FPO</p>
+            <div class="col-sm-3 row">
+                <p style="font-weight: 700" th:text="${not #lists.isEmpty(fposcanfpo) ? fposcanfpo[0].scanReport : '-NIL-'}"></p>
+            </div><p class="col-sm-3 lab_txt col-form-label">DATE OF SCAN ENTERED 
+                AT OOE</p>
+            <div class="col-sm-3 row"   th:if="${report=='NO'}">
+                <p style="font-weight: 700" th:text="${not #lists.isEmpty(fposcanooe) ? #dates.format(scanDateOOE[0].scanDate, 'dd-MM-yyyy') : '-NIL-'}"></p>
+            </div>
+            <div class="col-sm-3 row"   th:if="${report!='NO'}">
+                <p style="font-weight: 700" th:text="${not #lists.isEmpty(scanDateOOE) ? #dates.format(scanDateOOE[0].scanDate, 'dd-MM-yyyy') : '-NIL-'}"></p>
+            </div>
+
+            <p class="col-sm-3 lab_txt col-form-label">DATE OF SCAN ENTERED 
+                AT DESTINATION FPO</p>
+            <div class="col-sm-3 row"  th:if="${report=='NO'}">
+                <p style="font-weight: 700" th:text="${not #lists.isEmpty(scanDateFpo) ? #dates.format(scanDateFpo[0].scanDate, 'dd-MM-yyyy') : '-NIL-'}"></p>
+            </div>
+            <div class="col-sm-3 row"  th:if="${report!='NO'}">
+                <p style="font-weight: 700" th:text="${not #lists.isEmpty(fposcanfpo) ? #dates.format(fposcanfpo[0].scanDate, 'dd-MM-yyyy') : '-NIL-'}"></p>
+            </div>
+        </div>
+         <h4 class="mt-1" style="margin-bottom: 25px;">
+            <strong style="text-decoration: underline;">Bag Level Scan Report : </strong>
+        </h4>
+         <div class="row">
+         <p class="col-sm-3 lab_txt col-form-label">SCAN REPORT ENTERED
+                AT OOE</p>
+          <div class="col-sm-3 row">
+                <p style="font-weight: 700" th:text="${scanOOE!=null ? scanOOE : '-NIL-'}"></p>
+           </div>    
+            <p class="col-sm-3 lab_txt col-form-label">SCAN REPORT ENTERED 
+                AT DESTINATION FPO</p>
+          <div class="col-sm-3 row">
+                <p style="font-weight: 700" th:text="${scanFPO!=null ? scanFPO : '-NIL-'}"></p>
+           </div> 
+           </div>    
+    </div>
+</div>
+
+
+<script type="text/javascript">
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+
+
+
+
+

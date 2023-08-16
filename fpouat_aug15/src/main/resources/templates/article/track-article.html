@@ -1,0 +1,355 @@
+<html>
+<head lang="en" th:replace="header :: header">
+    <link th:href="@{css/bootstrap1.min.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+ <script th:src="@{js/report/sweetalert.js}"></script>
+ <script th:src="@{js/sweetalert.min.js}"></script> 
+	<script th:src="@{js/moment.min.js}"></script>
+</head>
+<style>
+    body {
+        height: 100%;
+        background: #FAFAFA;
+        font-family: sans-serif;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    body {
+        background: #b5d7f5 !important;
+    }
+
+    table,
+    td,
+    th {
+        border: 2px solid black;
+        text-transform: uppercase;
+    }
+
+    #table1 {
+        border-collapse: separate;
+    }
+
+    th {
+        border: 0;
+    }
+    .h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+  <!--   <div class="row" style="background-color: #69d1f1; color: white;">
+		<div class="col-md-1" align="right">
+			<img style="width: 83px;" src="images/CBEC.png">
+		</div>
+		<div class="col-md-9">
+			<h5>
+				<strong> FPO IMPORT APPLICATION  (TESTING ENVIRONMENT)</strong>
+			</h5>
+			<h6>
+				<strong> CUSTOMS OFFICER MODULE </strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 35%; float: left; border-top: 2px solid white;">
+			<p style="margin-top: 10px; margin-bottom: 4px;">
+				<strong>Central Board of Indirect Taxes and Customs</strong>
+			</p>
+		</div>
+		<div class="col-md-2 mt-4">
+			<h6>
+				<strong>Indian Customs EDI System</strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 89%; float: left; border-top: 2px solid white;">
+			<h6 style="margin-top: 19px;">
+				<strong>Foreign Post Office - <span
+					th:text="${session.data2}" id="cuSite"></span></strong>
+			</h6>
+		</div>
+		<input type="hidden" th:value="${session.data}" id="empId" /> <input
+			type="hidden" th:value="${session.data1}" id="role" />
+		
+	</div> -->
+<!-- 	<div class="row h2-row">
+	<div class="col-md-1" style="padding: 5px;padding-left: 30px;"><a href="dash" onclick="showLoader();"><button type="button" class="btn btn-info" style="line-height: 16px;">Dashboard</button></a></div>
+		
+        <div class="col-md-4">
+            <p style="padding-top:6px;">
+                WELCOME - <span th:text="${session.data3}">Vignesh</span>
+            </p>
+        </div>
+		<div class="col-md-3" style="padding: 5px 50px 5px 0;display:flex;">
+			<p style="margin-bottom: 0;width: 100%;margin-top: 2px;">
+			<span>Session Time : </span>
+			<span id = "clock1" onload="sessionTime()"></span> &nbsp;  &nbsp;
+			
+			</p>
+		</div>
+       <div class="col-md-4" Style="text-align: end;">
+		<div class="row">
+		<div class="col-md-7">
+				<span th:text="'Role : '+${session.data1}"> PAO </span><span th:text="1"
+					id="currentDateTime" style="font-weight: 900;"></span> <span id = "clock" onload="currentTime()"></span></div>
+			 button type="submit" value="Logout" id="logout" class="btn btn-primary btn-lg" onclick="logout();">LOGOUT</button
+			<img  src="images/logout_fpo.jpg" style="width:10%;height:50%" alt="Click to LOGOUT" onclick="logout();">
+		<div class="col-md-3" id="chngroles" ><button type="button" class="btn btn-info" style="line-height: 16px;">Change Role</button></div>	
+			<div class="col-md-1">
+			<i class="fa fa-power-off" aria-hidden="true" onclick="logout();" style="cursor: pointer;color: #ef3c3c;font-size: 30px;"></i></div></div>
+		</div>
+	</div> -->
+    <div class="" style="display: flex; justify-content: center;margin-top:1rem;margin-bottom:2rem;">
+        <div style="padding: 6px;">
+ <input type="text" id="articleId" onkeyup="validateAndAddCharacters3()" maxlength="13"  placeholder="ENTER ARTICLE ID" class="form-control form_txt" style="font-weight: bold" />        </div>
+        <div style="padding: 5px;">
+            <button type="button" onclick="getTrackDetails()" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+    <p class="error-color" id="error-article" style="display: none;">Please
+        Enter any Article Id
+    </p>
+    <div id="trackContent"></div>
+</body>
+
+	<div id="logout" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div>
+</div>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/report/jquery-ui.js}"></script>
+<script th:src="@{js/sweetalert.min.js}"></script>
+<script src="js/header.js"></script>
+<script type="text/javascript">
+    var today = new Date();
+    var dd = today.getDate();
+
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = dd + '/' + mm + '/' + yyyy;
+    console.log(today);
+    var dateTime = today + ' ' + time;
+    document.getElementById("currentDateTime").innerHTML = dateTime;
+
+    function getTrackDetails() {
+        $.ajax({
+            url: 'articleDetails?articleId=' + $("#articleId").val(),
+            type: "get",
+            success: function(data) {
+                if (data.status) {
+                    var trackContent = '<div style="width: 50%;margin-left: auto;margin-right: auto;">' +
+                        '<div style="padding: 25px;margin-bottom:50px;background: aliceblue;border-radius: 25px;' +
+                        'box-shadow: 0 20px 10px 0 rgb(0 0 0 / 28%) !important;"><h4 style="text-align: center;text-transform: uppercase;' +
+                        'font-weight: bold;text-decoration: underline;">Article Details</h4><table id="table1" style="width: 100%;' +
+                        'line-height: 3;text-align: center;"><tbody>' +
+                        '<tr><th style="width:50%">Article ID</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.itemId + '</th></tr>' +
+                        '<tr><th style="width:50%">FPO Site Code</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.cusSite + '</th></tr>' +
+                        '<tr><th style="width:50%">FPO Site Name</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.siteName + '</th></tr>' +
+                        '<tr><th style="width:50%">Current Status</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.currentStatus + '</th></tr>' +
+                        '<tr><th style="width:50%">Sender Name</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.senderName + '</th></tr>' +
+                        '<tr><th style="width:50%">Sender Country</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.countryName + '</th></tr>' +
+                        '<tr><th style="width:50%">Receiver Name</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.recipientName + '</th></tr>' +
+                        '<tr><th style="width:50%">Total Number of Items</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.totalItems + '</th></tr>' +
+                        '<tr><th style="width:50%">Total Declared Value</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.totalDeclaredValue + '</th></tr>' +
+                        '<tr><th style="width:50%">Currency Code</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.currencyCode + '</th></tr>' +
+                        '<tr><th style="width:50%">Total Assessed Value</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.totalAssessValue + '</th></tr>' +
+                        '<tr><th style="width:50%">Total Duty Payable</th>' +
+                        '<th style="color: blue;">' + data.trackDetails.totalDutyPayable + '</th></tr>' +
+                        '</tbody></table>' +
+                        '<h4 style="text-align: center;text-transform: uppercase;margin-top: 25px;' +
+                        'font-weight: bold;text-decoration: underline;">Query Details</h4><table id="table1" style="width: 100%;' +
+                        'line-height: 3;text-align: center;"><tbody>' +
+                        '<tr><th style="width:50%">Query Status</th>' +
+                        '<th style="color: blue;font-size: 15px;">' + (data.trackDetails.queryStatus != undefined ? data.trackDetails.queryStatus : "Query not raised") + '</th></tr>' +
+                        '<tr><th style="width:50%">Query Reply Link</th>' +
+                        '<th style="color: blue;text-transform: initial;">' + (data.trackDetails.queryReplyLink != 'NIL' ? data.trackDetails.queryReplyLink : "--") + '</th></tr>' +
+                        '</tbody></table>' +
+                        '<h4 style="text-align: center;text-transform: uppercase;margin-top: 25px;' +
+                        'font-weight: bold;text-decoration: underline;">Delivery Details</h4><table id="table1" style="width: 100%;' +
+                        'line-height: 3;text-align: center;"><tbody>' +
+                        '<tr><th style="width:50%">Out Of Customs Charge</th>' +
+                        '<th style="color: blue;">' + (data.trackDetails.ooc != 'NIL' ? data.trackDetails.ooc : "OOC not given") + '</th></tr>' +
+                        '<tr><th style="width:50%">Status Of Delivery by Post</th>' +
+                        '<th style="color: blue;">' + (data.trackDetails.delivery != 'NIL' ? data.trackDetails.delivery : "Not Delivered") + '</th></tr>' +
+                        '</tbody></table>' +
+                        '</div></div>';
+                    $("#trackContent").html(trackContent);
+                } else {
+                    swal('Sorry!', "No such article Id found !", 'error');
+                    $("#trackContent").html('');
+                }
+            },
+            error: function(rs, e) {
+                swal('OOPS!', "Something went wrong !", 'error');
+            }
+        });
+    }
+ function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+ function validateAndAddCharacters3() {
+  var textField = document.getElementById("articleId");
+  var input = textField.value;
+
+  // Check first character
+  if (input.length === 1) {
+  var regex = /^[a-zA-Z]$/;
+  if (!regex.test(input)) {
+    textField.value = "";
+    return;
+  } else {
+    textField.value = input.toUpperCase();
+  }
+}
+
+// Check second character
+if (input.length === 2) {
+  var regex = /^[a-zA-Z][a-zA-Z]*$/;
+  if (!regex.test(input)) {
+    textField.value = input[0].toUpperCase();
+    return;
+  }else {
+    textField.value = input.toUpperCase();
+  }
+}
+
+// Check next nine characters
+if (input.length >= 3 && input.length <= 11) {
+  var regex = /^[a-zA-Z]{0,2}\d{0,9}$/;
+  if (!regex.test(input)) {
+    textField.value = input.slice(0, -1);
+    return;
+  }
+}
+
+// Check last two characters
+if (input.length >= 12) {
+  var regex = /^[a-zA-Z]{0,2}\d{0,9}[a-zA-Z]{0,2}$/;
+  if (!regex.test(input)) {
+    textField.value = input.slice(0, -1);
+    return;
+  }else {
+    textField.value = input.toUpperCase();
+  }
+}
+}
+    
+</script>
+
+</html>

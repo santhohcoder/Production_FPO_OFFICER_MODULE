@@ -1,0 +1,10 @@
+
+<div id="divcontent">
+<div th:each="allcmts,iter : ${getAllcmts}" style="margin-left:2%;margin-right:5%;">
+			 <div class="form-group mb-1">
+            <br> <label class="lab_txt">General Remarks : [max
+                2000 characters]</label>
+            <textarea type="text" class="form-control" name="generalQuery" th:id="generalRemarks" th:text="${allcmts.remarks}" placeholder="Enter your Remarks..." rows="3"></textarea>
+        </div>
+        </div>
+        </div>

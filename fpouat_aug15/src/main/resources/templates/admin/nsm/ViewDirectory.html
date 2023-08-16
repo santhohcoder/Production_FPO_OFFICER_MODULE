@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> View Directory</h3>
+<h3 style="text-align: center; color: #1616e0; ">
+    <div th:if="${session.data1=='PNA'}"> NATIONAL SYSTEM ADMINISTRATOR (PNA)</div> 
+	<div th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+
+     <div style ="font-weight: bold; margin-top: 20px;font-family: times new roman; text-align: center;background: deepskyblue;"><h2>Pincode Mapping to FPO Sites</h2></div> 
+     <div class="col-md-12" style="display : flex; justify-content: center;margin-top: 50px;">
+    <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #a7bfd7;">
+        <h5 class="card-title">Pincode Directory</h5>
+        <p class="card-text">To view Pincode or a range of Pincodes mapped to FPO Sites for Inbound Article's Customs Clearance and Processing</p><br>
+        <a href="pincodemap" class="btn btn-success" onclick="showLoader()">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div style ="font-weight: bold; margin-top: 50px; text-align: center;font-family: times new roman;background: deepskyblue;"><h2>View Directory</h2></div> 
+
+<div class="col-md-12" >
+<div class="row" >
+  <div class="col-md-2">
+    <div class="card" style="height: 180px;">
+      <div class="card-body" style="background: #17a2b8;">
+        <h5 class="card-title" >Countries Directory</h5>
+        <p class="card-text">To view all Country Codes.</p>
+        <a href="cntrycodes" class="btn btn-success" onclick="showLoader()" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-2">
+    <div class="card" style="height: 180px;">
+      <div class="card-body" style="background: #aaa;">
+        <h5 class="card-title">Currency Directory</h5>
+        <p class="card-text">To view all Currency Codes</p>
+        <a href="currcodes" class="btn btn-success" onclick="showLoader()" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-2">
+    <div class="card" style="height: 180px;">
+      <div class="card-body" style="background: #aaa;">
+        <h5 class="card-title">States Directory</h5>
+        <p class="card-text">To view all States all over India.</p>
+        <a href="statecodes" class="btn btn-success" onclick="showLoader()" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-2">
+    <div class="card" style="height: 180px;">
+      <div class="card-body" style="background: #aaa;">
+        <h5 class="card-title">OOE Directory</h5>
+        <p class="card-text">To view all OOEs all over the world.</p>
+        <a href="ooeview" class="btn btn-success" onclick="showLoader()" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+   <div class="col-md-2">
+    <div class="card" style="height: 180px;">
+      <div class="card-body" style="background: #aaa;">
+        <h5 class="card-title">FPO Directory</h5>
+        <p class="card-text">To view FPO Sites all over India.</p>
+        <a href="fpositesview" class="btn btn-success" onclick="showLoader()" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+
+ <div class="col-md-2">
+    <div class="card" style="height: 180px;">
+      <div class="card-body" style="background: #007bff80;">
+        <h5 class="card-title">Pincodes Directory</h5>
+        <p class="card-text">To view all Pincodes in  India </p>
+        <a href="pincodes" class="btn btn-success" onclick="showLoader()" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div> 
+  <!--div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: powderblue;">
+        <h5 class="card-title">Knowledge Directory</h5>
+        <p class="card-text">To insert and remove alerts for the Site, however the alerts as such doesn't prevent the user from clearing any Articles. </p>
+        <a href="#" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div-->
+</div>
+</div>
+
+</body>
+<script src="js/addingSite.js"></script>
+</html>

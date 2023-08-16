@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ <style>
+body{
+background: white !important;
+}
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> User Management> Allocate PLA</h3>
+ <h3 style="text-align: center; margin-top: 0px; color: #1616e0; padding-left: 100px;">NATIONAL SYSTEM ADMINISTRATOR (PNA)</h3>
+ <div style ="font-weight: bold; margin-top: 2%; text-align: center; padding-left: 100px; font-family: times new roman;background: deepskyblue;"><h4>View Profiile of  Local System administrator(PLA)</h4></div><br>
+ 
+  <div align= "center" class="form-group row" style="margin-top: 1%;justify-content: center;text-align: end">
+				<label class="control-label col-sm-1" for="SiteCode" style="font-weight: 600;">Select FPO Site<span style="color:red">*</span>:</label>
+				<div class="col-sm-2 dropdown">
+					<select class="form-control selsite"   id="selsite"
+						style="width: 310px;">
+						<option>--Select FPO Sites--</option>
+							<div th:each="sitestate,iter : ${listsite}">
+								<option th:text="${sitestate[1]}" th:value="${sitestate[0]}" id="userstecde"></option>
+						</div>
+						</select>
+						<div class="invalid-feedback"></div>
+				</div>
+			</div> 
+<input type="hidden" id="ssoid" >			
+
+    <div id="lsmssid" class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Select SSOID<span style="color:red">*</span>:</label>
+      <div class="col-sm-2 dropdown" >
+      
+   
+     <select class="form-control selssoid"  id="selssoid" style="width: auto;">
+						<option>--Select SSO IDs--</option>
+						</select>
+						<!--select class="form_txt columnvalue" id="selssoid" style="margin: 1%;width: 25%;display: none;">
+						<div class="invalid-feedback"></div-->
+				</div>
+			</div> 
+			
+<div style="margin-top: 1%">
+  <form class="form-horizontal" >
+			
+				<div class="form-group row " style="justify-content: center;text-align: end;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;text-align: end;">Name:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="empname" class="form-control"
+							style="width: 310px" placeholder="Enter Name">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div id="inputxt" class="form-group row " style="justify-content: center;text-align: end;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;text-align: end;">Site Code:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="sitecode" class="form-control"
+							 style="width: 310px" placeholder=" Site Code">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				<div class="form-group row " style="justify-content: center;text-align: end;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;text-align: end;">Designation:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="designation" class="form-control"
+							style="width: 310px;" placeholder="Designation">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div id="inputxt" class="form-group row " style="justify-content: center;text-align: end;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;text-align: end;">Mobile-No:
+					</label>
+					<div class="col-sm-2">
+						<input type="number"   id="lsmphn" class="form-control" maxlength="10"  onblur="validatephone()"
+							style="width: 310px" placeholder=" Mobile Number">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;text-align: end;">Email-id:
+					</label>
+					<div class="col-sm-2"> 
+						<input type="text" id="emailid" class="form-control" onblur="validateEmailid()"
+							style="width: 310px;" placeholder=" Email-id">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+			</div>
+			
+				<!--div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;text-align: end;">Remarks:
+					</label>
+					<div class="col-sm-2"> 
+						<input type="text" id="rmks" class="form-control" 
+							style="width: 310px;" placeholder="Enter Remarks">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div-->
+			</div>
+			<br>
+  </form>	
+</div>
+
+<div class="col-md-8" style="text-align: end;
+    padding-right: 72px;">
+ <button type="submit" id="viewlsmsite" class="btn btn-success" >Next</button>
+</div>
+<div style="font-weight: 600; margin-left:4%"><span style="color: blue; font-weight: bold">Note:</span> Two Local System Administrator (PLA) can be allocated for a Site.</div>
+ <div style="font-weight: 600; margin-left:4%; margin-top:0%"><span style="color: blue; font-weight: bold">Note:</span> If two Local System Administrator (PLA) are already added for a site, those sites will not be available for allocating any PLA.</div>		
+
+       <div class="modal fade" id="updpopup" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Do you want to update the profile of this Local System Administrator (PLA) user?</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="clearNsm" class="btn btn-danger" style="margin-right: 366px;">No</button>
+						<button type="button" data-dismiss="modal" id="confupdlsm" class="btn btn-success" >Yes</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="updatinglsm" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Local Systems Administrator  has been successfully updated</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refreshlsm" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="siteCmpre" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Officer doesn't belong to this Site.</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refSiteCmpre" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		
+	
+					<input type="hidden" id="offcrlogin" th:value="${loginid}">
+</body>
+<script src="js/viewLsm.js"></script>
+<script>
+  function goback() {
+     window.location = "current_lsm";
+     
+     }      
+</script>
+</html>

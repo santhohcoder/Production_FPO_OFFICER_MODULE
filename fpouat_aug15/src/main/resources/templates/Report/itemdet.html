@@ -1,0 +1,139 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+			 <!-- Modal -->
+  <div class="modal fade" id="itemdet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 70%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Item Details</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+<div class="table-responsive">
+		<div align="center">
+		<table id="iteme" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;width:80%;table-layout: fixed;">
+				<thead >
+					<tr>
+						<th colspan="3" style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Article Id</th>
+						<td colspan="3" style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.item_id}">LP584804958MY</td>
+						</tr>
+						<tr>
+						<th colspan="3" style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Receiver Name</th>
+						<td colspan="3" style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.recp_name}">Ajay KR</td>
+						</tr>
+						<tr>
+						<th colspan="3" style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Receiver Address</th>
+						<td colspan="3" style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.recp_addrs}">Vaishali Apartment B WingSeth Moti Shah Road104Maz,,Mumbai</td>
+						</tr>
+						<tr>
+						<th style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Gross Weight</th>
+						<td style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.gross_wt}">0.16</td>
+						<th style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Total Amount Payable</th>
+						<td style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.tot_amt_payable}">0.16</td>
+						<th style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Penalty</th>
+						<td style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.penalty}">0.16</td>
+						</tr>
+						<tr>
+						
+						
+						<th style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Fine </th>
+						<td style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.fine}">0.16</td>
+						<th style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Mail Class</th>
+						<td style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.mail_class}">0.16</td>
+						<th style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Mail Category</th>
+						<td style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.mail_category}">0.16</td>
+						</tr>
+						<tr>
+						<th colspan="2" style="background-color: #a1c4e6;text-align: center;vertical-align: middle;" scope="col">Delivery Status</th>
+						<td colspan="4" style="font-weight: bolder;vertical-align: middle;" th:text="${itemamountdetails.delivery_status}">Delivered</td>
+						</tr>
+				</thead>
+				
+			</table>
+</div>
+
+        <table id="itemdettable" class="table table-striped table-bordered mt-5 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" style="text-align: center;">ITMNO</th>
+						<th scope="col" style="text-align: center;">DESCRIPTION</th>
+						<th scope="col" style="text-align: center;">CTH</th>
+						<th scope="col" style="text-align: center;">QTY</th>
+						<th scope="col" style="text-align: center;">ASS.VAL</th>
+						<th scope="col" style="text-align: center;">TOTAL DUTY</th>
+						<th scope="col" style="text-align: center;">BCD_DUTY</th>
+						<th scope="col" style="text-align: center;">IGST_DUTY</th>
+						<th scope="col" style="text-align: center;">SWS_DUTY</th>
+						<th scope="col" style="text-align: center;">OTHER DUTY</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values: ${itemdetails}" class="" >
+					   <td th:text="${values.item_no}"></td>
+					   <td  th:text="${values.item_desc}">female totes</td>
+					   <td th:text="${values.cth}"></td>
+					   <td th:text="${values.nou}"></td>
+					   <td  th:text="${values.assess_val}">352</td>
+					   <td  th:text="${values.duty}">272.03</td>
+					   <td  th:text="${values.bcd}">123.2</td>
+					   <td  th:text="${values.igst}">136.51</td>
+					   <td  th:text="${values.sws}">12.32</td>
+					   <td  th:text="${values.other_duty}">0.00</td>
+					</tr>
+				</tbody>
+			</table>
+      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  
+		
+		<script  th:inline="javascript" >
+$(document).ready(function() {
+});	
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}	
+</script>

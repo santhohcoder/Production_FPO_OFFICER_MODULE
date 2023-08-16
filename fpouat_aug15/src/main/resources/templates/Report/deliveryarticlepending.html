@@ -1,0 +1,72 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div id="maindiv" class="col-md-12">
+<input type="hidden" th:value="${Deliverycount}" id="delivercounthide" >
+<input type="hidden" th:value="${ooccount}" id="ooccounthide" >
+			<div align="center">
+				<p>
+					<!-- <strong >Query Queue</strong> -->
+				</p>
+			</div>
+
+			<table id="deliverytable" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th scope="col" style="text-align: center;">Article Id</th>
+						<th scope="col" style="text-align: center;">OOC Date</th>
+						<th scope="col" style="text-align: center;">Article Type</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values: ${deliveryarticles}" class="" >
+					   <td></td>
+					   <td th:text="${values.item_id}"></td>
+					   <td th:text="${values.ooc_dt}"></td>
+					   <td th:text="${values.status}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+<script  th:inline="javascript" >
+ 
+ var fromdate=$("#reloadfromdate").val();
+ var todate=$("#reloadtodate").val();
+
+	$('#delcount').text($('#delivercounthide').val());
+	$('#ooccount').text($('#ooccounthide').val());
+	
+	
+</script>
+<script  th:src="@{js/report/deliveryarticlesdatechange.js}"></script>

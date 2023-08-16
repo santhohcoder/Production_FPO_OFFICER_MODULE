@@ -1,0 +1,541 @@
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+<style>
+.ui-widget-content .ui-icon {
+    background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+    
+    }
+
+
+    .lab_txt {
+        font-size: 14px;
+        color: blue;
+    }
+
+    .scroll_down {
+        height: 550px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .flash {
+        padding: 12px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        animation-name: blink;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /*table.dataTable thead .sorting {
+      background-image: url(/DataTables-1.10.21images/sort_both.png);
+      }
+      table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+      cursor: none;
+      }*/
+    .buttonstyle {
+        color: white;
+        font-size: 16px;
+        background: dimgray;
+        padding: 5px;
+        border-radius: 12px;
+        border: 2px solid #4a4d5d;
+        border-left: solid #4a4d5d 2px;
+        border-top: solid #4a4d5d 2px;
+    }
+
+    .buttonstyles {
+        border: 2px solid white;
+        border-radius: 20px;
+        color: white;
+        font-size: 20px;
+    }
+
+    btndis {
+        color: white;
+    }
+
+    .bordstyle {
+        border: 2px solid white;
+        background: dimgray;
+        border-radius: 20px;
+        padding: 2px;
+    }
+
+    .bordstyleh {
+        border: 2px solid white;
+        background: #6899d0;
+        border-radius: 5px;
+        padding: 2px;
+    }
+
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    .tot_no {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .tot_no1 {
+        font-size: 13px;
+        font-weight: 700;
+        color: red;
+    }
+
+    .dataTables_wrapper {
+        position: static;
+        clear: both;
+        zoom: 1;
+    }
+
+    .numradius1 {
+        border: 2px solid #4a4d5d;
+        background-color: #ff6565;
+        color: white;
+        font-size: 16px;
+        border-radius: 20px;
+        padding: 1px;
+    }
+
+    .numradius2 {
+        color: #47f525;
+        font-size: 16px;
+    }
+
+    .numradius3 {
+        color: #25ebf5;
+        font-size: 16px;
+    }
+
+    .numradius {
+        border: 2px solid black;
+        background-color: #17a2b8;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .dispval {
+        font-color: white;
+    }
+
+    .occ_note {
+        background-color: #79a0ca;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+    }
+
+    .gray_note {
+        background-color: #7fa0c3;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+    }
+
+    table.dltrc {
+        width: 100%;
+        align: center;
+        border-collapse: separate;
+        border-spacing: 0px;
+        border: solid darkbrown 2px;
+        border-radius: 8px;
+        font-color: white;
+        font-size: 14px;
+    }
+
+    tr.dlheader {
+        text-align: center;
+        font-weight: bold;
+        font-color: white;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        padding: 2px
+    }
+
+    td.dlheader {
+        text-align: center;
+        font-weight: bold;
+        font-color: white;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        border-radius: 0px;
+        padding: 2px
+    }
+
+    tr.dlinfo,
+    td.dlinfo {
+        text-align: center;
+        font-color: black;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        border-top: solid darkbrown 2px;
+        padding: 2px
+    }
+
+    td.dlinfo:first-child,
+    td.dlheader:first-child {
+        border-left: none;
+    }
+
+    td.dlheader:first-child {
+        border-radius: 5px 0 0 0;
+    }
+
+    td.dlheader:last-child {
+        border-radius: 0 5px 0 0;
+    }
+
+    .pl-1.pad,
+    .px-1.pad {
+        padding-left: 10.25rem !important;
+    }
+
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+    body {
+        height: 100%;
+        background: #FAFAFA;
+        font-family: 'Roboto', sans-serif;
+
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .tab-bar {
+        margin: 20px 10px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        list-style-type: none;
+        -webkit-padding-start: 0;
+
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .tab {
+        width: 150px;
+        padding: 20px 0;
+        background: white;
+        color: #28a745;
+        overflow: hidden;
+        text-align: center;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        cursor: pointer;
+        position: relative;
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+
+    .indicator {
+        width: 270px;
+        height: 3px;
+        background: #28a745;
+        position: absolute;
+        margin-top: 62px;
+        margin-left: 0;
+
+        -webkit-transition: margin 0.5s ease;
+
+        transition: margin 0.5s ease;
+    }
+
+    .cercle {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+    }
+
+    .light .cercle {
+        background: white
+    }
+
+    .dark .cercle {
+        background: black
+    }
+
+    .anim {
+        opacity: 0.2;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+        -webkit-animation: touch 1.2s ease-out;
+        animation: touch 1.2s ease-out;
+    }
+
+    @-webkit-keyframes touch {
+        100% {
+            width: 600px;
+            height: 600px;
+            border-radius: 600px;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            margin: -300px;
+        }
+    }
+
+    @keyframes touch {
+        100% {
+            width: 600px;
+            height: 600px;
+            border-radius: 600px;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            margin: -300px;
+        }
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #000000 !important;
+    }
+
+    body {
+        overflow-y: scroll;
+        background: aliceblue !important;
+    }
+
+    .filter {
+        width: 850px;
+        padding: 25px;
+        border: 1px solid black;
+        margin: 25px;
+        float: left;
+    }
+
+    .col {
+        width: 100%;
+        display: block;
+        margin-right: 10px;
+    }
+
+    .col label {
+        vertical-align: top;
+        float: left;
+        width: 250px;
+    }
+
+    .mr-10 {
+        margin-right: 10px;
+    }
+
+    .fbold {
+        font-weight: bold;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 35px;
+        font-weight: bold;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 35px;
+    }
+
+    .select2-results__option {
+        font-weight: bolder;
+    }
+
+    .error-color {
+        text-align: center;
+        color: red;
+        margin-bottom: 0;
+        position: relative;
+        right: 50px;
+        bottom: 5px;
+    }
+
+    li.tab.wave.dark:hover {
+        background: #f5f7f7;
+    }
+
+    .tags {
+        margin: 0px 5px;
+    }
+    
+    #articleTable.emptytable tbody tr:hover {
+    background: #28a745 !important;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+}
+#titletab {
+    text-transform: uppercase;
+    font-weight: bolder;
+    font-size: 35px;
+    text-decoration: underline;
+}
+.smalltexthelp {
+	color: blue !important;
+    margin: 0;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+    .ok-button {
+    background-color: green;
+  }    
+
+ .ok-button:not([disabled]):hover {
+     background-color: green; 
+ }     
+        
+        
+
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div align="center">
+            <h2><span  class="form_txt" style="size:25"><b>View Import Article IDs & It's Movement</b></span></h2>
+            
+        </div>
+    <!--  div style="margin: 20px 20px 0px 20px;display: flex;">
+        <p class="fbold" style="margin-top: 3px;margin-right: 50px;">Date Range : </p>
+        <p class="fbold">From : <input type="text" id="fromdatepicker" style="width: 271px;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly></p>
+        <p class="fbold" style="margin-left: 20px">To : <input type="text" id="todatepicker" placeholder="Select To Date" style="width: 271px;font-weight: bold;text-align: center;" readonly></p>
+    </div>
+    <small class="form-text text-muted smalltexthelp" style="color: blue !important;"><span style="color: red;">**</span>
+		Note : Select either one or more parameters & submit for any specific date range.</small>
+    <div class="tags">
+        <div class="col">
+            <label>
+                <input type="checkbox" class="mr-10" rel="item-posted" />Item Posted</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="ead-arrival" />EAD Received</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="query-date" />Query Raised</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="query-reply-date" />Query Reply Received</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="aaaooe" />Article Arrived at OOE</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="aaafpo" />Article Arrived at FPO</label>
+            <label>
+                <input type="checkbox" class="mr-10" rel="ooc-given" />OOC Given</label>
+        </div>
+    </div>
+	<div class="row" style="width:100%;">
+	    <div class="col-md-12" style="margin: 10px 20px 10px 20px;display: flex;">
+	        <p class="fbold" style="white-space: nowrap;margin: 0px 25px 0px 0px;">Sender Country : </p>
+	        <select type="text" id="senderCountry" class="form-control form_txt" style="font-weight: bold;margin: 0px 20px;width: 25%;">
+	            <option value="">Select Sender Country</option>
+	            <option th:each="country : ${countries}" th:value="${country.code}" th:text="${country.name}"></option>
+	        </select>
+	    </div>
+	    <div class="col-md-12" style="margin: 10px 20px 10px 20px;display: flex;width:100%;">
+	        <p class="fbold" style="white-space: nowrap;margin: 0px 36px 0px 0px;">Mail Category : </p>
+	        <select type="text" id="mailCategory" class="form-control form_txt" style="font-weight: bold;margin: 0px 20px;width: 25%;">
+	            <option value="">Select Mail Category</option>
+	            <option th:each="mailCategory : ${mailCategories}" th:value="${mailCategory.code}" th:text="${mailCategory.name}"></option>
+	        </select>
+	        <p class="fbold" style="white-space: nowrap;margin: 0px 36px 0px 20px;">Mail Class : </p><select type="text" id="mailClass" class="form-control form_txt" style="font-weight: bold;margin: 0 20px;width: 25%;">
+	            <option value="">Select Mail Class</option>
+	            <option th:each="mailClass : ${mailClasses}" th:value="${mailClass.code}" th:text="${mailClass.name}"></option>
+	        </select>
+	    </div-->
+	    <div class="col-md-12" style="margin: 10px 20px 10px 20px;display: flex;width:100%;">
+	        <p class="fbold" style="white-space: nowrap;margin: 0px 8px 0px 0px;font-size:20px;">Enter Article ID : </p>
+<input type="text" id="articleId" onkeyup="validateAndAddCharacters2()" maxlength="13" 
+       class="form-control form_txt" placeholder="Enter Article Id"
+           style="font-weight: bold;margin: 0px 20px;width: 15%;border: 1px solid #aaaaaa;text-align:center;height: 30px;"></input>
+
+	    <!-- /div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    <div class="col-md-12" align="center" style="padding: 10px;"-->
+	        <button type="button" onclick="getArticleData()" class="btn btn-success">Submit</button>
+	    </div>
+	    <small class="form-text text-muted smalltexthelp" style="color: blue !important;margin-left:2%"><span style="color: red;">**</span>
+	        Note : Click anywhere in the row to view the Details and Movement of Article ID</small>
+ 
+	</div>
+    <div style="margin: 5px 20px;margin-left:5 px;">
+        <table id="articleTable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;margin-left:5 px;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th scope="col" id="sinid" style="width: 45px;">S.No.</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Item Posted</th>
+                    <th scope="col" style="text-align: center;">Country</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">Mail Category</th>
+                    <th scope="col" style="text-align: center;width: 25%;">Status</th>
+
+                </tr>
+            </thead>
+            <tbody id="articledata">
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+<script src="js/viewarticle.js"></script>
+
+<script src="js/header.js"></script>
+<!-- script th:src="@{js/datatables.min.js}"></script>   -->
+
+</html>

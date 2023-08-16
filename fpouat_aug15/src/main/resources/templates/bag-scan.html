@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <style type="text/css">
+        #titletab {
+            text-transform: uppercase;
+            font-weight: bolder;
+            font-size: 35px;
+            text-decoration: underline;
+        }
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+        #next-titletab {
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #cf368b;
+        }
+
+        td .btn-grn {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        .ead-class {
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .smalltexthelp {
+            padding-left: 15px;
+            margin-top: 20px !important;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .scan-find-label {
+            text-transform: uppercase;
+            width: 28%;
+            text-align: center;
+            vertical-align: middle;
+            color: blue;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .bag-color {
+            color: #bb0e0e;
+        }
+
+        #overlay {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            z-index: 9999;
+            width: 100%;
+            background: rgba(255, 255, 255, .7);
+            height: 100%;
+        }
+
+        #loader {
+            position: fixed;
+            display: block;
+            left: 50%;
+            top: 48%;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background-image: url(images/report/loader.gif);
+            background-repeat: no-repeat;
+            margin: -77px 0 0 -75px;
+        }
+
+        a.nav-link,
+        a.nav-link:hover {
+            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            font-size: 19px;
+            vertical-align:middle;
+        }
+        
+      
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            background: #0a3052 !important;
+        }
+        
+         .nav-pills1 .nav-link.active,
+        .nav-pills1 .show>.nav-link {
+             background: #e578aa !important;
+        }
+        
+         .nav-pills1 .nav-link.active
+         {
+            background: #e578aa !important;
+            color:white;
+        }
+        
+        
+        table.dataTable thead th, table.dataTable td {
+        	word-break: break-word;
+        }
+        
+        .ta-left{
+        	text-align: left;
+        }
+        
+        .form-control[readonly] {
+        	background: white !important;
+        }
+        
+        .ui-widget-content .ui-icon {
+         	background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+         }
+ 
+
+    </style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+
+<body>
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />   
+<input type="hidden" id="once" />
+  <div id="overlay" style="display: none;">
+  <div id="loader">
+  <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+  </div></div>
+    <!-- <div class="col-md-1" style="margin-left: 20px; padding-top: 10px;">
+        <a href="dash"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+    </div> -->
+    <div class="mt-3" style="background-color: #f8f9fa; padding: 15px;">
+        <div align="center">
+            <span id="titletab" class="form_txt" th:text="${'bag arrival confirmation @ '+session.data2}"></span>
+            <h4 id="next-titletab" class="form_txt" th:text="${'Confirm arrival of import
+               bags / enter scan report for articles'}"></h4>
+        </div>
+        <ul  role="tablist" class="nav nav-pills"  style="width: 100%; border: 2px solid; border-radius: 7px; vertical-align:middle;">
+            <li onclick="showConfirmArrival()" class="nav-item" style="width: 25%; text-align: center;"><a class="nav-link active show" data-toggle="pill" href="javascript:;">A. Confirmation
+                    of Arrival at fpo<br><font size=1>(Art-IDs for which Article Arrival Information Received in full)</font></a></li>
+            <li onclick="pendscan()" class="nav-item" style="width: 35%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">B. Confirmation of Arrival at FPO<br><font size=1> (Art-IDs for which Art.Arrival Info Received Partial / Art.Arrival Information Not Received) </font></a></li>
+			<li onclick="showConfirmArrivalHistory()" class="nav-item" style="width: 20%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Confirmation History <br>for  "A"</a></li> 
+            <li onclick="showConfirmArrivalnHistory()" class="nav-item" style="width: 20%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Confirmation History <br>for  "B"</a></li> 
+        </ul>
+        <div id="confirmArrivalDiv">
+        <small class="form-text text-muted smalltexthelp" style="color: blue !important;"><span style="color: red;">**</span>
+            Note : 1. RID and Bag Nos. listed here are for those Articles reached India / Destination FPOs respectively.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            2. Once scan of Import Recpt Id / Bag is confirmed, Article IDs 
+            attached to this will be moved to the respective queue of AAF module, if those Article IDs are destined to this site.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            3. On arrival confirmation of Receptacle IDs, for the Article IDs destined for other FPO sites, those will move to the respective site and await for Article Arrival Information with Bag Details.</small>
+        <div class="col-md-12">
+            <table id="scanbagtable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">S.NO</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">RECEPT
+                            ID (RID) / BAG NO (BAG)</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">RECEIVED
+                            DATE</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">TOTAL NO
+                            OF ARTICLES</th>
+                        <th colspan=3 scope="col" style="text-align: center;">WITH
+                            EAD</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">WITHOUT
+                            EAD</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">ENTER
+                            SCAN REPORT (OPTIONAL)</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">CONFIRM
+                            ARRIVAL (MANDATORY)
+                            <div>
+                                <input type="checkbox" id="chkallscan" onclick="checkAllBagRecpt(this)" />
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" style="text-align: center;">FOR THIS SITE</th>
+                        <th scope="col" style="text-align: center;">FOR OTHER SITE</th>
+                        <th scope="col" style="text-align: center;">SITE NOT ALLOTTED</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr th:each="bagScan,iter : ${bagScans}" class="">
+                        <td th:text="${iter.index+1}"></td>
+                        <td style="width: 20%;" class="ta-left"><span th:style="${bagScan.bagNoFlag=='Y' ? 'color: #bb0e0e;font-weight:bold;' : 'color: blue;font-weight:bold;'}" th:text="${(bagScan.bagNoFlag=='Y' ? 'BAG-' : 'RID-')}"></span><span th:text="${bagScan.bagNo}"></span></td>
+                        <td th:text="${#dates.format(bagScan.receivedDate, 'dd-MMM-yyyy')}"></td>
+						<td th:text="${bagScan.totalCount}"></td>
+						<td th:text="${bagScan.withEadCurrSite}"></td>
+						<td th:text="${bagScan.withEadOtherSite}"></td>
+						<td th:text="${bagScan.withEadSiteNotAllot}"></td>
+						<td th:text="${bagScan.withoutEad}"></td>
+						<td style="width: 12%;"><input class="btn-grn" type='button'
+							th:bagflag="${bagScan.bagNoFlag}" th:id="${bagScan.bagNo}" th:site="${bagScan.siteValue}"
+							onclick="viewArticles(this)" value='Click' /></td>
+						<td style="width: 12%;"><input type="checkbox"   id="chkboxarr" name="chkboxarr[]" /></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
+		
+       
+        <div id="confirmArrivalHistoryDiv" style="display: none;">
+        <div class="row" style="margin: 15px;padding-top: 15px;">
+    <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">Select Date Range:
+    <p style="margin: 0;font-size: 12px;color: #bb0e0e;">(Date Of Arrival Confirmation)</p></span>
+    <div class="col-sm-2" style="display: flex;">
+        <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+        <input type="text" id="fromdatepicker" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly="" class="picker form-control form_txt change">
+    </div>
+    <div class="col-sm-2" style="display: flex;">
+        <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+        <input type="text" id="todatepicker" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select To Date" readonly="" class="picker form-control form_txt change">
+    </div><button type="button" onclick="getScannedReportHistory()" class="btn btn-success">Submit</button>
+    <button type="button" onclick="resetScannedReportHistory()" class="btn" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+</div>
+<small class="form-text text-muted smalltexthelp" style="color: blue !important;"><span style="color: red;">**</span>
+            Note : Bag Arrival confirmed during the current month only is listed below.Select Date range for the previous period of Bag arrival confirmation.</small>
+        <div class="col-md-12">
+            <table id="confirmHistorytable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">S.NO</th>
+                        <th rowspan=2 scope="col" style="width:20%; text-align: center; vertical-align: middle;">RECEPT
+                            ID (RID) / BAG NO (BAG)</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">RECEIVED
+                            DATE</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">TOTAL NO
+                            OF ARTICLES</th>
+                        <th colspan=3 scope="col" style="text-align: center;">WITH
+                            EAD</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">WITHOUT
+                            EAD</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">VIEW
+                            SCAN REPORT</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">DATE OF ARRIVAL CONFIRMATION <br> BY CUSTOMS OFFICER
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" style="text-align: center;">FOR THIS SITE</th>
+                        <th scope="col" style="text-align: center;">FOR OTHER SITE</th>
+                        <th scope="col" style="text-align: center;">SITE NOT ALLOTTED</th>
+                    </tr>
+                </thead>
+			</table>
+		</div>
+		</div>
+	<div id="confirmSubmitBtn"
+		style="width: 100%; text-align: center; margin-top: 15px; margin-bottom: 15px;">
+		<button type="button" onclick="submitScannedBag()"
+			class="btn btn-success">Submit</button>
+	</div>
+	
+	
+	<div id="PendingArrivalBags" style="display: none;align:center;margin-left:5px;">
+	 <small class="form-text text-muted smalltexthelp" style="color: blue !important;"><span style="color: red;">**</span>
+            Note : 1. Art IDs listed here are for those Articles for which EAD received but the Article arrival information is yet to be received or partially received ( without RID / Bag No).<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            2. Once scan of Import Art. IDs is confirmed, Article IDs attached to this will be moved to the respective queue of AAF module, if those Article IDs are destined to this site.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   			3. If Art ID is not found in this sub-modules,  Pls  check for the same in Pincode Mapping sub-module, where the Art ID may be pending to be mapped to FPO site for want of destination Pin code.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            4. Select appropriate options from "Choose RID / Bag, Date Range, Country (for bags with Receptacle ID) / FPO SITE (for bags with Bag No.)and Mail Class" to shortlist the Article IDs for arrival confirmation and to enter SCAN Report.</small>
+      <div class="row">
+      <div class="col-md-5" style="text-align:right;vertical-align:middle;padding-top:10px;"><label class="control-label" for="bagtype"><b>Choose RID / BAG : </b></label> </div>
+      <div class="col-md-3 align:center"><select id="bagtype" class="form-control bagtype" name="bagtype" required="required">
+				<option value="">--Select TYPE --</option>
+				<option value="R">RID - Postal Bag Reached OOE from Abroad</option>
+				<option value="B">BAG No. - Postal Bag Reached Destination FPO transitted from OOE</option>
+			</select></div></div>
+        
+        <div class="row" style="margin: 15px;margin-left:1%;">
+        
+    <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">Select Date* Range:
+    <p style="margin: 0;font-size: 12px;color: #bb0e0e;">OPTIONAL - (*Posting Date)</p></span>
+    <div class="col-md-2" style="display: flex;">
+        <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+        <input type="text" id="postfrdt" style="width: 100%;font-weight: bold;text-align: center;height: fit-content" placeholder="Select From Date" readonly="" class="picker form-control form_txt change">
+    </div>
+     <div class="col-md-2" style="display: flex;">
+        <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+        <input type="text" id="posttodt" style="width: 100%;font-weight: bold;text-align: center;height: fit-content" placeholder="Select To Date" readonly="" class="picker form-control form_txt change">
+    </div>
+       <div class="col-md-2"  style="display: flex;" id="cntrysel">
+       <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">Country:</p><select id="cntry" class="form-control cntry" name="cntry"
+				required="required">
+				<option value="">--ALL COUNTRIES--</option>
+				<div style="align:left" th:each="cntry,iter : ${getcntrylist}">
+					<option class="form-control" th:text="${cntry[1]}"  th:value="${cntry[0]}"></option>
+				</div>
+			</select></div>
+		<div class="col-md-2"  style="display: flex;">
+		 <p style="font-weight: bold;margin: 0;margin-right: 5px;position: relative;top: 5px;">Mail Class:</p>
+		<select id="mc" class="form-control mc" name="mc"
+				required="required">
+				<option value="">--ALL MAIL CLASSES--</option>
+				<div th:each="mc,iter : ${getmclist}">
+					<option class="form-control" th:text="${mc[1]}"  th:value="${mc[0]}"></option>
+				</div>
+			</select>
+        </div>
+      <div class="col-md-3"  style="font-weight: bold;margin: 0;position: relative;top: 5px;display: none;" id="fposel" >
+    <div class="row">
+    <div class="col-md-4" style="width: fit-content;">
+     Choose Transit from :</div>
+     <div class="col-md-4">
+       <select id="fpo" class="form-control fpo" name="fpo"
+				required="required">
+				<option value="">--SELECT OOE--</option>
+				<div style="align:left" th:each="fpo,iter : ${getfpolist}">
+					<option class="form-control" th:text="${fpo[1]}"  th:value="${fpo[0]}"></option>
+				</div>
+			</select>
+	</div>
+    <div class="col-md-4"  style="display: none;height: fit-content;" id="tosite" >
+       <p><span style="font-weight: bold;margin: 0;position: relative;top: 5px;"  th:text="${'To : '+session.data2}"></span></p>
+	</div>
+	</div></div>
+      <div class="col-md-2"   style="display: flex;height: fit-content;">
+         <button type="button" onclick="getfiltdata()" class="btn btn-success">Submit</button>
+        <button type="button" onclick="resetfiltdata()" class="btn" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+    </div>
+        
+        </div>
+        
+    
+    <!--  div  class="mt-1" id="penscanooe" style="align:center;text-align: center;" >	
+         <table id="pentabo" class="table table-striped table-bordered mt-3 newtable" style="font-size: small; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;"><font size="3">SlNO</font></th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTICLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">POSTING DATE</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">COO</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">MAIL CLASS</th>
+                       <th scope="col" style="text-align: center; vertical-align: middle;">CATEGORY</th> 
+                        <th scope="col" style="text-align: center; vertical-align: middle;">FPO SITE</th>    
+                         <th scope="col" style="text-align: center; vertical-align: middle;">OOE</th>
+                        <th   scope="col" style="text-align: center; vertical-align: middle;">OOE RECEIVED DT</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">PREDES RECEPTACLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTARR RECEPTACLE ID</th>
+                         <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">FPO DESTN</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">FPO RECEIVED DT</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">BAG NO</th>       
+                        <th scope="col" style="vertical-align: middle;" width="10%">CONFIRM ARRIVAL <br>
+                        <input type="checkbox"  style="width:24px;height:24px;vertical-align: middle;" id="chkallnoscan" th:disabled="${bagtype == null ?  true : false}"  onclick="checkAllnoBagRecpt();"><br>(MANDATORY)</th>				   
+                      </tr>
+               </thead>
+          <tbody>
+                    <tr th:each="s1,iter : ${penartarrscanooe}" valign="middle" class="rowDis" >
+                        <td width="2%" th:text="${iter.index+1}"></td>
+                        <input type="hidden" name="itemid" id="itemid" th:value="${s1[0]}">
+					    <input type="hidden" name="currow" id="currow" th:value="${iter.index+1}">
+                        <td  width="5%" th:text="${s1[0]}" th:id="${iter.index+1}" onclick="viewSummary(this,'pentab')"  ></td>
+                        <td   width="5%" th:text="${s1[3]}"></td>
+                        <td  width="5%"  th:text="${s1[4]}"></td>
+                        <td th:text="${s1[5]}"></td>
+                        <td  width="8%"  th:text="${s1[6]}"></td>
+                        <td  width="5%"  th:text="${s1[7]}"></td>
+                        <td width="5%"   th:text="${s1[8]!=null ? s1[8] : '-'}"></td>                        
+                        <td  width="5%"  th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+                        <td  width="5%" th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+                        <td  width="5%"  th:text="${s1[11]!=null ? s1[11] : '-'}"></td>
+                        <td  width="5%"  th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+                        <td  width="5%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+                        <td   width="5%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+                        <td  width="5%"   style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkboxnoarr" name="chkboxnoarr[]"  th:disabled="${bagtype == null ?  true : false}"  style="width:24px;height:24px" 
+												 title="Check for Arrival Confrmation" ></td>           
+                    </tr>
+                </tbody>   
+               
+            </table>
+		 <div id="nconfirmSubmitBtn"
+		style="width: 100%; text-align: center; margin-top: 15px; margin-bottom: 15px;">
+		<button type="button" onclick="editScanRepno()"
+			class="btn btn-success">Submit</button>
+	</div>
+		</div-->
+		
+		
+	 <!--div  class="mt-1" id="penscanfpo" style="align:center;text-align: center;" >	
+         <table id="pentabb" class="table table-striped table-bordered mt-3 newtable" style="font-size: small; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;"><font size="3">SlNO</font></th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTICLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">POSTING DATE</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">COO</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">MAIL CLASS</th>
+                       <th scope="col" style="text-align: center; vertical-align: middle;">CATEGORY</th> 
+                        <th scope="col" style="text-align: center; vertical-align: middle;">FPO SITE</th>    
+                         <th scope="col" style="text-align: center; vertical-align: middle;">OOE</th>
+                        <th   scope="col" style="text-align: center; vertical-align: middle;">OOE RECEIVED DT</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">PREDES RECEPTACLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTARR RECEPTACLE ID</th>
+                         <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">FPO DESTN</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">FPO RECEIVED DT</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">BAG NO</th>       
+                        <th scope="col" style="vertical-align: middle;" width="10%">CONFIRM ARRIVAL <br>
+                        <input type="checkbox"  style="width:24px;height:24px;vertical-align: middle;"  th:disabled="${bagtype == null ?  true : false}" id="chkallnbscan" onclick="checkAllnbBagRecpt();"><br>(MANDATORY)</th>				   
+                      </tr>
+               </thead>
+          <tbody>
+                    <tr th:each="s1,iter : ${penartarrscanfpo}" valign="middle" class="rowDis" >
+                        <td width="2%" th:text="${iter.index+1}"></td>
+                        <input type="hidden" name="itemid" id="itemid" th:value="${s1[0]}">
+					    <input type="hidden" name="currow" id="currow" th:value="${iter.index+1}">
+                        <td  width="5%" th:text="${s1[0]}" th:id="${iter.index+1}" onclick="viewSummary(this,'pentab')" ></td>
+                        <td   width="5%" th:text="${s1[3]}"></td>
+                        <td  width="5%"  th:text="${s1[4]}"></td>
+                        <td th:text="${s1[5]}"></td>
+                        <td  width="8%"  th:text="${s1[6]}"></td>
+                        <td  width="5%"  th:text="${s1[7]}"></td>
+                        <td width="5%"   th:text="${s1[8]!=null ? s1[8] : '-'}"></td>                        
+                        <td  width="5%"  th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+                        <td  width="5%" th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+                        <td  width="5%"  th:text="${s1[11]!=null ? s1[11] : '-'}"></td>
+                        <td  width="5%"  th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+                        <td  width="5%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+                        <td   width="5%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+                        <td  width="5%"   style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkboxnbarr" th:disabled="${bagtype == null ?  true : false}" name="chkboxnbarr[]"  style="width:24px;height:24px"
+												 title="Check for Arrival Confrmation" ></td>           
+                    </tr>
+                </tbody>   
+                
+            </table>
+		 <div id="nconfirmSubmitBtn"
+		style="width: 100%; text-align: center; margin-top: 15px; margin-bottom: 15px;">
+		<button type="button" onclick="editScanRepnb()"
+			class="btn btn-success">Submit</button>
+	</div>
+		</div-->
+		
+
+  
+  
+  <div  class="mt-3" id="penscanf" style="display:none;align:center;text-align: center;" >	
+         <table id="pentabf" class="table table-striped table-bordered mt-3 newtable" style="font-size: small; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;"><font size="3">Sl<br>NO</font></th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTICLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">POSTING<br> DATE</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">COO</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">MAIL<br>CLASS</th>
+                       <!--th scope="col" style="text-align: center; vertical-align: middle;">CATEGORY</th--> 
+                        <th scope="col" style="text-align: center; vertical-align: middle;">ASSESSMENT SITE</th>    
+                         <th scope="col" style="text-align: center; vertical-align: middle;">OOE</th>
+                        <th   scope="col" style="text-align: center; vertical-align: middle;">OOE RECEIVED DT</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">PREDES RECEPTACLE ID</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">ARTARR RECEPTACLE ID</th>
+                         <th scope="col" style="text-align: center; vertical-align: middle;width:15px;">FPO DESTN</th>
+                        <th scope="col" style="text-align: center; vertical-align: middle;">FPO RECEIVED DT</th>
+                        <th  scope="col" style="text-align: center; vertical-align: middle;">BAG NO</th>       
+                        <th scope="col" style="vertical-align: middle;" width="10%">CONFIRM ARRIVAL <br>
+                        <input type="checkbox"  style="width:24px;height:24px;vertical-align: middle;" id="chkallnfscan" onclick="checkAllnfBagRecpt();"><br>(MANDATORY)</th>				   
+                     </tr>
+               </thead>
+               <tbody id="pentabbody"></tbody>
+   </table>
+    <div id="nconfirmSubmitBtn"
+		style="width: 100%; text-align: center; margin-top: 15px; margin-bottom: 15px;">
+		<button type="button" onclick="editScanRepnf()"
+			class="btn btn-success">Submit</button>
+	</div>
+   </div>
+   
+   
+   
+  
+	  </div>
+	  
+	  
+	   <div id="confirmArrivalnHistoryDiv" style="display: none;">
+        <div class="row" style="margin: 15px;padding-top: 15px;">
+    <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">Select Date Range:
+    <p style="margin: 0;font-size: 12px;color: #bb0e0e;">(Date Of Arrival Confirmation)</p></span>
+    <div class="col-sm-2" style="display: flex;">
+        <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+        <input type="text" id="fromdatepicker" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly="" class="picker form-control form_txt change">
+    </div>
+    <div class="col-sm-2" style="display: flex;">
+        <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+        <input type="text" id="todatepicker" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select To Date" readonly="" class="picker form-control form_txt change">
+    </div><button type="button" onclick="getScannedReportHistory()" class="btn btn-success">Submit</button>
+    <button type="button" onclick="resetScannedReportHistory()" class="btn" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+</div>
+<small class="form-text text-muted smalltexthelp" style="color: blue !important;"><span style="color: red;">**</span>
+            Note : Bag Arrival confirmed during the current month only is listed below.Select Date range for the previous period of Bag arrival confirmation.</small>
+        <div class="col-md-12">
+            <table id="confirmnHistorytable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+                <thead style="background-color: #a1c4e6;">
+                    <tr>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">S.NO</th>
+                        <th rowspan=2 scope="col" style="width:20%; text-align: center; vertical-align: middle;">RECEPT
+                            ID (RID) / BAG NO (BAG) Entered By officer (For not entered (RID / BAG) starts With REFR / REFRB)</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">RECEIVED
+                            DATE</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">TOTAL NO
+                            OF SELECTED ARTICLES</th>
+                        <th colspan=3 scope="col" style="text-align: center;">WITH
+                            EAD</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">WITHOUT
+                            EAD</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">VIEW
+                            SCAN REPORT</th>
+                        <th rowspan=2 scope="col" style="text-align: center; vertical-align: middle;">DATE OF ARRIVAL CONFIRMATION BY CUSTOMS OFFICER
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col" style="text-align: center;">FOR THIS SITE</th>
+                        <th scope="col" style="text-align: center;">FOR OTHER SITE</th>
+                        <th scope="col" style="text-align: center;">SITE NOT ALLOTTED</th>
+                    </tr>
+                </thead>
+			</table>
+		</div>
+		</div>
+	  
+	  
+	  
+	  
+	  
+	<div class="modal fade" id="bagArticleModal" data-backdrop="static" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered"
+			style="width: auto; height: auto; max-width: 90%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"
+						style="text-transform: uppercase; font-weight: bolder; font-size: 20px;"
+						id="bagArticlesModalTitle"></h4>
+					<button type="button" class="close queryinfobtncancel"
+						onclick="bodyScroll()" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body" id="bagArticlesContent"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="summaryModalTitle" style="font-weight: bold;text-transform: uppercase;">Article Summary</h5>
+                    <button type="button" class="close" onclick="closeSummaryModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="summaryModalBody">
+                </div>
+                	<div  align="right">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="closeSummaryModal()" style="background-color:green">OK</button>
+					</div>
+            </div>
+        </div>
+    </div>
+	
+
+	<div class="modal fade" id="viewSummaryModal" data-backdrop="static" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered"
+			style="width: auto; height: auto; max-width: 90%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"
+						style="text-transform: uppercase; font-weight: bolder; font-size: 20px;">CN
+						22 / CN 23 Summary</h4>
+					<button type="button" class="close" onclick="closeSummary()"
+						aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body" id="summaryContent"></div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="bagArticleModaln" data-backdrop="static" data-keyboard="false"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered"
+			style="width: auto; height: auto; max-width: 90%;">
+			<div class="modal-content">
+			<div class="modal-header">
+					<h4 class="modal-title"
+						style="text-transform: uppercase; font-weight: bolder; font-size: 20px;">FOR THE SELECTED ARTICLE IDS ENTER SCAN FINDINGS / REPORT</h4>
+					<button type="button" class="close" onclick="closebagarticlesnModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>							
+						</div>
+						   
+				<div class="modal-body" >
+<div style="text-transform: uppercase; font-weight: bolder; text-align:center; display: flex; width: 100%; background: antiquewhite; padding: 10px;">
+<table border=0  style="text-align: center;width:100%;font-size: 20px;" >
+<tr><td width="35%" id="recpiddisp">ENTER RECP ID:&nbsp;<input type="text" id="arecpid"  name="arecpid" maxlength="29" size=35 pattern="[A-Z0-9]">
+<td width="35%"  id="bagnodisp">&nbsp;&nbsp;ENTER BAG NO.:&nbsp;<input type='text' id='bagno' name='bagno' maxlength='13' size=15 pattern='[A-Z0-9]' ></td>
+<td width="65%" rowspan="2" valign="top">&nbsp;&nbsp;ENTER DEPARTMENTAL COMMENTS:<font color="red">*</font>&nbsp;<input type='text' id='rmks' size=60 name='rmks' maxlength='256' pattern='[A-Z0-9]' ></td></tr>
+<tr><td><font size=1><span th:text="1" id="recpidnote"></span></font></td></tr>
+<tr><td id="bagnonote">&nbsp;&nbsp;&nbsp;</td></tr>
+ <tr><td  width="35%" class="scan-find-label" style="font-size:14px;font-weight:bold;valign:middle;align:right">Enter Scan Findings / Report for the Recpt.Id / Bag : (If any)</td>
+ <td width="65%"><textarea type='textbox' id="articleOverallReport"  rows=2 style='width:100%;' ></textarea></td></tr>
+</table>
+</div>
+        <table id="bagarticletablen" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;width:100%;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th th:if="${view}" scope="col" style="text-align: center; vertical-align: middle;">SELECT</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">SlNO</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">ARTICLE
+                        ID</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">DESTN.
+                        FPO</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">PREDES RECPID </th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">RECORD SCAN FINDINGS / REPORT ARTICLE WISE (If any)</th>
+                </tr>
+            </thead>
+            <tbody id="editnotarrdet">
+            </tbody>
+        </table>
+        <div  style="width: 100%; text-align: center; margin-top: 15px;">
+          <button type="button" onclick="submitScannedBagn()" class="btn btn-success">Submit</button>
+         </div>
+			
+				
+				</div>
+			</div>
+			</div>
+		</div>
+	
+	
+	
+	
+	<div class="modal fade" id="Modalnoscanrep" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">Are you sure to SUBMIT without Scan Findings / Report for the selected Article IDs? </font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="contsubmit()" style="background-color:green">Yes</button></div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+<script src="js/bagscan.js"></script>
+<script type = "text/javascript" >
+</script>
+<script>
+$(function() {
+			$("#postfrdt").datepicker({
+	            dateFormat: "dd/mm/yy",
+	            onSelect: function(date) {
+	                $("#todatepicker").datepicker('option', 'minDate', date);
+	            }
+	        });
+	
+	        $("#posttodt").datepicker({
+	            dateFormat: "dd/mm/yy"
+	        });
+		});
+	
+</script>
+</body>
+</html>

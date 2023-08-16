@@ -1,0 +1,479 @@
+<style>
+    .ui-widget-content .ui-icon {
+        background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+    }
+
+    .container-100 {
+        max-width: 100%
+    }
+
+    .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2) !important;
+        border-radius: 3px;
+        padding: 0;
+    }
+
+    .mb-2 {
+        margin-bottom: .5rem !important;
+    }
+
+    .mt-2 {
+        margin-top: .5rem !important;
+    }
+
+    .form {
+        padding: 15px 30px 10px;
+    }
+
+    .row.addd {
+        position: relative;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 10px 0 18px;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    body {
+        background: #91c5ff;
+    }
+
+    label.float {
+        color: #333;
+        font-size: 12px;
+        font-weight: 700 !important;
+        position: absolute;
+        pointer-events: none;
+        left: 20px;
+        top: -10px;
+        font-weight: 600;
+        transition: all .2s ease;
+        -moz-transition: .2s ease all;
+        -webkit-transition: all .2s ease;
+        background: #fff;
+        padding: 0 5px;
+    }
+
+    select.control,
+    input[type="text"] {
+        height: 40px;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        color: #495057;
+    }
+
+    select.control:focus,
+    input[type="text"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #828282;
+    }
+
+    div[class^="col-lg-"] {
+        margin-top: 10px;
+    }
+
+    .col-lg-12 {
+        margin-top: 0 !important;
+    }
+
+    .col-lg-3 {
+        max-width: 23%;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .add-btn {
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    .remove-btn {
+        line-height: 30px;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        display: inline-block;
+        width: 35px;
+        height: 32px;
+        border-radius: 40px;
+        text-align: center;
+        margin: 3px 0px 0 14px;
+        cursor: pointer;
+    }
+
+    div[id^="document-section"],
+    div[id^="preview-document-section"],
+    div[id^="fp-section"],
+    div[id^="fine-section"],
+    div[id^="preview-fine-section"],
+    div[id^="penalty-section"],
+    div[id^="preview-penalty-section"],
+    div[id^="detentioncase-section"],
+    div[id^="preview-detentioncase-section"] {
+        display: flex;
+        width: 100%;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+        background: white;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        top: 8px;
+    }
+
+    .delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545 !important;
+    }
+
+    .invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgb(220 53 69/ 25%);
+        border-color: #dc3545;
+    }
+
+    .invalid-feedback {
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    tbody textarea {
+        resize: none;
+    }
+
+    #overlay {
+        position: fixed;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+        z-index: 9999;
+        width: 100%;
+        background: rgba(255, 255, 255, .7);
+    }
+
+    #loader {
+        position: fixed;
+        display: block;
+        left: 50%;
+        top: 48%;
+        z-index: 9999;
+        width: 100%;
+        height: 100%;
+        background-image: url(images/report/loader.gif);
+        background-repeat: no-repeat;
+        margin: -77px 0 0 -75px;
+    }
+
+    .pdf-icon {
+        color: red;
+        position: absolute;
+        top: 15px;
+        left: 25px;
+    }
+
+    .pl-25 {
+        padding-left: 25px;
+    }
+
+    .form-control[readonly] {
+        background: white !important;
+    }
+
+    .valid-box {
+        border: 2px solid #0ee90e !important;
+        color: black;
+        background: #ffedb6 !important;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .cross-icon {
+        color: #818589;
+        position: absolute;
+        top: 13px;
+        right: 30px;
+        cursor: pointer;
+    }
+
+    .btn-success.cmts {
+        margin-top: 5%;
+        color: white;
+        background: #0014ff;
+        border: #0014ff;
+    }
+
+    .btn-success.cmts:not(:disabled):not(.disabled).active:focus,
+    .btn-success.cmts:not(:disabled):not(.disabled):active:focus,
+    .show>.btn-success.cmts.dropdown-toggle:focus {
+        margin-top: 5%;
+        color: white;
+        background: #0014ff;
+        border: #0014ff;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+
+    .btn-success.dept-cmts {
+        color: white;
+        background: rebeccapurple;
+        border: rebeccapurple;
+    }
+
+    .btn-success.dept-cmts:not(:disabled):not(.disabled).active:focus,
+    .btn-success.dept-cmts:not(:disabled):not(.disabled):active:focus,
+    .show>.btn-success.dept-cmts.dropdown-toggle:focus {
+        color: white;
+        background: rebeccapurple;
+        border: rebeccapurple;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+    
+    .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+    
+    
+    
+    
+</style>
+<div id="overlay" style="display: none;">
+    <div id="loader">
+    <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+    </div>
+</div>
+<input type="hidden" id="cinNo" th:value="${cinNo}">
+<input type="hidden" id="viewPage" th:value="${view}">
+<input type="hidden" id="role" th:value="${role}">
+<input type="hidden" id="artrole" th:value="${artrole}">
+<div class="container container-100">
+    <div class="row" id="previewOocCancelRemarksFullSection" th:each="ooccancelremark : ${oocCancelRemarks}">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card mb-2 mt-2" id="previewOocCancelRemarksUploadSection">
+                <div class="form">
+                    <div class="row addd" id="previewOocCancelRemarkDiv">
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display: flex;">
+                            <h4 class="subtitle">Remarks</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display: flex; justify-content: end;">
+                        <div class="form-group floating">
+                        <button type="button" class="btn btn-success dept-cmts" th:articleid="${itemId}" id="detained-view-summary" onclick="viewSummary(this)">View Article Summary</button>
+                        <!-- <button type="button" class="btn btn-success dept-cmts" th:articleid="${itemId}" onclick="viewDeptComments(this)">View Dept. Comments</button> -->
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea disabled class="control valid-box" rows="5" id="previewOocCancelRemarks" th:text="${ooccancelremark.remarks}" style="cursor: not-allowed; width: 50%; resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="docsec-full-div" th:if="${not #lists.isEmpty(ooccancelremark.fpoOocCancelDocInfo)}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Document Upload</h4>
+                            <p class="text-muted" style="margin-top: 10px; margin-left: 10px;">(Note: Maximum
+                                of 6 files can be upload.)</p>
+                        </div>
+                        <div id="document-section-1" th:each="fpoOocCancelDocInfo : ${ooccancelremark.fpoOocCancelDocInfo}">
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input class="control valid-box" th:value="${fpoOocCancelDocInfo.documentType}" type="text" disabled>
+                                    <label class="float">Type of Document</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" th:if="${fpoOocCancelDocInfo.documentTypeOtherValue ne null}">
+                                <div class="form-group floating">
+                                    <input class="control valid-box" th:value="${fpoOocCancelDocInfo.documentTypeOtherValue}" type="text" disabled>
+                                    <label class="float">Type of Document</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input type="text" id="document-date-1" th:value="${#dates.format(fpoOocCancelDocInfo.documentDate, 'dd/MM/yyyy')}" placeholder="Select Document Date" disabled class="valid-box picker form-control form_txt change">
+                                    <div class="invalid-feedback">Document Date is required</div>
+                                    <label class="float">Document Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input class="control valid-box" type="text" style="padding-left:30px;" th:value="${fpoOocCancelDocInfo.documentName}" id="document-filetxt-1" placeholder="Please Upload File" disabled>
+                                    <p class="text-muted">(Note: Only PDF is allowed.Maximum
+                                        File size must be in 1 MB.)</p>
+                                    <label class="float">File Upload</label><span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>
+                                    <span class="upload-btn" th:value="${#strings.substring(fpoOocCancelDocInfo.documentPhysicalFile,#strings.length(fpoOocCancelDocInfo.documentPhysicalFile)-31,#strings.length(fpoOocCancelDocInfo.documentPhysicalFile))}"
+							 onclick="viewFilePdf(this)"><a>View</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row addd" id="previewOocCancelReasonDiv" th:if="${ooccancelremark.reason ne null}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Reason</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea disabled class="control valid-box" rows="5" id="previewOocCancelReason" th:text="${ooccancelremark.reason}" style="cursor: not-allowed; width: 50%; resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+					<div class="row addd" th:if="${comments}">
+					    <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+					        <h4 class="subtitle">Past Comments</h4>
+					    </div>
+					    <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;height:170px;max-height: 170px;border: 1px solid;overflow-y: scroll;margin-left: 15px;">
+					        <div class="col-lg-6 col-md-6 col-sm-6">
+					            <div th:each="ac,iter : ${acComments}">
+					                <label style="font-weight: bold;color: blue;"  th:text="${iter.index+1}+'. '+(${acrolematch} ? 'By You : ' : 'By AC : ')"></label>
+					                <span style="font-weight: bold;color: #cf1818;" th:text="${ac.comments}"></span>
+					            </div>
+					    </div>
+					        <div class="col-lg-6 col-md-6 col-sm-6">
+					            <div th:each="appraiser,iter : ${appraiserComments}">
+					                <label style="font-weight: bold;color: blue;"  th:text="${iter.index+1}+'. '+(${acrolematch} ? 'By Appraiser : ' : 'By You : ')"></label>
+					                <span style="font-weight: bold;color: #cf1818;" th:text="${appraiser.comments}"></span>
+					            </div>
+					    </div>
+					    </div>
+					</div>
+                    <div class="row addd" th:if="${cmtflows}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Enter your Comment</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group floating">
+                                <textarea class="control" rows="5" id="remarkcomments" style="width: 100%; resize: none;outline: none;"></textarea>
+                                <div class="invalid-feedback">Comment is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group floating">
+                                <button type="button" class="btn btn-success cmts" style="margin-top: 5%;" th:articleId="${itemId}" th:ac="${acrolematch}" onclick="saveComment(this)" th:text="${acrolematch} ? 'Send back to Appraiser' : 'Send back to AC'">Send back to Appraiser</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" th:if="${!cmtflows || acrolematch}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">AC Remarks</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                            <p class="text-muted" style="margin-top: 7px; margin-left: 10px;">(Note: AC Remarks required when Accepting (or) Rejecting OOC Cancellation)</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group floating">
+                                <textarea class="control" th:unless="${!cmtflows}" rows="5" id="acremarks" style="width: 100%; resize: none;outline: none;"></textarea>
+                                <textarea disabled class="control valid-box" th:if="${!cmtflows}" rows="5" th:text="${ooccancelremark.acRemarks}" style="width: 100%; resize: none;outline: none;"></textarea>
+                                <div class="invalid-feedback">Remark is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left:1%">
+                       <b>Note :</b> Please obtain necessary approval from the Competent Authority before Cancelling the OOC
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; text-align: center;" th:unless="${history}">
+        <button type="button" th:if="${cmtflows && acrolematch}" class="btn btn-success" th:articleId="${itemId}" onclick="moveToAss(this)">Accept OOC Cancellation</button>
+        <button type="button" th:if="${cmtflows && acrolematch}" class="btn btn-danger" th:articleId="${itemId}" onclick="rejectOocCancel(this)">Reject OOC Cancellation</button>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 85%;">
+        <div class="modal-header" style="background: whitesmoke; padding-top: 5px; padding-bottom: 5px;">
+            <h4 class="modal-title">Uploaded File</h4>
+            <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-content" id="pdfcontent">
+            <embed id="embeduploadedpdf" frameborder="0" width="100%" style="height: 85vh;">
+        </div>
+    </div>
+</div>
+ </body>
+  </html>
+ <script src="js/viewooccancelremarks.js"></script>

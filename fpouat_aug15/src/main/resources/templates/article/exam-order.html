@@ -1,0 +1,169 @@
+<style>
+    .form_txt {
+        font-weight: 700
+    }
+
+    .col-form-label {
+        padding-top: 2px;
+    }
+
+    .lab_txt {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .form-group {
+        margin-bottom: 0rem;
+    }
+
+    hr {
+        border-top: 1px solid rgb(0, 0, 139);
+    }
+
+    .breadcrumb-pagination {
+        width: 100%;
+        border-bottom: 1px solid #E1E6EB;
+        text-align: center;
+        color: #B3B7C1;
+    }
+
+    .breadcrumb-pagination div {
+        width: 15%;
+        display: inline-block;
+    }
+
+    .breadcrumb-pagination div span {
+        margin: 0 auto;
+        display: block;
+        border-radius: 100%;
+        width: 36px;
+        font-size: 20px;
+    }
+
+    .completed span {
+        background-color: NONE;
+        color: #95db89;
+        border: 2px solid #95db89;
+    }
+
+    .active span {
+        background-color: #00abc9;
+        color: #fff;
+    }
+
+    .todo span {
+        background-color: none;
+        color: #E1E6EB;
+        border: 2px solid #E1E6EB;
+    }
+
+    .breadcrumb-pagination div p {
+        text-align: center;
+        line-height: 0;
+        margin: 10px auto 0px;
+    }
+
+    .active p {
+        border-bottom: 2px solid #00abc9;
+        padding-bottom: 20px;
+        margin-bottom: 0px !important;
+        color: #3c4043;
+        font-weight: 700;
+    }
+
+    .completed p {
+        color: "#bsb7c1";
+    }
+
+    .completed span::before {
+        content: '\2713'
+    }
+
+    textarea[readonly] {
+        background-color: #ffffff !important
+    }
+   #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        } 
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div th:if="${order == 1}" class="container" style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;padding: 20px;">
+
+    <div   class="mt-2" th:each="exam,iter : ${getOrder}">
+        <div  align="center" style="
+    margin-bottom: 25px;
+">
+        <h2>Exam Order</h2>
+		<p style="color:blue;font-weight:bold;text-transform:capitalize;"><span style="color: green;font-weight: 400;font-size: 40px;animation: blink 1s linear infinite;text-transform:uppercase;"  th:text="${'Examination Order is given by officer-Id : '+exam.oFF_ID + ' on date '+#dates.format(exam.oRDER_DATE, 'dd-MMM-yyyy hh:mm:ss a')}"></span></p>
+    </div>
+        <p>
+            <strong>Ordered to :</strong>
+        </p>
+
+        <p class="check">
+            1. Scan <input type="checkbox" id="scan" name="EXAM_ORDER" style="pointer-events: none;" th:checked="${exam.exam1} == Scan" value="Scan">
+        </p>
+        <p class="check">
+            2. Detain <input type="checkbox" id="detain" name="EXAM_ORDER" style="pointer-events: none;" th:checked="${exam.exam2} == Detain" value="Detain">
+        </p>
+        <p class="check">
+            3. Scan And Open Examination <input type="checkbox" style="pointer-events: none;" name="EXAM_ORDER" id="scanOpenExam" th:checked="${exam.exam3} == Examination" value="Examination">
+        </p>
+		<p> Note : If no Exam Order is to be given, please click 'NEXT' and Proceed.</p>
+        <div class="mt-2">
+
+            <div class="form-group mb-3">
+                <br> <label class="lab_txt">Examination instruction /
+                    Order : [min 6 characters ; max 2000 characters]</label>
+
+                <textarea type="text" readOnly class="form-control" name="ORDER_REMARK" th:text="${exam.ORDER_REMARK}" id="textsend" rows="10"></textarea>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+<!--     <div th:if="${order == 0}" style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;height: 50vh;padding: 20px;">
+    <h1  style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">EXAMINATION ORDER NOT GIVEN</h1>
+    </div> -->
+      <div th:if="${order1 == 0}" style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;height: 50vh;padding: 20px;">
+    <h1  style="color: red;font-weight: 600;text-align: center;margin: 100px;font-size: 40px;animation: blink 1s linear infinite;text-transform:uppercase;">NO EXAMINATION ORDER</h1>
+    </div>
+
+
+<script type="text/javascript">
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+</script>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Reports</h3>
+<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR (PNA)</h3>
+  <div style ="font-weight: bold; margin-top: 50px; text-align: center;font-family: times new roman;background: deepskyblue;"><h2>Reports</h2></div>
+
+<div class="col-md-12" style ="padding: 2%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #b1a7ed">
+        <h5 class="card-title">National Level Duty Collected Reports</h5>
+        <p class="card-text">To View the status of FPO Sites created in this application. </p><br>
+        <a href="" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #c5cdd9;">
+        <h5 class="card-title" >National Level Parcel Clearance Reports</h5>
+        <p class="card-text">To View the data on articles processed at any select Site for any select period .</p><br>
+        <a href="" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #91adc9;">
+        <h5 class="card-title">National Level Detention Reports</h5>
+        <p class="card-text">To View the list of active users at any select FPO Site and to view the active and past PLAs of any select FPO Site.</p>
+        <a href="" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col-md-12" style ="padding: 2%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #007bff80;">
+        <h5 class="card-title">National Level EAD Stage Wise Reports</h5>
+        <p class="card-text">To Create a new FPO Site in this application and activate the same. </p><br>
+        <a href="siteAddActiveView" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #4ac0d3;">
+        <h5 class="card-title" >National Level Pending for arrival Reports</h5>
+        <p class="card-text">To Edit, Block or Delete any FPO Site created in this application.</p><br>
+        <a href="" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #d3d1d1;">
+        <h5 class="card-title">National Level Under Process Parcel Reports</h5>
+        <p class="card-text">To Map a pincode or a range of pincode with a FPO Customs Site for auto-allocation of Article-ID.</p>
+        <a href="" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="col-md-12" style="display: flex; justify-content: center;">
+ <div class="col-sm-3" >
+ <div class="card">
+      <div class="card-body" style="background: #d3d1d1;">
+        <h5 class="card-title">National Level OOC Parcel Reports</h5>
+        <p class="card-text">To Map a pincode or a range of pincode with a FPO Customs Site for auto-allocation of Article-ID.</p>
+        <a href="" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+    </div>
+</div><br>
+
+</body>
+<script src="js/addingSite.js"></script>
+</html>

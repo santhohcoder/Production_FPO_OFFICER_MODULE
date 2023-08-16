@@ -1,0 +1,541 @@
+<div id="viewtablesinglerecrd" style="padding: 20px;">
+	<table id="viewtab" class="table table-bordered mt-3 asstTable"
+		style="font-size: 14px; text-align: center;">
+		<thead style="background-color: #a1c4e6;">
+			<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">ARTICLE ID / ITEM ID</th>
+					<th scope="col">POSTING DT</th>
+					<th scope="col">EAD STATUS</th>
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+					<th scope="col">ITEM CATEGORY</th>
+					<th scope="col">COUNTRY</th>
+					<th scope="col">OOE ARRIVAL</th>
+					<th scope="col">ARRIVAL OOE DT</th>
+					<th scope="col">RECEPTACLE ID</th>
+					<th scope="col">ARRIVAL DESTINATION FPO</th>
+					<th scope="col">ARRIVAL DESTINATION DT</th>	
+					<th scope="col">BAG NO</th>		
+					<th scope="col">CURRENT STATUS</th>		
+			</tr>
+		</thead>
+		<tbody>
+			<tr align="middle" class="rowDis" th:each="s1,iter : ${getitemdata}">
+				<td width="1%" style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+						<input type="hidden" id="itmid" name="itmid" th:value="${s1[1]}" />
+				<td width="10%" ><a href="javascript:;"  th:id="${iter.index+1}" onclick="viewSummary(this)" th:text="${s1[1]}"></a></td>
+					<!-- td width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td-->
+					<td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td>
+					<td width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+					<td width="8%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td>
+					<td width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					<td th:text="${s1[10]!=null ? s1[10] : '-'}"></td>	
+					<td th:text="${s1[15]!=null ? s1[15] : '-'}"></td>
+					<td th:text="${s1[11]!=null ? s1[11] : '-'}"></td>
+					<td width="2%" th:text="${s1[12]!=null ? s1[12] : '-'}"></td>		
+					<td th:text="${s1[16]!=null ? s1[16] : '-'}"></td>											
+					<td width="20%" th:text="${currstatus!=null ? currstatus : '-'}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<font size=1><b>Note:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Click Article ID / Item ID  to view the CN22 / 23  Summary of the Article ID</b></font>
+</div>
+
+
+<div id="viewsingrecdwithoutEAD" style="padding: 20px;display: none;">
+	<table id="singledata1" class="table table-bordered mt-3 asstTable"
+		style="font-size: 14px; text-align: center;">
+		<thead style="background-color: #a1c4e6;">
+			<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">ARTICLE ID / ITEM ID</th>
+					<th scope="col">POSTING DT</th>
+					<th scope="col">EAD STATUS</th>
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+					<th scope="col">ITEM CATEGORY</th>
+					<th scope="col">COUNTRY</th>
+					<th scope="col">OOE ARRIVAL</th>
+					<th scope="col">ARRIVAL OOE DT</th>
+					<th scope="col">ARRIVAL DESTINATION FPO</th>
+					<th scope="col">ARRIVAL DESTINATION DT</th>			
+			</tr>
+		</thead>
+		<tbody>
+			<tr align="middle" class="rowDis" th:each="s1,iter : ${getsinglercdnoEAD}">
+				<td width="1%" style="vertical-align: middle;"
+					th:text="${iter.index+1}"></td>
+				<td width="10%" th:text="${s1[0]}"></td>
+					<td width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td>
+					<td width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+					<td width="8%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td>
+					<td width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td th:text="${'-'}"></td>
+					<td width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td width="5%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td width="5%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					<td th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="viewhidetb">
+	<div class="col-md-12 row viewwitheadinfo">
+		<div class="col-md-6 ">
+			<div class="bg_rec" th:each="recp,iter : ${recipentinfo}">
+				<h4 class="mt-1">
+					<strong>Recipient Information : </strong>
+				</h4>
+				<div class="row mt-2">
+					<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${recp[0]!= null ? recp[0] : 'NIL' }"></p>
+					</div>
+				</div>
+				<div class="row">
+					<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${recp[1]!=null ? recp[1] : '-NIL-'}"></p>
+						<p style="font-weight: 700" th:text="${recp[2]!=null ? recp[2] : '-NIL-'}"></p>
+					</div>
+				</div>
+
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+					<div class="col-sm-6">
+						<p style="font-weight: 700" th:text="${recp[3]!=null ? recp[3] : '-NIL-'}"></p>
+					</div>
+					<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${recp[4]!=null ? recp[4] : '-NIL-'}"></p>
+					</div>
+				</div>
+
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">STATE</p>
+					<div class="col-sm-6">
+						<p style="font-weight: 700" th:text="${recp[5]!=null ? recp[5] : '-NIL-'}"></p>
+					</div>
+
+					<p class="col-sm-2 col-form-label">PIN</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${recp[6]!=null ? recp[6] : '-NIL-' }">
+					</div>
+				</div>
+
+				<div class="row" style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">EMAIL</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${recp[7]!=null ? recp[7] : '-NIL-' }">
+					</div>
+
+				</div>
+
+				<div class="form-group row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">PHONE</p>
+					<div class="col-sm-3">
+						<p style="font-weight: 700" th:text="${recp[8]!=null ? recp[8] : '-NIL-' }">
+					</div>
+
+
+					<p class="col-sm-1 col-form-label">FAX</p>
+					<div class="col-sm-2" style="top:6px">
+						<p style="font-weight: 700" th:text="${recp[9]!=null ? recp[9] : '-NIL-'}">
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-md-6">
+			<div class="bg_rec" th:each="send,iter : ${getsenderinfo}">
+				<h4 class="mt-1">
+					<strong>Sender Information : </strong>
+				</h4>
+				<div class="row mt-2">
+					<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${send[0]!=null ? send[0] : '-NIL-'}"></p>
+					</div>
+				</div>
+				<div class="row">
+					<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${send[1]!=null ? send[1] : '-NIL-'}"></p>
+						<p style="font-weight: 700" th:text="${send[2]!=null ? send[2] : '-NIL-'}"></p>
+					</div>
+				</div>
+
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+					<div class="col-sm-6">
+						<p style="font-weight: 700" th:text="${send[3]!=null ? send[3] : '-NIL-'}"></p>
+					</div>
+					<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${send[4]!=null ? send[4] : '-NIL-'}"></p>
+					</div>
+				</div>
+
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">STATE</p>
+					<div class="col-sm-6">
+						<p style="font-weight: 700" th:text="${send[5]!=null ? send[5] : '-NIL-'}"></p>
+					</div>
+
+					<p class="col-sm-2 col-form-label">PIN</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${send[6]!=null ? send[6] : '-NIL-'}">
+					</div>
+				</div>
+
+				<div class="row" style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">EMAIL</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${send[7]!=null ? send[7] : '-NIL-'}">
+					</div>
+
+				</div>
+
+				<div class="form-group row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">PHONE</p>
+					<div class="col-sm-3">
+						<p style="font-weight: 700" th:text="${send[8]!=null ? send[8] : '-NIL-'}">
+					</div>
+
+
+					<p class="col-sm-1 col-form-label">FAX</p>
+					<div class="col-sm-2" style="top:6px">
+						<p style="font-weight: 700" th:text="${send[9]!=null ? send[9] : '-NIL-'}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="col-md-12 viewwitheadinfo">
+		<div class="bg_rec" th:each="arrinfo,iter : ${artclests}">
+			<h4 class="mt-1">
+				<strong>Article Arrival Information : </strong>
+			</h4>
+			<div class="row mt-2">
+				<p class="col-sm-1 lab_txt col-form-label">ARTICLE STATUS</p>
+				<div class="col-sm-3 mt-2">
+					<p style="font-weight: 700" th:text="${arrinfo[0]!=null ? arrinfo[0] : '-NIL-'}"></p>
+				</div>
+
+				<p class="col-sm-2 lab_txt col-form-label">ARTICLE ENTERED INDIA
+					AT OOE</p>
+				<div class="col-sm-2 mt-2 row">
+					<p style="font-weight: 700" th:text="${arrinfo[1]!=null ? arrinfo[1] : '-NIL-'}"></p>
+					&nbsp;&nbsp;
+					<p style="font-weight: 700" th:text="${arrinfo[2]!=null ? arrinfo[2] : '-NIL-'}"></p>
+				</div>
+
+				<p class="col-sm-2 lab_txt col-form-label">ARTICLE ENTERED AT
+					DESTINATION FPO</p>
+				<div class="col-sm-2 mt-2 row">
+					<p style="font-weight: 700" th:text="${arrinfo[3]!=null ? arrinfo[3] : '-NIL-'}"></p>&nbsp;&nbsp;
+					<p style="font-weight: 700" th:text="${arrinfo[4]!=null ? arrinfo[4] : '-NIL-'}"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	
+	<div class="col-md-12 row viewwithoutEADinfo" >
+	 <div class="col-md-6">
+		<div class="bg_rec" th:each="recpwithoutartid,iter : ${recpinfonotinEAD}">
+			<h4 class="mt-1">
+				<strong>Recipient Information : </strong>
+			</h4> 
+			<div class="row mt-2">
+					<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${recpwithoutartid[0]!=null ? recpwithoutartid[0] : '-NIL-'}"> </p>
+					</div>
+				</div>
+				<div class="row">
+					<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${recpwithoutartid[1]!=null ? recpwithoutartid[1] : '-NIL-' }"></p>
+						<p style="font-weight: 700" th:text="${recpwithoutartid[2]!=null ? recpwithoutartid[2] : '-NIL-'}"></p>
+					</div>
+				</div>
+				
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+					 <div class="col-sm-6">
+						<p style="font-weight: 700">-NIL-</p>
+					</div> 
+					<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${recpwithoutartid[3]!=null ? recpwithoutartid[3] : '-NIL-'}"></p>
+					</div>
+				</div>
+				
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">STATE</p>
+					<div class="col-sm-6">
+						<p style="font-weight: 700">-NIL-</p>
+					</div>
+
+					<p class="col-sm-2 col-form-label">PIN</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${recpwithoutartid[4]!=null ? recpwithoutartid[4] : '-NIL-'}">
+					</div>
+				</div>
+		</div>
+	</div>
+	
+	<div class="col-md-6">
+		<div class="bg_rec" th:each="sndpwithoutartid,iter : ${sendinfonotinEAD}">
+			<h4 class="mt-1">
+				<strong>Sender Information : </strong>
+			</h4> 
+			<div class="row mt-2">
+					<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" th:text="${sndpwithoutartid[0]!=null ? sndpwithoutartid[0] : '-NIL-'}"> </p>
+					</div>
+				</div>
+				<div class="row">
+					<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+					<div class="col-sm-10">
+						<p style="font-weight: 700" >-NIL-</p>
+						<p style="font-weight: 700" >-NIL-</p>
+					</div>
+				</div>
+				
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+					 <div class="col-sm-6">
+						<p style="font-weight: 700">-NIL-</p>
+					</div> 
+					<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700">-NIL-</p>
+					</div>
+				</div>
+				
+				<div class="row " style="margin-bottom: -17px;">
+					<p class="col-sm-2 col-form-label">STATE</p>
+					<div class="col-sm-6">
+						<p style="font-weight: 700">-NIL-</p>
+					</div>
+
+					<p class="col-sm-2 col-form-label">PIN</p>
+					<div class="col-sm-1">
+						<p style="font-weight: 700" th:text="${sndpwithoutartid[1]!=null ? sndpwithoutartid[1] : '-NIL-'}">
+					</div>
+				</div>
+		</div>
+	</div><br>
+	
+	<div class="col-md-12 viewwithoutEADarrinfo" style="padding: 10px;">
+		<div class="bg_rec" th:each="arrinfo,iter : ${artclests}">
+			<h4 class="mt-1">
+				<strong>Article Arrival Information : </strong>
+			</h4>
+			<div class="row mt-2">
+				<p class="col-sm-1 lab_txt col-form-label">ARTICLE STATUS</p>
+				<div class="col-sm-3 mt-2">
+					<p style="font-weight: 700" th:text="${arrinfo[0]!=null ? arrinfo[0] : '-NIL-'}"></p>
+				</div>
+
+				<p class="col-sm-2 lab_txt col-form-label">ARTICLE ENTERED INDIA
+					AT OOE</p>
+				<div class="col-sm-2 mt-2 row">
+					<p style="font-weight: 700" th:text="${arrinfo[1]!=null ? arrinfo[1] : '-NIL-'}"></p>
+					&nbsp;&nbsp;
+					<p style="font-weight: 700" th:text="${arrinfo[2]!=null ? arrinfo[2] : '-NIL-'}"></p>
+				</div>
+
+				<p class="col-sm-2 lab_txt col-form-label">ARTICLE ENTERED AT
+					DESTINATION FPO</p>
+				<div class="col-sm-2 mt-2 row">
+					<p style="font-weight: 700" th:text="${arrinfo[3]!=null ? arrinfo[3] : '-NIL-'}"></p>&nbsp;&nbsp;
+					<p style="font-weight: 700" th:text="${arrinfo[4]!=null ? arrinfo[4] : '-NIL-'}"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	
+	<!--div style="text-align: center;margin-top: 30px;"><span style="font-size: 20px;margin-left: 5%;font-weight: 600;">Select State and map the Article ID to Custom's FPO Site</span></--!div>
+	<div class="form-group row"
+		style="justify-content: center; margin-top: 30px; text-align: end;">
+		<label class="control-label col-sm-1" for="SiteCode"
+			style="font-weight: 600; padding-left: 33px;">Select State:</label>
+		<div class="col-sm-3 dropdown">
+			<select class="form-control selstates" 
+				onchange="statechange(this)">
+				<option>--Select State--</option>
+				 <div th:each="statename,iter : ${getstateNme}">
+					<option th:text="${statename[0]}" th:value="${statename[1]}"
+						id="stateval"></option>
+				</div> 
+			</select>
+			<div class="invalid-feedback"></div>
+		</div>
+	</div-->
+
+	<!--div class="form-group row"
+		style="justify-content: center; margin-top: 1%; text-align: end;">
+		<label class="control-label col-sm-1" for="SiteCode"
+			style="font-weight: 600; padding-left: 33px;">Select
+			District:</label>
+		<div class="col-sm-3 dropdown">
+			<select class="form-control seldist">
+				<option>--Select District--</option>
+			</select>
+			<div class="invalid-feedback"></div>
+		</div>
+	</!--div-->
+	<!--div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;margin-top: 8px;padding-left: 42px;">Enter Reason :
+					</label>
+					<div class="col-sm-3">
+						<textarea class="form-control" name="textfiled" id="otherreason"
+							placeholder="Enter Reason" rows="3"
+							style="height: 120px; width: 454px"></textarea>
+						<div class="invalid-feedback"></div>
+					</div>
+				</!--div>
+				<br>
+	<div class="col-md-8" style="text-align: end; padding-right: 12px;margin-bottom:15px;">
+		<button type="button" onclick="updateFpoState()"
+			class="btn btn-success">Submit</button>
+	</div>-->
+
+
+<div class="modal fade" id="cnfrmpopup" tabindex="-1" role="dialog"
+			data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header"></div>
+					<div class="modal-body">
+						<h4 align="center" id="addpopupreas"
+							style="font-family: 'FontAwesome';"></h4>		
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal"
+							style="margin-right: 370px; background: red; border: red;"
+							class="btn btn-success">No</button>
+
+						<button type="button" data-dismiss="modal" id="updtfpoallot"
+							class="btn btn-success">Yes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		 <div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="summaryModalTitle" style="font-weight: bold;text-transform: uppercase;">Article Summary</h5>
+                    <button type="button" class="close" onclick="closeSummaryModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="summaryModalBody">
+                </div>
+                	<div  align="right">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="closeSummaryModal()" style="background-color:green">OK</button>
+					</div>
+            </div>
+        </div>
+    </div>
+		
+		
+		
+		<input type="hidden" th:value="${checkval}" id="viewsearchval">
+<!-- <input type="hidden" th:value="${search}" id="searchopt"> -->
+<br>
+<script>
+$('#singledata1').DataTable({
+		"ordering": false
+	});
+	
+	$('#viewtab').DataTable({
+		"ordering": false,
+		 "initComplete": function( settings ) {
+	       $("#viewtab_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearviewtab()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+		$("#viewtab_filter input[type='search']").attr('id', 'searchviewtab');
+    	}
+		
+	});
+	
+
+   function clearviewtab(){
+     document.getElementById("searchviewtab").value=""
+     var table = $('#viewtab').DataTable();
+     table.search('').draw();
+    } 
+	
+	
+function viewSummary(e) {
+		 var developerData = {};
+         var currow=e.id;
+        var pagelen =$('#viewtab').DataTable().page.info().length;
+        var row=currow % pagelen;
+       if (row==0)
+           row=row+pagelen;
+       var itmid= $('#viewtab').find('tr').eq(row).find("input#itmid").val();
+       $('#viewtab').find('tr').eq(row).css('background-color','green');
+       $('#viewtab').find('tr').eq(row).css('font-size','18');
+       $('#viewtab').find('tr').eq(row).css('color','yellow');
+       $('#viewtab').find('tr').eq(row).css('border','darkgreen');
+       developerData['id'] = itmid;
+		
+	    $.ajax({
+                url: 'getSummary?id=' + itmid,
+                type: "post",
+                success: function(data) {
+                 $("#summaryModal").modal('show');
+					$("#summaryModalTitle").text('ARTICLE SUMMARY - '+itmid);
+					 $("#summaryModalBody").html(data);
+	               
+                    //$('#doctab').modal('show');
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            })
+      }
+      
+      
+  function closeSummaryModal(){
+ $("#viewtab tbody tr").each(function() {
+ var textval = $(this).find("td:eq(0)").text().trim();
+ $(this).css('font-size','14');
+ if(textval % 2 == 0)
+		 {
+		   $(this).css('background-color','white');
+		   $(this).css('color','#130101');	
+		 }
+		 else
+		 {
+		   $(this).css('color','#130101');
+		   $(this).css('background-color','#e2ecf7');
+		 }	
+  });
+
+//$("#summaryModalBody").html('');
+		$("#summaryModal").modal('hide');
+		
+	}
+</script>

@@ -1,0 +1,67 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<input type="hidden" id="deptcmtofficer" th:value="${officerId}" />
+<table id="deptcommentstable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+    <thead style="background-color: #a1c4e6;">
+        <tr>
+            <th scope="col" style="text-align: center; vertical-align: middle;">S.NO</th>
+            <th scope="col" style="text-align: center; vertical-align: middle;">SSOID</th>
+            <th scope="col" style="text-align: center; vertical-align: middle;">ENTERED DATE</th>
+            <th scope="col" style="text-align: center; vertical-align: middle;">REMARKS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="deptCmt,iter : ${deptCmts}">
+            <td th:text="${iter.index+1}"></td>
+            <td th:text="${deptCmt[0]}"></td>
+            <td th:text="${#dates.format(deptCmt[2], 'dd-MMM-yyyy hh:mm:ss a')}"></td>
+            <td th:text="${deptCmt[1]}"></td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $("#deptcommentstable").DataTable({
+        "processing": true,
+        "paging": true,
+        "autoWidth": false,
+        "ordering": false
+        
+        
+    });
+  function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}  
+</script>

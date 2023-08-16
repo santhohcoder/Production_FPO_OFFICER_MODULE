@@ -1,0 +1,411 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+
+<style>
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.blink1 {
+                animation: blinker 1.5s linear infinite;
+                color: white;
+              box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+            }
+            @keyframes blinker {
+                30% {
+                    opacity: 0;
+                }
+            } 
+
+
+.form_txt {
+	font-weight: 700
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+.bg_clr {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 25px;
+}
+
+.big-checkbox {
+	width: 25px;
+	height: 25px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+
+#overlay {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, .7);
+}
+
+#loader {
+    position: fixed;
+   left: 40%;
+   top: 30%;
+   z-index: 9999;
+   width: 100%;
+   height: 100%;
+    background-image: url(images/report/loader.gif);
+   background-repeat: no-repeat;
+   margin: -77px 0 0 -75px;
+}
+
+ .swal-button{
+ 	background-color: green !important;
+ }
+
+</style>
+<body style="background: #d6dcd9">
+<input type="hidden" id="assstop" th:value="${cat}">
+<input type="hidden" id="role2blink" th:value="${session.data1}">
+<input type="hidden" id="flag" th:value="${flag}">
+<div id="overlay" style="display: none;">
+<div id="loader">
+<div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+</div></div>
+	<div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+		<div class="col-md-3" style="padding-left: 5px;">
+				<a th:href="@{order?id={id}(id = ${head.id})}"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button></a>
+			</div><div class="mt-4" align="center">
+			<h2>Process Electronic Advance Data - EAD Decisions</h2>
+		</div>
+           <div id="disphead">
+            </div>
+		<!-- div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POST_ORG_CD}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="cinNo">
+			</div-->
+
+			<input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totDuty">
+			<input type="hidden" th:value="${head.ROLE}" id="role">
+			<input type="hidden" th:value="${head.id}" id="cinNo">
+
+		
+
+
+		<!--    muchos disgustimos   -->
+		<div class="breadcrumb-pagination mt-3">
+			<div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>Exam Order</p>
+			</div>
+			<div class="active">
+				<span>5</span>
+				<p>Submit</p>
+			</div>
+		</div>
+
+
+	 	<div class="mt-2" style="float: right;display:none;">
+			<a th:href="@{order?id={id}(id = ${head.id})}" class="nav-link btn btn-info btn-sm" style="color: white;">Back </a>
+
+		</div>
+		<div class="mt-2" style="float: left;">
+			<a style="color: Black;"><strong>Select One Decision</strong> </a>
+
+		</div>
+
+		<br> <br>
+
+		<form action="#" th:action="@{/decisionSubmit}" method="post">
+		    <input type="hidden" th:value="${assvalacl}" id="maxval">
+			<input type="hidden" name="CIN_NO" th:value="${head.id}"> <input
+				type="hidden" name="ITEM_ID" th:value="${head.ITEM_ID}"> <input
+				type="hidden" name="CUS_SITE" th:value="${head.CUS_SITE}"> <input
+				type="hidden" name="QRY_TYPE" th:value="E4">
+			<div class="bg_clr">
+				<table class="table mt-3">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">Decision</th>
+							<th scope="col">Select</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="check" th:each="s1,iter : ${reason}">
+							<th scope="row" th:text="${s1.id}"></th>
+							<td th:text="${s1.DECI_NM}"></td>
+							<td><input th:id="${s1.id}" type="checkbox" name="DECI_CD"
+								class="big-checkbox" th:value="${s1.id}"></td>
+						</tr>
+					</tbody>
+				</table>
+                  
+                <div align="center">
+	                  <button type="button" class="btn btn-success" onclick="stopBlink()" data-toggle="modal"
+		                   id="enableButton" data-target="#exampleModal">Proceed to Submit
+                     </button>
+               </div>
+                  
+				<!--div align="center">
+					<button type="button" class="btn btn-success" data-toggle="modal"
+						id="enableButton" data-target="#exampleModal">Proceed to
+						Submit</button>
+				</div-->
+		</form>
+
+
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content" align="center">
+					<div class="modal-body">
+						<h4>Once submitted can't be changed</h4>
+					</div>
+					<div class="modal-footer">
+					    <div class="col-6" style="justify-content: flex-start;display: flex;">
+						     <button type="button" class="btn btn-danger"
+							      data-dismiss="modal">Close</button>
+						</div>	      
+						<div class="col-6" style="display: flex;justify-content: flex-end;">
+						     <button type="button" class="btn btn-success" data-toggle="modal" onclick="submitDecision()"
+							      data-target="#exampleModal">Submit</button>
+					    </div>		      
+					</div>
+				</div>
+			</div>
+		</div> 
+
+		<div th:each="exam,iter : ${getOrder}">
+
+			<input type="hidden" id="firstCheck" th:value="${exam.FIRST_CHECK}">
+
+		</div>
+
+<p>Notes :</p>
+		<p>1. From the above, the following three decisions will only be communicated to India Post at this juncture.
+			<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Item must be presented (for the EAD decisions 1-6,9) <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Detention - 7 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -  Item is not allowed in country - 8  
+			<br>&nbsp;&nbsp;&nbsp;(The final message on clearance with duty particulars will be shared with India Post only after Article arrival message from India post to this application and after OOC is given.)</p>
+		<p>2. All the items to be submitted by India Post to Customs at FPOs on arrival for OOC.</p>
+		<p id="aclMsg" style="display: none">3. For sending it back to
+			PAO please go back to Assessment screen</p>
+		<p id="aclMsgFirst" style="display: none">3. For sending it back
+			to PAO please go back.</p>
+
+		<div id="submitModal" class="modal fade">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4 th:text="1" id="dinValidate"></h4>
+						<h6 th:text="0" id="dinValidate1"></h6>
+					</div>
+					<div class="modal-footer">
+					  <div class="col-6" style="justify-content: flex-start;display: flex;">
+						   <button type="button" class="btn btn-danger"
+							 onclick="closeModal()" data-dismiss="modal">Close</button>
+					 </div>
+					 <div class="col-6" style="display: flex;justify-content: flex-end;">
+						   <button type="button" class="btn btn-success" id="okModal"
+							 onclick="okModal()" data-dismiss="modal">Ok</button>
+						<button type="button" class="btn btn-success" data-toggle="modal"
+							onclick="redirect()" id="orderPage" data-target="#exampleModal">Move
+							to Exam. ORDER Page</button>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+		<div id="detentionModal" class="modal fade">
+				<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>You have given 'Detention' in Examination Order.</h4>
+						<h6>Do you want to proceed selecting decisions other than
+							'Detention'?</h6>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger"
+						style="margin-right:345px"	onclick="redirectDetensiontoOrder()" data-dismiss="modal">Cancel</button>
+						<button type="button" class="btn btn-success"
+							onclick="closeModal()" data-dismiss="modal">Ok</button>
+
+					</div>
+				</div>
+			</div>
+		
+
+	</div>
+
+</body>
+<script>
+		function goBack() {
+		//	window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+		history.back();
+		}
+	
+	
+	$.ajax({
+                url: 'getdisphead?id=' + $("#cinNo").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+            </script>
+
+
+<script src="js/eadDecisionSubmit.js">
+	
+</script>
+<script src="js/sweetalert.min.js"></script>
+
+
+
+</html>

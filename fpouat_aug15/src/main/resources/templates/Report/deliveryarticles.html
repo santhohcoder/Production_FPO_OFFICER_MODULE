@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Delivery of Articles</title>
+<style type="text/css">
+ .ui-widget-content .ui-icon {
+    background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+    
+    }
+    .error-date{
+ 
+    color: red;
+ }
+    
+    .ead_decisions {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkblue;
+	font-size: 14px;
+	width : 450px;
+	
+	color: white;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 12px;
+	color: blue;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+	border-bottom-width: 1px;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #040404;
+}
+
+.table-bordered td, .table-bordered th {
+	border: 1px solid #000000;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active1 p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.scroll_down {
+	width: 310%;
+	height: 69px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.completed p {
+	color: "#bsb7c1;"
+}
+
+.completed span::before {
+	content: '\2713'
+}
+    li{
+        cursor: pointer;
+    }
+  #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }  
+    
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<input type="hidden" th:value="${fromdate}" id="reloadfromdate" >
+<input type="hidden" th:value="${todate}" id="reloadtodate" >
+<!-- <div class=" pl-3 mt-2">
+<a class="btn btn-primary" href="dash">Back to dashboard</a>
+</div> -->
+
+
+<div class="mt-3" id="main" style="background-color: #f8f9fa;">
+<!-- <div class="col-md-1" style="margin-left: 20px;padding-top: 10px;">
+			<a href="dash"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div> -->
+<div class=" pl-3">
+<div class="" align="center">
+			<h2>Acknowledgement from Post on Delivery of Articles</h2>
+		</div>
+</div>
+
+
+<nav class="navbar navbar-expand-lg " >
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav" style="
+">
+<ul class="navbar-nav" id="button-list">
+<li class="nav-item px-1 pad"><a name="Acknowledgement" class="nav-link btn btn-sm btn-success" href="javascript:;"> <strong>Acknowledgement Received</strong>
+</a></li>
+
+<li class="nav-item px-1 pad"><a name="pending" class="nav-link btn btn-outline-success btn-sm" href="javascript:;"><strong>Pending Acknowledgement Awaiting</strong></a></li>
+
+</ul>
+
+
+
+
+
+</div>
+
+
+</nav>
+
+
+<div class="row pl-5  mt-2">
+<form class="form-horizontal reset"  autocomplete="off"  th:action="@{/deliveryarticledatechange}"  th:object="${report}" method="post" id="getreportlistform"> 
+<div class="row dateForm">
+<div>
+  <label class="form_txt "for="birthday">From Date : </label>
+  <input class="picker form-control form_txt change" type="text" name="fromdate" readonly id="fromdate" style="display: inline;width: auto;">
+  </div>
+  <div class="pl-5">
+  <label class="pl-5 form_txt " for="birthday">To Date : </label>
+  <input class="picker form-control form_txt change" type="text" name="todate" readonly id="todate" style="display: inline;width: auto;">
+  </div>
+  </div>
+</form>
+</div>
+
+ <div class="row pt-3 pl-3" style="background-color: cadetblue;">
+<div class="col-md-6">
+<label class="form_txt">Acknowledgement Received Count :&nbsp</label><span id="delcount" th:text="${Deliverycount}">0</span>
+</div>
+<div class="col-md-6">
+<label class="form_txt">Acknowledgement Awaiting Count :&nbsp </label><span id="ooccount" th:text="${ooccount}">0</span>
+</div>
+</div> 
+<div id="maindiv" class="col-md-12">
+			<div align="center">
+				<p>
+					<!-- <strong >Query Queue</strong> -->
+				</p>
+			</div>
+
+			<table id="deliverytable" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+                    <th scope="col" style="text-align: center;">Delivery PO</th>
+                    <th scope="col" style="text-align: center;">Delivery Date</th>
+                    <th scope="col" style="text-align: center;">Delivery Status</th>
+                    <th scope="col" style="text-align: center;">Delivery Mode</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values: ${deliveryarticles}" class="" >
+					   <td></td>
+					   <td th:text="${deliveryarticle.cussite== null ? '-' : deliveryarticle.cussite}"></td>
+                       <td th:text="${deliveryarticle.item_id}"></td>
+                       <td th:text="${deliveryarticle.postingdt== null ? '-' : deliveryarticle.postingdt}"></td>
+                       <td th:text="${deliveryarticle.eadstatus}"></td>
+                       <td th:text="${deliveryarticle.mailclass== null ? '-' : deliveryarticle.mailclass}"></td>
+                       <td th:text="${deliveryarticle.oocdt== null ? '-' : deliveryarticle.oocdt}"></td>
+                       <td th:text="${deliveryarticle.deli_po}"></td>
+                       <td th:text="${deliveryarticle.deli_dt}"></td>
+                       <td th:text="${deliveryarticle.deli_status}"></td>
+                       <td th:text="${deliveryarticle.deli_mode}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</div>
+<script  th:inline="javascript" >
+ 
+ 
+ 
+ var fromdate=$("#reloadfromdate").val();
+ var todate=$("#reloadtodate").val();
+ 
+</script>
+<script  th:src="@{js/report/deliveryarticles.js}"></script>
+
+<script th:src="@{js/datatables.min.js}"></script>
+</body>
+</html>

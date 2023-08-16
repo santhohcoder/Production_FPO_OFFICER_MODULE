@@ -1,0 +1,1460 @@
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+	<link th:href="@{css/bootstrap1.min.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+	<script th:src="@{js/jquery.min.js}"></script>
+	<script th:src="@{js/popper.min.js}"></script>
+	<script th:src="@{js/bootstrap.min.js}"></script>
+	<link th:href="@{css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{js/font.js}"></script>
+	<link th:href="@{css/datatables.min.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{js/datatables.min.js}"></script>
+	<script th:src="@{js/datatables/dataTables.buttons.min.js}"></script>
+	<script th:src="@{js/datatables/jszip.min.js}"></script>
+	<script th:src="@{js/datatables/pdfmake.min.js}"></script>
+	<script th:src="@{js/datatables/vfs_fonts.js}"></script>
+	<script th:src="@{js/datatables/buttons.html5.min.js}"></script>
+	<script th:src="@{js/datatables/buttons.print.min.js}"></script>
+	<script th:src="@{js/moment.min.js}"></script>
+	<title>Articles Awaiting Arrival</title>
+	<style>
+	.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+	
+		.card-counter {
+			box-shadow: px px 5px #DADADA;
+			margin: 3px;
+			padding: 5px 3px;
+			background-color: #fff;
+			height: 50px;
+			border-radius: 3px;
+			transition: .3s linear all;
+		}
+
+		.card-counter:hover {
+			box-shadow: 2px 2px 10px #DADADA;
+			transition: .3s linear all;
+		}
+
+		.modal-dialog {
+			max-width: 850px;
+		}
+
+		.numradius1 {
+			border: 2px solid #4a4d5d;
+			background-color: #ff6565;
+			color: white;
+			font-size: 16px;
+			border-radius: 20px;
+			padding: 1px;
+		}
+
+		.gray_note {
+			background-color: #4b5c6a;
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 20px;
+		}
+
+		.gray_noteEQ {
+			background-color: #4b5c6a;
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 20px;
+		}
+
+		.gray_noteOOCQ {
+			background-color: #4b5c6a;
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 20px;
+		}
+
+		.gray_noteEDIQ {
+			background-color: #4b5c6a;
+			padding: 10px;
+			font-size: 16px;
+			border-radius: 20px;
+		}
+
+		.bordstyle {
+			border: 2px solid white;
+			background: dimgray;
+			border-radius: 15px;
+			padding: 2px;
+		}
+
+		.buttonstyle {
+			color: white;
+			font-size: 16px;
+			background: #4b5c6a;
+			padding: 5px;
+			border-radius: 12px;
+			border: 2px solid #4a4d5d;
+			border-left: solid #4a4d5d 2px;
+			border-top: solid #4a4d5d 2px;
+		}
+
+		.buttonstyles {
+			border: 2px solid white;
+			border-radius: 20px;
+			color: white;
+			font-size: 20px;
+		}
+
+		.green-border-focus .form-control:focus {
+			box-shadow: 0 0 0 0.1rem rgb(0, 128, 255);
+			min-width: 100%;
+			resize: none
+		}
+
+		.recordqryresp {
+			color: white;
+			background-color: #7aa4de;
+			border: 1px solid;
+		}
+
+		.bordstyle {
+			border: 2px solid white;
+			background: dimgray;
+			border-radius: 15px;
+			padding: 2px;
+		}
+
+		.tot_no1 {
+			font-size: 13px;
+			font-weight: 700;
+			color: red;
+		}
+
+		.col-md-12.queues {
+			position: relative;
+			width: 100%;
+			min-height: 1px;
+			padding-right: 0px;
+			padding-left: 0px;
+		}
+
+		.col-md-12.rcord-qry-resp {
+			position: relative;
+			width: 100%;
+			min-height: 1px;
+			padding-right: 0px;
+			padding-left: 0px;
+			top: 0px;
+		}
+
+		.card-counter.primary {
+			background-color: #007bff;
+			color: #FFF;
+		}
+
+		.card-counter.danger {
+			background-color: #ef5350;
+			color: #FFF;
+		}
+
+		.card-counter.success {
+			background-color: #66bb6a;
+			color: #FFF;
+		}
+
+		.card-counter.info {
+			background-color: #26c6da;
+			color: #FFF;
+		}
+
+		.card-counter i {
+			font-size: 5em;
+			opacity: 0.2;
+		}
+
+		.card-counter .count-numbers {
+			position: absolute;
+			top: 10px;
+			/* font-size: 32px;
+	right: 35px; */
+			text-align: center;
+		}
+
+		.card-counter .rcrdresp {
+			display: block;
+		}
+
+		.card-counter .rcrdresp:hover {
+			text-decoration: underline;
+		}
+
+		.card-counter .otherresp:hover {
+			text-decoration: underline;
+		}
+
+		.card-counter .count-name {
+			position: absolute;
+			right: 5px;
+			top: 5px;
+			font-style: italic;
+			text-transform: capitalize;
+			opacity: 0.5;
+			display: block;
+			font-size: 18px;
+		}
+
+		.table {
+			width: 100%;
+			margin-right: 20px;
+			margin-left: 20px;
+		}
+
+		.deptcmtsApr {
+			margin-right: 600px;
+			margin-left: 32px;
+		}
+
+		input.d-call-letter {
+			padding-left: 4px;
+			margin-left: -40px;
+			margin-top: -6px;
+			font-size: 15px;
+			font-weight: bold;
+			width: 230px;
+			border: 2px solid #212529;
+		}
+
+		input.date-value {
+			padding-left: 4px;
+			font-weight: bold;
+			margin-left: -16px;
+			margin-top: -6px;
+			width: 106px;
+			font-size: 15px;
+			border: 2px solid #212529;
+		}
+
+		.table-primary {
+			vertical-align: top;
+		}
+
+		#assement {
+			text-align: center;
+		}
+
+		tbody {
+			border-collapse: separate;
+			border-spacing: 0 1em;
+		}
+
+		table.dataTable tbody th,
+		table.dataTable tbody td {
+			padding: 0px 10px;
+		}
+
+		table th,
+		table td {
+			padding: 8px;
+		}
+
+		#sinid {
+			padding-left: 6px;
+			padding-right: 3px;
+		}
+
+		#aligntext {
+			text-indent: -60px;
+			margin-top: -30px;
+		}
+
+		a.nav-link {
+			font-weight: bold;
+			color: black;
+			text-transform: uppercase;
+			font-size: 20px;
+		}
+
+		.nav-pills .nav-link.active,
+		.nav-pills .show>.nav-link {
+			background: #0a3052;
+		}
+
+		.buttons-excel {
+			display: none;
+		}
+		
+        #overlay {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            z-index: 9999;
+            width: 100%;
+            background: rgba(255, 255, 255, .7);
+            height: 100%;
+        } 
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+	</style>
+
+<body style="background: #d6dcd9; overflow-x: hidden;">
+ <div id="overlay">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+    </div>
+
+	<input type="hidden" th:value="${cousetasideapr}" id="setasideapr" />
+	<input type="hidden" th:value="${cousetasideacl}" id="setasideacl" />
+	<input type=hidden id="sttime" th:value="${session.stime}">
+	<input type="hidden" th:value="${session.data2}" id="sitecode" />
+
+
+	<div
+		style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+		<div class="col-md-3" style="padding-left: 5px;">
+			<!-- <a href="dash"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button></a> -->
+		</div>
+		<div class="mt-4" align="center">
+			<h2>Postal Imports - Articles Awaiting Arrival (AAA)</h2>
+		</div>
+
+		<!-- <div class="row mt-5">
+			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<a href="ead_list">
+					<div class="card-counter success">
+						<i class="fa fa-database"></i> <span class="count-numbers">EAD</span>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-4">
+				<a href="import_roll">
+					<div class="card-counter info">
+						<i class="fa fa-users"></i> <span class="count-numbers">Imported
+							Articles</span>
+						<span
+						class="count-name">Users</span>
+					</div>
+				</a>
+			</div>
+			<div class="col-md-2"></div>
+		</div> -->
+		<!--  style="position: absolute; right: 80px;" -->
+
+		<!-- <div class="row">
+		<div style="margin-left: 10px;margin-top: 10px;">
+		<a class="btn btn-primary" href="dash">Back to dashboard</a></div>
+			<div class="spacebefore col-md-1"></div>
+
+			<div class=" sapceinside col-md-6">
+				<div class="card-counter info block" id="queryQueue">
+					<span
+						class="count-numbers rcrdresp "
+						style="font-size: 22px; text-align: right; text-indent: 0px; font-weight: normal;margin-left: 20px;">&nbsp;Record
+						Query Response / Complete Assessment</span>
+					
+				</div>
+			</div>
+			<div class="col-md-1 centerspace"></div>
+			<div class="otherqry col-md-2">
+				<div class="card-counter primary" id="otherqueues"
+					onclick="ShowHideDiv(this)">
+					 <span
+						class="count-numbers otherresp "
+						style="font-size: 18px; text-indent: 0px; text-align: center;margin-top :4px; margin-left: 18px" >Other
+						Queues</span>
+				</div>
+			</div>
+			<div class="spcforother col-md-0"></div>
+		</div> -->
+		
+		<ul class="nav nav-pills" role="tablist"
+			style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+			
+			<li class="nav-item" id="queryQueue" style="width: 50%;text-align: center;">
+				<a class="nav-link active show" data-toggle="pill" href="javascript:;">Record Query Response / Complete
+					Assessment</a>
+			</li>
+			
+			<li class="nav-item" id="otherqueues" onclick="ShowHideDiv(this)" style="width: 50%;text-align: center;">
+				<a class="nav-link" data-toggle="pill" href="javascript:;">Other Queues (View only)</a>
+			</li>
+			
+		</ul>
+
+		<div class="col-md-12 mt-1"></div>
+		
+		<div  th:if="${session.data1=='PAO'}" align=center class="row gray_note" style="margin-left: 2%; margin-right: 2%;">
+			<div align="left" class="col-md-6" style="color: white; font-size: 16px;">
+				<STRONG style="color: white;">TOTAL ARTICLES IN QUERY QUEUE FOR ALLOTTED MAIL CLASSES: <span class="numradius1" th:text="${coupqryltr+coupqryems+coupqrypar+coupqryemp}"></span>
+				</STRONG></font>
+			</div>
+			<div class="col-md-3"></div>
+			<!-- <div align="right" class="col-md-3">
+						<STRONG><span
+							style="color: white; font-size: 16px; ">PAO-QUEUE-</span><font color="yellow">NEW</font></span></STRONG>
+					</div> -->
+			<div class="col-md-12 mt-1"></div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 4%; color: white; background: beige; font-size: 16px;">
+				<button type="button" id="btn1" onclick="showview(1)" class="buttonstyle">
+					<STRONG> &nbsp;U - Letters : <span class="numradius1" th:text="${coupqryltr}"></span></strong>
+				</button>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<button type="button" id="btn2" onclick="showviewE(1)" class="buttonstyle">
+					<strong> &nbsp;E - EMS : <span class="numradius1" th:text="${coupqryems}"></span></strong>
+				</button>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<button type="button" id="btn3" onclick="showviewC(1)" class="buttonstyle">
+					<strong> &nbsp;C - Parcels : <span class="numradius1" th:text="${coupqrypar}"></span></strong>
+				</button>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<button type="button" id="btn4" onclick="showviewT(1)" class="buttonstyle">
+					<strong> &nbsp;T - Emp.Recp.: <span class="numradius1" th:text="${coupqryemp}"></span></strong>
+				</button>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<button type="button" id="btn1" onclick="showviewAll(1)" class="buttonstyle">
+					<STRONG>ALL : <span class="numradius1" th:text="${coupqryltr+coupqryems+coupqrypar+coupqryemp}"></span><!-- coupqry -->
+					</STRONG>
+				</button>
+			</div>
+		</div>
+		
+		
+		
+		<div  th:if="${session.data1=='PAC'}"  class="col-3 gray_note" >
+			<div align="left"  style="color: white; font-size: 16px;">
+				<STRONG style="color: white;">TOTAL ARTICLES IN QUERY QUEUE : <span class="numradius1" th:text="${QueryPendingViewaclcounts}"></span>
+				</STRONG>
+			</div>
+
+		</div>
+		
+
+		<div id="dvPassport" style="display: none">
+			<div class="col-md-12 queues" align="center">
+				<button type="button" class="btn btn-secondary" id="examQueue">
+					<strong>Examination Queue</strong>
+				</button>
+				<!-- <button type="button" class="btn btn-secondary" id="queryQueue">
+					<strong>Query Queue</strong>
+				</button> -->
+				<button type="button" class="btn btn-secondary" id="oocQueue">
+					<strong>OOC Queue</strong>
+				</button>
+				<button type="button" class="btn btn-secondary" id="ediQueue">
+					<strong>Commercial Imports Queue</strong>
+				</button>
+			</div>
+		</div>
+
+		<!-- EDI-queue -->
+		<div class="col-md-12 mt-1"></div>
+		<div align=center class="row gray_noteEDIQ" id="edicount"
+			style="margin-left: 2%; margin-right: 2%; margin-top: 4px; display: none">
+			<div align="left" class="col-md-6" style="color: white; font-size: 16px;">
+				<STRONG>TOTAL ARTICLES IN COMMERCIAL IMPORTS QUEUE: <span class="numradius1"
+						th:text="${coupediltr+coupediems+coupedipar+coupediemp}"></span>
+				</STRONG></font>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-12 mt-1"></div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 4%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<STRONG> &nbsp;U - Letters : <span class="numradius1" th:text="${coupediltr}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;E - EMS : <span class="numradius1" th:text="${coupediems}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;C - Parcels : <span class="numradius1" th:text="${coupedipar}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;T - Emp.Recp.: <span class="numradius1" th:text="${coupediemp}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<STRONG>ALL : <span class="numradius1" th:text="${coupediltr+coupediems+coupedipar+coupediemp}"></span><!-- coupedi -->
+					</STRONG>
+				</div>
+			</div>
+		</div>
+		<!--Examination queue -->
+		<div class="col-md-12 mt-1"></div>
+		<div align=center class="row gray_noteEQ" id="examcount"
+			style="margin-left: 2%; margin-right: 2%; display: none">
+			<div align="left" class="col-md-6" style="color: white; font-size: 16px;">
+				<STRONG>TOTAL ARTICLES IN EXAMINATION QUEUE: <span class="numradius1" th:text="${coupexmemp+coupexmpar+coupexmems+coupexmltr}"></span>
+				</STRONG></font>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-12 mt-1"></div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 4%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<STRONG> &nbsp;U - Letters : <span class="numradius1" th:text="${coupexmltr}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;E - EMS : <span class="numradius1" th:text="${coupexmems}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;C - Parcels : <span class="numradius1" th:text="${coupexmpar}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;T - Emp.Recp.: <span class="numradius1" th:text="${coupexmemp}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<STRONG>ALL : <span class="numradius1" th:text="${coupexmemp+coupexmpar+coupexmems+coupexmltr}"></span><!-- coupexm -->
+					</STRONG>
+				</div>
+			</div>
+		</div>
+		<!-- OOC Queue count -->
+		<div class="col-md-12 mt-1"></div>
+		<div align=center class="row gray_noteOOCQ" id="ooccount"
+			style="margin-left: 2%; margin-right: 2%; margin-top: -5px; display: none">
+			<div align="left" class="col-md-6" style="color: white; font-size: 16px;">
+				<STRONG>TOTAL ARTICLES IN OOC QUEUE: <span class="numradius1" th:text="${coupooc}"></span>
+				</STRONG></font>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-12 mt-1"></div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 4%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<STRONG> &nbsp;U - Letters : <span class="numradius1" th:text="${coupoocltr}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;E - EMS : <span class="numradius1" th:text="${coupoocems}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;C - Parcels : <span class="numradius1" th:text="${coupoocpar}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<strong> &nbsp;T - Emp.Recp.: <span class="numradius1" th:text="${coupoocemp}"></span></strong>
+				</div>
+			</div>
+			<div class="col-md-2 bordstyle" align="center"
+				style="margin-left: 2%; color: white; background: beige; font-size: 16px;">
+				<div class="buttonstyle">
+					<STRONG>ALL : <span class="numradius1" th:text="${coupooc}"></span>
+					</STRONG>
+				</div>
+			</div>
+		</div>
+		<div id="examQueueshow" style="display: none; margin-top: 30px;">
+			<div align="center">
+				<p id="aligntext">
+					<strong>Examination Queue</strong>
+				</p>
+			</div>
+			<!-- div class="col-md-12 row">
+				<div class="col-md-1">
+					<div class="Export-options">
+						<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag"
+							download=""></a>
+					</div>
+					<a onclick="pdfdownloadexam(this)" title="PDF">
+						<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i
+								class="fa fa-file-pdf-o"></i></button>
+					</a>
+				</div>
+				<div class="col-md-1">
+					<a onclick="exceldownloadexam(this)" title="EXCEL">
+						<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i
+								class="fa fa-file-excel-o"></i></button>
+					</a>
+				</div>
+			</div>  -->
+			
+			
+			
+<table class="table table-bordered mt-3 examasstTable" id="examassTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col">Sl.No.</th>
+						<th scope="col" width="10%">Article ID / Item ID</th>
+						<th scope="col" width="1%">Posting Dt</th>
+						<th scope="col" width="11%">CIN</th>
+						<th scope="col" width="10%">CIN Dt</th>
+						<th scope="col" width="1%">Mail Class</th>
+						<th scope="col" width="40%">Item Category</th>
+						<th scope="col" width="1%">COO</th>
+						<!--th scope="col" width="25%">Action</--!th-->
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${getExamPendingView}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="queryQueueshow">
+			<div th:if="${session.data1=='PAO'}" align="center" >
+				<p>
+					<strong>Query Queue for Allotted  Mail Class : <font color="black"><span th:text="${dispmailcat}"></span></strong>
+				</p>
+			</div>
+
+			<!--  div class="col-md-12 row">
+				<div class="col-md-1">
+					<div class="Export-options">
+						<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag"
+							download=""></a>
+					</div>
+					<a onclick="pdfdownloadQryqueue(this)" title="PDF">
+						<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i
+								class="fa fa-file-pdf-o"></i></button>
+					</a>
+				</div>
+				<div class="col-md-1">
+					<a onclick="exceldownloadQryqueue(this)" title="EXCEL">
+						<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i
+								class="fa fa-file-excel-o"></i></button>
+					</a>
+				</div>
+			</div> -->
+	   <table id="pentableacl" th:if="${session.data1=='PAC'}" class="table table-bordered qryasstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+						<th scope="col">Article ID / Item ID</th>
+						<th scope="col">Posting Dt</th>
+						<th scope="col">CIN</th>
+						<th scope="col">CIN Dt</th>
+						<th scope="col">Mail Class</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">COO</th>
+						<th scope="col">D-Call Letter Delivery Status</th>
+						<th scope="col">Reply Pending days</th>
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${getQueryPendingViewacl}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+						<td th:text="${s1[9]}"></td>
+						<td th:text="${s1[10]}"></td>
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qryntrecd" onclick="pendingquery(this);"
+									th:id="${s1[0]}" data-target="#pendingpopup" style="padding: 0px"
+									th:text="${s1[8]}"></button>
+
+							</i></td>
+					</tr>
+				</tbody>
+			</table>		
+    <table id="pentable" th:if="${session.data1=='PAO'}" class="table table-bordered qryasstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+						<th scope="col">Article ID / Item ID</th>
+						<th scope="col">Posting Dt</th>
+						<th scope="col">CIN</th>
+						<th scope="col">CIN Dt</th>
+						<th scope="col">Mail Class</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">COO</th>
+						<th scope="col">D-Call Letter Delivery Status</th>
+						<th scope="col">Reply Pending days</th>
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${getQueryPendingView}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+						<td th:text="${s1[9]}"></td>
+						<td th:text="${s1[10]}"></td>
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qryntrecd" onclick="pendingquery(this);"
+									th:id="${s1[0]}" data-target="#pendingpopup" style="padding: 0px"
+									th:text="${s1[8]}"></button>
+
+							</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- Count of total article in query queue -->
+		<div id="categoryofU" th:if="${session.data1=='PAO'}" style="display: none">
+			<div align="center">
+				<p>
+					<strong>Query Queue - Letters</strong>
+				</p>
+			</div>
+
+			<table class="table table-bordered mt-3 asstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+						<th scope="col">Article ID / Item ID</th>
+						<th scope="col">Posting Dt</th>
+						<th scope="col">CIN</th>
+						<th scope="col">CIN Dt</th>
+						<th scope="col">Mail Class</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">COO</th>
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${coupltrview}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qryntrecd" onclick="pendingquery(this);"
+									th:id="${s1[0]}" data-target="#pendingpopup" style="padding: 0px"
+									th:text="${s1[8]}"></button>
+							</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="categoryofE" th:if="${session.data1=='PAO'}" style="display: none">
+			<div align="center">
+				<p>
+					<strong>Query Queue - EMS</strong>
+				</p>
+			</div>
+
+			<table class="table table-bordered mt-3 asstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+						<th scope="col">Article ID / Item ID</th>
+						<th scope="col">Posting Dt</th>
+						<th scope="col">CIN</th>
+						<th scope="col">CIN Dt</th>
+						<th scope="col">Mail Class</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">COO</th>
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${coupemsview}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qryntrecd" onclick="(this);"
+									th:id="${s1[0]}" data-target="#pendingpopup" style="padding: 0px"
+									th:text="${s1[8]}"></button>
+							</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="categoryofC" th:if="${session.data1=='PAO'}" style="display: none">
+			<div align="center">
+				<p>
+					<strong>Query Queue - Parcels</strong>
+				</p>
+			</div>
+
+			<table class="table table-bordered mt-3 asstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+						<th scope="col">Article ID / Item ID</th>
+						<th scope="col">Posting Dt</th>
+						<th scope="col">CIN</th>
+						<th scope="col">CIN Dt</th>
+						<th scope="col">Mail Class</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">COO</th>
+						<th scope="col">Action</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${coupparview}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qryntrecd" onclick="pendingquery(this);"
+									th:id="${s1[0]}" data-target="#pendingpopup" style="padding: 0px"
+									th:text="${s1[8]}"></button>
+							</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="categoryofT" th:if="${session.data1=='PAO'}" style="display: none">
+			<div align="center">
+				<p>
+					<strong>Query Queue - Empty Receptacles</strong>
+				</p>
+			</div>
+
+			<table class="table table-bordered mt-3 asstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col" id="sinid">Sl.No.</th>
+						<th scope="col">Article ID / Item ID</th>
+						<th scope="col">Posting Dt</th>
+						<th scope="col">CIN</th>
+						<th scope="col">CIN Dt</th>
+						<th scope="col">Mail Class</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">COO</th>
+						<th scope="col">Action</th>
+
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${coupempview}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+
+						<td align="center" id="changebtn"><i aria-hidden="true">
+								<button type="button" class="btn btn-success qryntrecd" onclick="pendingquery(this);"
+									th:id="${s1[0]}" data-target="#pendingpopup" style="padding: 0px"
+									th:text="${s1[8]}"></button>
+							</i></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- <div id="hideset" class="row mt-1" th:if="${session.data1=='PAO' || session.data1=='PAC' }">
+			div class="col-md-2" >
+				<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1%; margin-right: 1%;"
+					align="left" id="show-aside-menu">Set aside List</button>
+			</div
+			<div class="col-md-9" th:if="${session.data1=='PAO'}">
+				<button type="button" class="btn btn-danger btn-sm" style="margin-left: 1%; margin-right: 1%;"
+					align="center" id="show-hidden-menu">Returned by AC</button>
+			</div>
+		</div> -->
+		
+		
+		<div class="row mt-2"></div>
+		<div class="aside-menu" style="display: none;">
+			<div align=center class="row gray_note" style="margin-left: 1%; margin-right: 1%;">
+				<div align="left" class="col-md-8" style="color: yellow;">
+					TOTAL ARTICLES IN THE SET ASIDE LIST: <span class="numradius3" th:text="${cousetasideapr}"></span>
+					</font>
+				</div>
+
+				<div align="right" class="col-md-4">
+					<span style="color: white; ">PAO-QUEUE-</span>
+					<font color="yellow">REMOVE SET ASIDE</font></span>
+				</div>
+			</div>
+			<div class="row mt-2"></div>
+			<div id="asideaprview" style="display: none;">
+				<table id="asideapr" class="table table-bordered mt-3 asstTable"
+					style="font-size: 14px; text-align: center;">
+					<thead style="background-color: #a1c4e6;">
+						<tr style="background-color: #a1c4e6;">
+							<th scope="col" width="1%">No</th>
+
+							<th scope="col">Article ID / Item ID</th>
+							<th scope="col">Posting Dt</th>
+							<th scope="col">CIN</th>
+							<th scope="col">CIN Dt</th>
+							<th scope="col">Mail Class</th>
+							<th scope="col">Item Category</th>
+							<th scope="col">COO</th>
+							<th scope="col">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr valign="middle" class="rowDis" th:each="s1,iter : ${setasideaprview}">
+							<td width="1%" style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+							<td width="10%" th:text="${s1[1]}"></td>
+							<td width="1%" th:text="${s1[3]}"></td>
+							<td width="11%" th:text="${s1[0]}"></td>
+							<td th:text="${s1[2]}">5648912</td>
+							<td width="10%" th:text="${s1[4]}"></td>
+
+							<td width="1%" th:text="${s1[5]}"></td>
+							<td width="40%" th:text="${s1[6]}"></td>
+							<!--td width="1%" th:text="${s1[4]}"></--!td-->
+							<td width="25%" align="center"><i aria-hidden="true" th:id="${s1[0]}"
+									onclick="pushead(this);">
+									<button th:id="${iter.index+1}" type="button" disabled class="btnDis rowDis"
+										style="padding: 0px;">REMOVE SET ASIDE</button>
+								</i></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+
+
+
+		<!-- Record Query Responce -->
+
+		<div id="pendingpopup" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="col-md-12 rcord-qry-resp">
+						<div class="modal-body recordqryresp" align="left">
+							<h2>Record Query Response</h2>
+						</div>
+						<hr>
+						<div class="row">
+							<form>
+								<div class="form-group row" align="left">
+									<label for="inputEmail3" class="col-md-6 font-weight-bold "
+										style="text-indent: 25px; color: blue;"> D.Call Letter
+										No:</label>
+									<div class="col-md-6" align="center">
+										<input type="text" class="form-control d-call-letter" id="query_din"
+											style="text-align: center;" readonly>
+									</div>
+								</div>
+							</form>
+
+							<form>
+								<div class="form-group row" align="right">
+									<label for="inputEmail1" class="col-md-8 font-weight-bold "
+										style="text-indent: 300px; color: blue;"> Date:</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control date-value" id="qry_date"
+											style="text-align: center;" readonly>
+									</div>
+								</div>
+							</form>
+
+							<table id="table2" class="table" border="2">
+								<thead class="table-primary">
+									<tr id="columns">
+										<th scope="col" style="width: 1%; text-align: center;">Item</th>
+										<th scope="col" style="width: 30%; text-align: center;">Description</th>
+										<th scope="col" style="width: 33%; text-align: center;">Query</th>
+										<th scope="col" style="width: 36%; text-align: center;">Record
+											Response</th>
+
+									</tr>
+								</thead>
+								<tbody id="penaltyId">
+									<tr>
+
+										<td align="center" class=" font-weight-bold " id="item_id"></td>
+
+
+										<td align="center" class=" font-weight-bold " id="item_Desc"></td>
+
+
+										<td align="center" class=" font-weight-bold " id="item_qry"></td>
+
+
+										<td class=" green-border-focus" colspan="2" align="left">
+											<!-- <textarea
+												class="form-control font-weight-normal" name="address"
+												rows="1" id="Recrdresp" placeholder="Enter response" ></textarea> -->
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+							<br>
+							<table class="table" id="tb2" border="2">
+								<thead class="table-primary">
+									<tr align="center">
+										<th style="width: 9%; text-align: center;">Default Query</th>
+
+										<th style="width: 10%; text-align: center;">Record
+											Response</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+
+										<td class=" font-weight-bold " style="text-align: justify;" id="Def_qury"><br>
+										</td>
+										<td class=" green-border-focus" colspan="2" align="left"><textarea
+												class="form-control font-weight-normal" name="address" rows="3"
+												id="defQrey" placeholder="Enter response"></textarea></td>
+								</tbody>
+							</table>
+
+							<div class="form-group mb-3 " id="deptcmtsApr">
+								<br> <label class="lab_txt font-weight-bold"
+									style="text-indent: 22px; color: blue;">Department
+									Comments : </label>
+								<textarea class="form-control deptcmtsApr font-weight-normal" id="dpcments"
+									placeholder="Enter your Remarks..." rows="5"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+
+						<p class="col-md-8">
+							<span style="color: blue; font-weight: bold">Note :</span><strong>
+								Please provide remarks in department comments box.</strong>
+						</p>
+
+						<button class="btn btn-secondary col-md-2" id="closepopup">Close</button>
+
+						<button class=" submit btn btn-primary col-md-2" id="pnext"
+							data-target="#asspop">Submit</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Ass popup -->
+
+		<div class="modal fade" id="asspop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<!-- <h5 class="modal-title" id="exampleModalLabel">Assement
+							Done/Not-Done</h5> -->
+						<!-- <button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button> -->
+					</div>
+					<div class="modal-body">
+						<h4 id="assement"></h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="assbtn" class="btn btn-success">Ok</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- OOC Queue -->
+
+		<div id="oocQueueshow" style="display: none;margin-top: 30px">
+			<div align="center">
+				<p id="aligntext">
+					<strong id="aligntext">OOC Queue</strong>
+				</p>
+			</div>
+			<!-- div class="col-md-12 row">
+				<div class="col-md-1">
+					<div class="Export-options">
+						<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag"
+							download=""></a>
+					</div>
+					<a onclick="pdfdownloadOOC(this)" title="PDF">
+						<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i
+								class="fa fa-file-pdf-o"></i></button>
+					</a>
+				</div>
+				<div class="col-md-1">
+					<a onclick="exceldownloadOOC(this)" title="EXCEL">
+						<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i
+								class="fa fa-file-excel-o"></i></button>
+					</a>
+				</div>
+			</div>  -->
+    <table class="table table-bordered mt-3 OOCasstTable" id="oocastTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col">Sl.No.</th>
+						<th scope="col" width="10%">Article ID / Item ID</th>
+						<th scope="col" width="1%">Posting Dt</th>
+						<th scope="col" width="11%">CIN</th>
+						<th scope="col" width="10%">CIN Dt</th>
+						<th scope="col" width="1%">Mail Class</th>
+						<th scope="col" width="40%">Item Category</th>
+						<th scope="col" width="1%">COO</th>
+						<!--th scope="col" width="25%">Action</--!th-->
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${getOOCPendingView}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="ediQueueshow" style="display: none; margin-top: 30px">
+			<div align="center">
+				<p id="aligntext">
+					<strong id="aligntext">Commercial Imports Queue</strong>
+				</p>
+			</div>
+			<!--  div class="col-md-12 row">
+				<div class="col-md-1">
+					<div class="Export-options">
+						<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag"
+							download=""></a>
+					</div>
+					<a onclick="pdfdownloadEDI(this)" title="PDF">
+						<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i
+								class="fa fa-file-pdf-o"></i></button>
+					</a>
+				</div>
+				<div class="col-md-1">
+					<a onclick="exceldownloadEDI(this)" title="EXCEL">
+						<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i
+								class="fa fa-file-excel-o"></i></button>
+					</a>
+				</div>
+			</div> -->
+    <table class="table table-bordered mt-3 EDIasstTable" id="ediasstTable" style="font-size: 16px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col">Sl.No.</th>
+						<th scope="col" width="10%">Article ID / Item ID</th>
+						<th scope="col" width="1%">Posting Dt</th>
+						<th scope="col" width="11%">CIN</th>
+						<th scope="col" width="10%">CIN Dt</th>
+						<th scope="col" width="1%">Mail Class</th>
+						<th scope="col" width="40%">Item Category</th>
+						<th scope="col" width="1%">COO</th>
+						<!--th scope="col" width="25%">Action</--!th-->
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${getEDIPendingView}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[1]}">464654654</td>
+						<td th:text="${s1[3]}">464654654</td>
+						<td th:text="${s1[0]}">5648912</td>
+						<td th:text="${s1[2]}">5648912</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td th:text="${s1[5]}">01.01.2020</td>
+						<td th:text="${s1[6]}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<Modal>
+	     <div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+</Modal>
+</body>
+<div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;" data-backdrop="static"
+	data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document" style="width: auto;height: auto;max-width: 90%;">
+		<div class="modal-content">
+			<div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+				<h5 class="modal-title" style="font-weight: bold;">QUERY REPLY</h5>
+				<button type="button" class="close" data-dismiss="modal" onclick="removeContent()" aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+			</div>
+			<div class="modal-body" id="qryreplycontent" style="background: #b8daff;">
+			</div>
+		</div>
+	</div>
+</div>
+<div id="logout" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+		<div class="modal-content">
+			<div class="modal-body" align="center">
+				<h4>
+					<font color="black">Are you sure to logout
+				</h4>
+			</div>
+			<div class="modal-footer">
+				<div class="row mt-1"></div>
+				<div class="col-md-6" align="left">
+					<button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button>
+				</div>
+				<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success" style="background-color:green"
+						onclick="logconfirm();">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="js/process_ead.js"></script>
+<script th:src="@{js/sweetalert.min.js}"></script>
+<script src="js/header.js"></script>
+<script language="JavaScript">
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    
+    
+    
+    
+ //$(document).ready(function() {
+ /*$(".asstTable").dataTable({
+		"processing": true,
+		"paging": false,
+		"ordering": false,
+		destroy: true,
+		//"dom": 'Bfrtip',
+		//buttons: ['excel', 'pdf', 'print']
+		"dom": '<"pull-left"Bl>frtip',
+		buttons: [{extend: "csv", text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:' Query Queue ',
+					message:'  Query Queue @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+					}},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					//watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				    orientation: 'landscape',
+				    
+		   		    customize: function(doc, header) {
+		   		    // doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+		   		    doc.content[1].table.widths = ['5%','11%','12%','12%','12%','12%','12%','12%','12%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},],});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 5
+					doc.styles.tableHeader.bold=true;
+					console.log(sitecode);
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Query Queue @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:'Query Queue ',
+
+     },
+			//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:' Query Queue @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Query Queue ',
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+		
+		
+		
+		
+	}); */
+    
+    
+
+//});
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</script>
+</html>

@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<body>
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+<h3 style ="font-size: 19px; margin-left: 1%;">Dashboard> User Management> Current National System Administrator> PLA History</h3>
+<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR</h3>
+<h4 style="text-align: center; margin-top: 3%; font-family: times new roman;background: deepskyblue;">PLA (Local System Administrator) History</h4>
+
+<div class="form-group row" style=" margin-top: 1% ;justify-content: center;padding-right: 8%;">
+				<label class="control-label col-sm-1" for="SiteCode" style="font-weight: 600;text-align: end;">PLA at FPO Site<span style="color:red">*</span>:</label>
+				<div class="col-sm-2 dropdown" >
+					<select class="form-control country" id="selsite">
+							<option>--Select Site History--</option>
+							<option>All Sites</option>
+						<div th:each="sitename,iter : ${getLsmsiteHstry}">
+							<option th:value="${sitename[0]}" th:text="${sitename[1]}" ></option>
+						</div>
+						</select>
+				</div>
+			</div> 
+<br>
+<div id="Lsmsitehstry"  
+		style="margin-top: 12px; padding-left: 4%; padding-right: 4%; display: none">
+		<table id="hstrytable"
+			class="table table-bordered table-sm"
+			style="font-size: 14px; text-align: center">
+			<thead>
+				<tr style="background-color: #63cfe0">
+				<th scope="col">SI.NO</th>
+				<th scope="col">SITE CODE</th>
+					<th scope="col">FPO Site NAME</th>
+					<th scope="col">PLA SSOID</th>
+					<th scope="col">PLA NAME</th> 
+					<th scope="col">PNA SSOID-ASSIGNED</th>
+					<th scope="col">PNA NAME-ASSIGNED</th>
+					<th scope="col">ASSIGN DATE</th>
+					<th scope="col">PNA SSOID-REVOKED</th>
+					<th scope="col">PNA NAME-REVOKED </th>
+					<th scope="col">REVOKED DATE</th>
+					</tr>
+			</thead>
+			<tbody id="viewhstrysts" style="font-weight: 500;">
+			</tbody>
+		</table> 
+	</div>
+
+	<div id="allsitehstry" style="margin-top: 12px; padding-left: 5%; padding-right: 5%; display: none">
+		<table id="datatable" class="table table-bordered table-sm"
+			style="font-size: 14px; text-align: center;">
+			<thead>
+				<tr style="background-color: #63cfe0">
+				    <th scope="col">SI.No</th>
+					<th scope="col">DATE</th>
+					<th scope="col">STATUS</th>
+					<th scope="col">REASON</th>
+					<th scope="col">OFF-ID</th>
+					<th scope="col">OFF-NAME</th>
+				</tr>
+			</thead>
+			<tbody id="viewstshstry">
+			</tbody>
+		</table>
+	</div>
+</body>
+<script src="js/LsmSiteHstry.js"></script>
+<script src="js/header.js"></script>
+<script>
+ function goback() {
+     window.location = "current_lsm";
+     
+     }   
+     </script>  
+</html>
+<script>
+
+</script>

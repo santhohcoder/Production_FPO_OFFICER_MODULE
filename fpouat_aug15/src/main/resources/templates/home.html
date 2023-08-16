@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+	.dashboard {
+		background-color: #fff;
+		max-width: 95%;
+		min-height: 85vh;
+		border-radius: 10px;
+		box-shadow: 5px 6px 7px grey;
+
+	}
+	
+	/* .bordstyles {
+		border: 2px solid white;
+		background: gray;
+		border-radius: 15px;
+		font-weight: bold;
+		padding: 2px;
+		color: yellow;
+	} */
+	
+	.bordstyle {
+		/* border: 2px solid white; */
+		background: #dddbdb;
+		border-radius: 8px;
+		font-weight: bold;
+		font-size: 20px;
+		padding: 0px;
+		color: white;
+		/*margin-left: 20%;
+	margin-right: 20%;*/
+	}
+	
+	 p{
+				margin:0
+       }
+       #item_id{
+               padding:3px;
+       }
+       
+       .disp {
+		font-size: 20px;
+		color: darkyellow;
+		font-weight: bold;
+		background: #7394b1;
+		animation: blink 1s linear infinite;
+	}
+       
+       	.blink {
+		background-color: gray;
+		font-weight: bold;
+		text-align: center;
+		border-radius: 5px;
+	}
+	
+		@keyframes blink {
+		0% {
+			opacity: 0;
+		}
+
+		50% {
+			opacity: .5;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+	
+	    h1, h2, h3, h4, h5, h6, p{
+  color: #fff;
+}
+
+a{
+  text-decoration: none;
+}
+
+/* GRID */
+
+.grid { padding: 25px 25px 20px 25px; }
+
+.four { 
+  width: 32.26%; 
+}
+
+/* COLUMNS */
+
+.col {
+  display: block;
+  float:left;
+  margin: 1% 0 1% 1.6%;
+}
+
+.col:first-of-type { margin-left: 0; }
+
+/* CLEARFIX */
+
+.cf:before,
+.cf:after {
+    content: " ";
+    display: table; 
+}
+
+.cf:after { clear: both; }
+.cf { *zoom: 1;margin-bottom:15px; }
+
+/* GENERAL STYLES FOR BOX AND CommonSide */
+
+.box {
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  width: 100%;
+  height: 110px;
+  overflow: hidden;
+  background-color: #badfe3;
+  text-align: center;
+  position: relative;
+  border-radius: 10px;
+}
+
+.CommonSide{
+   width: 100%;
+  height:100%; 
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* SLIDE IN */
+
+.slide-in1 .CommonSide1{
+  background-color: rgb(225 85 99);
+  color: #fff;
+  transform: translateX(-100%);
+  -webkit-transition: transform 0.5s ease-out;
+  -o-transition: transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+}
+
+.slide-in2 .CommonSide2{
+  background-color: rgb(13 175 121);
+  color: #fff;
+  transform: translateX(-100%);
+  -webkit-transition: transform 0.5s ease-out;
+  -o-transition: transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+}
+
+.slide-in3 .CommonSide3{
+  background-color: rgb(207 123 82);
+  color: #fff;
+  transform: translateX(-100%);
+  -webkit-transition: transform 0.5s ease-out;
+  -o-transition: transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+}
+
+.slide-in4 .CommonSide4{
+  background-image: linear-gradient(to left, rgb(43 149 221), rgb(53,152,231));
+  color: #fff;
+  transform: translateX(-100%);
+  -webkit-transition: transform 0.5s ease-out;
+  -o-transition: transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+}
+
+.slide-in5 .CommonSide5{
+  background-image: linear-gradient(to left, rgb(75 147 167), rgb(27, 187,213));
+  color: #fff;
+  transform: translateX(-100%);
+  -webkit-transition: transform 0.5s ease-out;
+  -o-transition: transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
+}
+
+.slide-in .box:hover .CommonSide{
+  transform: translateX(0);
+}
+
+	.btn-right {
+	 background: none;
+	 border: 0;
+	 font-size: 22px;
+	 line-height: 2em;
+	 position: relative;
+	 width: 15em;
+	 height: 2em;
+	 bottom: 21px;
+}
+ .btn-right a {
+	 color: #fff;
+	 text-decoration: none;
+	 position: relative;
+	 z-index: 10;
+	 top: 16px;
+}
+ .btn-right::before, .btn-right::after {
+	 background-image:linear-gradient(to left, rgb(231 152 160),rgb(213,94,121));
+	 /* border-radius: 2px; */
+	 content: '';
+	 display: block;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 top: 42px;
+	 transition: all 1s;
+	 height: 1em;
+}
+ .btn-right::before {
+	/*  box-shadow: -1px 1px 0 #1897c0, -2px 2px 0 #1897c0, -3px 3px 0 #1897c0, -4px 4px 0 #1897c0; */
+	 transform: skew(45deg);
+	 top: 0;
+	 padding: 21px;
+}
+ .btn-right::after {
+	 /* box-shadow: 1px 1px 0 #1897c0, 2px 2px 0 #1897c0, 3px 3px 0 #1897c0, 4px 4px 0 #1897c0; */
+	 transform: skew(-45deg);
+	 bottom: 0;
+	 padding: 21px;
+}
+ .btn-right:hover::before, .btn-right:hover::after {
+	 background-image:linear-gradient(to left, rgb(231 152 160),rgb(213,94,121));
+}
+ .btn-right:focus {
+	 outline: 0;
+}
+ .btn-right:focus::before, .btn-right:focus::after {
+	 background-image:linear-gradient(to left, rgb(231 152 160),rgb(213,94,121));
+}
+
+
+button:focus{
+outline:none;
+}
+
+
+	.btn-right2 {
+	 background: none;
+	 border: 0;
+	 font-size: 22px;
+	 line-height: 2em;
+	 position: relative;
+	 width: 15em;
+	 height: 2em;
+	 bottom: 21px;
+}
+ .btn-right2 a {
+	 color: #fff;
+	 text-decoration: none;
+	 position: relative;
+	 z-index: 10;
+	 top: 16px;
+}
+ .btn-right2::before, .btn-right2::after {
+	 background-image: linear-gradient(to left, rgb(126 201 176), rgb(121,187,166));
+	 /* border-radius: 2px; */
+	 content: '';
+	 display: block;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 top: 42px;
+	 transition: all 1s;
+	 height: 1em;
+}
+ .btn-right2::before {
+	 /* box-shadow: -1px 1px 0 #1897c0, -2px 2px 0 #1897c0, -3px 3px 0 #1897c0, -4px 4px 0 #1897c0; */
+	 transform: skew(45deg);
+	 top: 0;
+	 padding: 21px;
+}
+ .btn-right2::after {
+	 /* box-shadow: 1px 1px 0 #1897c0, 2px 2px 0 #1897c0, 3px 3px 0 #1897c0, 4px 4px 0 #1897c0; */
+	 transform: skew(-45deg);
+	 bottom: 0;
+	 padding: 21px;
+}
+ .btn-right2:hover::before, .btn-right2:hover::after {
+	 background-image: linear-gradient(to left, rgb(126 201 176), rgb(121,187,166));
+}
+ .btn-right2:focus {
+	 outline: 0;
+}
+ .btn-right2:focus::before, .btn-right2:focus::after {
+	 background-image: linear-gradient(to left, rgb(126 201 176), rgb(121,187,166));
+}
+
+	.btn-right3 {
+	 background: none;
+	 border: 0;
+	 font-size: 22px;
+	 line-height: 2em;
+	 position: relative;
+	 width: 15em;
+	 height: 2em;
+	 bottom: 21px;
+}
+ .btn-right3 a {
+	 color: #fff;
+	 text-decoration: none;
+	 position: relative;
+	 z-index: 10;
+	 top: 16px;
+}
+ .btn-right3::before, .btn-right3::after {
+	 background-image: linear-gradient(to left, rgb(142 196 233), rgb(53,152,231));
+	 /* border-radius: 2px; */
+	 content: '';
+	 display: block;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 top: 42px;
+	 transition: all 1s;
+	 height: 1em;
+}
+ .btn-right3::before {
+	 /* box-shadow: -1px 1px 0 #1897c0, -2px 2px 0 #1897c0, -3px 3px 0 #1897c0, -4px 4px 0 #1897c0; */
+	 transform: skew(45deg);
+	 top: 0;
+	 padding: 21px;
+}
+ .btn-right3::after {
+	 /* box-shadow: 1px 1px 0 #1897c0, 2px 2px 0 #1897c0, 3px 3px 0 #1897c0, 4px 4px 0 #1897c0; */
+	 transform: skew(-45deg);
+	 bottom: 0;
+	 padding: 21px;
+}
+ .btn-right3:hover::before, .btn-right3:hover::after {
+	 background-image: linear-gradient(to left, rgb(142 196 233), rgb(53,152,231));
+}
+ .btn-right:focus {
+	 outline: 0;
+}
+ .btn-right3:focus::before, .btn-right3:focus::after {
+	 background-image: linear-gradient(to left, rgb(142 196 233), rgb(53,152,231));
+}
+
+	.btn-right4 {
+	 background: none;
+	 border: 0;
+	 font-size: 22px;
+	 line-height: 2em;
+	 position: relative;
+	 width: 15em;
+	 height: 2em;
+	 bottom: 21px;
+}
+ .btn-right4 a {
+	 color: #fff;
+	 text-decoration: none;
+	 position: relative;
+	 z-index: 10;
+	 top: 16px;
+}
+ .btn-right4::before, .btn-right4::after {
+	 background-image: linear-gradient(to left, rgb(225 173 148), rgb(223,150,115));
+	 /* border-radius: 2px; */
+	 content: '';
+	 display: block;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 top: 42px;
+	 transition: all 1s;
+	 height: 1em;
+}
+ .btn-right4::before {
+	 /* box-shadow: -1px 1px 0 #1897c0, -2px 2px 0 #1897c0, -3px 3px 0 #1897c0, -4px 4px 0 #1897c0; */
+	 transform: skew(45deg);
+	 top: 0;
+	 padding: 21px;
+}
+ .btn-right4::after {
+	 /* box-shadow: 1px 1px 0 #1897c0, 2px 2px 0 #1897c0, 3px 3px 0 #1897c0, 4px 4px 0 #1897c0; */
+	 transform: skew(-45deg);
+	 bottom: 0;
+	 padding: 21px;
+}
+ .btn-right4:hover::before, .btn-right4:hover::after {
+	 background-image: linear-gradient(to left, rgb(225 173 148), rgb(223,150,115));
+}
+ .btn-right4:focus {
+	 outline: 0;
+}
+ .btn-right4:focus::before, .btn-right4:focus::after {
+	 background-image: linear-gradient(to left, rgb(225 173 148), rgb(223,150,115));
+}
+
+	.btn-right5 {
+	 background: none;
+	 border: 0;
+	 font-size: 22px;
+	 line-height: 2em;
+	 position: relative;
+	 width: 15em;
+	 height: 2em;
+	 bottom: 21px;
+}
+ .btn-right5 a {
+	 color: #fff;
+	 text-decoration: none;
+	 position: relative;
+	 z-index: 10;
+	 top: 16px;
+}
+ .btn-right5::before, .btn-right5::after {
+	 background-image: linear-gradient(to left, rgb(124 201 223), rgb(27, 187,213));
+	 /* border-radius: 2px; */
+	 content: '';
+	 display: block;
+	 position: absolute;
+	 left: 0;
+	 right: 0;
+	 top: 42px;
+	 transition: all 1s;
+	 height: 1em;
+}
+ .btn-right5::before {
+/* 	 box-shadow: -1px 1px 0 #1897c0, -2px 2px 0 #1897c0, -3px 3px 0 #1897c0, -4px 4px 0 #1897c0; */
+	 transform: skew(45deg);
+	 top: 0;
+	 padding: 21px;
+}
+ .btn-right5::after {
+	 /* box-shadow: 1px 1px 0 #1897c0, 2px 2px 0 #1897c0, 3px 3px 0 #1897c0, 4px 4px 0 #1897c0; */
+	 transform: skew(-45deg);
+	 bottom: 0;
+	 padding: 21px;
+}
+ .btn-right5:hover::before, .btn-right5:hover::after {
+	 background-image: linear-gradient(to left, rgb(124 201 223), rgb(27, 187,213));
+}
+ .btn-right:focus {
+	 outline: 0;
+}
+ .btn-right5:focus::before, .btn-right5:focus::after {
+	 background-image: linear-gradient(to left, rgb(124 201 223), rgb(27, 187,213));
+}
+
+ @keyframes zoom {
+	 25% {
+		 transform: scale3d(1.5, 1.5, 0);
+	}
+	 50% {
+		 transform: scale3d(1, 1, 0);
+	}
+	 75% {
+		 transform: scale3d(1.25, 1.25, 0);
+	}
+}
+ @keyframes spin {
+	 100% {
+		 transform: rotate(360deg);
+	}
+}
+
+.col-2, .col-3, .col-4, .col-8{
+	padding-left:3px;
+	padding-right:3px;	
+}
+
+.commonCss{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+.card-2 {
+    background-image: linear-gradient(to left, rgb(126 201 176), rgb(121,187,166));
+}
+
+.card-3 {
+    background-image: linear-gradient(to left, rgb(142 196 233), rgb(53,152,231));
+}
+
+.card-4 {
+    background-image: linear-gradient(to left, rgb(225 173 148), rgb(223,150,115));
+}
+
+.card-5 {
+    background-image: linear-gradient(to left, rgb(124 201 223), rgb(27, 187,213));
+}
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+
+.modal-dialog{
+max-width: 70%;
+}
+
+</style>
+<body>
+<input type="hidden" name="checkThresholdValue" id="checkThresholdValue" th:value="${checkThreshold}">
+ <div class="container dashboard">
+ <div id="overlay" style="display: block;">
+ <div id="loader">
+ <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+ </div></div> 
+	    <div class="row"  align="center">
+			<div class="col-md-1"></div>
+			
+			<div class="col-md-10 mt-1">
+				<div>
+					<h2 style="color:#000">HOME PAGE - FPO IMPORT APPLICATION</h2>
+				</div>
+				
+				
+				<div class="row bordstyle" style="text-align: center;">
+					
+						<div class="col-md-3" align="center" style="padding: 6px; display:flex;">
+							<input type="text" id="item_Id" onkeyup="validateAndAddCharacters()" class="form-control form_txt" style="font-weight: bold"
+								maxlength="13" placeholder="ENTER Article / Item - ID">
+							<div align="center" valign="middle" style="padding: 10px;">
+								<span style="font-size: 20px;">&#8629;</span>
+							</div>
+						</div>
+	
+						<div class="col-md-9 blink" align="center" style="padding: 9px;">
+							<input type="text" id="dispval" class="form-control form_txt disp"
+								style="font-weight: bold; background: #7394b1; color: rgb(255, 255, 255)"
+								value="TO VIEW STATUS/QUEUE" readonly>
+						</div>
+				</div>
+			</div>
+			<div class="col-md-1 mt-2" style="text-align:end;position:relative; left:-14px" >
+				<button type="button" id = "btn_complaint" class="btn btn-primary" data-toggle="modal" data-target="#complaintModal">
+  				Raise complaint</button>
+  			</div>
+		</div>
+		
+ 
+		<div class="grid">
+    <div class="row cf">
+    <div class="col-3 commonCss">
+    	<p><button class="btn-right"><a href="#">Dashboard & Infographics</a></button></p>
+    </div>
+     <div class="col-1"></div>
+      <div class="slide-in four col-8 slide-in1">
+        <div class="box" style="background-image:linear-gradient(to left, rgb(231 152 160),rgb(213,94,121));">
+          <a onclick="showLoader();" href="dash"><div class="CommonSide CommonSide1" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Dashboard & Infographics</h5>
+            <p>Info about Articles present in FPO Sites</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+              
+               <span>
+                <h5>Dashboard & Infographics</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <th:block th:with="showCoreTransactionButton=${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU' || session.data1=='PAL' || session.data1=='PBS' || session.data1=='PNA' || session.data1=='PLA' || session.data1=='PAA'}">
+    
+  <div class="row cf" th:if="${showCoreTransactionButton}">
+    <div class="col-3 commonCss">
+    	<p><button class="btn-right2"><a href="#">Core Transaction</a></button></p>
+    </div>
+     <div class="col-1"></div>
+      <div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="slide-in four col-2 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" th:href="${session.data1=='PAO' || session.data1=='PAC' ? 'ead_list' : 'javascript:;'}"><div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>EAD</h5>
+            <p>To Process the Articles present in EAD</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <svg  height="2em" viewBox="0 0 512 512" fill="white"><path d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64c-35.3 0-64 28.7-64 64H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64v56H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H64c0 35.3 28.7 64 64 64v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448h56v40c0 13.3 10.7 24 24 24s24-10.7 24-24V448c35.3 0 64-28.7 64-64h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V280h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448V176h40c13.3 0 24-10.7 24-24s-10.7-24-24-24H448c0-35.3-28.7-64-64-64V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H280V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H176V24zM160 128H352c17.7 0 32 14.3 32 32V352c0 17.7-14.3 32-32 32H160c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32zm192 32H160V352H352V160z"/></svg>
+               <span>
+                <h5>Electronic Advance Data (EAD)</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+       <div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="slide-in four col-2 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" th:href="${session.data1=='PAO' || session.data1=='PAC' ? 'process_ead' : 'javascript:;'}">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>AAA</h5>
+            <p>To Process the Articles waiting for Arrival in AAA</p></div>
+          </div>
+          </a>
+          <div class="original">
+<!--               <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i>-->  
+             <svg  height="2em" viewBox="0 0 512 512" fill="white"><path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+              <span>
+                <h5>Articles Awaiting Arrival (AAA)</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+       <div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="slide-in four col-2 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="import_role">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>AAF</h5>
+            <p>To Process Articles Arrived at FPO in AAF</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <div>
+               <svg  height="2em" viewBox="0 0 512 512" fill="white" style="transform:rotate(90deg)"><path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+               </div>
+               <span>
+                <h5>Articles Arrived at FPO (AAF) <span th:text="${session.data1=='PSU' ? ' - OOC' : ''}"></span><span th:text="${session.data1=='PIN' ? ' - EXAMN' : ''}"></span></h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PIN'}" class="slide-in four col-4 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();"  href="import_role">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>AAF</h5>
+            <p>To Process Articles Arrived at FPO in AAF Examination</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <div>
+               <svg  height="2em" viewBox="0 0 512 512" fill="white" style="transform:rotate(90deg)"><path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+               </div>
+               <span>
+                <h5>Articles Arrived at FPO (AAF) <span th:text="${session.data1=='PSU' ? ' - OOC' : ''}"></span><span th:text="${session.data1=='PIN' ? ' - EXAMN' : ''}"></span></h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PSU'}" class="slide-in four col-8 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="import_role">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>AAF</h5>
+            <p>To Process Articles Arrived at FPO in OOC(AAF)</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <div>
+               <svg  height="2em" viewBox="0 0 512 512" fill="white" style="transform:rotate(90deg)"><path d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+               </div>
+               <span>
+                <h5>Articles Arrived at FPO (AAF) <span th:text="${session.data1=='PSU' ? ' - OOC' : ''}"></span><span th:text="${session.data1=='PIN' ? ' - EXAMN' : ''}"></span></h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      <div  th:if="${session.data1=='PAL'}" class="slide-in four col-8 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" th:href="${session.data1=='PAL' ? 'aclfunction' : 'javascript:;'}">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Re-allocation / Priority / Re-call / Alert</h5>
+            <p>Info about Articles present in FPO Sites</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <div>
+               <i class="fa fa-bars" style="font-size:x-large; color: white;"></i>
+               </div>
+               <span>
+                <h6>Re-allocation / Priority / Re-call / Alert</h6>
+               </span>
+          </div>
+        </div>
+      </div>
+      <div  th:if="${session.data1=='PIN'}" class="slide-in four col-4 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="queryreplyofficer">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Process Query Reply -</h5>
+            <p style="font-size:13px">&nbsp;&nbsp;(Upload Physically received doc and Query reply)</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <i class="fa fa-pencil-square-o" style="font-size: x-large;color: white;"></i>
+               </div>
+               <span>
+                <h6>Process Query Reply - </h6>
+                <p style="font-size:13px">&nbsp;&nbsp;(Upload Physically received doc and Query reply)</p>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div  th:if="${session.data1=='PNA'}" class="slide-in four col-2 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="nsmHome">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Site Management</h5>
+            <p style="font-size:14px">FPO Site creation,modification,activation etc.</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <svg  height="2em" fill="white" class="bi bi-browser-safari" viewBox="0 0 16 16">
+  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm.25-14.75v1.5a.25.25 0 0 1-.5 0v-1.5a.25.25 0 0 1 .5 0Zm0 12v1.5a.25.25 0 1 1-.5 0v-1.5a.25.25 0 1 1 .5 0ZM4.5 1.938a.25.25 0 0 1 .342.091l.75 1.3a.25.25 0 0 1-.434.25l-.75-1.3a.25.25 0 0 1 .092-.341Zm6 10.392a.25.25 0 0 1 .341.092l.75 1.299a.25.25 0 1 1-.432.25l-.75-1.3a.25.25 0 0 1 .091-.34ZM2.28 4.408l1.298.75a.25.25 0 0 1-.25.434l-1.299-.75a.25.25 0 0 1 .25-.434Zm10.392 6 1.299.75a.25.25 0 1 1-.25.434l-1.3-.75a.25.25 0 0 1 .25-.434ZM1 8a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 0 .5h-1.5A.25.25 0 0 1 1 8Zm12 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 1 1 0 .5h-1.5A.25.25 0 0 1 13 8ZM2.03 11.159l1.298-.75a.25.25 0 0 1 .25.432l-1.299.75a.25.25 0 0 1-.25-.432Zm10.392-6 1.299-.75a.25.25 0 1 1 .25.433l-1.3.75a.25.25 0 0 1-.25-.434ZM4.5 14.061a.25.25 0 0 1-.092-.341l.75-1.3a.25.25 0 0 1 .434.25l-.75 1.3a.25.25 0 0 1-.342.091Zm6-10.392a.25.25 0 0 1-.091-.342l.75-1.299a.25.25 0 1 1 .432.25l-.75 1.3a.25.25 0 0 1-.341.09ZM6.494 1.415l.13.483a.25.25 0 1 1-.483.13l-.13-.483a.25.25 0 0 1 .483-.13ZM9.86 13.972l.13.483a.25.25 0 1 1-.483.13l-.13-.483a.25.25 0 0 1 .483-.13ZM3.05 3.05a.25.25 0 0 1 .354 0l.353.354a.25.25 0 0 1-.353.353l-.354-.353a.25.25 0 0 1 0-.354Zm9.193 9.193a.25.25 0 0 1 .353 0l.354.353a.25.25 0 1 1-.354.354l-.353-.354a.25.25 0 0 1 0-.353ZM1.545 6.01l.483.13a.25.25 0 1 1-.13.483l-.483-.13a.25.25 0 1 1 .13-.482Zm12.557 3.365.483.13a.25.25 0 1 1-.13.483l-.483-.13a.25.25 0 1 1 .13-.483Zm-12.863.436a.25.25 0 0 1 .176-.306l.483-.13a.25.25 0 1 1 .13.483l-.483.13a.25.25 0 0 1-.306-.177Zm12.557-3.365a.25.25 0 0 1 .176-.306l.483-.13a.25.25 0 1 1 .13.483l-.483.13a.25.25 0 0 1-.306-.177ZM3.045 12.944a.299.299 0 0 1-.029-.376l3.898-5.592a.25.25 0 0 1 .062-.062l5.602-3.884a.278.278 0 0 1 .392.392L9.086 9.024a.25.25 0 0 1-.062.062l-5.592 3.898a.299.299 0 0 1-.382-.034l-.005-.006Zm3.143 1.817a.25.25 0 0 1-.176-.306l.129-.483a.25.25 0 0 1 .483.13l-.13.483a.25.25 0 0 1-.306.176ZM9.553 2.204a.25.25 0 0 1-.177-.306l.13-.483a.25.25 0 1 1 .483.13l-.13.483a.25.25 0 0 1-.306.176Z"/>
+</svg>
+               </div>
+               <span>
+                <h5 style="color:#fff">Site Management</h5>
+                <p style="font-size:14px">FPO Site creation,modification,activation etc.</p>
+               </span>
+          </div>
+        </div>
+      </div>
+      <div  th:if="${session.data1=='PNA'}" class="slide-in four col-3 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="usermanagement">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Role Management</h5>
+            <p style="font-size:14px;white-space:nowrap">Allocation of National & Local <br>System Administrator</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <svg   height="2em" fill="white" class="bi bi-person-gear" viewBox="0 0 16 16">
+  <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382l.045-.148ZM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"/>
+</svg>
+               </div>
+               <span>
+                <h5 style="color:#fff">Role Management</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div  th:if="${session.data1=='PNA'}" class="slide-in four col-3 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="chngethreshold">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Threshold Management</h5>
+            <p >To set threshold value for import Article IDs for auto movement to AC / DC screen.</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <i class="fa fa-pencil-square-o" style="font-size: x-large;color: white;padding-top: 6px;"></i>
+               </div>
+               <span>
+                <h5 style="color:#fff">Threshold Management</h5>
+                <p>To set threshold value for import Article IDs for auto movement to AC / DC screen.</p>
+               </span>
+          </div>
+        </div>
+      </div>
+      <div  th:if="${session.data1=='PBS'}" class="slide-in four col-8 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" th:href="${session.data1=='PBS' ? 'bagscan' : 'javascript:;'}">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><strong>Postal Bag Arrival Confirmation /</strong>
+            <p style="font-size:13px">&nbsp;&nbsp;Import Article Scan Report</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <i style="font-size: x-large;color:#fff" class="fa fa-scissors center"></i>
+               </div>
+               <span>
+                <h6>Postal Bag Arrival Confirmation /</h6>
+                <p style="font-size:13px">&nbsp;&nbsp;Import Article Scan Report</p>
+               </span>
+          </div>
+        </div>
+      </div>
+       <div th:if="${session.data1=='PAO' || session.data1=='PAC'}" class="slide-in four col-2 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="postaledi">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5 style="margin-top: 8px;">Commercial Imports</h5>
+            <p style="padding: 4px;">process Commercial Imports and Art.IDs Under Process/ Processed in Commercial Queue</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-upload" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Commercial Imports Queue</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PLA' || session.data1=='PAA'}" class="slide-in four col-4 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="Lsm_siteUpdate">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Site Management</h5>
+            <p>To allocate and edit / remove.</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+              <svg  height="2em" fill="white" class="bi bi-browser-safari" viewBox="0 0 16 16">
+  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm.25-14.75v1.5a.25.25 0 0 1-.5 0v-1.5a.25.25 0 0 1 .5 0Zm0 12v1.5a.25.25 0 1 1-.5 0v-1.5a.25.25 0 1 1 .5 0ZM4.5 1.938a.25.25 0 0 1 .342.091l.75 1.3a.25.25 0 0 1-.434.25l-.75-1.3a.25.25 0 0 1 .092-.341Zm6 10.392a.25.25 0 0 1 .341.092l.75 1.299a.25.25 0 1 1-.432.25l-.75-1.3a.25.25 0 0 1 .091-.34ZM2.28 4.408l1.298.75a.25.25 0 0 1-.25.434l-1.299-.75a.25.25 0 0 1 .25-.434Zm10.392 6 1.299.75a.25.25 0 1 1-.25.434l-1.3-.75a.25.25 0 0 1 .25-.434ZM1 8a.25.25 0 0 1 .25-.25h1.5a.25.25 0 0 1 0 .5h-1.5A.25.25 0 0 1 1 8Zm12 0a.25.25 0 0 1 .25-.25h1.5a.25.25 0 1 1 0 .5h-1.5A.25.25 0 0 1 13 8ZM2.03 11.159l1.298-.75a.25.25 0 0 1 .25.432l-1.299.75a.25.25 0 0 1-.25-.432Zm10.392-6 1.299-.75a.25.25 0 1 1 .25.433l-1.3.75a.25.25 0 0 1-.25-.434ZM4.5 14.061a.25.25 0 0 1-.092-.341l.75-1.3a.25.25 0 0 1 .434.25l-.75 1.3a.25.25 0 0 1-.342.091Zm6-10.392a.25.25 0 0 1-.091-.342l.75-1.299a.25.25 0 1 1 .432.25l-.75 1.3a.25.25 0 0 1-.341.09ZM6.494 1.415l.13.483a.25.25 0 1 1-.483.13l-.13-.483a.25.25 0 0 1 .483-.13ZM9.86 13.972l.13.483a.25.25 0 1 1-.483.13l-.13-.483a.25.25 0 0 1 .483-.13ZM3.05 3.05a.25.25 0 0 1 .354 0l.353.354a.25.25 0 0 1-.353.353l-.354-.353a.25.25 0 0 1 0-.354Zm9.193 9.193a.25.25 0 0 1 .353 0l.354.353a.25.25 0 1 1-.354.354l-.353-.354a.25.25 0 0 1 0-.353ZM1.545 6.01l.483.13a.25.25 0 1 1-.13.483l-.483-.13a.25.25 0 1 1 .13-.482Zm12.557 3.365.483.13a.25.25 0 1 1-.13.483l-.483-.13a.25.25 0 1 1 .13-.483Zm-12.863.436a.25.25 0 0 1 .176-.306l.483-.13a.25.25 0 1 1 .13.483l-.483.13a.25.25 0 0 1-.306-.177Zm12.557-3.365a.25.25 0 0 1 .176-.306l.483-.13a.25.25 0 1 1 .13.483l-.483.13a.25.25 0 0 1-.306-.177ZM3.045 12.944a.299.299 0 0 1-.029-.376l3.898-5.592a.25.25 0 0 1 .062-.062l5.602-3.884a.278.278 0 0 1 .392.392L9.086 9.024a.25.25 0 0 1-.062.062l-5.592 3.898a.299.299 0 0 1-.382-.034l-.005-.006Zm3.143 1.817a.25.25 0 0 1-.176-.306l.129-.483a.25.25 0 0 1 .483.13l-.13.483a.25.25 0 0 1-.306.176ZM9.553 2.204a.25.25 0 0 1-.177-.306l.13-.483a.25.25 0 1 1 .483.13l-.13.483a.25.25 0 0 1-.306.176Z"/>
+</svg>
+               <span>
+                <h5>Site Management</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PLA' || session.data1=='PAA'}" class="slide-in four col-4 slide-in2">
+        <div class="box card-2">
+          <a onclick="showLoader();" href="allocation_of_roles">
+          <div class="CommonSide CommonSide2" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>User Management</h5>
+            <p>To Edit, Block or Delete any FPO Site created in this application.</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <svg   height="2em" fill="white" class="bi bi-person-gear" viewBox="0 0 16 16">
+  <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382l.045-.148ZM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"/>
+</svg>
+               <span>
+                <h5>User Management</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      
+    </div>
+    </th:block>
+    <th:block th:with="showOtherTransactionButton=${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU'}">
+    <div class="row cf" th:if="${showOtherTransactionButton}">
+    <div class="col-3 commonCss">
+    	<p><button class="btn-right4"><a href="#">Other Transaction</a></button></p>
+    </div>
+     <div class="col-1"></div>
+      <div th:if="${session.data1=='PAO'}" class="slide-in four col-2 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="detained">
+          <div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Detention</h5>
+            <p>Record Post Detention Proceedings for ART.ID'S</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-ban" style="font-size: x-large;color:white;"></i>
+               <span>
+                <h5>Detained-Import Articles</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PAC'}" class="slide-in four col-2 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="detained">
+          <div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Detention</h5>
+            <p>Record Post Detention Proceedings for ART.ID'S</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-ban" style="font-size: x-large;color:white;"></i>
+               <span>
+                <h5>Detained-Import Articles</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+       <div th:if="${session.data1=='PAO'}" class="slide-in four col-2 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="ooccancellation">
+          <div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5 style="margin:8px">OOC Cancellation</h5>
+            <p style="padding:4px">To Initiate OOC Cancellation and Process Cancellation and To View OOC Cancelled history</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-ban" style="font-size: x-large;color:white;"></i>
+               <span>
+                <h5>OOC Cancellation</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PAC'}" class="slide-in four col-3 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="ooccancellation">
+          <div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5 style="margin:8px">OOC Cancellation</h5>
+            <p style="padding:4px">To Initiate OOC Cancellation and Process Cancellation and To View OOC Cancelled history</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-ban" style="font-size: x-large;color:white;"></i>
+               <span>
+                <h5>OOC Cancellation</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+       <div th:if="${session.data1=='PAO'}" class="slide-in four col-2 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="alloSite"><div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h6>Art-IDs w/o Pincode & Pending For Mapping</h6>
+            <p>Mapping of Article-IDs to FPO Site</p></div>
+          </div></a>
+          <div class="original">
+             <!--  <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h6>FPO Mapping ART-IDs w/o Pincode</h6>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PAC'}" class="slide-in four col-3 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="alloSite"><div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h6>Art-IDs w/o Pincode & Pending For Mapping</h6>
+            <p>Mapping of Article-IDs to FPO Site</p></div>
+          </div></a>
+          <div class="original">
+             <!--  <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h6>FPO Mapping ART-IDs w/o Pincode</h6>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div th:if="${session.data1=='PIN'}" class="slide-in four col-4 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="alloSite"><div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h6>Art-IDs w/o Pincode & Pending For Mapping</h6>
+            <p>Mapping of Article-IDs to FPO Site</p></div>
+          </div></a>
+          <div class="original">
+             <!--  <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h6>FPO Mapping ART-IDs w/o Pincode</h6>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PSU'}" class="slide-in four col-8 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" href="alloSite"><div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h6>Art-IDs w/o Pincode & Pending For Mapping</h6>
+            <p>Mapping of Article-IDs to FPO Site</p></div>
+          </div></a>
+          <div class="original">
+             <!--  <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h6>FPO Mapping ART-IDs w/o Pincode</h6>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+       <div th:if="${session.data1=='PAO' }" class="slide-in four col-2 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" th:style="${session.data1=='PIN' ||  session.data1=='PAO' ? 'cursor:pointer' : 'cursor:default; text-decoration: none;'}" th:href="${session.data1=='PIN' ||  session.data1=='PAO' ? 'dcallhistory' : 'javascript:;'}"><div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>D-Call Letter</h5>
+            <p>(Generate D-Call / Push - Email / SMS / View History)</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Push D-Call</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div th:if="${session.data1=='PIN'}" class="slide-in four col-4 slide-in3">
+        <div class="box card-4">
+          <a onclick="showLoader();" th:style="${session.data1=='PIN' ||  session.data1=='PAO' ? 'cursor:pointer' : 'cursor:default; text-decoration: none;'}" th:href="${session.data1=='PIN' ||  session.data1=='PAO' ? 'dcallhistory' : 'javascript:;'}"><div class="CommonSide CommonSide3" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>D-Call Letter</h5>
+            <p>(Generate D-Call / Push - Email / SMS / View History)</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Push D-Call</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </th:block>
+    <th:block th:with="showViewOptionsButton=${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU' || session.data1=='PBS' || session.data1=='ARP' || session.data1=='NRP' || session.data1=='PAL' || session.data1=='PNA' || session.data1=='PLA' || session.data1=='PAA' || session.data1 == 'REP' || session.data1 == 'COM'}">
+    <div class="row cf" th:if="${showViewOptionsButton}">
+    <div class="col-3 commonCss">
+    	<p><button class="btn-right3"><a href="#">View Options</a></button></p>
+    </div>
+     <div class="col-1"></div>
+      <div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU' || session.data1=='PBS'}" class="slide-in four col-2 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="article">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View Article - Track and Trail</h5>
+            <p>To View Article - Track and Trail of ART-IDs</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Track and Trail of ART-IDs</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='ARP' || session.data1 == 'NRP' || session.data1 == 'REP' || session.data1 == 'COM'}" class="slide-in four col-2 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="article">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View Article - Track and Trail</h5>
+            <p>To View Article - Track and Trail of ART-IDs</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Track and Trail of ART-IDs</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PAL'}" class="slide-in four col-2 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="article">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View Article - Track and Trail</h5>
+            <p>To View Article - Track and Trail of ART-IDs</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Track and Trail of ART-IDs</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+       <div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU' || session.data1=='PBS'}" class="slide-in four col-2 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="viewarrinfo">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View Article Arrival Information</h5>
+            <p>To List Of ART-IDs Arrived Physically at this site and Awaiting for OOC</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Article Arrival Info</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1 == 'ARP' || session.data1 == 'NRP' || session.data1 == 'REP' || session.data1 == 'COM'}" class="slide-in four col-3 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="viewarrinfo">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View Article Arrival Information</h5>
+            <p>To List Of ART-IDs Arrived Physically at this site and Awaiting for OOC</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Article Arrival Info</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PAL'}" class="slide-in four col-3 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="viewarrinfo">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View Article Arrival Information</h5>
+            <p>To List Of ART-IDs Arrived Physically at this site and Awaiting for OOC</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Article Arrival Info</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+       <div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PSU' || session.data1=='PBS' }" class="slide-in four col-2 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="trackarticle">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Icegate - Track Article</h5>
+            <p>To view  Icegate Public Enquiry Track Article ID's</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Icegate Public Enquiry Track</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='ARP' || session.data1 == 'NRP' || session.data1 == 'REP' || session.data1 == 'COM'}" class="slide-in four col-3 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="trackarticle">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Icegate - Track Article</h5>
+            <p>To view  Icegate Public Enquiry Track Article ID's</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Icegate Public Enquiry Track</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PAL'}" class="slide-in four col-3 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="trackarticle">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Icegate - Track Article</h5>
+            <p>To view  Icegate Public Enquiry Track Article ID's</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Icegate Public Enquiry Track</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+       <!-- <div th:if="${session.data1=='PAO' || session.data1=='PSU' || session.data1=='PAC'}" class="slide-in four col-2">
+        <div class="box card-3">
+          <a href="#">
+          <div class="CommonSide" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>View - OOC PDF</h5>
+            <p>Info about Articles present in FPO Sites</p></div>
+          </div></a>
+          <div class="original">
+              <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i>
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>OOC PDF</h5>
+               </span>
+          </div>
+        </div>
+      </div> -->
+      
+      <div th:if="${session.data1=='PAO' || session.data1=='PAC' || session.data1=='PIN' || session.data1=='PBS' || session.data1=='PSU'}" class="slide-in four col-2 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="delack">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;">
+            <div><h6>ACK from India Post on Delivery of Articles</h6>
+            <p>To view ACK from India Post on Delivery of Articles</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-pencil-square-o" style="font-size: x-large;color:#fff"></i>
+               <span>
+                <h6>ACK from India Post on Delivery of Articles</h6>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div  th:if="${session.data1=='PNA'}" class="slide-in four col-4 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="viewdirectory">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Directory Management</h5>
+            <p style="font-size:14px">Pincode Mapping and to view other directories</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <i class="fa fa-pencil-square-o" style="font-size: x-large;color: white;"></i>
+               </div>
+               <span>
+                <h5 style="color:#fff">Directory Management</h5>
+                <p style="font-size:14px">Pincode Mapping and to view other directories</p>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div  th:if="${session.data1=='PLA' || session.data1=='PAA'}" class="slide-in four col-8 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="viewdirectory">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Directory Management</h5>
+            <p style="font-size:14px">Pincode Mapping and to view other directories</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <i class="fa fa-pencil-square-o" style="font-size: x-large;color: white;"></i>
+               </div>
+               <span>
+                <h5 style="color:#fff">Directory Management</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div  th:if="${session.data1=='PNA'}" class="slide-in four col-4 slide-in4">
+        <div class="box card-3">
+          <a onclick="showLoader();" href="miscellaneous">
+          <div class="CommonSide CommonSide4" style="display:flex;justify-content:center;align-items:center;z-index:1"> 
+            <div><h5>Miscellaneous</h5>
+            <p style="font-size:14px">See threshold value for AC,view Art-ID/ w/o FPO sites</p></div>
+          </div></a>
+          <div class="original">
+               <div>
+               <i class="fa fa-pencil-square-o" style="font-size: x-large;color: white;"></i>
+               </div>
+               <span>
+                <h5 style="color:#fff">Miscellaneous</h5>
+                <p style="font-size:14px">See threshold value for AC,view Art-ID/ w/o FPO sites</p>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    </th:block>
+    <th:block th:with="showReportsButton=${session.data1!='ARP' && session.data1!='NRP' || session.data1=='ARP' || session.data1=='NRP' || session.data1=='PAO' || session.data1=='PAC' || session.data1=='PSU' || session.data1=='PIN' || session.data1=='PBS' || session.data1=='PAL' || session.data1=='PNA' || session.data1=='PLA' || session.data1=='PAA' || session.data1 == 'REP' || session.data1 =='COM'}">
+    <div class="row cf" th:if="${showReportsButton}">
+    <div class="col-3 commonCss">
+    	<p><button class="btn-right5"><a href="#">Reports</a></button></p>
+    </div>
+     <div class="col-1"></div>
+      <div th:if="${session.data1!='ARP' && session.data1 !='NRP' && session.data1 !='PNA' && session.data1 !='PLA' && session.data1 !='PBS' && session.data1 !='PAA' && session.data1 !='PAL' && session.data1 != 'REP'  && session.data1 != 'COM'}" class="slide-in four col-4 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="misreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Site Level MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1 =='PBS'}" class="slide-in four col-8 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="misreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Site Level MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1 =='REP'}" class="slide-in four col-8 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="misreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Site Level MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1 =='COM'}" class="slide-in four col-8 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="misreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Site Level MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='ARP'}" class="slide-in four col-8 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="report">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Analytical Report</h5>
+            <p>To view and generate Analytical Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Analytical Report</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1!='ARP' && session.data1=='NRP'}" class="slide-in four col-8 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="NSMmisreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+       <div th:if="${session.data1=='PAO' || session.data1=='PAC'  || session.data1=='PSU' || session.data1=='PIN'}" class="slide-in four col-4 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="recentpro">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Recently Processed</h5>
+            <p>To view the List of Recently Processed ART-ID's</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+               <i class="fa fa-eye" style="font-size: x-large; color:#fff;"></i>
+               <span>
+                <h5>Recently Processed</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PNA'}" class="slide-in four col-4 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="NSMmisreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+              <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>National Level MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      <div th:if="${session.data1=='PLA' || session.data1=='PAA' || session.data1=='PAL'}" class="slide-in four col-8 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="misreport">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>MIS Reports</h5>
+            <p>To view and generate Reports</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+              <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>MIS Reports</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+      <div th:if="${session.data1=='PNA'}" class="slide-in four col-4 slide-in5">
+        <div class="box card-5">
+          <a onclick="showLoader();" href="releasemanagement">
+          <div class="CommonSide CommonSide5" style="display:flex;justify-content:center;align-items:center;">
+            <div><h5>Release Management</h5>
+            <p>To view the list of Release Management.</p></div>
+          </div></a>
+          <div class="original">
+              <!-- <i class="fa fa-trophy fa-3x" aria-hidden="true" style="margin-bottom:10px;color:#ffe400;"></i> -->
+              <i class="fa fa-file" style="font-size: x-large; color:#fff"></i>
+               <span>
+                <h5>Release Management</h5>
+               </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </th:block>
+    
+    
+  </div>
+		
+		
+</div>
+
+<div class="modal fade" id="complaintModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 30vh; ">
+      <div class="modal-header" style="display:flex;justify-content:end;align-items:center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="display:flex;justify-content:center;align-items:center">
+		 <div >
+		 	<h2 style="color:#000">Please contact Saksham Seva by sending Email to saksham.seva@icegate.gov.in </h2>
+		 </div>
+	</div>
+      <div class="modal-footer" style="display:flex;justify-content:center;align-items:center">
+		<div>
+			<h6 style="color:#000">Ticket Management System for this application is under construction...</h6>
+		</div>
+	</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="thresholdModal" tabindex="-1" role="dialog" data-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="display:flex;justify-content:center;align-items:center">
+       <!--  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+        <h2 style="color:#000">Regarding Threshold Value</h2>
+      </div>
+      <div class="modal-body" style="display:flex;justify-content:center;align-items:center">
+		 <div >
+		 	<h4 style="color:#000">Please fill the field in " Threshold Value" functionality, so that postal import consignments covered in Article IDs would move to AC/DC after AO in assessment sub-modules in the FPO Import Application.</h4>
+		 </div>
+	</div>
+      <div class="modal-footer" style="display:flex;justify-content:center;align-items:center">
+		<div>
+			<button id="routeTo" type="button" class="btn btn-success">OK</button>
+		</div>
+	</div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+console.log("chcking")
+
+$(document).ready(function() {
+ if($('#role').val() == 'PNA' && $('#checkThresholdValue').val() == '1')
+	$("#thresholdModal").modal('show');
+})
+
+$("#routeTo").click(function() {
+	window.location="chngethreshold";
+})
+
+function validateAndAddCharacters() {
+	
+	  var textField = document.getElementById("item_Id");
+  var input = textField.value;
+	
+	if (input.length === 1) {
+  var regex = /^[a-zA-Z]$/;
+  if (!regex.test(input)) {
+    textField.value = "";
+    return;
+  } else {
+    textField.value = input.toUpperCase();
+  }
+}
+
+// Check second character
+if (input.length === 2) {
+  var regex = /^[a-zA-Z][a-zA-Z]*$/;
+  if (!regex.test(input)) {
+    textField.value = input[0].toUpperCase();
+    return;
+  }else {
+    textField.value = input.toUpperCase();
+  }
+}
+
+// Check next nine characters
+if (input.length >= 3 && input.length <= 11) {
+  var regex = /^[a-zA-Z]{0,2}\d{0,9}$/;
+  if (!regex.test(input)) {
+    textField.value = input.slice(0, -1);
+    return;
+  }
+}
+
+// Check last two characters
+if (input.length >= 12) {
+  var regex = /^[a-zA-Z]{0,2}\d{0,9}[a-zA-Z]{0,2}$/;
+  if (!regex.test(input)) {
+    textField.value = input.slice(0, -1);
+    return;
+  }else {
+    textField.value = input.toUpperCase();
+  }
+}
+	
+	
+	
+	    el = $(this);
+		
+	if (input.length <= 12) {  
+		$("#dispval").val("Invalid Article ID");		
+        }
+if (input.length == 0) {  
+		$("#dispval").val("TO VIEW STATUS/QUEUE");		
+        }		
+		
+   	if (input.length==13) {
+        getschdata(2);}
+	
+	
+	
+	}
+
+function getschdata(e) {
+	//alert(e.id);
+	//window.location.href = "#" + e.id;
+	var fpoMain = {};
+	if (e==1)
+    {fpoMain['id'] = $('#cin_No').val();
+    fpoMain['item_ID'] = "";
+    $('#item_Id').val("ENTER ITEM_ID");
+    }
+    else
+	{fpoMain['item_ID'] = $('#item_Id').val();
+	 fpoMain['id'] = "";
+	 $('#cin_No').val("ENTER CIN_NO");}
+	$.ajax({
+		url: 'getschdata',
+		data: JSON.stringify(fpoMain),
+		dataType: "json",
+		contentType: "application/json",
+		type: "post",
+		success: function(data) {
+		var data1 = {};
+		data1 = data.stringval;
+		    $("#dispval").val(data1);
+		},
+		fail: function(rs, e) {
+			alert("Error in nextPageRedirect");
+		}
+	});
+}
+
+ $("#cin_No").keyup(function(){
+    el = $(this);
+    if (el.val().length==20) {
+        getschdata(1);}
+});
+ 
+ 
+ function showLoader() {
+		$("#overlay").css("display", "block");
+		$('#overlay').height($("body").innerHeight());
+	}
+
+	function hideLoader() {
+		setTimeout(function() {
+			$("#overlay").css("display", "none");
+		}, 500);
+	}
+
+	$(document).ready(function() {
+		hideLoader();
+		
+	});
+
+</script>
+</html>

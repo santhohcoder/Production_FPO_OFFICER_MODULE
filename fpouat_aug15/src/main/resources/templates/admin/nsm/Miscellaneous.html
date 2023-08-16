@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Miscellaneous</h3>
+<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR  (PNA)</h3>
+  <div style ="font-weight: bold; margin-top: 1%; text-align: center;font-family: times new roman;background: deepskyblue;"><h2>Miscellaneous</h2></div> 
+
+<div class="col-md-12" style ="padding: 4%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #007bff80; height: 225px;">
+        <h5 class="card-title">Pending parcels without FPO site details</h5>
+        <p class="card-text">To view the list of Article IDs received in EAD and not alloted to any FPO sites. </p>
+        	 <div>
+        		<a href="pendingparcel" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+        	</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1" ></div>
+ <!--  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #c5cdd9; height: 225px;">
+        <h5 class="card-title" >Change threshold value for Assessment</h5>
+        <p class="card-text">To set threshold value for import Article IDs for auto movement to AC / DC screen.</p>
+         	<div>
+        		<a href="chngethreshold" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+        	</div>
+      </div>
+    </div>
+  </div> -->
+    <div class="col-sm-1" ></div> 
+ <!--  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #c5cdd9; height: 225px;">
+        <h5 class="card-title" >Release Management</h5>
+        <p class="card-text">To view the list of Release Management.</p>
+           <div>
+  				 <a href="releasemanagement" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+			</div>
+      </div>
+    </div>
+  </div> -->
+   <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #c5cdd9; height: 225px;">
+        <h5 class="card-title" >FeedBacks</h5>
+        <p class="card-text">To View Feedback given by Officers and Query Reply from the recipient</p>
+           <div>
+  				 <a href="feedbackstnsm" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+			</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- <div class="col-md-12" style ="padding: 4%; bottom:4rem;">
+<div class="row" style="display: flex;
+    justify-content: center;" >
+  <div class="col-sm-3" style="visibility:hidden">
+  </div>
+  <div class="col-sm-1" ></div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #a7dded; height: 225px;">
+        <h5 class="card-title" >FeedBacks</h5>
+        <p class="card-text">To View Feedback given by Officers and Query Reply from the recipient</p>
+         	<div>
+        		<a href="feedbackstnsm" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+        	</div>
+      </div>
+    </div>
+   </div>
+    <div class="col-sm-1" ></div> 
+  <div class="col-sm-3" style="visibility:hidden">
+  </div>
+</div>
+</div> -->
+
+<!-- <div class="col-md-12" style ="padding: 1%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #a7dded;">
+        <h5 class="card-title" >FeedBacks</h5>
+        <p class="card-text">To View Feedback given by Officers and Query Reply from the recipient</p><br>
+        <a href="feedbackstnsm" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div> -->
+
+</body>
+<script src="js/addingSite.js"></script>
+</html>

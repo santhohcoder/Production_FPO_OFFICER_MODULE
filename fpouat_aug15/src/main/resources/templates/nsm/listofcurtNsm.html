@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="ISO-8859-1">
+ </head>
+<style type="text/css">
+.button-size {
+	width: 23%;
+}
+
+.stsclr{
+ background-color: #fff;
+}
+
+a.nav-link {
+	font-weight: bold;
+	color : black;
+	text-transform : uppercase;
+	font-size : 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background : #0a3052 !important;
+}
+
+.buttons-excel{
+display: none;
+}	
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+
+ <div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> User Management> Current National System Administrator (PNA)</h3>
+<h3 style="text-align: center; margin-top: 0px; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR  (PNA)</h3>
+<br>			
+
+<ul class="nav nav-pills" role="tablist" style="width: 100%;border: 2px solid;border-radius: 7px;">
+        <li class="nav-item" id="hstryofroles" onclick="curNSA()" style="width: 50%;text-align: center;">
+        <a class="nav-link active show" data-toggle="pill" href="javascript:;"> List Of Current National System Administrator  (PNA)</a>
+      </li>
+      <li class="nav-item" id="userhstry" onclick="pastNSA()" style="width: 50%;text-align: center;" >
+        <a class="nav-link" data-toggle="pill" href="javascript:;">List Of Past National System Administrator  (PNA)</a>
+      </li>
+    </ul>
+<div class="curNSAdisp" id="curNSAdisp">
+<h4 style="text-align: center; margin-top: 30px;font-family: times new roman;background: deepskyblue;">List Of Current National System Administrator  (PNA)</h4>
+<div class="col-md-12 row">
+  	<div class="col-md-1"></div>
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>
+	<div style="padding-left: 5%;
+    padding-right: 5%">
+		<table id= "cutNsmtable"  class="table table-bordered "
+			style="font-size: 14px; text-align: center;">
+			 <thead>
+				<tr style="background-color: #63cfe0">
+					<th scope="col" width=10px>Sl.No.</th>
+					<th scope="col">FPO SITE NAME</th>
+					<th scope="col">SITE CODE</th>
+					<th scope="col">STATE</th>
+					<th scope="col">NAME</th>
+					<th scope="col">SSOID</th>
+					<th scope="col">DESIGNATION</th>
+					<th scope="col">EMAIL-ID</th>
+					<th scope="col">MOBILE-NO</th>
+					<th scope="col">DATE<br><span style="font-size:12px">(From which the NSM is allotted)</span></th>
+					<th scope="col">TIME</th>
+				</tr>
+			</thead> 
+			<tbody>
+			<tr height=50px; valign="middle" class="rowDis"
+					th:each="getNsmdata,iter : ${Nsmdata}">
+					<td style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[0]}"></td>
+					<td style="vertical-align: middle;" id="getsitecde" th:text="${getNsmdata[1]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[2]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[3]}"></td>
+					<td style="vertical-align: middle;" th:text="${getNsmdata[4]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[5]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[6]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[7]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[8]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[9]}"></td>
+				</tr>
+			</tbody> 
+		</table>
+	</div>
+	<br>
+	<!--div>
+		<button type="button" id="addNsm" class="btn btn-success"
+			 style="margin-left: 82%">Add PNA
+		</button>
+		<button type="button" id="removensm" class="btn btn-success" 
+			 style="margin-left: 1%">Remove PNA
+		</button>
+	</div-->
+</div>
+
+
+<div class="pastNSAdisp" id="pastNSAdisp" style="display:none">
+<h4 style="text-align: center; margin-top: 30px;font-family: times new roman;background: deepskyblue;">List Of Past National System Administrator  (PNA)</h4>
+<div class="col-md-12 row">
+  	<div class="col-md-1"></div>
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>
+	<div style="padding-left: 5%;
+    padding-right: 5%">
+		<table id= "cutNsmtable"  class="table table-bordered "
+			style="font-size: 14px; text-align: center">
+			 <thead>
+				<tr style="background-color: #63cfe0">
+					<th scope="col" width=10px>Sl.No.</th>
+					<th scope="col">FPO SITE NAME</th>
+					<th scope="col">SITE CODE</th>
+					<th scope="col">STATE</th>
+					<th scope="col">NAME</th>
+					<th scope="col">SSOID</th>
+					<th scope="col">DESIGNATION</th>
+					<th scope="col">EMAIL-ID</th>
+					<th scope="col">MOBILE-NO</th>
+					<th scope="col">ALLOTTED DATE<br><span style="font-size:12px">(From which the NSM is allotted)</span></th>
+					<th scope="col">ALLOTTED TIME</th>
+					<th scope="col">REVOKED DATE<br><span style="font-size:12px"></span></th>
+					<th scope="col">REVOKED TIME</th>
+				</tr>
+			</thead> 
+			<tbody>
+			<tr height=50px; valign="middle" class="rowDis"
+					th:each="getNsmdata,iter : ${Nsmdatapast}" style="background-color:white;">
+					<td style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[0]}"></td>
+					<td style="vertical-align: middle;" id="getsitecde" th:text="${getNsmdata[1]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[2]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[3]}"></td>
+					<td style="vertical-align: middle;" th:text="${getNsmdata[4]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[5]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[6]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[7]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[8]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[9]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[10]}"></td>
+					<td style="vertical-align: middle;"th:text="${getNsmdata[11]}"></td>
+				</tr>
+			</tbody> 
+		</table>
+	</div>
+	<br>
+	<!--div>
+		<button type="button" id="addNsm" class="btn btn-success"
+			 style="margin-left: 82%">Add PNA
+		</button>
+		<button type="button" id="removensm" class="btn btn-success" 
+			 style="margin-left: 1%">Remove PNA
+		</button>
+	</div-->
+</div>
+
+</body>
+<script th:src="@{js/addingSite.js}"></script>
+<script>
+$(document).ready(
+		function() {
+		
+		$("#addNsm").click(
+					function() {
+					
+					window.location = "allocate_NSM";
+					
+					});
+					
+						$("#removensm").click(
+					function() {
+					
+					window.location = "remove_NSM";
+					
+					});
+		});
+		
+		$(document).ready(function() {
+	$("#cutNsmtable").dataTable({
+		"processing": true,
+		"paging": false,
+		"dom": 'Bfrtip',
+		buttons: ['excel']
+	});
+});
+
+function exceldownload(obj){
+	$(".buttons-excel").trigger('click');
+}
+
+function pdfdownload(obj) {
+	var oMyForm = new FormData();
+	jQuery.ajax({
+		url: 'pdfdownload_curntNSM',
+		global: false,
+		data: oMyForm,
+		dataType: 'text',
+		processData: false,
+		contentType: false,
+		type: 'POST',
+
+		success: function(response) {
+			console.log('inside success');
+			
+			 $("#staticreportdownloadanchortag").attr("href", "downloadPdfFile?filename=" + response);
+
+            document.getElementById("staticreportdownloadanchortag").click();
+
+		}
+	});
+	
+	}
+
+ function goback() {
+     window.location = "usermanagement";
+     
+     }   
+     
+ function curNSA(){
+ $('#pastNSAdisp').css('display', 'none');
+	$('#curNSAdisp').css('display', 'block');
+ }
+
+function pastNSA(){
+$('#pastNSAdisp').css('display', 'block');
+	$('#curNSAdisp').css('display', 'none');
+}
+
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+
+</html>

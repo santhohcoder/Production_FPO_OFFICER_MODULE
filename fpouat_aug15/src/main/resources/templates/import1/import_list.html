@@ -1,0 +1,194 @@
+<html>
+<head>
+
+<link th:href="@{css/bootstrap1.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.2.1.slim.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/font.js}"></script>
+<link th:href="@{css/datatables.min.css}" rel="stylesheet"
+	type="text/css" />
+
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+.lab_txt {
+	font-size: 14px;
+	color: blue;
+}
+
+.tot_no {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.numradius {
+	border: 2px solid #ff4957;
+	background-color: #ff4957;
+	color: white;
+	border-radius: 20px;
+	padding: 10px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+	padding: 0px 10px;
+}
+</style>
+</head>
+<body style="background: #d6dcd9;overflow-x: hidden;">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div class="row" style="background-color: #69d1f1; color: white;">
+		<div class="col-md-1" align="right">
+			<img style="width: 83px;" src="images/CBEC.png">
+		</div>
+		<div class="col-md-9" style="font-family: initial;">
+			<h5>
+				<strong> FPO IMPORT APPLICATION </strong>
+			</h5>
+			<h6>
+				<strong> CUSTOMS OFFICER MODULE </strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 35%; float: left; border-top: 2px solid white;">
+			<p style="margin-top: 10px; margin-bottom: 4px;">
+				<strong>Central Board of Indirect Taxes and Customs</strong>
+			</p>
+		</div>
+		<div class="col-md-2 mt-4">
+			<h6>
+				<strong>Indian Customs EDI System</strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 89%; float: left; border-top: 2px solid white;">
+			<h6 style="margin-top: 19px;">
+				<strong>Foreign Post Office - Bangalore</strong>
+			</h6>
+		</div>
+	</div>
+	<div class="container"
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+		<div class="mt-4" align="center">
+			<h2>Process Imported Articles - Assessment Queue</h2>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<a href="dash"><button type="button" class="btn btn-secondary">Back
+						to Dashboard</button> <a href="import_query_search"><button
+							type="button" class="btn btn-success">Pending in Query
+							Queue</button> </a>
+			</div>
+			<div class="col-md-6" align="right">
+				<p class="tot_no">
+					Tot no of Articles in the Queue: <span class="numradius" th:text="${couass}" >
+					</span>
+				</p>
+			</div>
+		</div>
+
+
+
+
+
+		<br>
+		<table class="table table-bordered mt-3" id="asstTable"
+			style="font-size: 14px; text-align: center;">
+			<thead>
+				<tr class="thead-dark">
+					<th scope="col">Sl.No.</th>
+					<th scope="col">CIN No.</th>
+					<th scope="col">ITEM_ID.</th>
+					<th scope="col">Date</th>
+					<th scope="col">DOA</th>
+					<th scope="col">Orgn CD</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="s1,iter : ${check}">
+					<td th:text="${iter.index+1}">1</td>
+					<td th:text="${s1[0]}">464654654</td>
+						<td th:text="${s1[1]}">5648912</td>
+						<td th:text="${s1[2]}">01.01.2020</td>
+						<td th:text="${s1[3]}">01.01.2020</td>
+						<td th:text="${s1[4]}">01.01.2020</td>
+						<td align="center"><i aria-hidden="true" th:id="${s1[0]}"
+						onclick="viewDetail(this);">
+							<button type="button" th:id="${iter.index+1}"
+								class="btn btn-success" style="padding: 0px;">Assessment</button>
+					</i><small> from ooc </small></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script th:src="@{js/datatables.min.js}"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#asstTable").dataTable({
+			"processing" : true,
+			"paging" : true
+		});
+	});
+
+	function viewDetail(e) {
+		//alert(e.id);
+		window.location.href ="import_main?id=" + e.id;
+		//window.location.href = "#" + e.id;
+	}
+
+	$("table tbody tr").each(
+			function() {
+				var textval = $(this).find("td:eq(0)").text().trim();
+				//	var textval2 = $(this).find("td:eq(1)").text().trim();
+				if (textval > 1) {
+					$('#' + textval).prop('disabled', true);
+					//$(this).find("td:eq(0)").attr('disabled', true);
+				} else {
+					$("tr.rowDis input, tr.rowDis select, tr.rowDis textarea")
+							.prop('disabled', true);
+					//$('#submitBtn').prop('disabled', false);
+				}
+			});
+			
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+			
+</script>
+
+</html>

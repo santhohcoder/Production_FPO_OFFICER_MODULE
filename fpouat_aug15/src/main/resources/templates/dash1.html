@@ -1,0 +1,615 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+	float: right;
+}
+
+.buttonstyle {
+	color: white;
+	font-size: 16px;
+	padding: 5px;
+	border-radius: 12px;
+	border: 2px solid white;
+	border-left: solid white 2px;
+	border-top: solid white 2px;
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+.bordstyle {
+	border: 2px solid white;
+	background: #b6cbe2;
+	border-radius: 15px;
+	font-weight: bold;
+	font-size: 20px;
+	padding: 2px;
+	color: white;
+}
+
+.bordstyleh {
+	border: 2px solid white;
+	background: #6899d0 ;
+    border-radius : 5px;
+	padding: 2px;
+}
+
+
+.blink {
+	background-color: gray;
+	font-weight: bold;
+	text-align: center;
+}
+
+.blink{
+	    background-color: gray;
+		font-weight: bold;
+		text-align: center;
+	}
+	.disp{
+		font-size: 20px;
+		color: darkyellow;
+		font-weight: bold;
+		background: #7394b1;
+		animation: blink 1s linear infinite;
+	}
+@keyframes blink{
+0%{opacity: 0;}
+50%{opacity: .5;}
+100%{opacity: 1;}
+}
+
+
+.bordstyles {
+	border: 2px solid white;
+	background: gray;
+	border-radius: 15px;
+	font-weight: bold;
+	padding: 2px;
+	color: yellow;
+}
+
+a {
+	color: #ffffff;
+	text-decoration: none;
+	background-color: transparent;
+	-webkit-text-decoration-skip: objects;
+}
+
+.vl {
+	margin-left: 62%;
+	border-left: 3px solid white;
+	height: 170px;
+	margin-top: -40%;
+}
+.numradius1 {
+	border: 2px solid #4a4d5d;
+	background-color: #ff6565;
+	color: white;
+	font-size: 16px;
+	border-radius: 20px;
+	padding: 1px;
+}
+
+.numradius2 {
+	color:#47f525;
+	font-size: 16px;
+}
+
+.numradius3 {
+	color:#25ebf5;
+	font-size: 16px;
+}
+
+
+.dispval {
+	font-color: white;
+}
+
+.occ_note {
+	background-color: #79a0ca;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 20px;
+}
+
+.gray_note {
+	background-color: #7fa0c3;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 20px;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<body>
+	<!--  <p th:text="${session.data}" th:unless="${session == null}">[...]</p> -->
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="pl-3" style="background-color: #f8f9fa; border-radius: 10px;">
+<p>Last log out - <span th:text="${LastLoginetails.value}"></span><p>
+<p>Last log in  - <span th:text="${session.LastLoginetails.data == null ? '-' : session.LastLoginetails.data}"></span></p>
+</div>
+	<div class="container"
+		style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+		<div class="mt-2" align="center">
+			<h2>Postal Imports in Customs - DASHBOARD</h2>
+		</div>
+		<div class="row bordstyle" 
+			style="text-align: center; margin-left: 2%; margin-right: 2%;">
+			<div align="center" style="padding: 6px; width: 22%">
+				<input type="text" id="item_Id" class="form-control form_txt"
+					style="font-weight: bold" maxlength="13" placeholder="ENTER ITEM_ID">
+			</div>
+			
+			<div align="center" valign="middle" style="padding: 10px;">
+				<span style="font-size: 20px;">&#8629;</span>
+			</div>
+			<div align="center" class="blink"
+				style="padding: 3px; margin-right: 1%; width: 74%">
+				<input type="text" id="dispval" class="form-control form_txt disp"
+					style="font-weight: bold; background: #7394b1; color: yellow"
+					value="TO VIEW STATUS/QUEUE" readonly>
+			</div>
+		</div>
+	<!--  div  align="center" class="row mt-2" >
+					<div align="center" class="occ_note" style="margin-left: 2%;margin-right:5%;">
+					<button type="button" class="btn btn-danger btn-sm" 
+							style="background-color: white; font-weight:500;  border: 2px solid #ff6a00; color:#4a4d5d; border-radius: 30px;"
+							id="showitcathidden">ITEM CATEGORY</button>&nbsp;</div>
+					<div align="center" class="occ_note" style="margin-left:12%;margin-right:13%;"><span style="color: white; font-size: 16px; ">
+						<STRONG>TOTAL &nbsp; ARTICLES &nbsp; IN &nbsp; THE &nbsp; EAD  &nbsp;  QUEUE &nbsp;FOR &nbsp; </STRONG></span><STRONG><span
+							class="dispval" style="color:#47f525"
+							th:text="${session.data2}"></span> &nbsp;</STRONG><font color="white" size="2">&nbsp;(ALL ROLES) &nbsp;: &nbsp;</span><strong><span
+							class="numradius1" th:text="${totcou}"></span> &nbsp;<strong>( &nbsp; PAO &nbsp; - &nbsp; <span
+							class="numradius1" th:text="${totapr}"></span> &nbsp; PAC &nbsp; - &nbsp; <span
+							class="numradius1" th:text="${totacl}"></span>&nbsp; )</strong></font></div>
+					<div align="center" class="occ_note" ><button type="button" class="btn btn-danger btn-sm" 
+							style="background-color:white; color:#4a4d5d; font-weight:500; border: 2px solid #ff6a00; border-radius: 30px;"
+							id="showmacathidden">MAIL CLASS</button></div>	
+				 </div-->
+				
+				    <!-- div align="center" class="row mt-1">
+					<div class="col-md-12 itcathidden" style="display: none;">
+					<div class="row occ_note mt-2"  style="margin-left: 15px; margin-right:8px; border-radius: 60px;">			     
+							<div class="bordstyle col-md-1"  align="center" 
+								style=" color: white; margin-left:140px;margin-right:100px;background: dimgray; font-size: 16px;">
+								<STRONG> GIFT: <span class="numradius2"
+									th:text="${totgift}"></span></strong>
+								<br><br>	<span  style="font-size: 12px;">
+									(PAO &nbsp;<span class="numradius2" th:text="${cougiftapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${cougiftacl}"></span>)
+									
+							</div>			
+							<div class="bordstyle col-md-1"  align="center" 
+								style="  color: white;  margin-right:100px;background: dimgray; font-size: 16px;">
+								<STRONG> SALE OF <br>GOODS : <span class="numradius2"
+									th:text="${totsg}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${cousgapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${cousgacl}"></span>)
+									
+							</div>
+							<div class="bordstyle col-md-1"  align="center" 
+								style="color: white;  margin-right:100px; background: dimgray; font-size: 16px;">
+								<strong> COMMERCIAL<br> SAMPLE : <span class="numradius2"
+									th:text="${totcs}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${coucsapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${coucsacl}"></span>)
+									
+							</div>
+							<div class="bordstyle col-md-1" align="center" 
+								style="color: white;  margin-right:100px; background: dimgray; font-size: 16px;">
+								<strong> RETURNED <br>GOODS : <span
+									class="numradius2" th:text="${totrg}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${courgapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${courgacl}"></span>)
+									
+							</div>
+							<div class="bordstyle col-md-1"  align="center" 
+								style="color: white;  margin-right:100px; background: dimgray; font-size: 16px;">
+								<strong> DOCUMENTS<br> :<span
+									class="numradius2" th:text="${totdoc}"></span></strong>
+									<br><span  style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${coudocapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${coudocacl}"></span>)
+							</div>				
+							<div class="bordstyle col-md-1" align="center" 
+								style=" color: white;   background: dimgray; font-size: 16px;">
+								<strong>OTHERS :<span
+									class="numradius2" th:text="${tototh}"></span></strong>
+									<br><br><span style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${couothapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couothacl}"></span>)
+								
+							</div>
+						</div>
+						</div>
+					<div class="col-md-12 macathidden" style="display: none;">
+					<div class="row occ_note mt-2" style="margin-left: 15px; margin-right:8px; border-radius: 60px;" >
+					      
+							<div class="col-md-2 bordstyle" align="center"
+								style=" margin-left: 140px; color: white; background: dimgray; font-size: 16px;">
+								<STRONG> &nbsp;U - Letters : <span class="numradius2"
+									th:text="${totltr}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+									(PAO - <span class="numradius2" th:text="${totltrapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${coultracl}"></span>)
+									</div>
+							</div>			
+							<div class="col-md-2 bordstyle" align="center" 
+								style="margin-left: 2%;  color: white; background: dimgray; font-size: 16px;">
+								<STRONG> &nbsp;E - EMS : <span class="numradius2"
+									th:text="${totems}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${totemsapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couemsacl}"></span>)
+									</div>
+							</div>
+							<div class="col-md-2 bordstyle" align="center" 
+								style="margin-left: 2%; color: white; background: dimgray; font-size: 16px;">
+								<strong> &nbsp;C - Parcels : <span class="numradius2"
+									th:text="${totpar}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${totparapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couparacl}"></span>)
+									</div>
+							</div>
+							<div class="col-md-3 bordstyle" align="center"
+								style="margin-left:2%;color: white; background: dimgray; font-size: 16px;">
+								<strong> &nbsp;T - Empty Receptacles : <span
+									class="numradius2" th:text="${totemp}"></span></strong>
+									<div class="mt-2" style="font-size: 12px;">
+										(PAO - <span class="numradius2" th:text="${totempapr}"></span>&nbsp;PAC - <span
+											class="numradius2" th:text="${couempacl}"></span>)
+									</div>
+							</div>
+						
+						</div>	
+						</div>
+						</div-->
+
+		<div style="color: white">
+
+			<div class="row mt-2">
+				<div class="col-sm-4">
+					<a href="ead_list"><div class="card"
+							style="background-color: #4e97d6 ; height: 97%;">
+							<div class="card-body">
+								<i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="width: 75%;">
+									<strong>Process EAD <br>(Electronic Advance Data)
+									</strong>
+								</h5>
+								<div class="vl" style="margin-top: -47%;"></div>
+								<!-- <p
+									style="margin-left: 73%; margin-top: -51%; margin-bottom: 0px;">
+									Mail Class</p> -->
+								<p
+									style="margin-left: 65%; margin-bottom: -8px; margin-top: -50%;">
+									Letter(U) <span th:text="${coultr}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 9%;">231</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 66%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									EMS(E) <span th:text="${couems}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 25%;">16</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+
+								<p
+									style="margin-left: 67%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									Parcels(C) <span th:text="${coupar}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 10%;">09</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 67%; margin-top: -3%; margin-bottom: -8px; font-size: 13px;">
+									Emp.Recp(T) <span th:text="${couemp}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px;">0</span>
+								</p>
+
+
+							</div>
+						</div></a>
+				</div>
+				<div class="col-sm-4">
+					<a href="process_ead"><div class="card "
+							style="background-color: #6ea5d4; height: 97%;">
+							<!--div class="card-body">
+								<i class="fas fa-sign-out-alt" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="width: 55%;">
+									<strong>Pending for arrival of Articles</strong>
+								</h5-->
+							<div class="card-body">
+								<i class="fa fa-refresh fa-spin fa-3x fa-fw" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="width: 55%;">
+									<strong>Process AAA <br> (Articles Awaiting Arrival)
+									</strong>
+								</h5>
+								<div class="vl" style="margin-top: -39%;"></div>
+								<!-- <p
+									style="margin-left: 73%; margin-top: -55%; margin-bottom: 0px;">
+									Pending</p> -->
+								<p
+									style="margin-left: 73%; margin-bottom: -8px; margin-top: -50%;">
+									Query <span th:text="${coupqry}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 7%;">23</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									Exam <span th:text="${coupexm}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 22%;">16</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									OOC <span th:text="${coupooc}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 25%;">09</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 13px;">
+									EDI <span th:text="${coupedi}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 39%;">0</span>
+								</p>
+
+
+							</div>
+
+						</div></a>
+				</div>
+				<div class="col-sm-4">
+					<a href="import_role"><div class="card"
+							style="background-color: #8dbee8; height: 97%;">
+							<div class="card-body">
+								<i class="fa fa-spinner fa-spin" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="width: 55%;">
+									<strong>Process AAF <br> (Articles Arrived at FPO)</strong>
+								</h5>
+								<div class="vl" style="margin-top: -39%;"></div>
+
+								<!-- <p
+									style="margin-left: 73%; margin-top: -48%; margin-bottom: 0px;">Import
+								</p> -->
+								<p
+									style="margin-left: 73%; margin-bottom: -8px; margin-top: -50%;">
+									Assess <span th:text="${couass}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 10%;">0</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									Exam <span th:text="${couexm}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 27%;">0</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+
+								<p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 14px;">
+									OOC <span th:text="${couooc}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 30%;">0</span>
+								</p>
+								<hr
+									style="margin-left: 68%; margin-top: 1rem; margin-bottom: 1rem; border: 2; border-top: 3px solid white; width: 35%;">
+								<!--p
+									style="margin-left: 73%; margin-top: -3%; margin-bottom: -8px; font-size: 13px;">
+									Detain <span th:text="${coudet}"
+										style="background: red; padding: 3px; color: white; border-radius: 20px; margin-left: 21%;">0</span>
+								<p-->
+							</div>
+						</div></a>
+				</div>
+			</div>
+			<div class="row mt-2">
+			<div class="col-sm-4">
+			<a th:href="${session.data1=='PBS' ? 'bagscan' : 'javascript:;'}">
+			<div class="card" th:style="${session.data1=='PBS' ? 'cursor:pointer;background-color: #7e2b37' : 'cursor:default;background: #7e2b37;color:white;'}">
+							<div class="card-body">
+								<i class="fa fa-scissors" style="font-size: 27px"></i>
+								<h5 class="card-title mt-2">
+									<u><strong>Postal Bag Arrival Confirmation / Import Article Scan Report</strong></u>
+								</h5>
+							</div>
+							
+						</div></a>
+				</div>
+			<div class="col-sm-4">
+					<div class="card"
+							style="background-color: #ec6565">
+							<div class="card-body">
+								<h5 class="card-title" style="font-size: large"><span><i class="fas fa-stream" style="font-size: 27px"></i></span><a th:style="${session.data1=='PAC' ? 'cursor:pointer' : 'cursor:default;color: white;text-decoration: none'}" th:href="${session.data1=='PAC' ? 'aclfunction' : 'javascript:;'}" >
+									<span style="margin-left:50px;"><u style="text-decoration: none"><strong>Re-allocation / Priority / Re-call / Alert</strong></u></span>
+								</a></h5>
+
+								 
+								<!--<h5 class="card-title" style="font-size: large"><span><i class="fa fa-stream" style="font-size: 27px"></i></span><a th:style="${session.data1=='PAC' ? 'cursor:pointer' : 'cursor:default;color: white;'}" th:href="${session.data1=='PAC' ? 'reallocation' : 'javascript:;'}">
+									<span style="margin-left:50px;"><u><strong>Re-allocation</strong></u></span>
+								</a></h5>
+								
+								<h5 class="card-title" style="font-size: large"><a th:style="${session.data1=='PAC' ? 'cursor:pointer' : 'cursor:default;color: white;'}" th:href="${session.data1=='PAC' ? 'priority' : 'javascript:;'}">
+									<span style="margin-left:50px;"><u><strong>Priority Article Movement</strong></u></span>
+								</a></h5>-->
+							</div>
+					</div>		
+				</div>
+				<div class="col-sm-4">
+					<a href="postaledi"><div class="card"
+							style="background-color: #ffb861">
+							<div class="card-body">
+								<i class="fa fa-upload" style="font-size: 27px"></i>
+								<h5 class="card-title mt-2">
+									<strong>Articles Moved to Commercial Imports</strong>
+								</h5>
+							</div>
+							
+						</div></a>
+				</div>
+			</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-4">
+					<a href="detention"><div class="card" style="background-color: #ef3c3c">
+						<div class="card-body">
+							<i class="fa fa-ban" style="font-size: 27px"></i>
+							<h5 class="card-title mt-2">
+								<strong>Detained <br>Import Articles</strong>
+							</h5>
+
+						</div>
+				</div>
+			</div>
+				<div class="col-sm-4 ">
+					<a href="deliveryarticles"><div class="card" style="background-color: #CD853F">
+							<div class="card-body">
+								<i class="fa fa-pencil-square-o" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2" style="font-size: 19px;">
+									<strong>Acknowledgement from Post on Delivery of Articles</strong>
+								</h5>
+							</div>
+
+						</div></a>
+				</div>
+				<div class="col-sm-4 mb-2">
+					<a href="report1"><div class="card"
+							style="background-color: #a68ea7;max-height: 139px;">
+							<div class="card-body">
+								<i class="fa fa-file" style="font-size: 30px"></i>
+								<h5 class="card-title mt-2">
+									<a href="report1" style="font-weight: bolder;">MIS Reports</a>
+								</h5>
+								<h5 class="card-title mt-2">
+									<a href="report" style="font-weight: bolder;">Analytical Report</a>
+								</h5>
+								<br>
+							</div>
+						</div></a>
+				</div>
+			</div>
+			
+			<div class=" row mt-2">
+				<div class="col-sm-4 mb-2">
+					<div class="card"
+							style="background-color: #3fcdcd;max-height: 139px;">
+							<div class="card-body">
+								<i class="fa fa-eye" style="font-size: 30px"></i>
+								<a href="article"><h5 class="card-title mt-2">
+									<strong>View Articles - Track and Trail</strong>
+								</h5></a>
+								
+								<a href="trackarticle"><h5 class="card-title mt-2">
+									<strong>ICEGATE - Track Article</strong>
+								</h5></a>
+								<br>
+							</div>
+						</div>
+				</div>
+				<div class="col-sm-4 mb-2">
+					<div class="card"
+							style="background-color: #007bff;max-height: 139px;">
+							<div class="card-body">
+								<i class="fa fa-eye" style="font-size: 30px"></i>
+								<a href="alloSite"><h5 class="card-title mt-2">
+									<strong>CUSITM / AAI - Without Pincodes</strong>
+								</h5></a>
+
+								<br>
+							</div>
+						</div>
+				 </div>
+				<div class="col-sm-4 mb-2">
+					<a   th:style="${session.data1=='PIN' ? 'cursor:pointer' : 'cursor:default;color: white;text-decoration: none;'}"   th:href="${session.data1=='PIN' ? 'dcallhistory' : 'javascript:;'}"><div class="card" style="background-color: #b56464">
+							<div class="card-body">
+								<i class="fa fa-eye" style="font-size: 30px" aria-hidden="true"></i>
+								<h5 class="card-title mt-2" style="font-size: 19px;">
+									<strong>D-Call Letter</strong>
+									<p style="font-size: 12px;">(Generate D-Call / Push - Email / SMS / View History)</p>
+								</h5>
+							</div>
+
+						</div></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="js/dash.js"></script>
+<script src="js/ead_list.js"></script>
+</html>
+

@@ -1,0 +1,471 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+
+	.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+hr {
+	border-top: 1px solid rgb(0, 0, 139);
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+.pointer-class{
+    	cursor:pointer;
+    }
+   #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        } 
+</style>
+<body style="background: #d6dcd9">
+<input type="hidden" id="cinno" th:value="${head.id}">
+<input type="hidden" id="itemId" th:value="${head.ITEM_ID}">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+
+
+		<div class="col-md-3" style="padding-left: 5px;">
+				<a th:href="@{pen_declared?id={id}(id = ${head.id})}"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button></a>
+			</div><div class="mt-4" align="center">
+			<h2>Articles Awaiting Arrival</h2>
+			<h3>Examination order</h3>
+		</div>
+
+			<div id="disphead">
+            </div>
+	<!-- 	<div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly" th:id="itemId"
+					th:value="${head.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+
+			</div>
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+
+			</div>
+
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.FPO_CODE}">
+			</div>
+
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div> -->
+
+
+		<!--    muchos disgustimos   -->
+		<div class="breadcrumb-pagination mt-3">
+			<a style="color: #b3b7c1;" th:attr="href=|pen_main?id=${head.id}|"><div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div></a>
+			<div class="completed" th:classappend ="${curque== 'N2' || curque== 'N3' || curque== 'N1'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','pen_ead_query')|">
+				<span></span>
+				<p>Query Reply & D-Call Letter</p>
+			</div>
+			<div class="completed" th:classappend ="${curque== 'N2' || curque== 'N3' || curque== 'N1'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','pen_declared')|">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="active" th:attr="onclick=|redirect('${curque}','pen_order')|">
+				<span>4</span>
+				<p>Exam Order</p>
+			</div>
+			<!-- <div class="todo">
+				<span>5</span>
+				<p>Submit</p>
+				
+			</div> -->
+		</div>
+
+		<!-- <div class="mt-2" style="float: right;">
+			<a class="nav-link btn btn-info btn-sm" style="color: white;"
+				onclick="goBack()">Back </a>
+		</div> -->
+
+		<form action="#" th:action="@{/pen_exam_order_add}" id="pen_exam_order_add_id" method="post">
+
+			<input type="hidden" th:value="${head.id}" name="CIN_NO">
+
+			<div class="mt-2" th:each="exam,iter : ${getOrder}">
+				<p>
+					<strong>Order to :</strong>
+				</p>
+
+				<p class="check">
+					1. Scan <input type="checkbox" id="scan" name="EXAM_ORDER"
+						th:checked="${exam.exam1} == Scan" value="Scan">
+				</p>
+				<p class="check">
+					2. Detain <input type="checkbox" id="detain" name="EXAM_ORDER"
+						th:checked="${exam.exam2} == Detain" value="Detain">
+				</p>
+				<p class="check">
+					3. Scan And Open Examination <input type="checkbox"
+						name="EXAM_ORDER" id="scanOpenExam"
+						th:checked="${exam.exam3} == Examination" value="Examination">
+				</p>
+				
+				<p><font color="RED"><b> Note: </b></font><font size="2">Unless any of the options above is selected and Examination Instructions / Order is entered, "SUBMIT" button will not be enabled.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If Examination Order is not required to be given, please click 'Back' button and proceed further.</font></p>
+				
+				
+
+					<div class="form-group mb-1">
+						<br> <label class="lab_txt">Examination instruction /
+							Order : [min 6 characters ; max 2000 characters]</label>
+
+
+						<textarea type="text" class="form-control" name="ORDER_REMARK"
+							 th:text="${exam.ORDER_REMARK}" onkeyup="success(id)"
+							th:id="textsend" rows="5" ></textarea>
+					</div>
+
+			
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-5" style="font-size: 14px;">
+					<div id="aclMsg" style="display: none">
+						<p style="color: blue; margin-bottom: 0rem;">
+							<strong>Notes :</strong>
+						</p>
+						<p>For sending it back to PAO please go back to
+							Assessment screen</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" style="text-align: center;">
+					<a th:href="@{pen_declared?id={id}(id = ${head.id})}">
+					<button type="button" class="btn btn-info">Back</button></a>
+					<!-- <button type="button" data-toggle="modal"
+						data-target="#exampleModal" id="lock" class="btn btn-primary"
+						disabled>save</button> -->
+					<button type="button" class="ordersave btn btn-success" th:id="${head.id}"
+						 data-target="#penexampleModal"onclick="viewDetail(this);">Click after entering Exam Order</button>
+					<button type="button" class="sendac btn btn-success" th:id="${head.id}"
+						 onclick="sendAC(this);">Click to process Without Exam Order </button>
+				 <button th:disabled="${!(hasOrder == null || hasOrder.isEmpty())}" type="button" th:id="nextPageButton" style="display:none"
+						th:value="${head.id}" class="btn btn-info nxtooc"
+									onclick="movOOC()">Move to OOC</button>
+				
+				</div>
+			</div>
+
+			<br>
+
+
+			<!-- Modal -->
+			<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h4 th:text="1" id="msgAprWarning"></h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="save" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			
+		   <div class="modal fade" id="penexampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body" align="center">
+							<h4 id="penOrderpopup"></h4>
+						</div>
+						<div class="modal-footer">
+						<div class="col-6" style="justify-content: flex-start;display: flex;">
+							   <button type="button" class="btn btn-danger"
+								   data-dismiss="modal">Close</button>
+						</div>		   
+						<div class="col-6" style="display: flex;justify-content: flex-end;">
+							   <button type="save" class="btn btn-success" onclick="movEXM()">Ok</button>
+						</div>	   
+						</div>
+					</div>
+				</div>
+			</div> 
+
+		</form>
+
+		<div id="aclWarningMsgOrder" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>
+							If the Order to / Examination Order Suggested by PAO is to
+							be modified, <br> Please check <i style="color: blue;"
+								class="fas fa-check-square"></i> or uncheck <i
+								style="color: #afafaf;" class="fas fa-square"></i> and suitably
+							modify the General remarks if required.
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-success">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="aprCmtsModel" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Pls enter
+							remarks, If any to forward to AC</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" align="center">
+						<textarea type="text" class="form-control" name="sndaclcmts"
+							th:id="sndaclcmts" onkeyup="successPopup(id)"
+							placeholder="Enter your Remarks..." rows="5"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" id="lock1" class="btn btn-success"
+							onclick="sendAclcmts(value)" disabled>OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="alertmsg" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>As the value demands AC/DC's permission, it will move to
+							AC/DC.</h4>
+					</div>
+					<div class="modal-footer">
+						<button onclick="listView()" class="btn btn-success">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totassval">
+	<input type="hidden" th:value="${head.ROLE}" id="role1">
+	<input type="hidden" th:value="${assvalacl}" id="maxval">
+	<input type="hidden" th:value="${qrycou}" id="qcou">
+	<input type="hidden" th:value="${ordcou}" id="ocou">
+	<input type="hidden" th:value="${session.data}" id="curoffId" /> 
+	<input type="hidden" th:value="${session.data1}" id="currole" />
+    <input type="hidden" th:value="${acloffid}" id="acloffid" />
+
+
+
+
+<div class="modal fade" id="nxtModals" tabindex="-1" 
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered " style="max-width: 450px;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>
+						<font color="black">This will move to OOC queue for Clearance or Detention queue  awating on arrival of the parcel</font>
+					</h4>
+				</div>
+				<div class="modal-footer">
+				    <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary"
+					style="background-color:red"	data-dismiss="modal">CANCEL</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" th:id="${head.id}"
+					style="background-color:green"	onclick="OOCDet(this)">OK</button></div>
+					<!-- a href="import_ooc_search"-->
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	</div>
+	<script src="js/pen_order.js"></script>
+		<script type="text/javascript">
+	            $.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+	</script>
+</body>
+</html>

@@ -1,0 +1,704 @@
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+    <meta charset="ISO-8859-1">
+<style>
+
+	#dashscreen{
+	display:block !important;
+	}
+	
+	
+	.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+	
+	#nodashboard{
+	
+	display: none !important;
+	}
+
+    .lab_txt {
+        font-size: 14px;
+        color: blue;
+    }
+
+    .scroll_down {
+        height: 550px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .flash {
+        padding: 12px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+        animation-name: blink;
+        animation-duration: 1s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes blink {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: .5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /*table.dataTable thead .sorting {
+      background-image: url(/DataTables-1.10.21images/sort_both.png);
+      }
+      table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+      cursor: none;
+      }*/
+    .buttonstyle {
+        color: white;
+        font-size: 16px;
+        background: dimgray;
+        padding: 5px;
+        border-radius: 12px;
+        border: 2px solid #4a4d5d;
+        border-left: solid #4a4d5d 2px;
+        border-top: solid #4a4d5d 2px;
+    }
+
+    .buttonstyles {
+        border: 2px solid white;
+        border-radius: 20px;
+        color: white;
+        font-size: 20px;
+    }
+
+    btndis {
+        color: white;
+    }
+
+    .bordstyle {
+        border: 2px solid white;
+        background: dimgray;
+        border-radius: 20px;
+        padding: 2px;
+    }
+
+    .bordstyleh {
+        border: 2px solid white;
+        background: #6899d0;
+        border-radius: 5px;
+        padding: 2px;
+    }
+
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    .tot_no {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .tot_no1 {
+        font-size: 13px;
+        font-weight: 700;
+        color: red;
+    }
+
+    .dataTables_wrapper {
+        position: static;
+        clear: both;
+        zoom: 1;
+    }
+
+    .numradius1 {
+        border: 2px solid #4a4d5d;
+        background-color: #ff6565;
+        color: white;
+        font-size: 16px;
+        border-radius: 20px;
+        padding: 1px;
+    }
+
+    .numradius2 {
+        color:#104e1e;
+        font-size: 16px;
+    }
+
+    .numradius3 {
+        color: #25ebf5;
+        font-size: 16px;
+    }
+
+    .numradius {
+        border: 2px solid black;
+        background-color: #17a2b8;
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .dispval {
+        font-color: white;
+    }
+
+    .occ_note {
+        background-color: #79a0ca;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+    }
+
+    .gray_note {
+        background-color: #7fa0c3;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 20px;
+    }
+
+    table.dltrc {
+        width: 100%;
+        align: center;
+        border-collapse: separate;
+        border-spacing: 0px;
+        border: solid darkbrown 2px;
+        border-radius: 8px;
+        font-color: white;
+        font-size: 14px;
+    }
+
+    tr.dlheader {
+        text-align: center;
+        font-weight: bold;
+        font-color: white;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        padding: 2px
+    }
+
+    td.dlheader {
+        text-align: center;
+        font-weight: bold;
+        font-color: white;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        border-radius: 0px;
+        padding: 2px
+    }
+
+    tr.dlinfo,
+    td.dlinfo {
+        text-align: center;
+        font-color: black;
+        font-size: 14px;
+        border-left: solid darkbrown 2px;
+        border-top: solid darkbrown 2px;
+        padding: 2px
+    }
+
+    td.dlinfo:first-child,
+    td.dlheader:first-child {
+        border-left: none;
+    }
+
+    td.dlheader:first-child {
+        border-radius: 5px 0 0 0;
+    }
+
+    td.dlheader:last-child {
+        border-radius: 0 5px 0 0;
+    }
+
+    .pl-1.pad,
+    .px-1.pad {
+        padding-left: 10.25rem !important;
+    }
+
+    @import url(https://fonts.googleapis.com/css?family=Roboto);
+
+    body {
+        height: 100%;
+        background: #FAFAFA;
+        font-family: 'Roboto', sans-serif;
+
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .tab-bar {
+        margin: 20px 10px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        list-style-type: none;
+        -webkit-padding-start: 0;
+
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    }
+
+    .tab {
+        width: 100px;
+        padding: 20px 0;
+        background: white;
+        color: #104e1e;
+        overflow: hidden;
+        text-align: center;
+        font-weight: 600;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        cursor: pointer;
+        position: relative;
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        border: 1px solid #f5f7f7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .indicator {
+        height: 3px;
+        background: #28a745;
+        position: absolute;
+        margin-top: 168px;
+        margin-left: 0;
+
+        -webkit-transition: margin 0.5s ease;
+
+        transition: margin 0.5s ease;
+    }
+
+    .cercle {
+        width: 0px;
+        height: 0px;
+        position: absolute;
+    }
+
+    .light .cercle {
+        background: white
+    }
+
+    .dark .cercle {
+        background: black
+    }
+
+    .anim {
+        opacity: 0.2;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+        -webkit-animation: touch 1.2s ease-out;
+        animation: touch 1.2s ease-out;
+    }
+
+    @-webkit-keyframes touch {
+        100% {
+            width: 600px;
+            height: 600px;
+            border-radius: 600px;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            margin: -300px;
+        }
+    }
+
+    @keyframes touch {
+        100% {
+            width: 600px;
+            height: 600px;
+            border-radius: 600px;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+            margin: -300px;
+        }
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #000000 !important;
+    }
+
+    body {
+        overflow-y: scroll;
+        background: aliceblue !important;
+    }
+
+    .filter {
+        width: 850px;
+        padding: 25px;
+        border: 1px solid black;
+        margin: 25px;
+        float: left;
+    }
+
+    .col {
+        width: 100%;
+        display: block;
+        margin-right: 10px;
+    }
+
+    .col label {
+        vertical-align: top;
+        float: left;
+        width: 267px;
+    }
+
+    .mr-10 {
+        margin-right: 10px;
+    }
+
+    .fbold {
+        font-weight: bold;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 35px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 35px;
+        font-weight: bold;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 35px;
+    }
+
+    .select2-results__option {
+        font-weight: bolder;
+    }
+
+    .error-color {
+        text-align: center;
+        color: red;
+        margin-bottom: 0;
+        position: relative;
+        right: 50px;
+        bottom: 5px;
+    }
+
+    li.tab.wave.dark:hover {
+        background: #f5f7f7;
+    }
+
+    li.tab.wave.dark.default {
+        cursor: default;
+        pointer-events: none;
+    }
+
+    li.tab.wave.dark.default:hover {
+        background: #fff;
+    }
+    
+    .bg_rec {
+    background-color: #e6e5e5;
+    border-radius: 10px;
+    padding: 10px;
+	}
+	
+	.lab_txt {
+	    font-size: 13px !important;
+	    font-weight: 700 !important;
+	    color: blue !important;
+	}
+	#titletab {
+	    text-transform: uppercase;
+	    font-weight: bolder;
+	    font-size: 35px;
+	    text-decoration: underline;
+	}
+	.smalltexthelp {
+		color: blue !important;
+	    margin: 0;
+	    margin-bottom: 10px;
+	    margin-left: 20px;
+	    font-weight: bold;
+	    text-transform: capitalize;
+	}
+
+    #next-titletab {
+        text-transform: uppercase;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #cf368b;
+    }
+    
+    .completed-tab,.completed-tab:hover {
+    	background: #c0e5c9;
+    	color: black;
+    	font-weight: bold;
+    }
+    
+    .progress-tab,.progress-tab:hover {
+    	background: #ffe38f;
+    	color: black;
+    	font-weight: bold;    
+    }
+    
+    .notcompleted-tab,.notcompleted-tab:hover {
+    	background: #fba4a4;
+    	color: black;
+    	font-weight: bold;    
+    }
+    
+ #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+    
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="row">
+			<div class="col-4" style="margin-top: 10px;margin-left: 15px;"><a href="javascript:;" onclick="goLastPage()"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a></div>
+            <div class="col-4" style="text-align: center;font-size:30px;"><strong>ARTICLE ID - </strong><span id="next-titletab" class="form_txt" th:text="${itemId}"></span>
+            <div align="center" style="margin-bottom: 25px;font-size:20px;font-weight:600;">
+            <label style="color:blue" >CIN No - </label>
+        	<span id="itemIDShow" th:text="${cinno1 +';'}"></span>
+        	<label style="color:blue" >CIN Date - </label>
+        	<span id="itemIDShow" th:text="${cindt1}"></span>
+            </div></div>
+        </div>
+    <div id="mainContent">
+        <ul class="tab-bar" id="button-list" style="position: relative; height: 171px;">
+            <li data-num="1" id="summary" name="summary" class="tab wave dark" style="background:#f1e6e6;;width:6%">CN 22 /<br> CN 23 SUMMARY</li>
+            <div style="border: 1px solid aliceblue;width:25%">
+                <li data-num="2" name="EAD" class="tab wave dark default" style="width: 100%;background:#e7e4e4">EAD SUB MODULE</li>
+                <div style="display: flex;border-top: 1px solid #f5f7f7;">
+                    <li data-num="3" name="assessment" class="tab wave dark" style="background:#e7e4e4"> ASSESS<br>MENT</li>
+                    <li data-num="19" name="eaddeptcmnt" class="tab wave dark" style="background:#e7e4e4;height: 106px;">DEPART<br>MENTAL COMMENTS</li>
+                    <li data-num="4" name="eadquery" class="tab wave dark" style="background:#e7e4e4">INITIAL <br>QUERY </li>
+                    <li data-num="5" name="examorder" class="tab wave dark" style="background:#e7e4e4">EXAMI<br>NATION<br> ORDER</li>
+                    <li data-num="6" name="eaddecision" class="tab wave dark" style="background:#e7e4e4">EAD<br> DECISION</li>
+                </div>
+            </div>
+            <div style="border: 1px solid aliceblue;width:22%">
+                <li data-num="7" name="EAD" class="tab wave dark default" style="width: 100%;background:#dbd4d4">ARTICLES &nbsp;&nbsp;AWAITING&nbsp;&nbsp; ARRIVAL&nbsp;&nbsp;(AAA)&nbsp;SUB&nbsp;&nbsp;MODULE</li>
+                <div style="display: flex;border-top: 1px solid #f5f7f7;background:#dbd4d4">
+                    <li data-num="9" name="assessment" class="tab wave dark" style="background:#dbd4d4">ASSESS<br>MENT</li>
+                    <li data-num="20" name="aaadeptcmnt" class="tab wave dark" style="background:#dbd4d4;">DEPART <br>MENTAL COMMENTS</li>
+                    <li data-num="8" name="aaaquery" class="tab wave dark" style="background:#dbd4d4; height: 106px;">QUERY <br> REPLY &  <br> ADDITIONAL <br>  QUERY</li>
+                    <li data-num="10" name="examorder1" class="tab wave dark" style="background:#dbd4d4">EXAMI<br>NATION<br> ORDER</li>
+                </div>
+            </div>
+            <li data-num="16" name="bagscan" class="tab wave dark" style="background:#cdc2c2;width: 7%;">ARTICLE <br>ARRIVAL <br>INFO & <br> BAG <br> SCAN <br>INFO</li>
+            <div style="border: 1px solid aliceblue;width:32%">
+                <li data-num="11" name="EAD" class="tab wave dark default" style="width: 100%;background:#cbc6c6">ARTICLES&nbsp;&nbsp; ARRIVED&nbsp;&nbsp; AT &nbsp;&nbsp;FPO&nbsp;&nbsp;(AAF) &nbsp;SUB&nbsp;&nbsp; MODULE </li>
+                <div style="display: flex;border-top: 1px solid #f5f7f7;">
+                    <li data-num="12" name="examfindings" class="tab wave dark" style="background:#cbc6c6">EXAMI<br>NATION<br> FINDINGS</li>
+                    <li data-num="8" name="aafquery" class="tab wave dark" style="background:#cbc6c6; height: 106px;">QUERY <br> REPLY & <br> ADDITIONAL<br> QUERY</li>
+                    <li data-num="13" name="assessment" class="tab wave dark" style="background:#cbc6c6">ASSESS<br>MENT</li>
+                    <li data-num="21" name="aafdeptcmnt" class="tab wave dark" style="background:#cbc6c6">DEPART<br>MENTAL COMMENTS </li>
+                    <li data-num="14" name="detention" class="tab wave dark" style="background:#cbc6c6">DETENTION</li>
+            		<li data-num="15" name="ooc" class="tab wave dark" style="background:#cbc6c6">OOC</li>
+                </div>
+            </div>
+            <li data-num="16" name="delack" class="tab wave dark" style="background:#cdc1c1;width:8%">DELIVERY <br>ACK <br> FROM <br> DEPT OF POST</li>
+            <li data-num="17" name="rms" class="tab wave dark" style="background:#bbb5b5;width:4%">RMS</li>
+            <li data-num="18" name="fpomovement" class="tab wave dark" style="background:#cbbebe;width:7%">ARTICLE ID MOVEMENT</li>
+            <div class="indicator" style="margin-left: 0px; width: 77px;"></div>
+        </ul>
+        <div id="buttonContent"></div>
+        <input type="hidden" id="itemId" th:value="${itemId}">
+    </div>
+</body>
+<script type="text/javascript">
+    var waveBtn = (function() {
+        'use strict';
+        var btn = document.querySelectorAll('.wave'),
+            tab = document.querySelector('.tab-bar'),
+            indicator = document.querySelector('.indicator'),
+            indi = 0;
+        indicator.style.marginLeft = indi + 'px';
+
+        for (var i = 0; i < btn.length; i++) {
+            btn[i].onmousedown = function(e) {
+                var newRound = document.createElement('div'),
+                    x, y;
+
+                newRound.className = 'cercle';
+                this.appendChild(newRound);
+
+                x = e.pageX - this.offsetLeft;
+                y = e.pageY - this.offsetTop;
+
+                newRound.style.left = x + "px";
+                newRound.style.top = y + "px";
+                newRound.className += " anim";
+                
+                indicator.style.marginLeft = $(e.currentTarget != undefined ? e.currentTarget : e.target).offset().left-10+"px";
+                indicator.style.width = $(e.currentTarget != undefined ? e.currentTarget : e.target).width()+2;
+
+                setTimeout(function() {
+                    newRound.remove();
+                }, 1200);
+            };
+        }
+    }());
+
+    var currentPage = '';
+
+    $("#button-list li").click(function() {
+        var itemId = $("#itemId").val();
+        var buttonName = $(this).attr('name');
+        if (currentPage != buttonName) {
+            currentPage = buttonName;
+            var urlLink = '';
+            if (buttonName === 'summary') {
+                urlLink = 'getSummary?id=' + itemId;
+            } else if (buttonName === 'eadquery') {
+                urlLink = 'getqueryandreply?qrylevel=EAD&id=' + itemId;
+            } else if (buttonName === 'aaaquery') {
+                urlLink = 'getqueryandreply?qrylevel=AAA&id=' + itemId;
+            } else if (buttonName === 'aafquery') {
+                urlLink = 'getqueryandreply?qrylevel=AAF&id=' + itemId;
+            } else if (buttonName === 'examorder') {
+                urlLink = 'getExamOrder?qrylevel=EAD&id=' + itemId;
+            } else if (buttonName === 'examorder1') {
+                urlLink = 'getExamOrder?qrylevel=AAA&id=' + itemId;
+            }else if (buttonName === 'eaddecision') {
+                urlLink = 'getEadDecision?id=' + itemId;
+            } else if (buttonName === 'fpomovement') {
+                urlLink = 'getFpoMovement?id=' + itemId;
+            } else if (buttonName === 'assessment') {
+                urlLink = 'getAssessment?id=' + itemId +'&ead=true';
+            } else if (buttonName === 'examfindings') {
+                urlLink = 'getExamFindings?id=' + itemId;
+            } else if (buttonName === 'detention') {
+                urlLink = 'getDetentionOrOOC?id=' + itemId;
+            } else if (buttonName === 'ooc') {
+                urlLink = 'getDetentionOrOOC?id=' + itemId +'&ooc=true';
+            } else if (buttonName === 'bagscan') {
+                urlLink = 'articlereportscan?articleId=' + itemId;
+            } else if (buttonName === 'delack') {
+                urlLink = 'getDeliveryAcknowledgementOfPost?id=' + itemId;
+            } else if (buttonName === 'eaddeptcmnt') {
+                urlLink = 'getDepartmentalComment?qrylevel=EAD&id=' + itemId ; 
+            }else if (buttonName === 'aaadeptcmnt') {
+                urlLink = 'getDepartmentalComment?qrylevel=AAA&id=' + itemId ; 
+            }else if (buttonName === 'aafdeptcmnt') {
+                urlLink = 'getDepartmentalComment?qrylevel=AAF&id=' + itemId ; 
+            }
+            $.ajax({
+                url: urlLink,
+                type: "post",
+                success: function(data) {
+                    $("#buttonContent").html(data);
+                },
+                error: function(rs, e) {
+		            if(this.url.includes('getExam')){
+		            	$("#buttonContent").html('<h1 style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">Examination not ordered</h1>');
+		            }else if(this.url.includes('getEadQuery')){
+		            	$("#buttonContent").html('<h1 style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">Query not raised</h1>');
+		            }else if(this.url.includes('getEadDecision')){
+		            	$("#buttonContent").html('<h1 style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">Decison not taken</h1>');
+		            }else if(this.url.includes('articlereportscan')){
+		            	$("#buttonContent").html('<h1 style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">Article Arrival Details Not Available</h1>');
+		            }else if(buttonName=='rms'){
+		            	swal('RMS not enabled !','','warning');
+		            	$("#buttonContent").html('');	
+		            }else {
+		            	swal('OOPS','Something went wrong !','error');
+		            	$("#buttonContent").html('');
+		            }
+                }
+            });
+        }
+    });
+
+    $("#summary").click();
+    $("#summary").mousedown();
+    
+    function goBack() {
+			//window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+			history.go(-2);
+		}
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+		
+</script>
+<script src="js/dash.js"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+<script type="text/javascript">function goLastPage(){
+			window.location="/article";			
+		}</script>
+</html>

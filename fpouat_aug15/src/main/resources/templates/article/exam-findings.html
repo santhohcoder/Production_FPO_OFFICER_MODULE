@@ -1,0 +1,188 @@
+<style>
+   .form_txt {
+   font-weight: 700
+   }
+   .col-form-label {
+   padding-top: 2px;
+   }
+   .lab_txt {
+   font-size: 13px;
+   font-weight: 700;
+   color: blue;
+   }
+   .form-group {
+   margin-bottom: 0rem;
+   }
+   hr {
+   border-top: 1px solid rgb(0, 0, 139);
+   }
+   .breadcrumb-pagination {
+   width: 100%;
+   border-bottom: 1px solid #E1E6EB;
+   text-align: center;
+   color: #B3B7C1;
+   }
+   .breadcrumb-pagination div {
+   width: 15%;
+   display: inline-block;
+   }
+   .breadcrumb-pagination div span {
+   margin: 0 auto;
+   display: block;
+   border-radius: 100%;
+   width: 36px;
+   font-size: 20px;
+   }
+   .completed span {
+   background-color: NONE;
+   color: #95db89;
+   border: 2px solid #95db89;
+   }
+   .active span {
+   background-color: #00abc9;
+   color: #fff;
+   }
+   .todo span {
+   background-color: none;
+   color: #E1E6EB;
+   border: 2px solid #E1E6EB;
+   }
+   .breadcrumb-pagination div p {
+   text-align: center;
+   line-height: 0;
+   margin: 10px auto 0px;
+   }
+   .active p {
+   border-bottom: 2px solid #00abc9;
+   padding-bottom: 20px;
+   margin-bottom: 0px !important;
+   color: #3c4043;
+   font-weight: 700;
+   }
+   .completed p {
+   color: "#bsb7c1";
+   }
+   .completed span::before {
+   content: '\2713'
+   }
+   input[readonly],textarea[readonly] {
+   background-color: #ffffff !important
+   }
+  #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        } 
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div th:if="${order == 1 || noExamFindings == 1}" class="container" style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;height: auto;padding: 20px;">
+          <div align="center" style="
+      margin-bottom: 25px;
+      ">
+      <h2>Examination Findings</h2>
+   </div>
+   <div  style="display: flex;">
+
+      <div class="mt-2" style="width: 50%;border: 2px solid;padding: 10px 15px;box-shadow: 5px 10px #544a49;border-radius: 20px;" th:each="exam,iter : ${getOrder}">
+  
+         <p>
+            <strong>Ordered to :</strong>
+         </p>
+         <p class="check">
+            1. Scan <input type="checkbox" id="scan" name="EXAM_ORDER" style="pointer-events: none;" th:checked="${exam.exam1} == Scan" value="Scan">
+         </p>
+         <p class="check">
+            2. Detain <input type="checkbox" id="detain" name="EXAM_ORDER" style="pointer-events: none;" th:checked="${exam.exam2} == Detain" value="Detain">
+         </p>
+         <p class="check">
+            3. Scan And Open Examination <input type="checkbox" style="pointer-events: none;" name="EXAM_ORDER" id="scanOpenExam" th:checked="${exam.exam3} == Examination" value="Examination">
+         </p>
+         <div class="mt-2">
+            <div class="form-group mb-3">
+               <br> <label class="lab_txt">Examination instruction /
+               Order : [min 6 characters ; max 2000 characters]</label>
+               <textarea type="text" readOnly class="form-control" name="ORDER_REMARK" th:text="${exam.ORDER_REMARK}" id="textsend" rows="10"></textarea>
+            </div>
+         </div>
+      </div>
+      <div class="mt-2" style="width: 50%;border: 2px solid;padding: 10px 15px;margin-left: 20px;box-shadow: 5px 10px #544a49;border-radius: 20px;">
+         <p>
+            <strong>Response :</strong>
+         </p>
+         <div>
+            <table id="examfindingstable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+               <thead style="background-color: #a1c4e6;">
+                  <tr>
+                     <th scope="col" id="sinid">Item No.</th>
+                     <th scope="col" style="text-align: center;">Item Found</th>
+                     <th scope="col" style="text-align: center;">Remarks</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr th:each="examFindingsForItem : ${examFindingsForItems}">
+                     <td th:text="${examFindingsForItem.item_no}"></td>
+                     <td th:text="${examFindingsForItem.item_fou ? '&#10004;&#65039;' : '&#10060;'}"></td>
+                     <td th:text="${examFindingsForItem.rmks}"></td>
+               </tbody>
+            </table>
+         </div>
+         <div class="mt-2">
+            <div class="form-group mb-3">
+               <br> <label class="lab_txt">Officer Id :</label>
+               <input type="text" readOnly class="form-control" th:value="${officerId}"></input>
+            </div>
+            <div class="form-group mb-3">
+               <br> <label class="lab_txt">Examination Remarks :</label>
+               <textarea type="text" readOnly class="form-control" name="ORDER_REMARK" th:text="${responseMsg}" id="textsend" rows="3"></textarea>
+            </div>
+             <div class="form-group mb-3">
+               <br> <label class="lab_txt">FOR DETENTION :</label>
+               <textarea type="text" readOnly class="form-control" name="ORDER_REMARK" th:text="${detain=='1' ? '&#10004;&#65039;' : '&#10060;'}" id="det" rows="1"></textarea>
+            </div>
+         </div>
+      </div>
+   </div>
+   </div>
+   <div th:if="${order == 0 || noExamFindings == 0}" style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;height: 50vh;padding: 20px;">
+   		<h1  style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">EXAMINATION Findings NOT GIVEN</h1>
+   </div>
+   
+
+<script type="text/javascript">
+ /*  $("#examfindingstable").dataTable({
+       "processing": true,
+       "paging": true,
+       "ordering": false,
+       "lengthMenu": [ 5, 10, 25,50],
+       "iDisplayLength": 5
+   }); */
+   function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>

@@ -1,0 +1,701 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/font.js}"></script>
+<style>
+
+table.dltrc {
+	width: 100%;
+	align: center;
+	background: #e0fffe;
+	border-collapse: separate;
+	border-spacing: 0px;
+	border: solid gray 2px;
+	border-radius: 8px;
+	font-color: black;
+	font-size: 14px;
+}
+
+tr.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: white;
+	font-size: 14px;
+	border-left: solid gray 2px;
+	padding: 5px
+}
+
+td.dlheader {
+	text-align: center;
+	font-weight: bold;
+	font-color: black;
+	font-size: 14px;
+	border-left: solid gray 2px;
+	border-radius: 0px;
+	padding: 5px
+}
+
+tr.dlinfo, td.dlinfo {
+	text-align: center;
+	font-color: black;
+	font-size: 14px;
+	border-left: solid gray 2px;
+	border-top: solid gray 2px;
+	padding: 5px
+}
+
+td.dlinfo:first-child, td.dlheader:first-child {
+	border-left: none;
+}
+
+td.dlheader:first-child {
+	border-radius: 5px 0 0 0;
+}
+
+td.dlheader:last-child {
+	border-radius: 0 5px 0 0;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+input[type=checkbox] {
+	box-sizing: border-box;
+	padding: 0;
+	width: 30px; /*Desired width*/
+	height: 30px; /*Desired height*/
+}
+
+input[type=checkbox]:checked {
+	background-color: #000;
+	border-left-color: #06F;
+	border-right-color: #06F;
+}
+
+.bordstyle {
+	border: 10px solid #4a4d5d;
+	background: #4a4d5d;
+	border-radius: 20px;
+}
+
+.bordstyleb {
+	border: 2px solid white;
+	background: dimgray;
+	border-radius: 6px;
+	color: white;
+}
+
+.exmcat{
+    font-size : 30px;
+}
+
+.bordstyle1 {
+	border: 2px solid gray;
+	background: #e0fffe;
+	border-radius: 20px;
+	color: black;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.scroll_down {
+	height: 400px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+
+.scrollitem {
+	height: 150px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid black;
+	text-align: center;
+	color: black;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.checkstyle input {
+	color: rgb(255, 255, 255);
+	background-color: rgb(40, 167, 69)
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+       
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 } 
+        
+        
+        
+
+</style>
+</head>
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div class="container"
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+
+
+		<div class="mt-4" align="center">
+			<h2>Process Imported Articles - Examination Queue</h2>
+		</div>
+		<div align="center">
+			<h3>Examination Officer's Report / Findings</h3>
+
+			<div class="form-group row mt-4">
+				<div class="px-1" style="width: 14%" align="center">
+					<label class="lab_txt">TRACKING_NO</label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${head.ITEM_ID}">
+				</div>
+				<div class="px-1" style="width: 11%" align="center">
+					<label class="lab_txt">DATE </label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${head.postDate}">
+				</div>
+				<div class="px-1" style="width: 9%" align="center">
+					<label class="lab_txt">TIME </label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${head.POSTINGTIME}">
+				</div>
+				<div class="px-1" style="width: 9%" align="center">
+					<label class="lab_txt">ORGIN_POST </label> <input type="text"
+						style="text-align: center;" class="form-control form_txt"
+						readonly="readonly" th:value="${head.POST_ORG_CD}">
+
+				</div>
+				<div class="px-1" style="width: 11%" align="center">
+					<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+						style="text-align: center;" class="form-control form_txt"
+						readonly="readonly" th:value="${head.FPO_CODE}">
+				</div>
+				<div class="px-1" style="width: 26%" align="center">
+					<label class="lab_txt">NATURE TRANSACTION</label> <input
+						type="text" class="form-control form_txt" readonly="readonly"
+						th:value="${head.NATURE_TYPE_CD}">
+				</div>
+				<div class="px-1" style="width: 20%" align="center">
+					<label class="lab_txt">CIN_NO</label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${head.id}" id="inputPassword">
+				</div>
+			</div>
+
+
+			<nav class="navbar navbar-expand-lg" style="margin-left: -29px">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarNav" aria-controls="navbarNav"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item px-1"><a
+							class="nav-link btn btn-secondary btn-sm" th:id="${head.id}"
+							onclick="viewDetail1(this);" href="#"> <strong>CN
+									22/CN 23 Summary</strong>
+						</a></li>
+						<li class="nav-item px-1"><a
+							class="nav-link btn btn-secondary btn-sm" th:id="${head.id}"
+							onclick="viewDetail2(this);" href="#"><strong>Process
+									Item wise</strong></a></li>
+
+					</ul>
+				</div>
+				<div align="right">
+					<a class="nav-link btn btn-secondary btn-sm" style="color: white;"
+						onclick="goBack()">Back </a>
+				</div>
+			</nav>
+
+			<div class="breadcrumb-pagination mt-2">
+				<div class="completed">
+					<span></span>
+					<p>Summary</p>
+				</div>
+				<div class="completed">
+					<span></span>
+					<p>Assessment</p>
+				</div>
+				<div class="completed">
+					<span></span>
+					<p>D-Call Letter</p>
+				</div>
+				<div class="active">
+					<span>4</span>
+					<p><font color="white">Examination findings</font></p>
+				</div>
+				<!-- 	<div class="todo">
+				<span>5</span>
+				<p>OOC</p>
+			</div> -->
+			</div>
+			<div class="scroll_down">
+				<div class=" row mt-2 ">
+					<div class="col-md-1"></div>
+					<div class="bordstyle col-md-10">
+						<div class="bordstyleb" align=center>
+							<strong> EXAMINATION ORDER</strong>
+						</div>
+						<div class="row mt-2">
+
+							<div class="bordstyle1 col-md-6" align="center">
+
+								<div class="bordstyleb" align="center">
+									<strong>Ordered to :</strong>
+								</div>
+
+								<input th:value="${choice}" id="choice" type="hidden">
+
+								<!-- 				<p > -->
+								<!-- 					1. Scan <input type="checkbox"  name="EXAM_ORDER" value="Scan" th:checked="${choice}== 1" disabled  -->
+								<!-- 					style="border:2px dotted #00f;display:block;background:#ff0000;">      -->
+
+								<!-- 				</p> -->
+								<!-- 				<p class="check"> -->
+								<!-- 					2. Detain <input type="checkbox"  name="EXAM_ORDER"  value="Detain" th:checked="${choice} == 2" || "${choice}==4" disabled> -->
+								<!-- 				</p> -->
+								<!-- 				<p class="check"> -->
+								<!-- 					3. Scan and Open Examination <input type="checkbox" id="myCheck" -->
+								<!-- 						onclick="myFunction()"  name="EXAM_ORDER" value="Examination" th:checked="${choice} == 3" || "${choice}==4" disabled> -->
+								<!-- 					</p>	 -->
+								
+								
+								<!-- <p id="opt1" style="display: none">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>1. Scan</strong> 
+								</p>
+								<p id="opt2" style="display: none">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. Scan
+								</p>
+								<p id="opt3" style="display: none">
+									<strong>2. Detain</strong> 
+								</p>
+								<p id="opt4" style="display: none">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. Detain
+								</p>
+								<p id="opt5" style="display: none">
+									<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Scan and Open Examination </strong>
+								</p>
+								<p id="opt6" style="display: none">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. Scan and Open Examination 
+								</p> -->
+                                <div id="opt1" class="exmcat" style="display: none">
+									<strong> Scan</strong>
+								</div>
+								<div id="opt3" class="exmcat" style="display: none">
+									<strong> Detain</strong> 
+								</div>
+								<div id="opt5" class="exmcat" style="display: none">
+								<strong>Scan and Open Examination</strong>
+								</div>
+
+							</div>
+
+							<div class="bordstyle1 col-md-6" align="center">
+
+								<div class="bordstyleb">
+									<strong>Examination instruction / Order :</strong>
+								</div>
+
+								<textarea class="form-control" readonly="readonly"
+									style="border-radius: 5px solid gray; border-color: gray; background: #e0fffe;"
+									name="examorder" rows="3" th:text="${examorder}"></textarea>
+								<div class="mt-2"></div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="row mt-1"></DIV>
+				<div class="bordstyleb"
+					style="background: #e6faff; border: solid 3px white;" align=center>
+					<font color="black"><strong>RECORD/REPORT THE EXAMINATION FINDINGS</strong></font>
+					<div class="row mt-1">
+						<div class="col-md-12">
+							<div class="col-md-1"></div>
+
+							<div id="text" class="bordstyle col-md-11  mt-2 "
+								style="display: none">
+								<div align=center class="bordstyleb">
+									<STRONG>ITEM INFORMATION</STRONG>
+								</div>
+								<div class="row mt-2"></div>
+								<div class="scrollitem">
+								<table id="EXMREC" class="dltrc" style="font-size: 14px; text-align: center;">
+									<tbody style="color: white;">
+										<tr class="dlheader">
+											<td class="dlheader" width="10%" align=center
+												style="color: black;"><strong>Item No.
+													</th>
+													<td class="dlheader" width="35%" align=center
+													style="color: black;"><strong>Item
+															Description
+															</th>
+															<td class="dlheader" width="10%" align=center
+															style="color: black;"><strong>CTH
+																	</th>
+																	<td class="dlheader" width="10%" align=center
+																	style="color: black;"><strong>Item Found
+																			</th>
+																			<td class="dlheader" width="35%" align=center
+																			style="color: black;"><strong>Remarks
+																					</th>
+										</tr>
+										<!-- <tr  th:each="s1,iter : ${fpoitmdet}" class="dlinfo">
+											<td class="dlinfo" style="color: black;" width="10%"
+												th:text="${s1[0]}">464654654</td>
+											<td class="dlinfo" style="color: black;" width="35%"
+												th:text="${s1[1]}">5648912</td>
+											<td class="dlinfo" style="color: black;" width="10%"
+												th:text="${s1[2]}"></td>
+											<input type=hidden id=cinno th:value="${head.id}">
+											<input type=hidden id=itemno th:value="${s1[0]}">
+											<td  style="color: black;" width="10%" class="dlinfo"><input
+												type="checkbox" th:id="chkbox" width="30px" height="30px"
+												onclick="itmfou()" checked  ></td>
+											<input type="hidden" id="item_fou" name="it_fou[]">
+											<td  width="35%" class="dlinfo"><textarea
+													class="form-control"
+													style="border-radius: 5px solid gray; color: black; border-color: gray; background: #e0fffe;"
+													name="itrmks" th:id="itmrmks"  rows="2" ></textarea></td>
+										</tr> -->
+											<tr  th:each="s1,iter : ${fpoitmdet}" class="dlinfo">
+											<td class="dlinfo" style="color: black;" width="10%"
+												th:text="${s1[0]}">464654654</td>
+											<td class="dlinfo" style="color: black;" width="35%"
+												th:text="${s1[1]}">5648912</td>
+											<td class="dlinfo" style="color: black;" width="10%"
+												th:text="${s1[2]}"></td>
+											<input type=hidden th:id=cinno th:value="${head.id}">
+											<input type=hidden th:id="itemno" name="itemno[]" th:value="${s1[0]}">
+											<td  style="color: black;" width="10%" class="dlinfo"><input
+												type="checkbox" th:id="chk" name="chkbox[]" width="30px" height="30px"
+												onclick="itmfou(this)" checked  ></td>
+											<td  width="35%" class="dlinfo"><textarea
+													class="form-control"
+													style="border-radius: 5px solid gray; color: black; border-color: gray; background: #e0fffe;"
+													name="itrmks[]" th:id="itrmks"  rows="2" ></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="row" style="margin-top: -17px;">
+						<div class="col-md-1"></div>
+						<div class="col-md-10">
+
+							<div align="left">
+								<br> <label class="lab_txt"><font color="black">General Remarks
+										: [min 6 characters ; max 2000 characters]</font></label>
+								<textarea class="form-control" id="genrmks"
+									style="border-radius: 5px solid gray; border-color: gray; background: #e0fffe;"
+									onkeyup="savenbl(id)" rows="3"></textarea>
+							</div>
+							<div align="center" class="mt-2">
+								<!-- button type="button" data-toggle="modal"
+							data-target="#exampleModal" class="btn btn-primary mb-3"
+							onclick="goBack()">Back</button-->
+								<!-- button type="button" class="btn btn-primary mb-3" >Save</button-->
+
+								<button type="button" th:id="${head.id}" onclick="chck(1);"
+									style="background: #e8452b; border: solid 2px #e8452b"
+									title="Once Save is clicked, this will be enabled to send back to assessment"
+									class="btn btn-primary mb-3 movASS" disabled>Send Back to
+									ASSESSMENT</button>
+
+								<span data-toggle="modal" data-target="#saveModal">
+									<button type="button" class="btn btn-primary mb-3" id="saveexm"
+										data-toggle="tooltip"
+										title="Enter Remarks atleast 5 characters!" disabled>Save</button>
+								</span> <input type="hidden" name="opt" id="opt">
+								<button type="button" th:id="${head.id}" onclick="chck(2);"
+									style="background: darkgreen; border: solid 2px darkgreen"
+									title="Once Save is clicked, this will be enabled to move to next "
+									class="btn btn-primary mb-3 movOOC" disabled>NEXT</button>
+							</div>
+                      </div>
+                      </div>
+                      </div>
+                      <DIV class="row mt-1"></div>
+							<div align="left" style="color: black;">
+								<p>
+									<strong>Note :</strong>
+								</p>
+								<p>
+									1. System by default select &nbsp;&nbsp; <i style="color: blue;"
+										class="fas fa-check-square"></i>&nbsp;&nbsp; for all the
+									items. Please unselect &nbsp;&nbsp;<i style="color: blue;"
+										class="fas fa-square"></i>&nbsp;&nbsp; if item is not found.
+								</p>
+								<p>2. Please enter examination findings in Remarks column
+									againsts the items, if any before proceeding to save.</p>
+									
+								<p>3. If it is ordered to Detain, follow Examination Instructions if any, and enter examination findings in Remarks column before 
+									clicking NEXT </p>
+							</div>
+							</div>
+						
+					</div>
+				</div>
+				<DIV CLASS="MT-3"></DIV>
+			
+	<Modal>
+	<!-- 		<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-body">
+								<h4>Do you need to process next item?</h4>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<a href="import_list"><button type="button"
+										class="btn btn-primary">Submit</button></a>
+							</div>
+						</div>
+					</div>
+				</div> -->
+	<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>By Unchecking <i style="color: blue;"
+										class="fas fa-check-square"></i> , You have confirmed that the Item is NOT found</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">OK</button>
+					<!-- button type="button" class="btn btn-primary">Submit</button-->
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="saveModal" tabindex="-1" role="dialog"
+		aria-labelledby="savemodalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Are you sure to Save</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="storeall()">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	</div>
+
+	<div class="modal fade" id="assModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4>
+						<font color="black">Do you want to send back to Assessment?</font>
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" th:id="${head.id}"
+						onclick="ASSDet(this)">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+					<!-- a href="import_ooc_search"-->
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="nxtModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<!-- <div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div> -->
+				<div class="modal-body" align="center">
+					<h4>
+						<font color="black">Do you want to move to next </font>
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" th:id="${head.id}"
+						onclick="OOCDet(this)">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+					<!-- a href="import_ooc_search"-->
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</Modal>
+	<script th:src="@{js/datatables.min.js}"></script>
+	<script src="js/importexamorder.js"></script>
+</body>
+</html>

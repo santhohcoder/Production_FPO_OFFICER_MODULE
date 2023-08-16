@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Site Management>View Users of FPO Site</h3>
+<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR (PNA)</h3>
+<h4 style="text-align: center; margin-top: 2%; font-family: times new roman;background: deepskyblue;">View Users Of FPO Site</h4>
+
+<div class="col-md-12" style ="padding: 4%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #007bff80">
+        <h5 class="card-title">View Active Users of a FPO Site</h5>
+        <!--p class="card-text">To re-assign pending Articles from one ssoid to another ssoid, mapped to this Site. </p><br-->
+        <p class="card-text">To view all the Active users of FPO site. </p><br>
+        <a href="viewActiveUsers" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1" ></div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #c5cdd9;">
+        <h5 class="card-title"> List of Current Local System Administrator (PLAs) across sites</h5>
+        <p class="card-text">To view Local System Administrator (PLA) details .</p><br>
+        <a href="viewusersHstry" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+<script>
+  function goback() {
+     window.location = "nsmHome";
+     
+     }
+     
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}     
+     
+</script>
+</html>

@@ -1,0 +1,1996 @@
+<html th:fragment="header">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link th:href="@{css/query_reply/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{css/query_reply/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{js/query_reply/jquery-3.4.1.min.js}"></script>
+
+    <script th:src="@{js/query_reply/jquery.min.js}"></script>
+    <script th:src="@{js/query_reply/datatables.min.js}"></script>
+    <script th:src="@{js/query_reply/popper.min.js}"></script>
+    <script th:src="@{js/query_reply/bootstrap.min.js}"></script>
+    <script th:src="@{js/query_reply/font.js}"></script>
+</head>
+<style>
+    .container-100 {
+        max-width: 100%
+    }
+
+    .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2) !important;
+        border-radius: 3px;
+        padding: 0;
+    }
+    
+    
+    .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+    .mb-2 {
+        margin-bottom: .5rem !important;
+    }
+
+    .mt-2 {
+        margin-top: .5rem !important;
+    }
+
+    .form {
+        padding: 15px 30px 10px;
+    }
+
+    .row.addd {
+        position: relative;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 10px 0 18px;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    body {
+        background: #91c5ff;
+    }
+
+    label {
+        color: #333;
+        font-size: 12px;
+        font-weight: 700 !important;
+        position: absolute;
+        pointer-events: none;
+        left: 20px;
+        top: -10px;
+        font-weight: 600;
+        transition: all .2s ease;
+        -moz-transition: .2s ease all;
+        -webkit-transition: all .2s ease;
+        background: #fff;
+        padding: 0 5px;
+    }
+
+    select,
+    input {
+        height: 40px;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+    }
+
+    select:focus,
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #828282;
+    }
+
+    div[class^="col-lg-"] {
+        margin-top: 10px;
+    }
+
+    .col-lg-12 {
+        margin-top: 0 !important;
+    }
+
+    .col-lg-3 {
+        max-width: 23%;
+        margin-bottom: 10px;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .add-btn {
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    .remove-btn {
+        line-height: 30px;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        display: inline-block;
+        width: 35px;
+        height: 32px;
+        border-radius: 40px;
+        text-align: center;
+        margin: 3px 0px 0 14px;
+        cursor: pointer;
+    }
+
+    div[id^="kyc-section"],
+    div[id^="support-section"],
+    div[id^="preview-kyc-section"],
+    div[id^="preview-support-section"] {
+        display: flex;
+        width: 100%;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+        background: white;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        top: 8px;
+    }
+
+    .delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .invalid-feedback {
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    tbody textarea {
+        resize: none;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .toggle {
+        position: relative;
+        width: 40px;
+        height: 20px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transform: translate3d(0, 0, 0);
+        top: 3px;
+        left: 0;
+    }
+
+    .toggle:before {
+        content: "";
+        position: relative;
+        top: 3px;
+        left: 3px;
+        width: 34px;
+        height: 14px;
+        display: block;
+        background: #9A9999;
+        border-radius: 8px;
+        transition: background 0.2s ease;
+    }
+
+    .toggle span {
+        position: absolute;
+        top: 0;
+        left: 5px;
+        width: 20px;
+        height: 20px;
+        display: block;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 3px 8px rgba(154, 153, 153, 0.5);
+        transition: all 0.2s ease;
+    }
+
+    .toggle span:before {
+        content: "";
+        position: absolute;
+        display: block;
+        margin: -18px;
+        width: 56px;
+        height: 56px;
+        background: rgba(79, 46, 220, 0.5);
+        border-radius: 50%;
+        transform: scale(0);
+        opacity: 1;
+        pointer-events: none;
+    }
+
+    #cbx:checked+.toggle:before {
+        background: #947ADA;
+    }
+
+    #cbx:checked+.toggle span {
+        background: #4F2EDC;
+        transform: translateX(20px);
+        transition: all 0.2s cubic-bezier(0.8, 0.4, 0.3, 1.25), background 0.15s ease;
+        box-shadow: 0 3px 8px rgba(79, 46, 220, 0.2);
+    }
+
+    #cbx:checked+.toggle span:before {
+        transform: scale(1);
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    #heading-logo {
+        display: flex;
+        width: 78.125vw;
+        margin-left: calc(-50vw + 60%);
+        transition: margin-left 1s ease 0s;
+    }
+
+    .brand {
+        width: 165px;
+        text-align: right;
+        overflow: hidden;
+        /* border-radius: 50%; */
+        margin: 20px auto;
+        position: relative;
+        z-index: 1;
+        margin-right: 21px;
+    }
+
+    h1.title_text {
+        width: 100%;
+        margin-left: 0;
+        /* text-align: center;
+        margin-top: 35px;
+        margin-bottom: 20px; */
+        color: yellow;
+        /* -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black; */
+    }
+
+
+
+    ul.nav.nav-tabs.process-model.more-icon-preocess {
+        list-style: none;
+        padding: 0;
+        position: relative;
+        margin: 20px auto 20px;
+        border: none;
+        z-index: 0;
+        max-width: 100%;
+        padding-left: 9%;
+    }
+
+    .nav>li {
+        position: relative;
+    }
+
+    .process-model li {
+        display: inline-block;
+        width: 18%;
+        text-align: center;
+        float: none;
+        pointer-events: none;
+    }
+
+    ul.nav.nav-tabs.process-model.more-icon-preocess {
+        list-style: none;
+        padding: 0;
+        position: relative;
+        margin: 20px auto 20px;
+        border: none;
+        z-index: 0;
+        max-width: 100%;
+        padding-left: 9%;
+    }
+
+    .process-model li.active a,
+    .process-model li.active a:hover,
+    .process-model li.active a:focus,
+    .process-model li.visited a,
+    .process-model li.visited a:hover,
+    .process-model li.visited a:focus {
+        color: #bd2130;
+    }
+
+    .process-model li a {
+        padding: 0;
+        border: none;
+        color: #000000;
+    }
+
+    .process-model li {
+        display: inline-block;
+        width: 25%;
+        text-align: center;
+        float: none;
+    }
+
+    ul.nav.nav-tabs.process-model.more-icon-preocess {
+        list-style: none;
+        padding: 0;
+        position: relative;
+        margin: 20px auto 20px;
+        border: none;
+        z-index: 0;
+        max-width: 100%;
+    }
+
+    .process-model li.active i,
+    .process-model li.visited i {
+        background: #fff;
+        border-color: #bd2130;
+    }
+
+    .process-model li i {
+        display: block;
+        height: 68px;
+        width: 68px;
+        text-align: center;
+        margin: 0 auto;
+        background: #f5f6f7;
+        border: 2px solid #e5e5e5;
+        line-height: 65px;
+        font-size: 30px;
+        border-radius: 50%;
+    }
+
+    .process-model li.active a,
+    .process-model li.active a:hover,
+    .process-model li.active a:focus,
+    .process-model li.visited a,
+    .process-model li.visited a:hover,
+    .process-model li.visited a:focus {
+        color: #bd2130;
+        text-decoration: none;
+        cursor: default;
+    }
+
+    .process-model li a {
+        padding: 0;
+        border: none;
+        color: #000000;
+        text-decoration: none;
+        cursor: default;
+    }
+
+    .process-model li.active p,
+    .process-model li.visited p {
+        font-weight: bold;
+        color: #bd2130;
+    }
+
+    p {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .process-model li.visited::after {
+        background: #bd2130;
+    }
+
+    .process-model li::after {
+        background: #e5e5e5 none repeat scroll 0 0;
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 4px;
+        margin: 0 auto;
+        position: absolute;
+        right: -105px;
+        top: 33px;
+        width: 210px;
+        z-index: -1;
+        cursor: default;
+    }
+
+    .process-model li:last-child::after {
+        width: 0;
+    }
+
+    #step-section {
+        width: 100%;
+        /* margin-left: calc(-50vw + 50%); */
+        margin-top: 50px;
+    }
+
+    #undertakingSection {
+        max-width: 1500px;
+        margin-left: calc(-50vw + 60%);
+        background: #eaf4ff;
+        display: none;
+    }
+
+    #undertakingSection p {
+        color: black;
+        line-height: 2;
+    }
+
+    #undertakingSection .fw-bold {
+        font-size: x-large;
+    }
+
+
+    .captcha {
+        border-radius: 5px;
+        color: black;
+        display: flex;
+        margin-bottom: 1rem;
+    }
+
+    .captcha label {
+
+        font-size: initial;
+        pointer-events: auto;
+        background: #eaf4ff;
+        position: relative;
+        top: 10px;
+        left: 0;
+    }
+
+    @media screen and (max-width: 500px) {
+        .captcha {
+            flex-direction: column;
+        }
+
+        .text {
+            margin: .5em !important;
+            text-align: center;
+        }
+
+        .logo {
+            align-self: center !important;
+        }
+
+        .spinner {
+            margin: 2em .5em .5em .5em !important;
+        }
+    }
+
+    .text {
+        font-size: 20px;
+        font-weight: 500;
+        margin-right: 1em;
+        margin-top: 0;
+    }
+
+    .spinner {
+        position: relative;
+        width: 2em;
+        height: 0;
+        display: flex;
+        margin: 10px 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    input[type="checkbox"]+.checkmark {
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        background-color: #fcfcfc;
+        border: 2.5px solid #c3c3c3;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]+.checkmark span {
+        content: '';
+        position: relative;
+        /*
+	position:absolute;
+	border-bottom:3px solid;
+	border-right:3px solid;
+	border-color:#029f56;*/
+        margin-top: -3px;
+        transform: rotate(45deg);
+        width: .75em;
+        height: 1.2em;
+        opacity: 0;
+    }
+
+    input[type="checkbox"]+.checkmark>span:after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 3px;
+        bottom: 0;
+        left: 0;
+        background-color: #029f56;
+    }
+
+    input[type="checkbox"]+.checkmark>span:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 3px;
+        bottom: 0;
+        right: 0;
+        background-color: #029f56;
+    }
+
+    input[type="checkbox"]:checked+.checkmark {
+        animation: 2s spin forwards;
+    }
+
+    input[type="checkbox"]:checked+.checkmark>span {
+        animation: 1s fadein 1.9s forwards;
+    }
+
+    input[type="checkbox"]:checked+.checkmark>span:after {
+        animation: .3s bottomslide 2s forwards;
+    }
+
+    input[type="checkbox"]:checked+.checkmark>span:before {
+        animation: .5s rightslide 2.2s forwards;
+    }
+
+    @keyframes fadein {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes bottomslide {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    @keyframes rightslide {
+        0% {
+            height: 0;
+        }
+
+        100% {
+            height: 100%;
+        }
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        align-self: flex-end;
+        margin: 0.5em 1em;
+    }
+
+    .logo img {
+        height: 2em;
+        width: 2em;
+    }
+
+    .logo p {
+        color: #9d9ba7;
+        margin: 0;
+        font-size: 1em;
+        font-weight: 700;
+        margin: .4em 0 .2em 0;
+    }
+
+    .logo small {
+        color: #9d9ba7;
+        margin: 0;
+        font-size: .8em;
+    }
+
+    @keyframes spin {
+        10% {
+            width: 0;
+            height: 0;
+            border-width: 6px;
+        }
+
+        30% {
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            border-width: 1em;
+            transform: rotate(0deg);
+            border-color: rgb(199, 218, 245);
+        }
+
+        50% {
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            border-width: 4px;
+            border-color: rgb(199, 218, 245);
+            border-right-color: rgb(89, 152, 239);
+        }
+
+        70% {
+            border-width: 4px;
+            border-color: rgb(199, 218, 245);
+            border-right-color: rgb(89, 152, 239);
+        }
+
+        90% {
+            border-width: 4px;
+        }
+
+        100% {
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            transform: rotate(720deg);
+            border-color: transparent;
+        }
+    }
+
+    .captcha-label {
+        display: flex;
+        background: #eaf4ff;
+        max-width: 35%;
+        font-size: 20px;
+        position: initial;
+    }
+
+    #captchaDiv {
+        background: bisque;
+        margin: 0 25px;
+        padding: 0 15px;
+    }
+
+    .refresh-icon {
+        margin-top: 5px;
+        margin-left: 20px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    .success-icon {
+        font-size: 200px;
+        color: #32bd21;
+        margin-bottom: 3rem;
+    }
+
+    #successSection {
+        /* background: white;
+        max-width: 1200px;
+        margin-left: calc(-50vw + 69%); */
+        background: #91c5ff;
+        text-align: center;
+        box-shadow: none !important;
+        border: 0;
+        margin-top: 50px;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
+        border-color: #dc3545;
+    }
+
+    div#procedure-div .modal-body {
+        height: auto;
+    }
+    
+    #overlay {
+	    position: absolute;
+	    left: 0%;
+	    top: 0%;
+	    z-index: 9999;
+	    width: 100%;
+	    background: rgba(255, 255, 255, .7);
+    }
+    
+    #loader {
+	    position: fixed;
+	    display: block;
+	    left: 50%;
+	    top: 48%;
+	    z-index: 9999;
+	    width: 100%;
+	    height: 100%;
+	    background-image: url(images/report/loader.gif);
+	    background-repeat: no-repeat;
+	    margin: -77px 0 0 -75px;
+	}
+	
+	#scan-msg {
+		position: fixed;
+	    display: block;
+	    top: 55%;
+	    z-index: 9999;
+	    text-align: center;
+	    width: 50%;
+	    left: 25%;
+    }
+    
+    .pdf-icon {
+    	color: red;
+    	position: absolute;
+    	top: 15px;
+    	left: 25px;
+    }
+</style>
+
+<body>
+	<div id="overlay" style="display: none;">
+	<div id="loader">
+	<div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+	</div>
+	<h1 id="scan-msg">The Process is not completed yet. The Uploaded Documents are being scanned. It would take sometime. Thanks for waiting.</h1>
+	</div>
+    <div class="container container-100">
+        <!-- <div id="heading-logo">
+            <div class="brand" style="width: 100px;">
+                <img src="images/CBEC.png" alt="logo" style="width: 100%;">
+            </div>
+            <h1 class="title_text" style="margin-left: calc(-50vw + 65%);margin-top: 35px;">POSTAL IMPORT - CUSTOMS QUERY REPLY &amp; DOCUMENT UPLOAD FACILITY</h1>
+        </div> -->
+        <div id="heading-logo-main" style="margin-left: 200px;transition: margin-left 1s ease 0s;display: flex;">
+            <div class="brand">
+                <img src="images/CBEC.png" alt="logo" style="width: 100%;">
+            </div>
+            <div style="width: 100%;">
+                <h1 class="title_text" style="color: rgb(51 68 149);font-size: 3rem;margin-top: 45px;margin-bottom: 0;padding-bottom: 0;">INDIAN CUSTOMS</h1>
+                <hr style="border-top: 1px solid;color: white;">
+                <h1 class="title_text" style="margin-top: 15px;font-size: 30px;">POSTAL IMPORT - CUSTOMS QUERY REPLY &amp; DOCUMENT UPLOAD FACILITY</h1>
+            </div>
+
+
+        </div>
+        <div class="card fat" id="successSection" style="display:none;">
+            <div class="card-body" style="text-align: center;">
+                <!-- <i class="fas fa-check-circle success-icon" aria-hidden="true"></i> -->
+                <h1 style="text-transform: uppercase;color:white;">Thanks for using this facility.</h1>
+                <h4 style="text-transform: uppercase;color: #3f00ff;margin-top: 60px;">To track the status of postal import article in customs</h4>
+                <h4 style="text-transform: uppercase;color: #3f00ff;margin-top: 2rem;">Please visit</h4>
+                <a href="https://enquiry.icegate.gov.in" target="_blank">
+                    <h4 style="color: yellow;margin-top: 2rem;">https://enquiry.icegate.gov.in/</h4>
+                </a>
+            </div>
+        </div>
+        <!-- <div class="card fat" id="undertakingSection">
+            <div class="card-body">
+                <h4 class="card-title" id="screen1-card-title-heading" style="text-align: left;">UNDERTAKING :</h4>
+                <div class="form-group" style="margin-bottom:5rem;">
+                    <p class="fs-i"><span class="fw-bold">1. I hereby declare that the subject import postal Article belongs to me and intend to use for personal purpose only.</span></p>
+                    <p class="fs-i"><span class="fw-bold">2. I hereby declare that the information provided by me as a reply are true and correct in every respect.</span></p>
+                    <p class="fs-i"><span class="fw-bold">3. I hereby declare that the KYC and supporting documents uploaded belong to me and are genuine and correct in every aspect.</span></p>
+                    <p class="fs-i"><span class="fw-bold">4. I hereby declare that the email ID and Mobile number provided by me belongs to me.</span></p>
+                    <p class="fs-i"><span class="fw-bold">5. I hereby undertake to comply with the provisions of the Customs Act 1962 and the rules and regulations issued in this regard.</span></p>
+                    <p class="fs-i"><span class="fw-bold">6. I understand that providing wrong information and uploading of bogus documents will attract legal action under the provisions of the Customs Act 1962.</span></p>
+                </div>
+                <div class="captcha">
+                    <div class="spinner">
+                        <label>
+                            <input type="checkbox" onclick="displayCaptcha(this)">
+                            <span class="checkmark"><span>&nbsp;</span></span>
+                        </label>
+                    </div>
+                    <div class="text">
+                        I UNDERTAKE THE ABOVE
+                    </div>
+                </div>
+                <div id="captchaInput" style="display: none;"><label class="captcha-label">Captcha :
+                        <div id="captchaDiv"></div>
+                    </label>
+                    <input type="text" placeholder="Enter Captcha" id="cpatchaTextBox" style="width: 20%;">
+                    <i class="fa fa-refresh refresh-icon" onclick="createCaptcha()" aria-hidden="true"></i>
+                </div>
+                <div style="width: 100%;text-align: center;">
+                    <button type="button" class="btn btn-primary" onclick="displayQueryReplySection()" style="margin-right: 15px;">Back</button>
+                    <button type="button" class="btn btn-success" onclick="validateCaptcha()">Submit</button>
+                </div>
+            </div>
+        </div> -->
+        <div class="row" id="uploadQueryFullSection">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card mb-2 mt-2">
+                    <div class="form">
+                        <div class="row" style="padding: 15px 50px 0px 0px;">
+                            <p class="col-sm-1 label-font">Name :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallQueryGen.recp_name}"></p>
+                            </div>
+                            <p class="col-sm-2 label-font">Email Id :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallReplyOtp.emailId}"></p>
+                            </div>
+                            <p class="col-sm-1 label-font">Mobile No. :</p>
+                            <div class="col-sm-2">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallReplyOtp.mobileNumber}"></p>
+                            </div>
+                            <p class="col-sm-1 label-font">Article Id :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" id="articleId" th:text="${dcallQueryGen.Item_ID}"></p>
+                            </div>
+                            <p class="col-sm-2 label-font">D-Call Letter No. :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" id="dcallNo" th:text="${dcallQueryGen.dcallno}"></p>
+                            </div>
+                        </div>
+                        <div style="width: 100%;text-align: center;">
+                            <button type="button" onclick="viewQuerySection(this)" class="btn btn-success">View Query</button>
+                        </div>
+                        <div class="row addd" id="querySection" style="display:none;">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 1rem;padding-left: 0;">
+                                <!-- <h4 class="subtitle">QUERY REPLY BY ITEMS & FOR DEFAULT QUERY </h4> -->
+                                <span style="font-weight: bold;text-decoration: underline;">Please provide clarifications on the following queries raised by the department and provide the documents called for.</span>
+                            </div>
+                            <table id="itemwiseQuery" class="table" border="1">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="3" id="itemwise-header" style="border: 1px solid;">ITEMWISE QUERY</th>
+                                    </tr>
+                                    <tr align="center">
+                                        <th style="width:5%;border: 1px solid;">Item No</th>
+                                        <th style="width:25%;border: 1px solid;">Description</th>
+                                        <th style="width:30%;border: 1px solid;">Customs Query</th>
+                                        <th style="width:40%;border: 1px solid;display:none;">Your Reply</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr th:each="query,iter : ${queryItems}">
+                                        <td th:text="${query[0]}"></td>
+                                        <td th:text="${query[2]}"></td>
+                                        <td th:text="${query[1]}"></td>
+                                        <td style="text-align: left;display:none;"><textarea th:id="${'itemresp-'+(iter.index+1)}" class='form-control font-weight-normal' rows='1' placeholder='Enter your reply'></textarea>
+                                            <div class="invalid-feedback">Item Response is required</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table id="defaultSelectedQuery" class="table" border="1" th:if="${not #lists.isEmpty(defaultQueries)}">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="1" id="default-header" style="border: 1px solid;">FOLLOWING DOCUMENTS ARE CALLED FOR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:60%;">
+                                            <div th:each="defaultQuery,iter : ${defaultQueries}">
+                                                <span th:text="${(iter.index+1)+'.'+defaultQuery}"></span><br><br>
+                                            </div>
+                                        </td>
+                                        <td style="text-align: left;display:none;"><textarea id="defQueryResp" class='form-control font-weight-normal' rows='8' placeholder='Enter your reply'></textarea>
+                                            <div class="invalid-feedback">Default Query Response is required</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table" border="1">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="3" id="itemwise-header" style="border: 1px solid;">GENERAL REMARKS</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr>
+                                        <td th:text="${queryRemarks}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="width: 100%;text-align: center;">
+                                <button type="button" onclick="viewQueryReplySection(this)" class="btn btn-success">Reply Query</button>
+                            </div>
+                            <div style="width: 100%;text-align: center;display:none;" id="viewUploadKycSectionButton">
+                                <button type="button" onclick="viewUploadKycSection(this)" class="btn btn-success">Upload KYC</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2 mt-2" id="kycSectionDiv" style="display:none;">
+                    <div class="form">
+                        <div class="row addd">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;">
+                                <h4 class="subtitle">KYC </h4>
+                                <p class="text-muted" style="margin-top: 10px;margin-left: 10px;">(Note: Maximum of 3 files can be upload.)</p>
+                            </div>
+                            <div id="kyc-section-1">
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <select class="control" id="kyc-type-1">
+                                            <option value="">Select Type of KYC Document</option>
+                                            <option value="Aadhar Card">Aadhar Card</option>
+                                            <option value="PAN Card">PAN Card</option>
+                                            <option value="Passport">Passport</option>
+                                            <option value="Driving License">Driving License</option>
+                                            <option value="Voter Id Card">Voter Id Card</option>
+                                            <option value="Latest Gas Bill">Latest Gas Bill</option>
+                                            <option value="Post Office Identity Card">Post Office Identity Card</option>
+                                        </select>
+                                        <div class="invalid-feedback">Type Of KYC Document is required</div>
+                                        <label class="float">Type of KYC Document<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="kyc-docno-1" Placeholder="Enter Document Number"></input>
+                                        <div class="invalid-feedback">Document Number is required</div>
+                                        <label class="float">Document Number<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="kyc-desc-1" Placeholder="Enter Description"></input>
+                                        <div class="invalid-feedback">Description is required</div>
+                                        <label class="float">Description<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div> -->
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="kyc-filetxt-1" placeholder="Please Upload File" disabled>
+                                        <div class="invalid-feedback">KYC attachment is required</div>
+                                        <p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p>
+                                        <label class="float">KYC Upload<span style="color: red;">&nbsp;*</span></label>
+                                        <input type="file" id="kyc-file-1" onchange="uploadFile(this,1)" onclick="this.value=null;" accept="application/pdf" style="display: none;">
+                                        <span class="upload-btn" onclick="fileUpload(1)"><a>Upload</a></span>
+                                    </div>
+                                </div>
+                                <div class="mt-10"><span class="add-btn"><img id="add-kyc-img" th:src="@{images/add.png}" count="1" onclick="addKycSection(this)" alt="add-icon"></span></div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;margin-bottom: 15px;">
+                                <span>Do you want to upload supporting documents ?</span>
+                                <div onclick="viewSupportSection()" style="cursor: pointer;width: 42px;margin-left: 20px;">
+                                    <input type="checkbox" id="cbx" style="display:none" />
+                                    <label for="cbx" class="toggle"><span></span></label>
+                                </div>
+                            </div>
+                            <div style="width: 100%;text-align: center;" id="kycValidateAndSubmitDiv">
+                                <button type="button" onclick="validateAndSubmit()" class="btn btn-success">Preview</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2 mt-2" id="supportSectionDiv" style="display:none;">
+                    <div class="form">
+                        <div class="row addd">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;">
+                                <h4 class="subtitle">SUPPORTING DOCUMENTS </h4>
+                                <p class="text-muted" style="margin-top: 10px;margin-left: 10px;">(Note: Maximum of 7 files can be upload.)</p>
+                            </div>
+                            <div id="support-section-1">
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <select class="control" id="support-type-1">
+                                            <option value="">Select Type of Supporting Document</option>
+                                            <option value="Invoice">Invoice</option>
+                                            <option value="Brochure">Brochure</option>
+                                            <option value="Certificate">Certificate</option>
+                                            <option value="Receipt">Receipt</option>
+                                            <option value="Bill or any other document showing the description">Bill or any other document showing the description</option>
+                                            <option value="quantity and value of goods">quantity and value of goods</option>
+                                            <option value="mode of payment details like online money transfer">mode of payment details like online money transfer</option>
+                                            <option value="Credit Card Statement">Credit Card Statement</option>
+                                            <option value="Product Catalogue">Product Catalogue</option>
+                                            <option value="Technical Write up">Technical Write up</option>
+                                            <option value="Import Export Code certificate">Import Export Code certificate</option>
+                                            <option value="Import License">Import License</option>
+                                            <option value="DGFT License">DGFT License</option>
+                                        </select>
+                                        <div class="invalid-feedback">Type Of Supporting Document is required</div>
+                                        <label class="float">Type of Supporting Document<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="support-docno-1" Placeholder="Enter Document Number"></input>
+                                        <div class="invalid-feedback">Document Number is required</div>
+                                        <label class="float">Document Number<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="support-desc-1" Placeholder="Enter Description"></input>
+                                        <div class="invalid-feedback">Description is required</div>
+                                        <label class="float">Description
+                                            <!-- <span style="color: red;">&nbsp;*</span> -->
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="support-filetxt-1" placeholder="Please Upload File" disabled>
+                                        <div class="invalid-feedback">Supporting Document Attachment is required</div>
+                                        <p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p>
+                                        <label class="float">Supporting Document Upload<span style="color: red;">&nbsp;*</span></label>
+                                        <input type="file" id="support-file-1" onchange="uploadSupportFile(this,1)" onclick="this.value=null;" accept="application/pdf" style="display: none;">
+                                        <span class="upload-btn" onclick="supportFileUpload(1)"><a>Upload</a></span>
+                                    </div>
+                                </div>
+                                <div class="mt-10"><span class="add-btn"><img id="add-support-img" th:src="@{images/add.png}" count="1" onclick="addSupportSection(this)" alt="add-icon"></span></div>
+                            </div>
+                            <div style="width: 100%;text-align: center;"><button type="button" onclick="validateAndSubmit()" class="btn btn-success">Preview</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="previewQueryFullSection" style="display:none;">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card mb-2 mt-2">
+                    <div class="form">
+                        <div class="row" style="padding: 15px 50px 0px 0px;">
+                            <p class="col-sm-1 label-font">Name :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallQueryGen.recp_name}"></p>
+                            </div>
+                            <p class="col-sm-2 label-font">Email Id :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallReplyOtp.emailId}"></p>
+                            </div>
+                            <p class="col-sm-1 label-font">Mobile Number :</p>
+                            <div class="col-sm-2">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallReplyOtp.mobileNumber}"></p>
+                            </div>
+                            <p class="col-sm-1 label-font">Article Id :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallQueryGen.Item_ID}"></p>
+                            </div>
+                            <p class="col-sm-2 label-font">D-Call Letter Number :</p>
+                            <div class="col-sm-2">
+                                <p style="font-weight: 700;color: black;margin-top: 0;" th:text="${dcallQueryGen.dcallno}"></p>
+                            </div>
+                        </div>
+                        <div class="row addd">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 1rem;padding-left: 0;">
+                                <h4 class="subtitle" style="text-align:center;">QUERY REPLY PAGE PREVIEW</h4>
+                            </div>
+                            <table class="table" border="1">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="4" style="border: 1px solid;">ITEMWISE QUERY</th>
+                                    </tr>
+                                    <tr align="center">
+                                        <th style="width:5%;border: 1px solid;">Item No</th>
+                                        <th style="width:25%;border: 1px solid;">Description</th>
+                                        <th style="width:30%;border: 1px solid;">Customs Query</th>
+                                        <th style="width:40%;border: 1px solid;">Your Reply</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr th:each="query,iter : ${queryItems}">
+                                        <td th:text="${query[0]}"></td>
+                                        <td th:text="${query[2]}"></td>
+                                        <td th:text="${query[1]}"></td>
+                                        <td th:id="${'previewitemresp-'+(iter.index+1)}">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table" border="1" th:if="${not #lists.isEmpty(defaultQueries)}">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="2" style="border: 1px solid;">FOLLOWING DOCUMENTS ARE CALLED FOR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:60%;">
+                                            <div th:each="defaultQuery,iter : ${defaultQueries}">
+                                                <span th:text="${(iter.index+1)+'.'+defaultQuery}"></span><br><br>
+                                            </div>
+                                        </td>
+                                        <td id="previewdefQueryResp" style="text-align: center;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table" border="1">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="3" style="border: 1px solid;">GENERAL REMARKS</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr>
+                                        <td th:text="${queryRemarks}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2 mt-2" id="previewKycSectionDiv">
+                    <div class="form">
+                        <div class="row addd" id="previewKycHeading">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;">
+                                <h4 class="subtitle">KYC </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <section id="step-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!-- design process steps-->
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs process-model more-icon-preocess" role="tablist">
+                            <li role="presentation" class="visited"><a href="#discover" aria-controls="discover" role="tab" data-toggle="tab" class="" aria-selected="false"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    <p class="">One Time Registration</p>
+                                </a></li>
+                            <li role="presentation" class="visited"><a href="#strategy" id="dcallVerifyStep" aria-controls="strategy" role="tab" data-toggle="tab" class="" aria-selected="false"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                    <p>D-Call Letter Verification</p>
+                                </a></li>
+                            <li role="presentation" class="active"><a href="#content" id="queryReplyStep" aria-controls="content" role="tab" data-toggle="tab" class="" aria-selected="false"><i class="fa fa-upload" aria-hidden="true"></i>
+                                    <p>View Query, Reply & Upload Documents</p>
+                                </a></li>
+                            <li role="presentation" class=""><a href="#reporting" id="undertakingStep" aria-controls="reporting" role="tab" data-toggle="tab" class="active show" aria-selected="true"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                    <p>Undertake &amp; Submit</p>
+                                </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-content" id="pdfcontent">
+                <canvas id="pdfViewer"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="procedure-div" style="overflow:hidden;" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="max-width: 1000px;">
+            <div class="modal-content">
+                <div class="modal-body" style="background: #eaf4ff;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="form-group" style="margin-bottom:5rem;margin-top:2rem;">
+                        <p class="fs-i"><span class="fw-bold">I hereby declare that the subject import postal Article belongs to me and intend to use for personal purpose only.
+                                I hereby declare that the information provided by me as a reply are true and correct in every respect.
+                                I hereby declare that the KYC and supporting documents uploaded belong to me and are genuine and correct in every aspect.
+                                I hereby declare that the email ID and Mobile number provided by me belongs to me.
+                                I hereby undertake to comply with the provisions of the Customs Act 1962 and the rules and regulations issued in this regard.
+                                I understand that providing wrong information and uploading of bogus documents will attract legal action under the provisions of the Customs Act 1962.</span></p>
+                    </div>
+                    <div class="captcha">
+                        <div class="spinner">
+                            <label>
+                                <input type="checkbox" onclick="displayCaptcha(this)">
+                                <span class="checkmark"><span>&nbsp;</span></span>
+                            </label>
+                        </div>
+                        <div class="text">
+                            I UNDERTAKE THE ABOVE
+                        </div>
+                    </div>
+                    <div id="captchaInput" style="display: none;"><label class="captcha-label">Captcha :
+                            <div id="captchaDiv"></div>
+                        </label>
+                        <input type="text" placeholder="Enter Captcha" id="cpatchaTextBox" style="width: 20%;">
+                        <i class="fa fa-refresh refresh-icon" onclick="createCaptcha()" aria-hidden="true"></i>
+                    </div>
+                    <div style="width: 100%;text-align: center;display:none;" id="submit-btn-final">
+                        <button type="button" class="btn btn-success" onclick="validateCaptcha()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{js/query_reply/sweetalert.min.js}"></script>
+    <script type="text/javascript">
+        var kycFiles = {};
+        var supportFiles = {};
+
+        function addSupportSection(obj) {
+            var count = $(obj).attr('count');
+            var nextCount = parseInt(count) + 1;
+            var supportSection = '<div id="support-section-' + (nextCount) + '"><div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<select class="control" id="support-type-' + (nextCount) + '">' + $("#support-type-1").html() +
+                '</select><div class="invalid-feedback">Type Of Supporting Document is required</div><label class="float">Type of Supporting Document<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<input class="control" type="text" id="support-docno-' + (nextCount) + '" Placeholder="Enter Document Number"></input>' +
+                '<div class="invalid-feedback">Document Number is required</div><label class="float">Document Number<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<input class="control" type="text" id="support-desc-' + (nextCount) + '" Placeholder="Enter Description"></input>' +
+                '<div class="invalid-feedback">Description is required</div><label class="float">Description' +
+                //'<span style="color: red;">&nbsp;*</span>'+
+                '</label></div></div>' +
+                '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<input class="control" type="text" id="support-filetxt-' + (nextCount) + '" placeholder="Please Upload File" disabled>' +
+                '<div class="invalid-feedback">Supporting Document attachment is required</div><p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p><label class="float">Supporting Document Upload<span style="color: red;">&nbsp;*</span></label><input type="file" id="support-file-' + (nextCount) + '" onchange="uploadSupportFile(this,' + nextCount + ')" onclick="this.value=null;" accept="application/pdf"' +
+                ' style="display: none;"><span class="upload-btn" onclick="supportFileUpload(' + (nextCount) + ')"><a>Upload</a></span></div></div><div class="mt-10">' +
+                '<span class="remove-btn" onclick="removeSupportSection(this,' + nextCount + ')">X</span></div></div></div>';
+            $("#support-section-1").after(supportSection);
+            $(obj).attr('count', nextCount);
+            if ($("[id^='support-section-']").length == 7) {
+                $("#add-support-img").closest('div').remove();
+            }
+        }
+
+        function removeSupportSection(obj, count) {
+            $(obj).closest("[id^='support-section-']").remove();
+            delete kycFiles[count];
+            if ($("#add-support-img").length == 0) {
+                var nxtCount = count - 1;
+                $("#support-section-1").append('<div class="mt-10"><span class="add-btn"><img id="add-support-img" src="images/add.png" count="' + nxtCount + '" onclick="addSupportSection(this)" alt="add-icon"></span></div>');
+            } else {
+                $("#add-support-img").attr('count', (count - 1));
+            }
+        }
+
+        function supportFileUpload(count) {
+            $("#support-file-" + count).click();
+        }
+
+        function uploadSupportFile(obj, count) {
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles) {
+                    if (kycFiles[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles) {
+                        if (supportFiles[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#support-filetxt-" + count).val(obj.files[0].name);
+                        supportFiles[count] = obj;
+                        $(obj).next().remove();
+                        $(obj).after('<span class="view-btn" onclick="viewSupportFile(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn" onclick="deleteSupportFile(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+        function viewSupportFile(count) {
+            pdfLoader(supportFiles[count].files[0]);
+            $("#pdfView").modal('toggle');
+        }
+
+        function deleteSupportFile(obj, count) {
+            $("#support-filetxt-" + count).val('');
+            delete supportFiles[count];
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn" onclick="supportFileUpload(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+
+        function addKycSection(obj) {
+            var count = $(obj).attr('count');
+            var nextCount = parseInt(count) + 1;
+            var kycsection = '<div id="kyc-section-' + (nextCount) + '"><div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<select class="control" id="kyc-type-' + (nextCount) + '">' + $("#kyc-type-1").html() +
+                '</select><div class="invalid-feedback">Type Of KYC Document is required</div><label class="float">Type of KYC Document<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<input class="control" type="text" id="kyc-docno-' + (nextCount) + '" Placeholder="Enter Document Number"></input>' +
+                '<div class="invalid-feedback">Document Number is required</div><label class="float">Document Number<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                //'<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                //'<input class="control" type="text" id="kyc-desc-' + (nextCount) + '" Placeholder="Enter Description"></input>' +
+                //'<div class="invalid-feedback">Description is required</div><label class="float">Description<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                '<input class="control" type="text" id="kyc-filetxt-' + (nextCount) + '" placeholder="Please Upload File" disabled>' +
+                '<div class="invalid-feedback">KYC attachment is required</div><p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p><label class="float">KYC Upload<span style="color: red;">&nbsp;*</span></label><input type="file" id="kyc-file-' + (nextCount) + '" onchange="uploadFile(this,' + nextCount + ')" onclick="this.value=null;" accept="application/pdf"' +
+                ' style="display: none;"><span class="upload-btn" onclick="fileUpload(' + (nextCount) + ')"><a>Upload</a></span></div></div><div class="mt-10">' +
+                '<span class="remove-btn" onclick="removeKycSection(this,' + nextCount + ')">X</span></div></div></div>';
+            $("#kyc-section-1").after(kycsection);
+            $(obj).attr('count', nextCount);
+            if ($("[id^='kyc-section-']").length == 3) {
+                $("#add-kyc-img").closest('div').remove();
+            }
+        }
+
+        function removeKycSection(obj, count) {
+            $(obj).closest("[id^='kyc-section-']").remove();
+            delete kycFiles[count];
+            if ($("#add-kyc-img").length == 0) {
+                var nxtCount = count - 1;
+                $("#kyc-section-1").append('<div class="mt-10"><span class="add-btn"><img id="add-kyc-img" src="images/add.png" count="' + nxtCount + '" onclick="addKycSection(this)" alt="add-icon"></span></div>');
+            } else {
+                $("#add-kyc-img").attr('count', (count - 1));
+            }
+        }
+
+        function fileUpload(count) {
+            $("#kyc-file-" + count).click();
+        }
+
+        function uploadFile(obj, count) {
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles) {
+                    if (kycFiles[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles) {
+                        if (supportFiles[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#kyc-filetxt-" + count).val(obj.files[0].name);
+                        kycFiles[count] = obj;
+                        $(obj).next().remove();
+                        $(obj).after('<span class="view-btn" onclick="viewFile(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn" onclick="deleteFile(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+        function viewFile(count) {
+            pdfLoader(kycFiles[count].files[0]);
+            $("#pdfView").modal('toggle');
+        }
+
+        function deleteFile(obj, count) {
+            $("#kyc-filetxt-" + count).val('');
+            delete kycFiles[count];
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn" onclick="fileUpload(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+
+        var oMyForm = new FormData();
+
+        function validateAndSubmit() {
+            var error = 0;
+            oMyForm = new FormData();
+            $("#previewSupportSectionDiv").remove();
+            $("[id^='preview-kyc-section-']").remove();
+            $("[id^='preview-support-section-']").remove();
+            $("#kycPreviewSubmitBtnDiv").remove();
+            $("[id^='kyc-section-']").each(function(i) {
+                $("#previewKycHeading").append('<div id="preview-kyc-section-' + (i + 1) + '"><div class="col-lg-3 col-md-3 col-sm-3">' +
+                    '<div class="form-group floating"><input class="control" type="text" id="preview-kyc-type-' + (i + 1) + '" disabled>' +
+                    '</input><label class="float">Type of KYC Document<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                    '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating"><input class="control" type="text" ' +
+                    'id="preview-kyc-docno-' + (i + 1) + '" disabled></input><label class="float">Document Number<span style="color: red;">&nbsp;*</span>' +
+                    '</label></div></div>' +
+                    '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating"><input class="control" type="text" ' +
+                    'id="preview-kyc-filetxt-' + (i + 1) + '" disabled><label class="float">KYC Upload<span style="color: red;">&nbsp;*</span>' +
+                    '</label>' +
+                    //'<span class="upload-btn" onclick="fileUpload(1)"><a>Upload</a></span>'+
+                    '</div></div></div>');
+                if ($(this).find("[id^='kyc-type-']").val().trim() == '') {
+                    $(this).find("[id^='kyc-type-']").next().show();
+                    $(this).find("[id^='kyc-type-']").addClass('invalid');
+                    error = error + 1;
+                } else {
+                    $(this).find("[id^='kyc-type-']").next().hide();
+                    $(this).find("[id^='kyc-type-']").removeClass('invalid');
+                    oMyForm.append("kycSections[" + i + "].typeOfDocument", $(this).find("[id^='kyc-type-']").val());
+                    $("#preview-kyc-type-" + (i + 1)).val($(this).find("[id^='kyc-type-']").val());
+                }
+                if ($(this).find("[id^='kyc-docno-']").val().trim() == '') {
+                    $(this).find("[id^='kyc-docno-']").next().show();
+                    $(this).find("[id^='kyc-docno-']").addClass('invalid');
+                    $(this).find("[id^='kyc-docno-']").next().text('Document Number is required');
+                    error = error + 1;
+                } else {
+                    if ($(this).find("[id^='kyc-type-']").val().trim() != '') {
+                        if ($(this).find("[id^='kyc-type-']").val().trim() == 'Aadhar Card') {
+                            if (/^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/.test($(this).find("[id^='kyc-docno-']").val())) {
+                                $(this).find("[id^='kyc-docno-']").next().hide();
+                                $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                                oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                                $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                            } else {
+                                $(this).find("[id^='kyc-docno-']").next().show();
+                                $(this).find("[id^='kyc-docno-']").next().text('Invalid Aadhar Card Number');
+                                $(this).find("[id^='kyc-docno-']").addClass('invalid');
+                                error = error + 1;
+                            }
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'PAN Card') {
+                            if (/[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test($(this).find("[id^='kyc-docno-']").val())) {
+                                $(this).find("[id^='kyc-docno-']").next().hide();
+                                $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                                oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                                $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                            } else {
+                                $(this).find("[id^='kyc-docno-']").next().show();
+                                $(this).find("[id^='kyc-docno-']").next().text('Invalid PAN Number');
+                                $(this).find("[id^='kyc-docno-']").addClass('invalid');
+                                error = error + 1;
+                            }
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'Passport') {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                            oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                            $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'Driving License') {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                            oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                            $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'Voter Id Card') {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                            oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                            $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                        } else {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                            oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                            $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                        }
+                    } else {
+                        $(this).find("[id^='kyc-docno-']").next().hide();
+                        $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                        oMyForm.append("kycSections[" + i + "].documentNumber", $(this).find("[id^='kyc-docno-']").val());
+                        $("#preview-kyc-docno-" + (i + 1)).val($(this).find("[id^='kyc-docno-']").val());
+                    }
+                }
+                //if ($(this).find("[id^='kyc-desc-']").val().trim() == '') {
+                //    $(this).find("[id^='kyc-desc-']").next().show();
+                //    $(this).find("[id^='kyc-desc-']").addClass('invalid');
+                //    error = error + 1;
+                //} else {
+                //    $(this).find("[id^='kyc-desc-']").next().hide();
+                //    $(this).find("[id^='kyc-desc-']").removeClass('invalid');
+                //    oMyForm.append("kycSections[" + i + "].description", $(this).find("[id^='kyc-desc-']").val());
+                //}
+                if ($(this).find("[id^='kyc-filetxt-']").val().trim() == '') {
+                    $(this).find("[id^='kyc-filetxt-']").next().show();
+                    $(this).find("[id^='kyc-filetxt-']").next().text('KYC attachment is required');
+                    $(this).find("[id^='kyc-filetxt-']").addClass('invalid');
+                    error = error + 1;
+                } else {
+                    $(this).find("[id^='kyc-filetxt-']").next().hide();
+                    $(this).find("[id^='kyc-filetxt-']").removeClass('invalid');
+                    oMyForm.append("kycSections[" + i + "].fileAttachment", kycFiles[$(this).attr('id').split('-')[$(this).attr('id').split('-').length - 1]].files[0]);
+                    $("#preview-kyc-filetxt-" + (i + 1)).val(kycFiles[$(this).attr('id').split('-')[$(this).attr('id').split('-').length - 1]].files[0].name);
+                }
+            });
+            if ($('#supportSectionDiv').is(':visible')) {
+                $("#previewKycSectionDiv").after('<div class="card mb-2 mt-2" id="previewSupportSectionDiv"><div class="form">' +
+                    '<div class="row addd" id="previewSupportHeading"><div class="col-lg-12 col-md-12 col-sm-12" ' +
+                    'style="display:flex;"><h4 class="subtitle">SUPPORTING DOCUMENTS </h4></div></div></div></div>');
+                $("[id^='support-section-']").each(function(i) {
+                    $("#previewSupportHeading").append('<div id="preview-support-section-' + (i + 1) + '"><div class="col-lg-3 col-md-3 col-sm-3">' +
+                        '<input class="control" type="text" id="preview-support-type-' + (i + 1) + '" disabled></input><div class="form-group floating">' +
+                        '<label class="float">Type of Supporting Document<span style="color: red;">&nbsp;*</span></label></div></div>' +
+                        '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating"><input class="control" type="text" ' +
+                        'id="preview-support-docno-' + (i + 1) + '" disabled></input><label class="float">Document Number<span ' +
+                        'style="color: red;">&nbsp;*</span></label></div></div><div class="col-lg-3 col-md-3 col-sm-3">' +
+                        '<div class="form-group floating"><input class="control" type="text" disabled id="preview-support-desc-' + (i + 1) + '">' +
+                        '</input><label class="float">Description</label></div></div><div class="col-lg-3 col-md-3 col-sm-3">' +
+                        '<div class="form-group floating"><input class="control" type="text" id="preview-support-filetxt-' + (i + 1) + '" disabled>' +
+                        '<label class="float">Supporting Document Upload<span style="color: red;">&nbsp;*</span></label>' +
+                        //'<span class="upload-btn" onclick="supportFileUpload(1)"><a>Upload</a></span>'+
+                        '</div></div></div>');
+                    if ($(this).find("[id^='support-type-']").val().trim() == '') {
+                        $(this).find("[id^='support-type-']").next().show();
+                        $(this).find("[id^='support-type-']").addClass('invalid');
+                        error = error + 1;
+                    } else {
+                        $(this).find("[id^='support-type-']").next().hide();
+                        $(this).find("[id^='support-type-']").removeClass('invalid');
+                        oMyForm.append("supportSections[" + i + "].typeOfDocument", $(this).find("[id^='support-type-']").val());
+                        $("#preview-support-type-" + (i + 1)).val($(this).find("[id^='support-type-']").val());
+                    }
+                    if ($(this).find("[id^='support-docno-']").val().trim() == '') {
+                        $(this).find("[id^='support-docno-']").next().show();
+                        $(this).find("[id^='support-docno-']").addClass('invalid');
+                        error = error + 1;
+                    } else {
+                        $(this).find("[id^='support-docno-']").next().hide();
+                        $(this).find("[id^='support-docno-']").removeClass('invalid');
+                        oMyForm.append("supportSections[" + i + "].documentNumber", $(this).find("[id^='support-docno-']").val());
+                        $("#preview-support-docno-" + (i + 1)).val($(this).find("[id^='support-docno-']").val());
+                    }
+                    if ($(this).find("[id^='support-desc-']").val().trim() == '') {
+                        //$(this).find("[id^='support-desc-']").next().show();
+                        //$(this).find("[id^='support-desc-']").addClass('invalid');
+                        //error = error + 1;
+                    } else {
+                        $(this).find("[id^='support-desc-']").next().hide();
+                        $(this).find("[id^='support-desc-']").removeClass('invalid');
+                        oMyForm.append("supportSections[" + i + "].description", $(this).find("[id^='support-desc-']").val());
+                        $("#preview-support-desc-" + (i + 1)).val($(this).find("[id^='support-desc-']").val());
+                    }
+                    if ($(this).find("[id^='support-filetxt-']").val().trim() == '') {
+                        $(this).find("[id^='support-filetxt-']").next().show();
+                        $(this).find("[id^='support-filetxt-']").next().text('Supporting attachment is required');
+                        $(this).find("[id^='support-filetxt-']").addClass('invalid');
+                        error = error + 1;
+                    } else {
+                        $(this).find("[id^='support-filetxt-']").next().hide();
+                        $(this).find("[id^='support-filetxt-']").removeClass('invalid');
+                        oMyForm.append("supportSections[" + i + "].fileAttachment", supportFiles[$(this).attr('id').split('-')[$(this).attr('id').split('-').length - 1]].files[0]);
+                        $("#preview-support-filetxt-" + (i + 1)).val(supportFiles[$(this).attr('id').split('-')[$(this).attr('id').split('-').length - 1]].files[0].name);
+                    }
+                });
+                $("#previewSupportHeading").append('<div style="width: 100%;text-align: center;"><button type="button" ' +
+                    'class="btn btn-primary" onclick="displayQueryReplySection()" style="margin-right: 15px;">Back</button>' +
+                    '<button type="button" class="btn btn-success" id="captchaPopup" onclick="captchaPopup()">Submit</button></div>');
+            } else {
+                $("#previewKycHeading").append('<div style="width: 100%;text-align: center;" id="kycPreviewSubmitBtnDiv"><button type="button" ' +
+                    'class="btn btn-primary" onclick="displayQueryReplySection()" style="margin-right: 15px;">Back</button>' +
+                    '<button type="button" class="btn btn-success" id="captchaPopup" onclick="captchaPopup()">Submit</button></div>');
+            }
+            $("[id^='itemresp-']").each(function(i) {
+                if ($(this).val().trim() == '') {
+                    $(this).next().show();
+                    $(this).addClass('invalid');
+                    error = error + 1;
+                } else {
+                    $(this).next().hide();
+                    $(this).removeClass('invalid');
+                    oMyForm.append("itemQueryResponse[" + i + "].rply", $(this).val().trim());
+                    oMyForm.append("itemQueryResponse[" + i + "].item_no", $(this).parent().siblings(":first").text());
+                    $("#previewitemresp-" + (i + 1)).text($(this).val().trim());
+                }
+            });
+            if ($("#defQueryResp").length > 0) {
+                if ($("#defQueryResp").val().trim() == '') {
+                    $("#defQueryResp").next().show();
+                    $("#defQueryResp").addClass('invalid');
+                    error = error + 1;
+                } else {
+                    $("#defQueryResp").next().hide();
+                    $("#defQueryResp").removeClass('invalid');
+                    oMyForm.append("defaultQueryResponse.rply", $("#defQueryResp").val().trim());
+                    $("#previewdefQueryResp").text($("#defQueryResp").val().trim());
+                }
+            }
+            if (error == 0) {
+                oMyForm.append("dcallLetterNumber", $("#dcallNo").text().trim());
+                oMyForm.append("articleId", $("#articleId").text().trim());
+                oMyForm.append("currentUrl", document.URL);
+                showLoader();
+                $.ajax({
+                    url: 'scanningDocuments',
+                    data: oMyForm,
+                    contentType: false,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    type: 'POST',
+                    success: function(data) {
+                        var kycMalicious = [];
+                        var supportMalicious = [];
+                        data.maliciousFiles.forEach(item => {
+                            if (Object.keys(kycFiles).find(key => kycFiles[key].files[0].name === item) != undefined) {
+                                kycMalicious.push(Object.keys(kycFiles).find(key => kycFiles[key].files[0].name === item));
+                            }
+                            if (Object.keys(supportFiles).find(key => supportFiles[key].files[0].name === item) != undefined) {
+                                supportMalicious.push(Object.keys(supportFiles).find(key => supportFiles[key].files[0].name === item));
+                            }
+                        });
+                        kycMalicious.forEach(kyc => {
+                            $("#preview-kyc-filetxt-" + kyc).addClass('invalid');
+                            $("#kyc-filetxt-" + kyc).addClass('invalid');
+                            $("#kyc-filetxt-" + kyc).next().text('Uploaded Document is found to be not safe.Please upload malware free Document.');
+                            $("#kyc-filetxt-" + kyc).next().show();
+                            $("#preview-kyc-filetxt-" + kyc).after('<div class="invalid-feedback" style="display: block;">Uploaded Document is found to be not safe.Please upload malware free Document.</div>');
+                        });
+                        supportMalicious.forEach(support => {
+                            $("#preview-support-filetxt-" + support).addClass('invalid');
+                            $("#support-filetxt-" + support).addClass('invalid');
+                            $("#support-filetxt-" + support).next().text('Uploaded Document is found to be not safe.Please upload malware free Document.');
+                            $("#support-filetxt-" + support).next().show();
+                            $("#preview-support-filetxt-" + support).after('<div class="invalid-feedback" style="display: block;">Uploaded Document is found to be not safe.Please upload malware free Document.</div>');
+                        });
+                        if (data.maliciousFiles.length > 0) {
+                            $("#captchaPopup").remove();
+                        }
+                        hideLoader();
+                        $("#uploadQueryFullSection").hide('slow');
+                        $("#previewQueryFullSection").show();
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, "slow");
+                    },
+                    error: function(e) {
+                        swal('Error!', "Something went wrong !", 'error');
+                    }
+                });
+            }
+        }
+
+        function pdfLoader(file) {
+            var pdfjsLib = window['pdfjs-dist/build/pdf'];
+            // The workerSrc property shall be specified.
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+            var fileReader = new FileReader();
+            fileReader.onload = function() {
+                var pdfData = new Uint8Array(this.result);
+                // Using DocumentInitParameters object to load binary data.
+                var loadingTask = pdfjsLib.getDocument({
+                    data: pdfData
+                });
+                loadingTask.promise.then(function(pdf) {
+                    console.log('PDF loaded');
+
+                    // Fetch the first page
+                    var pageNumber = 1;
+                    pdf.getPage(pageNumber).then(function(page) {
+                        console.log('Page loaded');
+
+                        var scale = 1.5;
+                        var viewport = page.getViewport({
+                            scale: scale
+                        });
+
+                        // Prepare canvas using PDF page dimensions
+                        var canvas = $("#pdfViewer")[0];
+                        var context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+
+                        // Render PDF page into canvas context
+                        var renderContext = {
+                            canvasContext: context,
+                            viewport: viewport
+                        };
+                        var renderTask = page.render(renderContext);
+                        renderTask.promise.then(function() {
+                            console.log('Page rendered');
+                        });
+                    });
+                }, function(reason) {
+                    // PDF loading error
+                    console.error(reason);
+                });
+            };
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        function viewQuerySection(obj) {
+            $(obj).remove();
+            $("#querySection").show('slow');
+        }
+
+        function viewQueryReplySection(obj) {
+            $(obj).remove();
+            $("#viewUploadKycSectionButton").show();
+            $("#itemwiseQuery").find('th:last-child').show('slow');
+            $("#itemwiseQuery").find('td:last-child').show('slow');
+            $("#defaultSelectedQuery").find('th:last-child').show('slow');
+            $("#defaultSelectedQuery").find('td:last-child').show('slow');
+            $("#itemwise-header").attr('colspan', parseInt($("#itemwise-header").attr('colspan')) + 1);
+            $("#default-header").attr('colspan', parseInt($("#default-header").attr('colspan')) + 1);
+        }
+
+        function viewUploadKycSection(obj) {
+            $("#kycSectionDiv").show('slow');
+            $(obj).remove();
+            setTimeout(function() {
+                $("html, body").animate({
+                    scrollTop: $(document).height()
+                }, "slow");
+            }, 500);
+        }
+
+        function viewSupportSection() {
+            if ($('#supportSectionDiv').is(':visible')) {
+                $("#cbx").prop('checked', false);
+                $("#supportSectionDiv").hide('slow');
+                $("#kycValidateAndSubmitDiv").show();
+            } else {
+                $("#cbx").prop('checked', true);
+                $("#supportSectionDiv").show('slow');
+                $("#kycValidateAndSubmitDiv").hide();
+                setTimeout(function() {
+                    $("html, body").animate({
+                        scrollTop: $(document).height()
+                    }, "slow");
+                }, 500);
+            }
+        }
+
+        function displayQueryReplySection() {
+            $("#uploadQueryFullSection").show();
+            //$("#undertakingSection").hide('slow');
+            $("#queryReplyStep").trigger('shown.bs.tab');
+            $("#previewQueryFullSection").hide('slow');
+            $("html, body").animate({
+                scrollTop: 0
+            }, "slow");
+        }
+
+        function captchaPopup() {
+            $("#procedure-div").modal('show');
+            $("#undertakingStep").trigger('shown.bs.tab');
+            $("html, body").animate({
+                scrollTop: 0
+            }, "slow");
+        }
+
+        var code;
+
+        function createCaptcha() {
+            //clear the contents of captcha div first 
+            document.getElementById('captchaDiv').innerHTML = "";
+            var charsArray =
+                "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
+            var lengthOtp = 6;
+            var captcha = [];
+            for (var i = 0; i < lengthOtp; i++) {
+                //below code will not allow Repetition of Characters
+                var index = Math.floor(Math.random() * charsArray.length + 1); //get the next character from the array
+                if (captcha.indexOf(charsArray[index]) == -1)
+                    captcha.push(charsArray[index]);
+                else i--;
+            }
+            var canv = document.createElement("canvas");
+            canv.id = "captchaContentImage";
+            canv.width = 100;
+            canv.height = 50;
+            var ctx = canv.getContext("2d");
+            ctx.font = "25px cursive";
+            ctx.fillText(captcha.join(""), 0, 30);
+            //storing captcha so that can validate you can save it somewhere else according to your specific requirements
+            code = captcha.join("");
+            document.getElementById("captchaDiv").appendChild(canv); // adds the canvas to the body element
+        }
+
+        function validateCaptcha() {
+         //   event.preventDefault();
+            debugger
+            if (document.getElementById("cpatchaTextBox").value == code) {
+                $.ajax({
+                    url: 'savereply',
+                    data: oMyForm,
+                    contentType: false,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    type: 'POST',
+                    success: function(data) {
+                        if (data.status) {
+                            $("#undertakingSection").remove();
+                            $("#uploadQueryFullSection").remove();
+                            $("#previewQueryFullSection").remove();
+                            $("#step-section").remove();
+                            $("#procedure-div").modal('hide');
+                            swal('Your Query Reply and Document upload completed !', "Thanks", 'success').then((value) => {
+                                $("#successSection").show('slow');
+                            });
+                        } else {
+                            swal('Error!', "Something went wrong !", 'error');
+                        }
+                    },
+                    error: function(e) {
+                        swal('Error!', "Something went wrong !", 'error');
+                    }
+                });
+            } else {
+                swal('Error!', "Invalid Captcha. try Again !", 'error');
+                createCaptcha();
+                document.getElementById("cpatchaTextBox").value = '';
+            }
+        }
+
+        function displayCaptcha(obj) {
+            $(obj).attr('disabled', 'disabled');
+            setTimeout(function() {
+                createCaptcha();
+                $("#captchaInput").show('slow');
+                $("#captchaInput").css('display', 'flex');
+                $("#submit-btn-final").show('slow');
+            }, 2000);
+        }
+
+        $('#procedure-div').on('hidden.bs.modal', function() {
+            $("#queryReplyStep").trigger('shown.bs.tab');
+        })
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+
+            var href = $(e.target).attr('href');
+            var $curr = $(".process-model  a[href='" + href + "']").parent();
+
+            $('.process-model li').removeClass();
+
+            $curr.addClass("active");
+            $curr.prevAll().addClass("visited");
+        });
+        
+        $(document).on('change', "[id^='itemresp-'],#defQueryResp,[id^='kyc-type-'],[id^='support-type-'],[id^='support-docno-']", function() {
+        	if($(this).next().is(':visible')){
+                $(this).next().hide();
+                $(this).removeClass('invalid');
+        	}
+        });
+        
+        $(document).on('change', "[id^='kyc-file-'],[id^='support-file-']", function() {
+        	var idAttribute=$(this).attr('id');
+        	var fileIndex=idAttribute.substr(idAttribute.length - 1);
+        	if(idAttribute.includes('kyc')){
+        		if($("#kyc-filetxt-"+fileIndex).next().is(':visible')){
+                	$("#kyc-filetxt-"+fileIndex).next().hide();
+                	$("#kyc-filetxt-"+fileIndex).removeClass('invalid');
+                }
+        	}else {
+        		if($("#support-filetxt-"+fileIndex).next().is(':visible')){
+                	$("#support-filetxt-"+fileIndex).next().hide();
+                	$("#support-filetxt-"+fileIndex).removeClass('invalid');
+                }
+        	}
+        });
+        
+        $(document).on('change', "[id^='kyc-docno-']", function() {
+        	$("[id^='kyc-section-']").each(function(i) {
+                    if ($(this).find("[id^='kyc-type-']").val().trim() != '') {
+                        if ($(this).find("[id^='kyc-type-']").val().trim() == 'Aadhar Card') {
+                            if (/^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/.test($(this).find("[id^='kyc-docno-']").val())) {
+                                $(this).find("[id^='kyc-docno-']").next().hide();
+                                $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                            } else {
+                                $(this).find("[id^='kyc-docno-']").next().show();
+                                $(this).find("[id^='kyc-docno-']").next().text('Invalid Aadhar Card Number');
+                                $(this).find("[id^='kyc-docno-']").addClass('invalid');
+                            }
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'PAN Card') {
+                            if (/[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test($(this).find("[id^='kyc-docno-']").val())) {
+                                $(this).find("[id^='kyc-docno-']").next().hide();
+                                $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                            } else {
+                                $(this).find("[id^='kyc-docno-']").next().show();
+                                $(this).find("[id^='kyc-docno-']").next().text('Invalid PAN Number');
+                                $(this).find("[id^='kyc-docno-']").addClass('invalid');
+                            }
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'Passport') {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'Driving License') {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                        } else if ($(this).find("[id^='kyc-type-']").val().trim() == 'Voter Id Card') {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                        } else {
+                            $(this).find("[id^='kyc-docno-']").next().hide();
+                            $(this).find("[id^='kyc-docno-']").removeClass('invalid');
+                        }
+                    }
+            });
+        });
+        
+        function showLoader() {
+    		$("#overlay").css("display", "block");
+    		$('#overlay').height($(".container.container-100").innerHeight());
+		}
+
+		function hideLoader() {
+    		setTimeout(function() {
+        		$("#overlay").css("display", "none");
+    		}, 500);
+		}
+    </script>
+</body>
+
+</html>

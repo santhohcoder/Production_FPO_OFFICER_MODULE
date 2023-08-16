@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
+    
+<!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+ -->
+  
+</head>
+
+
+</head>
+	
+
+<style>
+body {
+	background: white !important;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+      
+    input[type="checkbox"]:disabled {
+  background-color: blue;
+}
+input[type="checkbox"][aria-disabled="true"] {
+  background-color: blue;
+  pointer-events: none;
+}
+#pdfview1{background-color: transparent;}
+	
+</style>
+</head>
+<body>
+
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Site Management>
+		Process Update History</h3>
+		<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR</h3>
+<div style ="font-weight: bold;text-align: center; font-family: times new roman;background: deepskyblue;"><h4>Process Update History</h4></div>
+
+
+<div class="modal fade" id="processupdatemodal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered"
+			style="width: auto; height: auto; max-width: 90%;">
+			<div class="modal-content">
+				 <div class="modal-header">
+					<h4 class="modal-title">Uploaded Process Update Value Supporting Document</h4>
+					<button type="button" class="close rlyqueryinfobtncancel"
+						data-dismiss="modal"   aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<iframe id="processupdatepdf" frameborder="0" width="100%"
+						style="height: 88vh;"></iframe>
+				</div>
+				 <div class="modal-footer">
+					<button type="button" id="rlyqueryinfobtncancel"
+						class="btn btn-secondary rlyqueryinfobtncancel"
+						data-dismiss="modal">Cancel</button>
+				</div> 
+			</div>
+		</div>
+	</div>
+
+	  <div class="modal fade bd-example-modal-lg" id="zcallLetterModal" style="display:none;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 90%;">
+            <div id="processletterdoc" class="modal-content" style="padding: 10px;border-radius: 25px;border: 5px solid indianred;">
+            </div>
+        </div>
+     </div>
+
+	
+ 	
+		<div class="mx-4 my-4" id="recallThis">
+	<table id="ViewuserHstrySite"
+			class="table table-bordered table-striped"
+			style="font-size: 14px; width:100%; text-align: center; overflow-x: overlay; padding: 0; overflow: auto">
+			<thead>
+				<tr height=50px; valign="middle" class="rowDis"
+					style="background-color: #63cfe0">
+					<th style="vertical-align: middle; width: 5%;">SI.No</th>
+					<th style="vertical-align: middle;">FPO SITE</th>
+					<th colspan="3" style="vertical-align: middle; width: 24%;">
+						LETTERS</th>
+					<th colspan="3" style="vertical-align: middle;">EMS</th>
+					<th colspan="3" style="vertical-align: middle; width: 16%;">PARCEL</th>
+					<th style="vertical-align: middle; width: 5%;">OFFID</th>
+					<th style="vertical-align: middle; width: 5%;">UPDATE DATE</th>
+					<th style="vertical-align: middle; width: 5%;">DOCNAME</th>
+					<th style="vertical-align: middle; width: 5%;">VIEW DOCUMENT</th>
+				</tr>
+				<tr >
+					<th style="vertical-align: middle;"></th>
+					<th style="vertical-align: middle;">Site Code</th>
+					<th style="vertical-align: middle;">Letter Air</th>
+					<th style="vertical-align: middle;">Letter Sal</th>
+					<th style="vertical-align: middle;">Letter Sea</th>
+					<th style="vertical-align: middle;">EMS Air</th>
+					<th style="vertical-align: middle;">EMS Sal</th>
+					<th style="vertical-align: middle;">EMS Sea</th>
+					<th style="vertical-align: middle;">Parcel Air</th>
+					<th style="vertical-align: middle;">Parcel Sal</th>
+					<th style="vertical-align: middle;">Parcel Sea</th>
+					<th style="vertical-align: middle;"></th>
+					<th style="vertical-align: middle;"></th>
+					<th style="vertical-align: middle;"></th>
+					<th style="vertical-align: middle;"></th>
+				</tr>
+			</thead>
+			<tbody>
+		<tr height=50px; th:each="s1,iter : ${processallval}">
+		    <td th:text="${iter.index+1}"></td>
+		    <td th:text="${s1[0]}"></td>
+		    <!-- CUSITM -->
+		    <td><input class="lett-air" aria-disabled="true" type="checkbox" th:checked="${s1[1] == '1' ? 'checked' : 0}" required></td>
+		    <!-- <td></td> -->
+		    <td><input class="lett-sal" aria-disabled="true" type="checkbox" th:checked="${s1[2] == '1' ? 'checked' : 0}" required></td>
+		
+		    <!-- Assessed -->
+		    <td><input class="lett-sea" aria-disabled="true" type="checkbox" th:checked="${s1[3] == '1' ? 'checked' : 0}" required></td>
+		    <td><input class="emss-air"  aria-disabled="true" type="checkbox" th:checked="${s1[4] == '1'? 'checked' : 0}" required></td>
+		    <td><input class="emss-sal" aria-disabled="true" type="checkbox" th:checked="${s1[5] == '1' ? 'checked' : 0}"></td>
+		
+		    <!-- OOC -->
+		    <td><input class="emss-sea" aria-disabled="true" type="checkbox" th:checked="${s1[6] == '1' ? 'checked' : 0}" required></td>
+		    <td><input class="parcell-air" aria-disabled="true" type="checkbox" th:checked="${s1[7] == '1' ? 'checked' : 0}" required></td>
+		    <td><input class="parcell-sal" aria-disabled="true" type="checkbox" th:checked="${s1[8] == '1'? 'checked' : 0}" required></td>
+		    <td><input class="parcell-sea"  aria-disabled="true" type="checkbox" th:checked="${s1[9] == '1' ? 'checked' : 0}" required></td>
+		    <td th:text="${s1[10]}"></td>
+		    <td th:text="${s1[11]}"></td>
+		    <td th:text="${s1[12] != null ? s1[12]: '-'}"></td> 
+		    <td><button id="pdfview1" th:if="${s1[12] != null}"  style="border:none" onclick="gettingpdf(this)" th:value="${s1[11]}"><svg  width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+		  <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+		  <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+		</svg></button></td>
+		</tr>
+			</tbody>
+		</table>
+</div>
+<input type="hidden" th:value="${loginid}" id="lginid">
+<script th:src="@{js/sweetalert.min.js}"></script>
+<input type="hidden"  id="fileprocess" th:value="${processfilename}">
+<!-- <script src="js/lsmJS/LsmUpdateSite.js"></script> -->
+<script type="text/javascript">
+
+
+function goback() {
+     window.location = "nsmHome";
+     
+     }
+
+  function gettingpdf(act){
+	/*var maxvalue = act.id;*/
+	var uptodate = act.value;
+
+	$.ajax({
+		url:"processUpdateHistory1?uptodate="  + uptodate ,
+		type:"GET",
+		success: function(data) {
+                 $("#processletterdoc").html(data);
+                    $("#processupdatepdf").attr('src','file/pdf/'+$('#fileprocess').val() + '#toolbar=0&navpanes=0;readonly=true;');
+                	$("#processupdatemodal").modal('toggle');
+
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+		
+	})
+	
+	
+	
+} 
+
+
+var sitecode_name= $("#sitecode").val();
+     $('#ViewuserHstrySite').DataTable({
+		
+	
+	"processing": true,
+		"paging": true,
+		"ordering": false,
+		"dom": '<"pull-left"Bl>frtip',
+
+		
+		buttons: [
+				{extend: 'csvHtml5', text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:'PROCESS UPDATE HISTORY',
+					message:'PROCESS UPDATE HISTORY @ ' + sitecode_name + '\n\r'+datetimes,
+					
+				}, 
+						
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    				className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'PROCESS UPDATE HISTORY @ ' + sitecode_name,
+					filename:'PROCESS UPDATE HISTORY',
+				     orientation: 'landscape',
+					exportOptions: {
+        				columns: [ 0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+						margin: true,
+					
+      						}, 
+		   		     customize: function(doc, header) {
+					doc.content[1].table.widths = ['8%','8%','8%','8%','8%','8%','8%','8%','8%','8%','8%','4%','4%','4%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+				
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: '+empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,90,0,20],
+					
+					},],});  
+						doc.content.splice(1, 0,{
+					text: [{text:' Date:'+datetimes, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,90,0,20],
+					
+					},],});		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+				},
+				
+				
+				 {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				 filename:'PROCESS UPDATE HISTORY',
+					message:'PROCESS UPDATE HISTORY @ '+ sitecode_name + '\n\r' + datetimes ,
+				customize: function ( win ) {
+					console.log("sucess");
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+		
+			"initComplete": function(settings) {
+		  $("#ViewuserHstrySite_filter").append('<button type="button" class="btn btn-info" id="clear" '+
+		    'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+		  $('#clear').on('click', function() {
+		    $('#ViewuserHstrySite_filter input[type="search"]').val('').trigger('input');
+				var table = $('#ViewuserHstrySite').DataTable();
+				table.search('').draw();
+		
+		  });
+		}
+	
+});
+$(document).ready(function() {
+	showLoader();
+	hideLoader();
+	});
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+
+</script>
+<script src="js/header.js"></script>
+
+</html>

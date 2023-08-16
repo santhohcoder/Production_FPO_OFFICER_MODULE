@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>DCALL HISTORY</title>
+<style type="text/css">
+ .ui-widget-content .ui-icon {
+    background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+    
+    }
+    .error-date{
+ 
+    color: red;
+ }
+    
+    .ead_decisions {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkblue;
+	font-size: 14px;
+	width : 450px;
+	
+	color: white;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 12px;
+	color: blue;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+	border-bottom-width: 1px;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #040404;
+}
+
+.table-bordered td, .table-bordered th {
+	border: 1px solid #000000;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active1 p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.scroll_down {
+	width: 310%;
+	height: 69px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.completed p {
+	color: "#bsb7c1;"
+}
+
+.completed span::before {
+	content: '\2713'
+}
+    li{
+        cursor: pointer;
+    }
+    #dcallhisttable .pdfview:hover	{
+	font-size: 130%;
+	text-decoration-line: underline;
+	cursor: pointer;
+	} 
+         #overlay{
+         position: absolute;
+         left: 0%;
+         top: 0%;
+         z-index: 9999;
+         width: 100%;
+         background: rgba(255, 255, 255, .7);
+         }
+         #loader {
+         position: fixed;
+         display: block;
+         left: 50%;
+         top: 48%;
+         z-index: 9999;
+         width: 100%;
+         height: 100%;
+         background-image: url(images/report/loader.gif);
+         background-repeat: no-repeat;
+         margin: -77px 0 0 -75px;
+         }
+    input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+	  -webkit-appearance: none; 
+	}
+	
+	input[type=number] {
+	  -moz-appearance: textfield;
+	}
+	
+	.box-span {
+	  
+    display: inline-block;
+    width: auto;
+    height: auto;
+    border: 1px solid gray;
+    vertical-align: middle;
+    background: #a1c4e6;
+    padding-left: 3px;
+    font-weight: 1000;
+	padding-right: 3px;
+	}
+	
+	
+	/*   for navbar */
+     	 
+   a.nav-link,
+        a.nav-link:hover {
+            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            font-size: 19px;
+            vertical-align:middle;
+        }
+        
+      
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            background: #0a3052 !important;
+        }
+        
+         .nav-pills1 .nav-link.active,
+        .nav-pills1 .show>.nav-link {
+             background: #e578aa !important;
+        }
+        
+         .nav-pills1 .nav-link.active
+         {
+            background: #e578aa !important;
+            color:white;
+        }
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+<body>
+
+      <div id="overlay" style="display: none;">
+         <div id="loader">
+         <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+         </div>
+      </div>
+      <input type="hidden" th:value="${fromdate}" id="reloadfromdate" >
+      <input type="hidden" th:value="${todate}" id="reloadtodate" >
+<div class="mt-3" style="background-color: #f8f9fa;">
+
+<div class=" pl-3 mt-2 mb-3">
+<div class="mt-4" align="center">
+			<h2>PUSH D-CALL LIST</h2>
+		</div>
+<!-- <a class="btn btn-primary" href="dash">Back to dashboard</a> -->
+</div>
+<!-- <div id="period" class="pl-4">
+<div class="row">
+<div>
+<button type="button" class="btnhighlight" id="today" onclick="todayrecord()" style="color: #fff;background-color: darkgreen;border-color: #17a2b8;">D-Call Letter Generated TODAY</button>
+</div>
+<div class="pl-2">
+<button type="button" class="btnhighlight" id="today" onclick="pendingprint()" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">D-Call Letter NOT PRINTED Yet</button>
+</div>
+<div class="pl-2">
+<button type="button" class="btnhighlight" id="periodselect" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">Print D-Call Letter Again and Push Email / SMS</button>
+</div>
+
+<div id="periodselectdiv" style="display:none">
+                  <label class="pl-2 form_txt "for="birthday">D-Call Letter Date - From  : </label>
+                  <input class="form_txt change" type="text" name="fromdate" readonly id="fromdate" style="display: inline;width: 115px;">
+               <label class="pl-2 form_txt " for="birthday">To  : </label>
+                <input class="form_txt change" type="text" name="todate" readonly id="todate" style="display: inline;width: 115px;">
+                <button class="ml-2" type="button" id="filterrecord" onclick="filterrecord()" style="color: #fff;background-color: forestgreen;border-color: forestgreen;">Submit</button>
+</div>
+<div class="pl-2" style="position: absolute;right: 6px;">
+<button type="button" id="History" class="btnhighlight" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">Status of D-Call Letters (OOC Not Given) </button>
+<input type="month" id="historystart" name="start"
+       min="2019-01" value="2019-01" style="display:none;">
+</div>
+<div class="pl-2">
+<button type="button" class="btnhighlight" id="speedpost" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">Enter Speed Post Consign.No of D-Call Letter Dispatched</button>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+<div class="mt-3 pl-3">
+<div class="row">
+<div class="pl-2">
+<button type="button" class="btnhighlight1" id="speedpost" style="color: #fff;background-color: darkslategrey;border-color: #176eb8;">Enter Speed Post Consign.No of D-Call Letter Dispatched</button>
+</div>
+
+
+<div id="periodspeedpostdiv" style="display:none">
+                  <label class="pl-2 form_txt "for="birthday">D-Call Letter Date - From  : </label>
+                  <input class="form_txt change" type="text" name="fromdate" readonly id="dcallfromdate" style="display: inline;width: 115px;">
+               <label class="pl-2 form_txt " for="birthday">To  : </label>
+                <input class="form_txt change" type="text" name="todate" readonly id="dcalltodate" style="display: inline;width: 115px;">
+                <button class="ml-2" type="button" id="filterrecord" onclick="speedpostrecord()" style="color: #fff;background-color: forestgreen;border-color: forestgreen;">Submit</button>
+</div>
+<div class="pl-2">
+<button type="button" class="btnhighlight1" id="speedpostnostatus" style="color: #fff;background-color: darkslategrey;border-color: #176eb8;">D-Call Letter Speed Post Consign.No History</button>
+</div>
+
+</div>
+</div> -->
+
+
+  <ul  role="tablist" class="nav nav-pills"  style="width: 98%; border: 2px solid; border-radius: 7px; vertical-align:middle; margin-left: 15px;
+   /*  margin-right: 30px; */">
+                        <li onclick="todayrecord()" class="nav-item-btnhighlight" id="today" style="width: 14%; text-align: center;"><a class="nav-link active show" data-toggle="pill" href="javascript:;">D-Call Letter Generated TODAY</a></li>
+            <li onclick="pendingprint()" class="nav-item-btnhighlight" id="today" style="width: 14%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">D-Call Letter NOT PRINTED Yet</a></li>
+			<li onclick="filterrecord();" class="nav-item-btnhighlight"  id="periodselect" style="width: 18%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Print D-Call Letter Again and Push Email / SMS</a></li> 
+			<li onclick="" class="nav-item-btnhighlight1" id="speedpost" style="width: 18%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Enter Speed Post Consign.No of D-Call Letter Dispatched</a></li> 
+            <li onclick="historystarts()" class="nav-item-btnhighlight" id="History"  style="width: 18%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Status of D-Call Letters (OOC Not Given)</a></li> 
+            <li onclick="speedpostrecordstatusV()" class="nav-item-btnhighlight1" id="speedpostnostatusa" style="width: 18%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">D-Call Letter Speed Post Consign.No History</a></li> </ul>
+     
+<div class=" mt-4 pl-4">
+<strong>Note :</strong>
+<p style="margin-bottom: 0;font-size: 13px;"> To view the D-call letter PDF...Please click any specific Article ID</p>
+<p style="margin-bottom: 0;font-size: 13px;">* Only if D-call PDF is downloaded or printed after raising a query while assesment, the same will be counted as printed.</p>
+<p style="margin-bottom: 0;font-size: 13px;">* Any subsequent print of the D-Call PDF from Push D-Call list functionality, the same will be counted to prints.</p>
+<p style="margin-bottom: 0;font-size: 13px;">* To edit the saved speed post consignment of D-call ltr, visit speed post consign.no history tab.</p>
+</div>
+
+
+   <div id="periodselectdiv" style="display:none; margin-left: 700px;">
+                  <label class="pl-2 form_txt "for="birthday">D-Call Letter Date - From  : </label>
+                  <input class="form_txt change" type="text" name="fromdate" readonly id="fromdate" style="display: inline;width: 115px;">
+               <label class="pl-2 form_txt " for="birthday">To  : </label>
+                <input class="form_txt change" type="text" name="todate" readonly id="todate" style="display: inline;width: 115px;">
+                <button class="ml-2" type="button" id="filterrecord" onclick="filterrecord()" style="color: #fff;background-color: forestgreen;border-color: forestgreen;">Submit</button>
+    </div>
+    
+      <!-- <div class="pl-2" style=" /* position: absolute; right: 6px; */   display: inline; margin-left: 800px;">
+           <input type="month" id="historystart" name="start"
+           min="2019-01" value="2019-01" style="display:none;">
+     </div> -->
+      <div    id="historystart"   style=" /* position: absolute; right: 6px; */   display: none; margin-left: 700px;"> 
+             <label class="pl-2 form_txt "for="birthday">D-Call Letter Date - From  : </label>
+                  <input class="form_txt change" type="text" name="fromdate" readonly id="dcallfrom" style="display: inline;width: 115px;">
+               <label class="pl-2 form_txt " for="birthday">To  : </label>
+                <input class="form_txt change" type="text" name="todate" readonly id="dcallto" style="display: inline;width: 115px;">
+                <button class="ml-2" type="button" id="filterrecord" onclick="historystarts()" style="color: #fff;background-color: forestgreen;border-color: forestgreen;">Submit</button>
+     </div>
+     
+       <div id="periodspeedpostdiv" style="display:none; margin-left: 700px;">
+                  <label class="pl-2 form_txt "for="birthday">D-Call Letter Date - From  : </label>
+                  <input class="form_txt change" type="text" name="fromdate" readonly id="dcallfromdate" style="display: inline;width: 115px;">
+               <label class="pl-2 form_txt " for="birthday">To  : </label>
+                <input class="form_txt change" type="text" name="todate" readonly id="dcalltodate" style="display: inline;width: 115px;">
+                <button class="ml-2" type="button" id="filterrecord" onclick="speedpostrecord()" style="color: #fff;background-color: forestgreen;border-color: forestgreen;">Submit</button>
+</div>
+
+<div id="periodspeedpoststatusdiv" style="display:none; margin-left: 700px;">
+                  <label class="pl-2 form_txt "for="birthday">Dispatch Date - From  : </label>
+                  <input class="form_txt change" type="text" name="fromdatefor" readonly id="dcallfrmdt" style="display: inline;width: 115px;">
+               <label class="pl-2 form_txt " for="birthday">To  : </label>
+                <input class="form_txt change" type="text" name="todatefor" readonly id="dcalltodt" style="display: inline;width: 115px;">
+                <button class="ml-2" type="button" id="filterrecord" onclick="speedpostrecordstatusV()" style="color: #fff;background-color: forestgreen;border-color: forestgreen;">Submit</button>
+</div>
+
+
+<div id="pushdcallshow" class="col-md-12">
+<div align="center" style="margin-bottom: 1rem;margin-top: 1rem;">
+				<span id="titletab" class="form_txt " style="font-size: x-large;color: #17a2b8;">Today's Records</span>
+			</div>
+
+<div class="row col-md-12">
+<div class=" col-md-3">
+ 	<label class="form_txt col-md-9"> D-Call Letter Pending To be Printed </label>
+   	<span class="form_txt box-span pendingprint" th:text="${pendingprint}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-Call Letter ( First Query )</label>
+   	<span class="form_txt box-span" th:text="${firstquery}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> SMS Sent </label>
+   	<span class="form_txt box-span smscount" th:text="${smscount}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> Total D-call Letter </label>
+   	<span class="form_txt box-span" th:text="${total}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-call Letter Printed </label>
+   	<span class="form_txt box-span printed" th:text="${printcount}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-Call Letter ( Additional Query ) </label>
+   	<span class="form_txt box-span" th:text="${addlquery}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-call Letter Mail Sent </label>
+   	<span class="form_txt box-span mailcount" th:text="${emailcount}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> Total No Of Unique Articles </label>
+   	<span class="form_txt box-span" th:text="${totalarticles}">0</span>
+</div>
+</div>
+				 <table id="dcallhisttable" class="table table-striped table-bordered newtable"
+               style="font-size: 16px; text-align: center;width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th scope="col" style="text-align: center;">Article Id</th>
+						<th scope="col" style="text-align: center;">Posting Date</th>
+						<th scope="col" style="text-align: center;">Query Stage</th>
+						<th scope="col" style="text-align: center;">DCALL Letter No</th>
+						<th scope="col" style="text-align: center;">DCALL Letter Date</th>
+						<th scope="col" style="text-align: center;">Mail Class</th>
+						<th scope="col" style="text-align: center;">Origin Country</th>
+						<th scope="col" style="text-align: center;">Printed *</th>
+						<th scope="col" style="text-align: center;">Sent SMS</th>
+						<th scope="col" style="text-align: center;">Sent Mail</th>
+                        <th scope="col" style="text-align: center;">Action</th>
+					</tr>
+				</thead>
+				<tbody id ="body">
+					<tr th:each="values,iter :  ${dcallhistory}" class="" th:id="distable" >
+						  <td th:text= "${iter.index + 1}" ></td>
+						 <td class="pdfview" onclick="pdfview(this)"  th:text="${values.item_id}"  id="itemidmodal"  th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}"  th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" ></td>
+			             <td  th:text="${values.post_dt}"></td>
+			             <td  th:text="${values.qryname}"></td>
+			             <td  th:text="${values.dcall_no}"></td>
+			             <td  th:text="${values.gen_dt}"></td>
+			             <td  th:text="${values.mail_class}"></td>
+			             <td  th:text="${values.origin_country}"></td>
+			             
+			             <td style="text-align: left;"  th:if="${values.printcou > 0}"><p id="infoprint">&#9989;<strong class='printcou' th:unless="${values.printcou == null}" th:text="' (' + ${values.printcou}+')'"></strong></p></td>
+			             <td style="text-align: left;" th:unless="${values.printcou > 0}"><p id="infoprint">&#10060;</p></td>
+			             
+			             <td style="text-align: left;"  th:if="${values.smscou == null}" ><p id="infosms">&#10060;</p></td>
+			             <td class="pdfview" onclick="sentdetail(this,'SMS')" th:data-gen_dt="${values.gen_dt}" th:data-dcall_no="${values.dcall_no}" th:data-itemid="${values.item_id}" style="text-align: left;" th:unless="${values.smscou == null}" ><p id="infosms">&#9989;<strong class='smscou' th:text="' (' + ${values.smscou}+')'"></strong></p></td>
+			             
+			             <td style="text-align: left;" th:if="${values.emailcou == null}" ><p id="infomail">&#10060;</p></td>
+			             <td class="pdfview" onclick="sentdetail(this,'EMAIL')" th:data-gen_dt="${values.gen_dt}" th:data-dcall_no="${values.dcall_no}" th:data-itemid="${values.item_id}" style="text-align: left;" th:unless="${values.emailcou == null}" ><p id="infomail">&#9989;<strong class='emailcou' th:text="' (' + ${values.emailcou}+')'"></strong></p></td>
+					   <td> 
+					   <!-- <button onclick="pdfview(this)" id="viewprint" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">VIEW</button> -->
+					   <button  id="vprint" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}"  th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="vprint" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">PRINT</button>
+					   <!-- <button onclick="smsmodal(this)" id="sms" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">SMS</button> -->
+					   <button  id="mail" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}"  th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="mail" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">EMAIL & SMS</button>
+					   </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+</div>
+
+ <!-- Modal -->
+        <div class="modal fade" id="smsinfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="infotitle">Information</h4>
+          <button type="button" class="close infobtncancel" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+        <div id="emailsmsdetail">
+	<table id="smsinfotable" class="table table-striped table-bordered newtable"
+               style="font-size: 16px; text-align: center;width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="" style="width: 45px;">Article Id</th>
+						<th scope="col" id="" style="width: 45px;">Mail Id</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr  class="" >
+						 <td></td>
+						 <td></td>
+			            <!-- <td> <button id="smsemailsend" type="button" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">SEND</button></td> -->
+					</tr>
+				</tbody>
+			</table>
+        
+        </div>
+        </div>
+        
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+
+
+    <!-- Modal -->
+        <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"  data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Document Call Letter</h4>
+          <button type="button" class="close queryinfobtncancel" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+<iframe  id="embedpdf" frameborder="0" width="100%"  style="height: 90vh;">
+        
+        </iframe>
+        
+        </div>
+        
+
+
+         <div class="modal-footer">
+         <button type="button" id="queryinfobtncancel" class="btn btn-secondary queryinfobtncancel" data-dismiss="modal">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  <div class="modal fade" id="emailmodal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">SEND EMAIL / SMS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="hidden" id="filename">
+            <input type="hidden" id="item_id">
+            <input type="hidden" id="dcallno">
+            <input type="hidden" id="cinno">
+            <input type="hidden" id="recp_name">
+            <!-- <input type="hidden" id="din1"> -->
+            <label for="emailid" class="form_txt">Article ID - <span id="articleid"></span></label>
+            <label for="emailid" class="form_txt">D-Call Letter Number - <span id="dcallnos"></span></label>
+            <label for="emailid" class="col-form-label">E-mail - (As received in the EAD)</label>
+            <input type="text" class="form-control" id="email1" disabled>
+            <label for="mobile" class="col-form-label">Mobile Number - (As received in the EAD)</label>
+            <input type="text" class="form-control" id="mobile1" disabled>
+            <div>
+            <label for="emailid" class="col-form-label">E-mail: *</label>
+            <input type="text" class="form-control" id="email2">
+            </div>
+            <div>
+            <label for="mobile" class="col-form-label">Mobile Number: *</label>
+            <input type="number" class="form-control" id="mobile2" onKeyPress="if(this.value.length==10) return false;">
+            </div>
+            
+            <label class="form_txt">* Enter valid Email Or Mobile number of the recipient (if available)</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="submitQuery()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <div class="modal fade" id="smsmodal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">SEND SMS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <input type="hidden" id="smsfilename">
+            <input type="hidden" id="smsitem_id">
+            <input type="hidden" id="smsdcallno">
+            <input type="hidden" id="smscinno">
+            <input type="hidden" id="smsrecp_name">
+          <!--   <input type="hidden" id="smsdin1"> -->
+            <label for="mobile" class="col-form-label">Mobile Number - (As received in the EAD)</label>
+            <input type="text" class="form-control" id="mobile1" disabled>
+            <label for="mobile" class="col-form-label">Mobile Number:</label>
+            <input type="number" class="form-control" id="mobile2" onKeyPress="if(this.value.length==10) return false;">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="submitsms()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="document" style="max-width: 95%;">
+  				<div class="modal-content">
+  				<div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+        			<h5 class="modal-title" style="font-weight: bold;">VIEW QUERY REPLY & UPLOADED DOCUMENTS</h5>
+        				<button type="button" class="close" data-dismiss="modal" onclick="removeContent()" aria-label="Close">
+          					<span aria-hidden="true">x</span>
+        				</button>
+      				</div>
+  					<div class="modal-body" id="qryreplycontent" style="background: #b8daff;">
+	  				</div>
+    			</div>
+			</div>
+		</div>
+  
+
+<script  th:src="@{js/dcallhist.js}"></script>
+
+<!--  script th:src="@{js/datatables.min.js}"></script>   -->
+</body>
+</html>

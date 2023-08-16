@@ -1,0 +1,171 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div id="activeusersite"
+		style="margin-top: 8px; width: 100%; padding: 25px">
+		<table id="ViewuserHstrySite"
+			class="table table-bordered table-striped "
+			style="font-size: 14px; text-align: center; overflow-x: overlay; display: block; padding: 0; overflow: auto">
+			<thead>
+				<tr height=50px; valign="middle" class="rowDis"
+					style="background-color: #63cfe0">
+					<th style="vertical-align: middle; width: 5%;">SI.No</th>
+					<th style="vertical-align: middle;">FPO SITE</th>
+					<th colspan="2" style="vertical-align: middle; width: 24%;">
+						CUSITM AT SUBMISSION</th>
+					<th colspan="5" style="vertical-align: middle;">ASSESSED</th>
+					<th colspan="5" style="vertical-align: middle; width: 16%;">OOC</th>
+					<th colspan="5" style="vertical-align: middle;">DETENTION</th>
+					<th colspan="5" style="vertical-align: middle;">DELIVERED</th>
+					<th colspan="5" style="vertical-align: middle;">UN DELIVERED</th>
+				</tr>
+				<tr>
+					<th style="vertical-align: middle;"></th>
+					<th style="vertical-align: middle;">Site Code</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">Declared value</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="s1,iter : ${getprcsdata}"><!-- <td style="vertical-align: middle;" th:text="${iter.index+1}"></td>
+					<td style="vertical-align: middle;" th:text="${Activeusers[0]}"></td>
+					<td style="vertical-align: middle;" th:text="${Activeusers[1]}"></td>
+					<td style="vertical-align: middle;" th:text="${Activeusers[2]}"></td> -->
+					<td style="vertical-align: middle;" th:text="${iter.index+1}"></td> 
+					<td style="vertical-align: middle;" th:text="${getsite}"></td>
+					
+					<!-- CUSITM -->
+					<td style="vertical-align: middle;" th:text="${s1.CUSCount}"></td>
+					<!-- <td style="vertical-align: middle;" th:text="${getprcsdata.Av}"></td> -->
+					<td style="vertical-align: middle;" th:text="${s1.duty}"></td>
+
+					<!-- Assessed -->
+					<td style="vertical-align: middle;" th:text="${s1.stscunt}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.assAv}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.assDuty}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.assAmtchrg}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.assdutyfg}"></td>
+
+					<!-- OOC -->
+					<td style="vertical-align: middle;" th:text="${s1.ooccunt}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.oocAv}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.oocDuty}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.oocAmtchrg}"></td>
+					<td style="vertical-align: middle;" th:text="${s1.oocdutyfg}"></td>
+
+					<!-- Detention -->
+					<!--  <td th:text="${s1.}"></td>
+					<td th:text="${s1.}"></td>
+					<td th:text="${s1.}"></td>
+					<td th:text="${s1.}"></td>
+					<td th:text="${s1.}"></td> 
+					 -->
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+
+				<!-- Delivered -->
+					<td th:text="${s1.delvycunt}"></td>
+					<td th:text="${s1.delvyAv}"></td>
+					<td th:text="${s1.delvyDuty}"></td>
+					<td th:text="${s1.delvyAmtchrg}"></td>
+					<td th:text="${s1.delvydutyfg	}"></td> 
+
+					<!-- UnDelivered -->
+					  <td th:text="${s1.undelycunt}"></td>
+					<td th:text="${s1.undelyAv}"></td>
+					<td th:text="${s1.undelyDuty}"></td>
+					<td th:text="${s1.undelyAmtchrg}"></td>
+					<td th:text="${s1.undelydutyfg}"></td>  
+					
+			<!-- 	<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td> -->
+					
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+
+
+<script th:src="@{js/datatables.min.js}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+	$('#ViewuserHstrySite').DataTable({
+		"ordering": false,
+		});
+		});
+		
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}		
+</script>

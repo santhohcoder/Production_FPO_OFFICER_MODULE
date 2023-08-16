@@ -1,0 +1,996 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+
+<style>
+.ead_decisionsf {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkgreen;
+	font-size: 11px;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: black;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+/* .active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+} */
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+#summaryContent .container{
+	padding: 0 !important;
+	border:none !important;
+}
+
+body {
+	width :100%;
+}
+
+.pointer-class{
+    	cursor:pointer;
+    }
+
+.completed span::before {
+	content: '\2713'
+}
+
+.btn-secondary,.btn-secondary:hover {
+    color: #fff;
+    background-color: #006400;
+    border-color: #f8fff8;
+}
+
+.active span {
+    background-color: #b93655;
+    color: #fff;
+    border: 2px solid white;
+}
+
+.active p {
+	font-weight: 700;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+.ui-widget-content .ui-icon {
+    background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+}
+
+        .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 15.5rem;
+    	top: 3.4rem;
+    }
+
+
+
+ .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 11.2rem;
+    	top: 3.4rem;
+    }
+
+.delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+		right: 11rem;
+    	top: 3.4rem;
+    }
+    
+    
+            .view-btn1 {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 15.5rem;
+    	top: 3.4rem;
+    }
+
+
+
+ .upload-btn1 {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 11.2rem;
+    	top: 3.4rem;
+    }
+
+.delete-btn1 {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+		right: 11rem;
+    	top: 3.4rem;
+    }
+    
+     .view-btn2 {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 15.5rem;
+    	top: 3.4rem;
+    }
+
+
+
+ .upload-btn2 {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+    	right: 11.2rem;
+    	top: 3.4rem;
+    }
+
+.delete-btn2 {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+		right: 11rem;
+    	top: 3.4rem;
+    }
+</style>
+
+<body style="background: #d6dcd9">
+<input type="hidden" id="itemId" th:value="${check.ITEM_ID}">
+<input type="hidden" id="cinno" th:value="${check.id}">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+    <div style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;max-width: 100%;margin: 10px; padding: 15px 20px;">
+    
+		<div style="background-color:#67acb5">
+			<div class="mt-3" align="center">
+			<h2>Process Commercial Imports - (Manual Entry)</h2>
+		</div>
+
+          <div id="disphead">
+            </div>
+		<!-- div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text" id="itemId"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${check.ORIGPOST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${check.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.id}" id="inputPassword">
+			</div>
+		</div-->
+		  <div class="col-md-1" style="padding-left: 10px;">
+			<button type="button" class="btn btn-info" onclick="goBack();" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div>
+		<div align="center" style="font-size:20px;"><strong> ENTER MANUALLY PROCESSED BE DECLARATION INFO</strong></div>
+
+		<!--  nav class="navbar navbar-expand-lg " style="margin-left: -19px">
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<!-- div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item px-1"><a
+						class="nav-link btn btn-secondary btn-sm" href="#" onclick="edidecl();"> <strong>Declaration</strong>
+					</a></li>
+					<li class="nav-item px-1"><a
+						class="nav-link btn btn-secondary btn-sm" href="#" onclick="summary();"> <strong>CN
+								22/CN 23 Summary</strong>
+					</a></li>
+					<li class="nav-item px-1"><a
+						class="nav-link btn btn-secondary btn-sm check" th:id="${check.id}" disabled
+						onclick="fviewDetail(this);" href="#"><strong>Process
+								Item wise </strong></a></li>
+					
+				</ul>
+				<!-- div class="row">
+					<div class="col-md-12" style="color: white; margin-left: 47%;">
+						<div class="ead_decisionsf">							
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD Query : </strong><span th:text="${qry}">&nbsp;&nbsp;  </span>
+							</p>
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD Exam Order : </strong> <span th:text="${exmord}">&nbsp;&nbsp;  </span>
+							</p>
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD DECISIONS : </strong> <span th:text="${eaddeci}">&nbsp;&nbsp;  </span>
+							</p>
+						</div>
+					</div>
+				</div-->
+			</div-->
+
+
+
+			
+		</nav-->
+		<!-- div class="breadcrumb-pagination mt-1">
+		    <div class="active">
+				<span>1</span>
+				<p> DECLARATION</p>
+			</div>
+			<!-- div class="todo">
+				<span>2</span>
+				<p>Summary</p>
+			</div>
+			<div class="todo">
+				<span>3</span>
+				<p>Assessment</p>
+			</div>
+			<div class="todo">
+				<span>4</span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="todo">
+				<span>5</span>
+				<p>Exam Order</p>
+			</div-->
+			<!-- <div class="todo">
+				<span>5</span>
+				<p>Submit</p>
+			</div> -->
+		</div-->
+		<div id="edidecl"></div>
+		<form action="#" th:action="@{/edi_decl_add}" id="edi_decl_add_id" method="post">
+		<div class="row mt-3">
+		<div class="col-md-1"></div>
+		<input type="hidden" id="ITEM_ID" name="ITEM_ID" th:value="${check.ITEM_ID}">
+		<input type="hidden" id="CIN_NO" name="CIN_NO" th:value="${check.id}">
+		<input type="hidden" id="CINDT" name="CINDT" th:value="${check.CIN_DT}">	
+		<div class="col-md-1" align="right" valign="middle"><b>MBE NO :</b> </div>
+		<div class="col-md-2" align="left"><input id="BE_NO" type="number" 
+		onKeyPress="if(this.value.length==7) return false;" class="form-control form_txt" name="BE_NO" placeholder="Enter BE No."></div>
+		 <div class="col-md-2" align="right" valign="middle"><b>MBE DT : </b></div>
+		 <div class="col-md-2" align="right" valign="middle">
+        		<input type="text" id="BEDT" name="BEDT" style="width: 100%;font-weight: bold;" onKeyPress="if(this.value.length==10) return false;" placeholder="dd-mm-yyyy" readonly="" class="picker form-control form_txt change">
+   		 </div>
+		<div class="col-md-1" align="right" valign="middle"><b>IEC : </b></div>
+		<div class="col-md-2" align="left"><input id="IEC" type="text" maxlength=10 
+		onkeyup = "chkiec()" class="form-control form_txt" name="IEC"  placeholder="Enter IEC"></div>
+		<!-- input id="IEC" type="number" 
+		onKeyPress="if(this.value.length==10) return false;" class="form-control form_txt" name="IEC" maxlength=10 placeholder="Enter IEC">  -->
+		
+		 <!--  select id="IEC" class="form-control iec" name="iec"
+				required="required">
+				<option value="">--SELECT IEC--</option>
+				<div style="align:left" th:each="iec,iter : ${getieclist}">
+					<option th:text="${iec[1]}"  th:value="${iec[0]}"></option>
+				</div>
+			</select-->
+		<div class="col-md-1"></div>
+		<div class="col-md-1"></div>
+		<div class="col-md-1 mt-3" align="right" valign="middle"><b>GSTIN :</b> </div>
+		<div class="col-md-2 mt-3" align="left" style="position: relative;">
+		    <input id="GSTIN_ID" type="password" maxlength=15 onkeyup="chkgst()" class="form-control form_txt" name="GSTIN_ID" placeholder="Enter GSTIN">
+		    <i style="font-size: 18px; cursor: pointer; position: absolute; right: 27px; top: 53%; transform: translateY(-50%);" type="button" view="Y" onclick="hideView(this)" class="fa fa-eye"></i>
+		</div>
+		<div class="col-md-2  mt-3" align="right" valign="middle"><b>ADCODE : </b></div>
+		<!--  div class="col-md-2  mt-3" align="left"><input id="ADCODE ad1" type="text" -->
+		<div class="col-md-2  mt-3" align="left"><input id="ADCOD" type="text" 
+		 class="form-control form_txt" style="display:flex !important" maxlength=7 onkeyup="chkad()" name="ADCODE" placeholder="Enter ADCODE"></div>
+		<div class="col-md-1  mt-3" align="right" valign="middle"><b>SCHEME : </b></div>
+		<div class="col-md-2  mt-3" align="left"><input id="SCHEME_CD" type="number" 
+		onKeyPress="if(this.value.length==2) return false;" class="form-control form_txt" name="SCHEME_CD" placeholder="Enter SCHEME"></div>
+		<div class="col-md-1"></div>
+		<div class="col-md-2 mt-3" align="right" valign="middle"><b>LICENSE NO. : </b></div>
+		<div class="col-md-2  mt-3" align="left"><input id="LICENSE_NO" type="text" maxlength=14
+		class="form-control form_txt" name="LICENSE_NO" placeholder="Enter LICENSE NO."></div>
+		<div class="col-md-2  mt-3" align="right" valign="middle"><b>PERMISSION NO. : </b></div>
+		<div class="col-md-2  mt-3" align="left"><input id="PERMISSION_NO" type="text" 
+		 class="form-control form_txt" name="PERMISSION_NO"  placeholder="Enter PERMISSION NO."></div>
+		<div class="col-md-1  mt-3" align="right" valign="middle"><b>EDI SITE: </b></div>
+		<div class="col-md-2  mt-3" align="left"><input id="EDI_SITE" type="text" onkeyup="chkedisite()" 
+		maxlength=6  class="form-control form_txt" name="EDI_SITE" placeholder="Enter EDI SITE"></div>
+		<div class="col-md-1"></div>
+		<div class="col-md-2  mt-3" align="right" valign="middle"><b>CHALLAN NO. : </b></div>
+		<div class="col-md-2  mt-3" align="left"><input id="CHALLLAN_NO" type="text" 
+		maxlength=10 class="form-control form_txt" name="CHALLAN_NO" placeholder="Enter CHALLAN NO."></div>
+			<div class="col-md-2  mt-3" align="right" valign="middle"><b>CHALLAN DATE: </b></div>
+		<div class="col-md-2 mt-3" align="right" valign="middle">
+        		<input type="text" id="CHLDT" onKeyPress="if(this.value.length==10) return false;" name="CHLDT" style="width: 100%;font-weight: bold;" placeholder="dd-mm-yyyy" readonly="" class="picker form-control form_txt change">
+   		</div>
+		</div>
+		<br>
+		
+		<div align="center" style="margin-bottom: 12px;"><button type="button" class="btn btn-primary " id="savedoc" onclick="uploaddoc()"
+										data-toggle="tooltip"
+										>Upload Document</button>			
+										</div>
+		<div align="center"><button type="button" class="btn btn-primary " id="savecomm" onclick="validatedecl();"
+										data-toggle="tooltip"
+										>Save & Proceed to Enter ITEMWISE Assessed Details and to OOC. </button>
+						<button type="button" class="btn btn-primary " id="movper" onclick="movpers();"
+										data-toggle="tooltip">Move to Personal Imports </button>				
+										</div>
+										
+		<div class="modal fade" id="saveModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered " role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Do You Want To Proceed Without Uploading Documents</h4>
+				</div>
+				
+				
+				<div class="modal-footer">
+						<div class="col">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					   </div>
+						<div class="col" style="text-align:end">
+							<button type="button" class="btn btn-success" data-dismiss="modal" id="saveandproceed">Yes</button>
+						</div>
+				</div>
+				
+				
+				<!-- div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="savedecl()">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+				</div> -->
+				
+				
+				
+			</div>
+		</div>
+			</div>				
+			
+			
+		<div class="modal fade" id="movpersModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>Are you sure to move to Personal Imports</h4>
+				</div>
+				
+				
+				<div class="modal-footer">
+						<div class="col">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					   </div>
+						<div class="col" style="text-align:end">
+							<button type="button" class="btn btn-success" data-dismiss="modal" onclick="movpersconf()">Yes</button>
+						</div>
+				</div>
+				
+				
+				<!-- div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						onclick="savedecl()">Yes</button>
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">No</button>
+				</div> -->
+				
+				
+				
+			</div>
+		</div>
+			</div>	
+			
+			<div class="modal fade" id="uploadpopup" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Upload Documents</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					    <div  class="form-group">
+                    <label class="control-label" style="font-weight: 600;">Upload Manual BE Document:</label>
+                    
+                         <input class="form-control" 
+                            style="width: 310px;" onchange="uploadFile(this,1)" type="text" name="BE_DOC" id="BE_DOC-1" placeholder="Please Upload the  document" /> 
+                         <input type="file"  id="kyc-file-1"   onchange="uploadFile(this,1)" onclick="this.value=null;"  style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn" onclick="fileUpload(1)"><a>Upload</a></span>
+                     
+                </div>
+				</div>
+				<div class="modal-body">
+					    <div  class="form-group">
+                    <label class="control-label" style="font-weight: 600;">Upload Invoice Document:</label>
+                    
+                         <input class="form-control" 
+                            style="width: 310px;" onchange="uploadFile1(this,1)" type="text" name="INV_DOC"  id="INV_DOC-1" placeholder="Please Upload the  document" /> 
+                         <input type="file"  id="kyc-file1-1"   onchange="uploadFile1(this,1)" onclick="this.value=null;"  style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn" onclick="fileUpload1(1)"><a>Upload</a></span>
+                     
+                </div>
+				</div>
+				<div class="modal-body">
+					    <div  class="form-group">
+                    <label class="control-label" style="font-weight: 600;">Upload Challan Document:</label>
+                    
+                         <input class="form-control" 
+                            style="width: 310px;" onchange="uploadFile2(this,1)" type="text" name="CHL_DOC" id="CHALLAN_DOC-1" placeholder="Please Upload the  document" /> 
+                         <input type="file" id="kyc-file2-1"   onchange="uploadFile2(this,1)" onclick="this.value=null;"  style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn" onclick="fileUpload2(1)"><a>Upload</a></span>
+                     
+                </div>
+				</div>
+				<div class="modal-footer">
+					<div class="col">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					   </div>
+						<div class="col" style="text-align:end">
+							<button type="button" class="btn btn-success commercialsave" data-dismiss="modal">Submit</button>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			
+			
+			
+				<div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>
+	
+	<div class="modal fade bd-example-modal-lg" id="pdfView1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal1()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf1" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>	
+    <div class="modal fade bd-example-modal-lg" id="pdfView2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal2()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf2" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>						
+			
+			
+    
+    									
+	    </form>
+		
+	</div>
+	</div>
+		
+</body>
+
+<script type="text/javascript">
+$(document).ready(function() {
+hideLoader();
+});
+
+function goBack()
+{
+ showLoader();
+  window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+}
+
+
+$.ajax({
+                url: 'getSummary?id=' + $("#itemId").val(),
+                type: "post",
+                success: function(data) {
+                    $("#summaryContent").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+            
+          	function redirect(page){
+            	window.location.href=""+page+"?id="+$("#inputPassword").val();
+            }
+$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+/*$.ajax({
+                url: 'getSummary?id=' + $("#itemId").val(),
+                type: "post",
+                success: function(data) {
+                    $("#summaryContent").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+            
+          /*   function redirect(que,page){
+            	if(que=='N3'){
+            		window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+            	}else if(que=='N1'){
+            		if(page != 'pen_order'){
+            			window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+            		}
+            	}else if(que=='N2'){
+            		if(page != 'pen_order' && page != 'pen_declared'){
+            			window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+            		}
+            	}
+            } */
+            function hideView() {
+            	  const input = document.getElementById('GSTIN_ID');
+
+            	  if (input.type === 'password') {
+            	   input.type = 'text';
+            	  } else {
+            	    input.type = 'password';
+            	  }
+            	}
+            
+            function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+ var kycFiles = {};
+	var supportFiles = {};
+
+function uploadFile(obj, count) {
+	
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles) {
+                    if (kycFiles[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles) {
+                        if (supportFiles[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#BE_DOC-" + count).val(obj.files[0].name);
+                        $("#BE_DOC-" + count).addClass('pl-25');
+                        kycFiles[count] = obj;
+                        $(obj).next().remove();
+                      //  $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+                        $(obj).after('<span class="view-btn" id="viewbtn" onclick="viewFile(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn" onclick="deleteFile(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+
+function fileUpload(count) {
+            $("#kyc-file-" + count).click();
+        }
+
+
+ function viewFile(count) {
+            //pdfLoader(kycFiles[count].files[0]);
+            $("#embedpdf").attr('src', URL.createObjectURL(kycFiles[count].files[0]));
+            $("#pdfView").modal('toggle');
+            $("#qryreplymodal").scrollTop($("#pdfView").offset().top);
+        }
+
+ function deleteFile(obj, count) {
+            $("#BE_DOC-" + count).val('');
+            $("#BE_DOC-" + count).removeClass('pl-25');
+            delete kycFiles[count];
+            $(obj).next().remove();
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn" onclick="fileUpload(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+        
+                function closePdfModal() {
+            $("#pdfView").modal('hide');
+        }
+        
+         var kycFiles1 = {};
+	var supportFiles1 = {};
+	
+        function uploadFile1(obj, count) {
+	
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles1) {
+                    if (kycFiles1[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles1) {
+                        if (supportFiles1[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#INV_DOC-" + count).val(obj.files[0].name);
+                        $("#INV_DOC-" + count).addClass('pl-25');
+                        kycFiles1[count] = obj;
+                        $(obj).next().remove();
+                      //  $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+                        $(obj).after('<span class="view-btn1" id="viewbtn1" onclick="viewFile1(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn1" onclick="deleteFile1(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+
+function fileUpload1(count) {
+            $("#kyc-file1-" + count).click();
+        }
+
+
+ function viewFile1(count) {
+            //pdfLoader(kycFiles1[count].files[0]);
+            $("#embedpdf1").attr('src', URL.createObjectURL(kycFiles1[count].files[0]));
+            $("#pdfView1").modal('toggle');
+            $("#qryreplymodal").scrollTop($("#pdfView1").offset().top);
+        }
+
+ function deleteFile1(obj, count) {
+            $("#INV_DOC-" + count).val('');
+            $("#INV_DOC-" + count).removeClass('pl-25');
+            delete kycFiles1[count];
+            $(obj).next().remove();
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn1" onclick="fileUpload1(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+        
+                function closePdfModal1() {
+            $("#pdfView1").modal('hide');
+        }
+
+
+         var kycFiles2 = {};
+	var supportFiles2 = {};
+
+
+        function uploadFile2(obj, count) {
+	
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles2) {
+                    if (kycFiles2[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles2) {
+                        if (supportFiles2[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#CHALLAN_DOC-" + count).val(obj.files[0].name);
+                        $("#CHALLAN_DOC-" + count).addClass('pl-25');
+                        kycFiles2[count] = obj;
+                        $(obj).next().remove();
+                      //  $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+                        $(obj).after('<span class="view-btn2" id="viewbtn2" onclick="viewFile2(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn2" onclick="deleteFile2(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+
+function fileUpload2(count) {
+            $("#kyc-file2-" + count).click();
+        }
+
+
+ function viewFile2(count) {
+            //pdfLoader(kycFiles2[count].files[0]);
+            $("#embedpdf2").attr('src', URL.createObjectURL(kycFiles2[count].files[0]));
+            $("#pdfView2").modal('toggle');
+            $("#qryreplymodal").scrollTop($("#pdfView2").offset().top);
+        }
+
+ function deleteFile2(obj, count) {
+            $("#CHALLAN_DOC-" + count).val('');
+            $("#CHALLAN_DOC-" + count).removeClass('pl-25');
+            delete kycFiles2[count];
+            $(obj).next().remove();
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn2" onclick="fileUpload2(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+        
+                function closePdfModal2() {
+            $("#pdfView2").modal('hide');
+        }
+
+
+</script>
+<script src="js/ead_main.js"></script>
+<script src="js/edi_decl.js"></script>
+</html>

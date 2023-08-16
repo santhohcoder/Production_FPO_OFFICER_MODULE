@@ -1,0 +1,402 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+hr {
+	border-top: 1px solid rgb(0, 0, 139);
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+        
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+        
+        
+</style>
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+
+<div class="col-md-1" style="padding-left: 10px;">
+			<a href="javascript:;" onclick="goBack();"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div>
+		<div class="mt-4" align="center">
+			<h2>Postal Imports - Electronic Advance Data (EAD)</h2>
+			<h3>First Check Order</h3>
+		</div>
+	<input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totassval">
+	<input type="hidden" th:value="${head.ROLE}" id="role1">
+	<input type="hidden" th:value="${head.ACL_OFFID}" id="acl_offid">
+	<input type="hidden" th:value="${assvalacl}" id="maxval">
+	<input type="hidden" th:value="${session.data}" id="curoffId" /> 
+	<input type="hidden" th:value="${session.data1}" id="currole" />
+
+
+		<div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly" th:id="itemId"
+					th:value="${head.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+
+			</div>
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+
+			</div>
+
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.FPO_CODE}">
+			</div>
+
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div>
+
+
+		<!--    muchos disgustimos   -->
+		<div class="breadcrumb-pagination mt-3">
+			<div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="completed">
+				<span></span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="active">
+				<span>4</span>
+				<p>Exam Order</p>
+			</div>
+			<div class="todo">
+				<span>5</span>
+				<p>Submit</p>
+			</div>
+		</div>
+
+		<!-- <div class="mt-2" style="float: right;">
+			<a class="nav-link btn btn-info btn-sm" style="color: white;"
+				onclick="goBack()">Back </a>
+		</div> -->
+
+		<form id="order" action="#" th:action="@{/first_order_add}" method="post" submit="">
+
+			<input type="hidden" th:value="${head.id}" name="CIN_NO">
+
+			<div class="mt-2" th:each="exam,iter : ${getOrder}">
+
+				<input type="hidden" id="firstCheck" th:value="${exam.FIRST_CHECK}">
+				<p>
+					<strong>Order to :</strong>
+				</p>
+
+				<p class="check">
+					1. Scan <input type="checkbox" id="scan" name="EXAM_ORDER"
+						th:checked="${exam.exam1} == Scan" value="Scan">
+				</p>
+				<p class="check">
+					2. Detain <input type="checkbox" id="detain" name="EXAM_ORDER"
+						th:checked="${exam.exam2} == Detain" value="Detain">
+				</p>
+				<p class="check">
+					3. Scan And Open Examination <input type="checkbox"
+						name="EXAM_ORDER" id="scanOpenExam"
+						th:checked="${exam.exam3} == Examination" value="Examination">
+				</p>
+
+				<div class="mt-2">
+
+					<div class="form-group mb-3">
+						<br> <label class="lab_txt">Examination instruction /
+							Order : [min 6 characters ; max 2000 characters] <span th:if="${session.data1=='PAC'}" style="color: red;font-size: 12px;">(AC may modify the First Check Exam Order if required)</span> </label>
+						<textarea type="text" class="form-control" name="ORDER_REMARK"
+							th:text="${exam.ORDER_REMARK}" onkeyup="success(id)"
+							th:id="textsend" rows="3"></textarea>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group mb-3" style="width: 100%;">
+					<div id="aclMsg" style="display: none;margin-left: 15px;margin-right: 15px;">
+						<label class="lab_txt">AC's remarks to Appraiser<span style="color: red;font-size: 12px;">
+						(AC may enter remarks below to send back to Appraiser when first check proposal is not accepted):[min 6 characters ; max 2000 characters]</span></label>
+						<div class="row">
+						<div class="col-md-9">
+						<textarea class="form-control" name="sndaccmts"
+							th:id="sndaccmts" onkeyup="successFirst(id)"
+							placeholder="Dept. Comments" rows="3"></textarea></div>
+						<div class="col-md-3" align="left"  valign="middle"><br>
+							<button type="button" id="lock_first" style="font-size: 15px;"
+								onclick="sendAprBack(value)" class="btn btn-danger btn-sm"
+								disabled>Send back to Appraiser</button>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<div id="aprCmtsModel" style="display: none;" class="row">
+				<div class="form-group mb-3" style="width: 100%;">
+					<div style="margin-left: 15px;margin-right: 15px;">
+						<label class="lab_txt">Pls enter
+						remarks, If any to forward to AC: [min 6 characters ; max 2000 characters]</label>
+						<div class="row">
+						<div class="col-md-9">
+						<textarea class="form-control" name="sndbackcmts"
+							th:id="sndbackcmts" onkeyup="successFirst1(id)"
+							placeholder="Dept. Comments" rows="3"></textarea></div>
+						<div class="col-md-3" align="left" valign="middle"><br>
+							<button type="button" id="lock_first1" style="font-size: 15px;"
+								onclick="sendAclcmts(value)" class="btn btn-danger btn-sm"
+								disabled>Send back to PAC</button>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<div class="col-md-12" align="left">
+					<div id="aclMsg1" style="display: none">
+						<p style="color:red;font-size: 12px;margin-bottom: 0rem;font-weight: bold;">
+							<strong style="color: blue;">Note :</strong>
+						If  first check proposal is accepted, please click "SAVE" and Proceed. </p>
+					</div>
+				</div>
+			
+			
+			<div class="col-md-12" style="margin-bottom: 10px;text-align: center;">
+					<button type="button" class="btn btn-info" onclick="goBack()">Back</button>
+					<button type="button" id="lock" onclick="validateExam()"
+						class="btn btn-primary" disabled>save</button>
+					<button type="button" data-toggle="modal"
+						data-target="#exampleModal1" class="btn btn-danger" id="firstBtn"
+						th:disabled="${role1 != 'PAO'}">Cancel First Check Proposal</button>
+				</div>
+		</div>		
+				
+			<br>
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog  modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body" align="center">
+							<h4 th:text="2" id="msgAprWarning"></h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="button" onclick="submitExam()" class="btn btn-primary" id="subfc">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+	<!-- Modal -->
+	
+	<div id="alertmsg" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>As the value demands AC/DC's permission, it will move to
+						AC/DC.</h4>
+				</div>
+				<div class="modal-footer">
+					<button onclick="listView()" class="btn btn-primary">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4>Do you want to Cancel First Check Proposal?</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<button class="btn btn-danger" onclick="deleteFirstCheck(value)">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    
+
+	<script src="js/order.js"></script>
+	<script src="js/firstcheck.js"></script>
+	
+</body>
+</html>

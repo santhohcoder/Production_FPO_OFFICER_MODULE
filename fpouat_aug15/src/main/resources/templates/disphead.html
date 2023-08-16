@@ -1,0 +1,95 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div class="form-group row mt-4" style="margin-left:1%;">
+			<div class="px-1" style="width: 10%" align="center">
+					<label class="lab_txt">MAIL CLASS </label> <input type="text"
+						class="form-control form_txt" readonly="readonly" style="text-align: center;"
+						th:value="${mc}">
+				</div>
+				<div class="px-1" style="width: 13%" align="center">
+					<label class="lab_txt">ARTICLE ID / ITEM ID</label> <input type="text" id="itemId"
+						class="form-control form_txt" readonly="readonly" style="text-align: center;"
+						th:value="${check.ITEM_ID}">
+				</div>
+				<div class="px-1" style="width: 11%" align="center">
+
+					<label class="lab_txt">POSTING DATE </label> <input type="text" style="text-align: center;"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${postdt}">
+				</div>
+				<!--div class="px-1" style="width: 8.5%" align="center">
+					<label class="lab_txt">TIME </label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${check.POSTINGTIME}">
+				<div-->
+				<div class="px-1" style="width: 9%" align="center">
+					<label class="lab_txt">ORGIN_POST </label> <input type="text"
+						style="text-align: center;" class="form-control form_txt"
+						readonly="readonly" th:value="${orgpost}">
+
+				</div>
+				
+				<div class="px-1" style="width: 18%" align="center">
+					<label class="lab_txt">ITEM CATEGORY</label> <input
+						type="text" style="text-align: center;"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${itcat}">
+				</div>
+				<div class="px-1" style="width: 13%" align="center">
+					<label class="lab_txt">CIN_NO</label> <input type="text" style="text-align: center;"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${check.id}" id="inputPassword">
+				</div>
+				<div class="px-1" style="width: 13%" align="center">
+					<label class="lab_txt">CIN_DT</label> <input type="text" style="text-align: center;"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${cindt}" id="inputPassword">
+				</div>
+				<div class="px-1" style="width: 11%" align="center">
+					<label class="lab_txt">FPO ALLOCATED</label> <input type="text" 
+						style="text-align: center;" class="form-control form_txt"
+						readonly="readonly" th:value="${check.CUS_SITE}">
+				</div>
+			</div>
+			<input type="hidden" name="queryraised" id="queryraised" th:value="${queryraised}">
+<script type="text/javascript">
+
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>

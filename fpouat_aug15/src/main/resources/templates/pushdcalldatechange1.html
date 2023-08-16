@@ -1,0 +1,481 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+        
+        
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div id="pushdcallshow" class="col-md-12">
+
+
+<div align="center" style="margin-bottom: 1rem;margin-top: 1rem;">
+				<span th:if="${fromdate == null and todate != nulll and history == null }" id="titletab" class="form_txt " style="font-size: x-large;color: #17a2b8;">Today's Records</span>
+				<span th:if="${fromdate != null and todate != null and history == null  }" id="titletab" class="form_txt " style="font-size: x-large;color: #17a2b8;">Print D-Call Letter Again and Push Email / SMS Between <span style="color: red;" th:text="${fromdate}"></span> and <span style="color: red;" th:text="${todate}"></span></span>
+				<span th:if="${fromdate == null and todate == null and history == null  }" id="titletab" class="form_txt " style="font-size: x-large;color: #17a2b8;">D-Call Letter NOT PRINTED Yet</span>
+				<span th:if="${ history != null  }" id="titletab" class="form_txt " style="font-size: x-large;color: #17a2b8;">Status of D-Call Letter Upto <span id="statusmnth"></span></span>
+			</div>
+
+<div class="row col-md-12">
+<div class=" col-md-3">
+ 	<label class="form_txt col-md-9"> D-Call Letter Pending To be Printed </label>
+   	<span class="form_txt box-span pendingprint" th:text="${pendingprint}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-Call Letter ( First Query )</label>
+   	<span class="form_txt box-span" th:text="${firstquery}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> SMS Sent </label>
+   	<span class="form_txt box-span" th:text="${smscount}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> Total D-call Letter </label>
+   	<span class="form_txt box-span" th:text="${total}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-call Letter Printed </label>
+   	<span class="form_txt box-span printed" th:text="${printcount}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-Call Letter ( Additional Query ) </label>
+   	<span class="form_txt box-span" th:text="${addlquery}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> D-call Letter Mail Sent </label>
+   	<span class="form_txt box-span" th:text="${emailcount}">0</span>
+</div>
+<div class="col-md-3">
+ 	<label class="form_txt col-md-9"> Total No Of Unique Articles </label>
+   	<span class="form_txt box-span" th:text="${totalarticles}">0</span>
+</div>
+</div>
+
+<div th:if="${ history != null  }" class="row mt-3">
+<button type="button" class="ml-3 asc" id="asc" onclick="orderdcallhistory('asc')" style="color: #fff;background-color: darkslategrey;border-color: #176eb8;">ASCENDING ORDER</button>
+<button type="button" class="ml-3 desc" id="desc" onclick="orderdcallhistory('desc')" style="color: #fff;background-color: darkslategrey;border-color: #176eb8;">DESCENDING ORDER</button>
+</div>
+<div class="col-md-12"> 
+<div class="col-md-12"> </div>
+</div>
+
+				 <table id="dcallhisttable" class="table table-striped table-bordered newtable"
+               style="font-size: 16px; text-align: center;width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th scope="col" style="text-align: center;">Article Id</th>
+						<th scope="col" style="text-align: center;">Posting Date</th>
+						<th scope="col" style="text-align: center;">Mail Class</th>
+						<th scope="col" style="text-align: center;">Origin Country</th>
+						<th scope="col" style="text-align: center;">Query Stage</th>
+						<th scope="col" style="text-align: center;">DCALL Letter No</th>
+						<th scope="col" style="text-align: center;">DCALL Letter Date</th>
+						<th scope="col" style="text-align: center;">Printed *</th>
+						<th scope="col" style="text-align: center;">Sent SMS</th>
+						<th scope="col" style="text-align: center;">Sent Mail</th>
+						<th scope="col" style="text-align: center;">Speed Post Consign.No of D-Call Letter Dispatched</th>
+						<th scope="col" style="text-align: center;">Dispatch Date</th>
+						<th scope="col" style="text-align: center;">Status of D-Call Delivery</th>
+						<th scope="col" style="text-align: center;">Reply Status</th>
+						<th scope="col" style="text-align: center;">Reply Date</th>
+						<th scope="col" style="text-align: center;" th:if="${ history != null  }">OOC Status</th>
+                        <th scope="col" style="text-align: center;">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values,iter :  ${dcallhistory}" class="" >
+						 <td  ></td>
+						 <td class="pdfview" onclick="pdfview(this)"  th:text="${values.item_id}"  id="itemidmodal"  th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" ></td>
+			             <td  th:text="${values.post_dt}"></td>
+			             <td  th:text="${values.mail_class}"></td>
+			             <td  th:text="${values.origin_country}"></td>
+			             <td  th:text="${values.qryname}"></td>
+			             <td  th:text="${values.dcall_no}"></td>
+			             <td  th:text="${values.gen_dt}"></td>
+			             
+			             <td style="text-align: left;"  th:if="${values.printcou > 0}"><p id="infoprint">&#9989;<strong class='printcou' th:unless="${values.printcou == null}" th:text="' (' + ${values.printcou}+')'"></strong></p></td>
+			             <td style="text-align: left;" th:unless="${values.printcou > 0}"><p id="infoprint">&#10060;</p></td>
+			             
+			             <td style="text-align: left;"  th:if="${values.smscou == null}" ><p id="infosms">&#10060;</p></td>
+			             <td class="pdfview" onclick="sentdetail(this,'SMS')" th:data-gen_dt="${values.gen_dt}" th:data-dcall_no="${values.dcall_no}" th:data-itemid="${values.item_id}" style="text-align: left;" th:unless="${values.smscou == null}" ><p id="infosms">&#9989;<strong class='smscou' th:text="' (' + ${values.smscou}+')'"></strong></p></td>
+			             
+			             <td style="text-align: left;" th:if="${values.emailcou == null}" ><p id="infomail">&#10060;</p></td>
+			             <td class="pdfview" onclick="sentdetail(this,'EMAIL')" th:data-gen_dt="${values.gen_dt}" th:data-dcall_no="${values.dcall_no}" th:data-itemid="${values.item_id}" style="text-align: left;" th:unless="${values.emailcou == null}" ><p id="infomail">&#9989;<strong class='emailcou' th:text="' (' + ${values.emailcou}+')'"></strong></p></td>
+					   
+			             <td  th:text="${values.speedpost_no}"></td>
+			             <td  th:text="${values.speedpost_dt}"></td>
+			             <td  th:text="${values.speedpost_deli_status}"></td>
+			             <!-- <td ><button  id="rlyqry" th:data-dcall_no="${values.dcall_no}" th:data-qryname="${values.qryname}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="rlyqry" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">View Query Replied</button></td> -->
+			             <td th:if="${ values.qryname != 'First Query'  }"  th:text="${values.rlystatus}"></td>
+			             <td th:if="${ values.qryname != 'First Query'  }"  th:text="${values.rly_dt}"></td>
+			             <td th:if="${ values.qryname != 'Additional Query'  }"  th:text="${values.addl_rlystatus}"></td>
+			             <td th:if="${ values.qryname != 'Additional Query'  }"  th:text="${values.addl_rly_dt}"></td>
+			             <td th:if="${ history != null  }"  th:text="${values.ooc}"></td>
+			             <td> 
+					   <!-- <button onclick="pdfview(this)" id="viewprint" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">VIEW</button> -->
+					   <button  id="vprint" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="vprint" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">PRINT</button>
+					   <!-- <button onclick="smsmodal(this)" id="sms" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">SMS</button> -->
+					   <button  id="mail" th:data-mail1="${values.mail_to}" th:data-mail2="${values.mail_cc}" th:data-mob1="${values.mobile_no_1}" th:data-mob2="${values.mobile_no_2}" th:data-din1="${values.din1}" th:data-recp_name="${values.recp_name}" th:data-dcall_no="${values.dcall_no}" th:data-full_path="${values.full_path}" th:data-filename="${values.gen_filename}" th:data-cinno="${values.cin_no}" th:data-itemid="${values.item_id}" type="button" class="mail" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;">EMAIL & SMS</button>
+					   </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<script>
+		
+$("#dcallhisttable").DataTable({
+		"processing": true,
+		"paging": false,
+		"ordering": false,
+		scrollY: '45vh',
+		scrollCollapse: true,
+		scrollX: true,
+		"dom": '<"pull-left"Bl>frtip',
+		buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:' D-Call Letter',
+					message:' D-Call Letter @ ' + sitecode + '\n\r' + datetime,
+					exportOptions: {
+        				columns: [ 0,1,2,3,4,5,6,7,8,9,10,16],
+						margin: true,
+      						}, 
+					//customize: function (doc) {}
+					},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				    orientation: 'landscape',
+				    exportOptions: {
+        				columns: [ 0,1,2,3,4,5,6,7,8,9,10,16],
+						margin: true,
+      						},
+		   		    customize: function(doc, header) {
+		   		    doc.content[1].table.widths = ['5%','9%','8%','8%','8%','8%','9%','9%','9%','9%','9%','9%'];
+				   	doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},],});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+' D-Call Letter @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:' D-Call Letter ',
+},
+			//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:' D-Call Letter @ ' + sitecode + '\n\r' + datetime ,
+					filename:' D-Call Letter',
+					exportOptions: {
+        				columns: [ 0,1,2,3,4,5,6,7,8,9,10,16],
+						margin: true,
+      						},
+					customize: function ( win ) {
+					console.log("sucess");
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},	}],
+						"initComplete": function( settings ) {
+	     $("#dcallhisttable_filter").append('<button type="button" class="btn btn-info" id="clear6" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+          $("#dcallhisttable_filter input[type='search']").attr('id', 'searchdcallhisttable');
+		$('#clear6').click(function() {	
+		document.getElementById("searchdcallhisttable").value=""
+		var table = $('#dcallhisttable').DataTable();
+		table.search('').draw();
+	   })
+    	}
+		
+	}); 
+
+
+
+	$('#dcallhisttable').DataTable().on('order.dt search.dt', function() {
+		$('#dcallhisttable').DataTable().column(0, {
+			search: 'applied',
+			order: 'applied',
+			
+		}).nodes().each(function(cell, i) {
+			cell.innerHTML = i + 1;
+		});
+	}).draw();
+	
+	$('#dcallhisttable').on('click', '.mail', function() {
+	roweditid = $(this).closest("tr");
+		$("#emailHelp").remove();
+		$("#mobileHelp").remove();
+
+
+	sendemail(this);
+
+});
+
+
+				
+				$("#dcallhisttable").DataTable().column(11).visible(false);
+				
+				$("#dcallhisttable").DataTable().column(12).visible(false);
+				
+				$("#dcallhisttable").DataTable().column(13).visible(false);
+				
+				$("#dcallhisttable").DataTable().column(14).visible(false);
+				
+				$("#dcallhisttable").DataTable().column(15).visible(false);
+				
+
+var roweditid;
+
+$('#dcallhisttable').on('click', '.vprint', function() {
+			roweditid = $(this).closest("tr");
+			var cinno = $(this).attr('data-cinno');
+			var dcall_no = $(this).attr('data-dcall_no');
+			$("#embedpdf").attr('src', 'file/pdf/' + $(this).attr('data-filename'));
+			var url = $("#embedpdf").attr('src');;
+	if (url != "") {
+		$.ajax({
+			url: url,
+			type: 'HEAD',
+			error: function() {
+				swal('OOPS!', "File doesn't exists!", 'error');
+			},
+			success: function() {
+				//viewcountupdate($(e).attr('data-cinno'));
+
+				printcountupdate(cinno, dcall_no);
+				console.log('tested');
+			}
+		});
+	}
+
+});
+
+
+
+
+var roweditid;
+$('#dcallhisttable').on('click', '.rlyqry', function() {
+			roweditid = $(this).closest("tr");
+			var cinno = $(this).attr('data-cinno');
+			var qryname = $(this).attr('data-qryname');
+			var dcall_no = $(this).attr('data-dcall_no');
+			console.log(dcall_no);
+			var stage = dcall_no.substr(0,3);
+			var articleStage='N'
+		if(stage == 'AAA'){
+			 articleStage='N'
+			}else 
+		if(stage == 'AAF'){
+	 		articleStage='P'
+			}
+		if(qryname == 'First Query'){
+ 		$.ajax({
+                url: "viewqueryreply?cinNo="+cinno,
+                type: "get",
+                success: function(data) {
+                    $("#qryreplycontent").html(data);
+					$("#qryreplymodal").find('h5').text('VIEW QUERY REPLY & UPLOADED DOCUMENTS');
+                    $('.btn.btn-success').remove();
+                    
+                    if($('#previewitemresp-1').text() == ''){
+                    
+                    	$('#previewKycHeading').remove();
+                    }
+                     
+                    $("#qryreplymodal").modal('show');
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+			}
+		else if (qryname == 'Additional Query'){
+		$.ajax({
+                url: "viewadditionalqueryreply?cinNo="+cinno+"&articleStage="+articleStage,
+                type: "get",
+                success: function(data) {
+                    $("#qryreplycontent").html(data);
+					$("#qryreplymodal").find('h5').text('VIEW ADDITIONAL QUERY REPLY & UPLOADED DOCUMENTS');
+                    $('.btn.btn-success').remove();
+                    
+                    if($('#previewAdditionalQueryResp').text() == ''){
+                    
+                    	$('#previewKycHeading').remove();
+                    }
+                	
+                    $("#qryreplymodal").modal('show');
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });	
+	}
+});
+
+
+function removeContent(text) {
+	$('#qryreplycontent').html('')
+}
+
+
+
+function orderdcallhistory(value){
+
+	var val = $('#historystart').val();
+	console.log(val + ' Month Selected');
+	if (val != '' && val != undefined && val != null) {
+		showLoader();
+		var oMyForm = new FormData();
+		oMyForm.append("month", val);
+		oMyForm.append("order", value);
+		$.ajax({
+			url: "pushdcallfilterhistory",
+			global: false,
+			data: oMyForm,
+			dataType: 'text',
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data) {
+				$('#pushdcallshow').replaceWith(data);
+				hideLoader();
+				
+				$("#dcallhisttable").DataTable().column(17).visible(false);
+				
+				$("#dcallhisttable").DataTable().column(11).visible(true);
+				
+				$("#dcallhisttable").DataTable().column(12).visible(true);
+				
+				$("#dcallhisttable").DataTable().column(13).visible(true);
+				
+				$("#dcallhisttable").DataTable().column(14).visible(true);
+				
+				$("#dcallhisttable").DataTable().column(15).visible(true);
+				
+				var oneDate = moment($('#historystart').val(), 'YYYY-MM');
+   				var monthName = oneDate.format('MMMM - YYYY');
+
+				$('#statusmnth').text(monthName);
+			},
+			error: function(rs, e) {
+				swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+				hideLoader()
+			}
+		});
+
+	}
+}
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+		</script>

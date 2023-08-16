@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ <style>
+body{
+background: white !important;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> User Management> Remove PLA</h3>
+ <h3 style="text-align: center; margin-top: 0px; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR (PNA)</h3>
+ <div style ="font-weight: bold; margin-top: 2%; text-align: center; font-family: times new roman;background: deepskyblue;"><h4>Remove Local System Administrator (PLA)</h4></div><br>
+ 
+  <div align= "center" class="form-group row" style="margin-top: 1%;justify-content: center;text-align: end">
+				<label class="control-label col-sm-1" for="SiteCode" style="font-weight: 600;">Select FPO Site<span style="color:red">*</span>:</label>
+				<div class="col-sm-2 dropdown" >
+					<select class="form-control selsite"   id="selsite"
+						style=" width: 310px;">
+						<option>--Select FPO Sites--</option>
+							 <div th:each="sitestate,iter : ${removelsm}">
+							<option th:text="${sitestate[1]}" th:value="${sitestate[0]}" id="userstecde"></option>
+						</div> 
+						</select>
+				</div>
+			</div> 
+			
+
+    <div id="lsmssid"class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Select SSOID<span style="color:red">*</span>:</label>
+      <div class="col-sm-2 dropdown" >
+      
+   
+     <select class="form-control selssoid"  id="selssoid" style="width: auto;">
+						<option>--Select SSO IDs--</option>
+						</select>
+						<!--select class="form_txt columnvalue" id="selssoid" style="margin: 1%;width: 25%;display: none;">
+						<div class="invalid-feedback"></div-->
+				</div>
+			</div> 
+    
+			
+     <div class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Name:</label>
+      <div class="col-sm-2" style="margin-left:0px">
+        <input type="text" id="remvempname" class="form-control"  style=" width: 310px" placeholder="Name">
+      </div>
+    </div>
+   
+    <div id="inputxt" class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Site Code:</label>
+      <div class="col-sm-2" >
+        <input type="text" id="remvesitecde" class="form-control"  maxlength="6" style="width: 310px" placeholder="Site Code">
+      </div>
+    </div>
+    <div class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Designation:</label>
+      <div class="col-sm-2">
+        <input type="text" id="remvdesg" class="form-control"  style="width: 310px;" placeholder="Designation">
+      </div>
+    </div>
+   <input type="hidden" id="remvssoid" >
+   <div id="inputxt" class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Mobile-No:</label>
+      <div class="col-sm-2" style="margin-left:0px">
+        <input type="text" id="remvlsmphn" class="form-control"  maxlength="10" style="width: 310px" placeholder="Mobile Number">
+      </div>
+    </div>
+   
+   <div class="form-group row " style="justify-content: center;text-align: end;">
+      <label class="control-label col-sm-1 "style="font-weight: 600;">Email-id:</label>
+      <div class="col-sm-2" >
+        <input type="text" id="remvemailid" class="form-control"  style="width: 310px;" placeholder="Email-id">
+      </div>
+    </div>
+   
+    <div class="form-group row " style="justify-content: center;text-align: end;">
+       <label class="col-sm-1 col-form-label"style="font-weight: 600;">Remarks:</label>
+       <div class="col-sm-2">
+    <textarea class="form-control" id="reasonlsm" onkeyup="EnableDisable(this)" placeholder="Enter Remarks" rows="3" style="height:90px;width: 310px"></textarea>
+    <div class="invalid-feedback"></div>
+    </div>
+  </div>
+
+
+  <br>
+  </form>
+  </div>
+  <div class="row">
+  <div class="col-md-8" style="text-align: end;
+    padding-right: 70px;">	
+  <button type="submit" id="removelsmSite" class="btn btn-success" >Remove PLA</button></div>
+  <div class="col-md-2" style="margin-left:2%";>
+  <button type="submit" id="cancelsmSite" class="btn btn-success" >Cancel</button></div>
+  	</div></div>
+		
+		<div class="modal fade" id="removepopup" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Do you want to remove this user as Local System Administrator (PLA)?</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="clearNsm" class="btn btn-danger" style="margin-right: 366px;">No</button>
+						<button type="button" data-dismiss="modal" id="confremlsm" class="btn btn-success" >Yes</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="Useridreq" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">No Longer User id required.</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refLsmpersite" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 	
+		
+         	<input type="hidden" id="offcrlogin" th:value="${loginid}">
+</body>
+<script src="js/removeLsm.js"></script>
+<script>
+ function goback() {
+     window.location = "current_lsm";
+     
+     }   
+     </script>  
+</html>

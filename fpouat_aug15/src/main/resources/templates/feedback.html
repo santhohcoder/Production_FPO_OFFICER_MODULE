@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<!-- <html> -->
+<html th:fragment="header" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+	<link th:href="@{css/report/jquery-ui.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/datatables.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<link th:href="@{css/select.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/report/jquery-1.12.4.js}"></script>
+<script th:src="@{js/report/jquery-ui.js}"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/font.js}"></script>
+<script th:src="@{js/select2.js}"></script>
+<script  th:src="@{js/datatables/dataTables.buttons.min.js}"></script>
+<script  th:src="@{js/datatables/jszip.min.js}"></script>
+<script  th:src="@{js/datatables/pdfmake.min.js}"></script>
+<script  th:src="@{js/datatables/vfs_fonts.js}"></script>
+<script  th:src="@{js/datatables/buttons.html5.min.js}"></script>
+<script  th:src="@{js/datatables/buttons.print.min.js}"></script>
+ <script th:src="@{js/report/sweetalert.js}"></script>
+ <script th:src="@{js/sweetalert.min.js}"></script>
+ <link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+	<script th:src="@{js/bootstrap.min.js}"></script>
+	<script th:src="@{js/bootstrap-multiselect.min.js}"></script>
+<link th:rel="stylesheet" th:href="@{css/bootstrap-multiselect.css} " />
+  
+<script th:src="@{js/moment.min.js}"></script>
+
+<title>Feedback</title>
+
+   <style>
+      /* CSS styles for the div section and table */
+      #feedback-section {
+        background-color: #055B8E;
+         color: white;
+         padding: 15px;
+      	 margin:130px 15px;	
+    	 border-radius: 4px;	
+      }
+
+      #feedback-message {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        text-align:center;
+      }
+
+      table {
+        width: 75%;
+        border-collapse: collapse;
+        margin: 0 auto;
+      }
+      td {
+     width: 50px;
+     text-align: center;
+   }
+
+    th, td {
+    padding:5px;
+  font-size: 35px;
+  text-align: center;
+  border: 1px solid #cbcbcb;
+  cursor: pointer;
+}
+
+     
+       tr:nth-child(1) td:nth-child(1) {
+         background-color:  #ec2329;
+          
+          color:white;
+      }
+
+      tr:nth-child(1) td:nth-child(2) {
+         background-color:   #fa6636;
+         
+         color:white;
+      }
+
+      tr:nth-child(1) td:nth-child(3) {
+        background-color: #ffaf3a;
+        
+         color:white;
+      }
+
+      tr:nth-child(1) td:nth-child(4) {
+         background-color:#87d44a;
+       
+         color:white;
+      }
+        
+    tr:nth-child(1) td:nth-child(5) {
+         background-color:   #26b43a;
+       
+         color:white;
+      }
+       
+       .button-container {
+        text-align: center;
+        margin-top: 100px;
+      }
+
+      .button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+
+      .button:hover {
+        background-color: #3e8e41; 
+      }
+      
+        CSS styles for the selected cell 
+     
+   
+
+ .clickable{
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+
+.modal-static {	
+    position: fixed !important;	
+  }	
+  .modal-static .modal-dialog {	
+    position: fixed !important;	
+    top: 50% !important;	
+    left: 50% !important;	
+    transform: translate(-50%, -50%) !important;	
+    width: 450px !important;	
+    max-width: 100% !important;	
+    margin: 5rem auto !important;	
+   	
+  } 
+
+
+ 
+    </style>
+</head>
+<body style="background-color:#DBDBDB">  <!-- style="background-color:#DBDBDB" -->
+
+  <input type="hidden" th:value="${officerId}" id="emp" />
+
+<div>
+
+<div id="feedback-section">
+      <div id="feedback-message">Feedback</div>
+    </div>
+      <table>
+  	 <tr>
+        <td class="clickable"   value=1 onclick="submitform(1)">
+          <i class="fa fa-star-o" aria-hidden="true"></i> </td>
+        <td class="clickable"   value=2 onclick="submitform(2)">
+          <i class="fa fa-star-o" aria-hidden="true"></i>
+          <i class="fa fa-star-o" aria-hidden="true"></i> </td>
+        <td class="clickable"  value=3 onclick="submitform(3)"> 
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+         <i class="fa fa-star-o" aria-hidden="true"></i></td>
+       <td  class="clickable" value=4 onclick="submitform(4)">
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+        <i class="fa fa-star-o" aria-hidden="true"></i></td>
+          <td  class="clickable" value=5 onclick="submitform(5)">
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+         <i class="fa fa-star-o" aria-hidden="true"></i>
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+        </td>
+      </tr>
+    </table>
+  
+     <div class="button-container">
+  
+      <button class="button" onclick="nexttime()"  >NEXT TIME</button>
+    </div>
+    </div>
+
+
+ <div class="modal fade modal-static" id="feeback"  value=" "    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-static" style="max-width: 450px;  margin:8.75rem auto ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title fs-5" id="exampleModalLabel">Feedback</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick=clearstars()>&times;</button>
+      </div>
+      <div class="modal-body">
+          <div style="margin-left: 1%; margin-right: 1%;">
+          <textarea class="form-control"  oninput=preventSpechar(event) name="fdtxt" id="fdtxt"  placeholder="Enter Feedback" rows="3"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submittingform($('#feeback').data('typesvalue'))" disabled>Submit</button>
+       
+      </div>
+    </div>
+  </div>
+</div> 
+
+	 <div id="nxttime" class="modal fade headRowQuery  modal-static"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-static" role="document">
+	<div class="modal-content" >
+	   <div class="modal-header" style="justify-content: center;">
+	      <h5 class="modal-title" id="exampleModalLabel" style="text-align:center">Your Feedback is  valuable for Improvement </h5></div>
+	  <div class="modal-body" align="center" >
+		<h5><font color="black">Do You Want to Skip</h5>
+	  </div>
+	
+						
+						<div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	
+	</div>
+    </div>
+</div>
+</div>  
+
+<script>
+
+ $(document).keydown(function (event) {
+
+  if(event.keyCode == 123) {
+     return false;
+  }
+  else if(event.ctrlKey && event.shiftKey && event.keyCode == 'I'.charCodeAt(0)) {
+     return false;
+  }
+  else if(event.ctrlKey && event.shiftKey && event.keyCode == 'C'.charCodeAt(0)) {
+     return false;
+  }
+  else if(event.ctrlKey && event.shiftKey && event.keyCode == 'J'.charCodeAt(0)) {
+     return false;
+  }
+  else if(event.ctrlKey && event.keyCode == 'U'.charCodeAt(0)) {
+     return false;
+  }
+}); 
+ 
+ 
+ 
+ 
+ function preventSpechar(event) {
+     var regexValue = /^[a-zA-Z\s]*$/;
+
+     var input = event.target;
+     var errorSpan = input.nextElementSibling;
+
+     if (!regexValue.test(input.value)) {
+         input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+         
+     } 
+ }
+
+
+// Call the function when the page is loaded
+clearHistoryAndPreventNavigation();
+
+
+//Function to clear browser history and prevent navigation to previous pages
+function clearHistoryAndPreventNavigation() {
+// Replace the current state with a new one
+window.history.pushState(null, null, window.location.href);
+
+// Listen for the popstate event (triggered when the user navigates using the browser buttons)
+window.onpopstate = function (event) {
+// Restore the current state, effectively preventing navigation to previous pages
+window.history.pushState(null, null, window.location.href);
+};
+}
+
+
+
+
+
+
+
+
+
+
+ /*function saveData(typeValue, modalValue) {
+  var currentDateTime = new Date();
+  var dateTimeString = currentDateTime.getFullYear() + '-' + (currentDateTime.getMonth() + 1) + '-' + currentDateTime.getDate() + ' ' + currentDateTime.getHours() + ':' + currentDateTime.getMinutes() + ':' + currentDateTime.getSeconds();
+  
+  var data = {
+    text: modalValue,
+    type: typeValue, 		
+    date: dateTimeString
+  };
+  
+  console.log('checking',data)
+  
+  $.ajax({
+    url:'savefeedback',
+    data: data,
+    success: function(response) {
+    
+      swal({
+        title: "Thank you for your feedback!",
+        icon: "success"
+      }).then(() => {
+        console.log("Data saved successfully");
+        logconfirm();
+      });
+    },
+    error: function(error) {
+      console.log(error);
+      alert("Error occurred while saving data");
+    }
+  });
+}*/
+
+
+   function saveData(typeValue, modalValue) {
+ 
+   var officid = $("#emp").val();
+  var currentDateTime = new Date();
+  var dateTimeString = currentDateTime.getFullYear() + '-' + (currentDateTime.getMonth() + 1) + '-' + currentDateTime.getDate() + ' ' + currentDateTime.getHours() + ':' + currentDateTime.getMinutes() + ':' + currentDateTime.getSeconds();
+  
+  var data = {
+    text: modalValue,
+    type: typeValue, 		
+    date: dateTimeString,
+    offid:officid
+  };
+  
+  console.log('checking',data)
+  
+  $.ajax({
+    url:'savefeedback',
+    data: data,
+    success: function(response) {
+    
+      swal({
+        title: "Thank you for your feedback!",
+        icon: "success"
+      }).then(() => {
+        console.log("Data saved successfully");
+        logconfirm();
+      });
+    },
+    error: function(error) {
+      console.log(error);
+      alert("Error occurred while saving data");
+    }
+  });
+}
+
+
+ function clearstars(){
+ 
+    var cells = document.querySelectorAll('.clickable');
+  cells.forEach(function(c) {
+    var s = c.querySelectorAll('i');
+    for (var j = 0; j < s.length; j++) {
+      s[j].classList.remove('fa-star');
+      s[j].classList.add('fa-star-o');
+      s[j].style.color = '';
+    }
+  });
+ }
+
+
+function submitform(value) {
+  var cell = document.querySelector('.clickable[value="' + value + '"]');
+  var stars = cell.querySelectorAll('i');
+  var typesvalue = value;
+
+  // First, reset all cells to have empty star icons
+  var cells = document.querySelectorAll('.clickable');
+  cells.forEach(function(c) {
+    var s = c.querySelectorAll('i');
+    for (var j = 0; j < s.length; j++) {
+      s[j].classList.remove('fa-star');
+      s[j].classList.add('fa-star-o');
+      s[j].style.color = '';
+    }
+  });
+
+  // Then, fill the stars for the clicked cell
+  for (var i = 0; i < stars.length; i++) {
+    if (i < typesvalue) {
+      stars[i].classList.remove('fa-star-o');
+      stars[i].classList.add('fa-star');
+      stars[i].style.color = 'yellow';
+    } else {
+      stars[i].classList.remove('fa-star');
+      stars[i].classList.add('fa-star-o');
+      stars[i].style.color = '';
+    }
+  }
+
+
+ if(typesvalue < 3){
+ $('#feeback .modal-title').text('Reason');
+ $('#fdtxt').val('');
+    $('#fdtxt').attr('placeholder', 'Please Enter Reason');
+     $('#feeback').attr('data-typesvalue', typesvalue);
+    $('#feeback').modal('show');
+
+}  else if (typesvalue == 3) {
+    $('#feeback .modal-title').text('Suggestion');
+    $('#fdtxt').val('');
+    $('#fdtxt').attr('placeholder', 'Please Enter Suggestion');
+     $('#feeback').attr('data-typesvalue', typesvalue);
+    $('#feeback').modal('show');
+  }
+  else
+   	saveData(typesvalue, null);
+
+} 
+
+function submittingform(stars){
+	var reg =/<(.|\n)*?>/g; 
+	 if (reg.test($('#fdtxt').val()) == true) {
+	     swal('OOPS!', 'Special character Not allowed!!', 'error');
+		return false
+			    }
+console.log(stars);
+  var modalval='';
+  modalval=document.getElementById("fdtxt");
+  saveData(stars, modalval.value);
+}
+
+
+  function nexttime(){
+    $('#nxttime').modal('show');  
+    }
+    
+
+function logout() {
+	$('#logout').modal('show');
+}
+
+  $(document).ready(function() {
+  var textarea = $('#fdtxt');
+  var submitBtn = $('.modal-footer button');
+
+  textarea.on('input', function() {
+    var textareaVal = $(this).val();
+    if (textareaVal.length >= 6) {
+      submitBtn.prop('disabled', false);
+    } else {
+      submitBtn.prop('disabled', true);
+    }
+  });
+  
+
+});
+
+
+function logconfirm() {
+  localStorage.setItem("loggedOut", "true");
+  localStorage.setItem("columns", JSON.stringify([1]));
+
+  function preventBack(e) {
+    if (localStorage.getItem("loggedOut") === "true") {
+      window.history.replaceState(null, "", "logout");
+    } else {
+      window.history.forward();
+    }
+   
+  }
+
+  window.addEventListener("beforeunload", preventBack);
+
+  window.location = "logout";
+}
+
+
+$(document).ready(function() {	
+	if(location.href!=localStorage.getItem("currentUrl")){
+		localStorage.setItem("prevUrl", localStorage.getItem("currentUrl"));
+	}
+	localStorage.setItem("currentUrl", location.href);
+window.history.pushState({}, "", "Home");
+	currentTime();
+	//currentTime1();
+	sessionTime();
+});
+
+
+
+
+
+
+/*
+
+function logconfirm() {
+  localStorage.setItem("loggedOut", "true");
+  localStorage.setItem("columns", JSON.stringify([1]));
+
+  function preventBack(e) {
+    if (localStorage.getItem("loggedOut") === "true") {
+      window.history.replaceState(null, "", "logout");
+    } else {
+      window.history.forward();
+    }
+  }
+
+  window.addEventListener("beforeunload", preventBack);
+   window.location = "logout";
+}
+
+$(document).ready(function() {
+  if (location.href != localStorage.getItem("currentUrl")) {
+    localStorage.setItem("prevUrl", localStorage.getItem("currentUrl"));
+  }
+  localStorage.setItem("currentUrl", location.href);
+
+  window.history.pushState({}, "", "dash");
+  currentTime();
+  //currentTime1();
+  sessionTime();
+
+  // Require user to click once after logging out
+  document.addEventListener("click", function() {
+    var loggedOut = localStorage.getItem("loggedOut");
+    if (loggedOut === "true") {
+      localStorage.removeItem("loggedOut");
+      window.location.reload(); // Refresh the page after the initial click
+    }
+  }, { once: true });
+});
+
+
+
+*/
+</script>

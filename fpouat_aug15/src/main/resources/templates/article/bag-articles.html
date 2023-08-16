@@ -1,0 +1,264 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+        
+        
+</style>
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div style="display: flex; width: 100%; background: antiquewhite; padding: 10px;">
+    <label class="scan-find-label" th:classappend="${bagFlag} ? 'bag-color' : ''" th:text="${(view ? 'Enter ': '') +'Scan Findings / Report for the Recpt.Id / Bag :'+(view ? ' (If any)': '')}"></label>
+    <textarea id="articleOverallReport" th:disabled="${!view and viewTextReport eq null}" th:readonly="${viewTextReport ne null}" th:text="${viewTextReport}" style="width: 50%; height: 75px; margin-left: 35px;">
+</textarea>
+    <!-- <button th:if="${view}" type="button" onclick="submitArticleOverallReport()" style="margin-left: 35px; cursor: pointer; border: 0; font-weight: bold; height: 35px; margin-top: 20px;" class="btn btn-success">Submit</button> -->
+</div>
+<div class="mt-3" style="background-color: #f8f9fa; padding: 15px;">
+    <input type="hidden" id="bagNoDetails">
+    <small class="form-text text-muted smalltexthelp" style="color: blue !important;text-transform: initial;"><span style="color: red;">**</span>
+     Note : "-" in "Assessment Site" column as against EAD Article IDs indicates that those are not assigned to any FPO site for want of PINCODE.
+     <span th:if="${bagFlag}"> 
+     However, on submission of Arrival Confirmation here, those Article IDs will be mapped to this site (ie.DESTN. FPO).
+     </span>
+    </small>
+    <div class="col-md-12">
+        <table id="bagarticletable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;width:100%;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th th:if="${view}" scope="col" style="text-align: center; vertical-align: middle;">SELECT</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">S.NO</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">ARTICLE
+                        ID</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">EAD</th>
+                    <!--th scope="col" style="text-align: center; vertical-align: middle;">DESTN.
+                        FPO</th-->
+                    <th scope="col" style="text-align: center; vertical-align: middle;">Assessment Site</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">DESTN. FPO (Clearance Site)</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">ORIGIN COUNTRY</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">EXAMN. ORDER</th>
+                    <div th:if="${bagFlag}">
+                    <th scope="col" style="text-align: center; vertical-align: middle;">RECPT. ID</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">OOE</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">OOE DATE</th>
+                    <th scope="col" style="text-align: center; vertical-align: middle;">SCAN REPORT AT OOE</th></div>
+                    <th scope="col" style="text-align: center; vertical-align: middle;" th:text="${view ? 'RECORD SCAN FINDINGS / REPORT ARTICLE WISE (If any)': 'RECORDED SCAN FINDINGS / ARTICLE WISE REPORT'}"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bagArticle,iter : ${bagArticles}" class="">
+                    <td th:attr="style=${bagFlag ? 'width:0%' : 'width:initial;'}" th:if="${view}"><input onclick="enableTextBox(this)" type="checkbox" /></td>
+                    <td th:attr="style=${bagFlag ? 'width:0%' : 'width:initial;'}" th:text="${iter.index+1}"></td>
+                    <td th:attr="style=${bagFlag ? 'width:9%' : 'width:initial;'}" th:text="${bagArticle.articleId}"></td>
+                    <td th:attr="style=${bagFlag ? 'width:0%' : 'width:initial;'},class=${bagArticle.eadExist=='YES' ? 'ead-class' : ''}" onclick="viewSummary(this);" th:articleId="${bagArticle.articleId}" th:classappend="${bagArticle.eadExist=='YES' && bagFlag} ? 'bag-color' : ''" th:text="${bagArticle.eadExist}"></td>
+                    <!--td th:attr="style=${bagFlag ? 'width:6%' : 'width:initial;'}" th:text="${bagArticle.destinationFpo}"></td-->
+                    <td th:attr="style=${bagFlag ? 'width:6%' : 'width:initial;'}" th:text="${bagArticle.mapped}"></td>
+                    <!--td th:attr="style=${bagFlag ? 'width:6%' : 'width:initial;'}" th:text="${bagArticle.destinationFpo}"></td-->
+                    <td th:attr="style=${bagFlag ? 'width:6%' : 'width:initial;'}" th:text="${bagArticle.clrsite}"></td>
+                    <td th:text="${bagArticle.originCountry}"></td>
+                    
+                    <td th:if="${bagArticle.examOrderExist=='YES'}" type='button' th:id="${bagArticle.articleId}" style="color:blue; text-decoration:underline; font-weight:bold"  th:text="${bagArticle.examOrderExist}" onclick="viewExamOrder(this)" value='Click'></td> 
+                    <td th:if="${bagArticle.examOrderExist == 'NO'}" th:text="${bagArticle.examOrderExist}"></td>
+                    <div th:if="${bagFlag}">
+                    <td style="width: 21%;" th:if="${bagArticle.articleArrivalInfo != null && bagArticle.articleArrivalInfo?.recptId != null}">
+                    <span style="color: blue;font-weight:bold;">RID-</span>
+                    <span th:text="${bagArticle.articleArrivalInfo?.recptId}"></span></td>
+                    <td style="width: 21%;" th:unless="${bagArticle.articleArrivalInfo != null && bagArticle.articleArrivalInfo?.recptId != null}"></td>                    
+                    <td style="width: 6%;" th:text="${bagArticle.articleArrivalInfo?.ooe}"></td>
+                    <td style="width: 7%;" th:text="${#dates.format(bagArticle.articleArrivalInfo?.ooeDate, 'dd-MMM-yyyy')}"></td>
+                    <td th:text="${bagArticle.articleArrivalInfo?.scanReport}"></td></div>
+                    <td th:attr="style=${bagFlag ? 'width:25%' : 'width:30%;'}"><textarea type="textbox" th:text="${bagArticle.scanReport}" rows=2 style="width: 100%;" th:readonly="${bagArticle.scanReport != null}" th:disabled="${bagArticle.scanReport == null}" /></td>
+                </tr>
+            </tbody>
+        </table>
+        <textarea id="overallArticleReport" placeholder="Enter Scan Report" rows=10 style="width: 100%; display: none;"></textarea>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div th:if="${view}" style="width: 100%; text-align: center; margin-top: 15px;">
+    <button type="button" onclick="submitArticleReport()" class="btn btn-success">Submit</button>
+</div>
+<script type="text/javascript">
+    var bagArticleTable = $("#bagarticletable").dataTable({
+        "processing": true,
+        "paging": true,
+        "ordering": false
+    });
+    
+     function closeSummary() {
+        $("#summaryContent").html('');
+        $("#viewSummaryModal").modal('hide');
+        $("#bagArticleModal").modal('show');
+        $("#bagArticleModal").css('overflow-y', 'auto');
+    }
+
+    function enableTextBox(obj) {
+        var lasttd = $(obj).closest('tr').find(':last-child textarea');
+        if (lasttd.prop('disabled')) {
+            lasttd.removeAttr('disabled');
+            lasttd.focus();
+        } else {
+            lasttd.val('');
+            lasttd.attr('disabled', 'disabled');
+        }
+    }
+
+    function getOverallScanReport(obj) {
+        $("#bagarticletable").hide();
+        $("#bagarticletable_wrapper").hide();
+        $("#overallArticleReport").show('slow');
+        $(obj).text('Click Here to Enter Scan Report Article wise');
+        $(obj).attr('onclick', 'getArticleWiseScanReport(this)');
+    }
+
+    function getArticleWiseScanReport(obj) {
+        $("#bagarticletable").show('slow');
+        $("#bagarticletable_wrapper").show('slow');
+        $("#overallArticleReport").hide();
+        $(obj).text('Click Here to Enter Scan Report For all Articles');
+        $(obj).attr('onclick', 'getOverallScanReport(this)');
+    }
+
+    function viewSummary(obj) {
+    	if($(obj).html()=='NO') {
+    		return false;
+    	}
+        $.ajax({
+            url: 'getSummary?id=' + $(obj).attr('articleId'),
+            type: "post",
+            success: function(data) {
+                $("body").css('overflow-y', 'hidden');
+                $("#viewSummaryModal").modal('show');
+          		 $("#viewSummaryModal").css('overflow-y', 'auto');     
+                $("#summaryContent").html(data);
+                $("#bagArticleModal").modal('hide');
+            },
+            error: function(rs, e) {
+                swal('OOPS!', "Something went wrong", 'error');
+            }
+        });
+    }
+
+   
+
+    function submitArticleOverallReport() {
+        var bagNo = $("#bagNoDetails").val().substring(4);
+        var bagType = $("#bagNoDetails").val().substring(0, 1);
+        var site = $("#bagNoDetails").attr("site");
+        if ($("#articleOverallReport").val().trim() == '') {
+            swal('OOPS!', "Please Enter Scan Findings / Report for the Recpt.Id / Bag", 'error');
+            return false;
+        }
+	    bagArticlesArray = bagArticlesArray.filter(a => a.bagNo === bagNo ? false : true);
+        var obj = {};
+        obj["bagNo"] = bagNo;
+        obj["bagType"] = bagType;
+        obj["scanReport"] = $("#articleOverallReport").val().trim();
+	    obj["site"] = site;
+	    obj["scanned"]="A";
+        bagArticlesArray.push(obj);
+        $("#" + bagNo).closest('tr').find(':last-child input').prop('checked', 'checked');
+        $("#" + bagNo).closest('tr').find(':last-child input').css('pointer-events', 'none');
+        $("#" + bagNo).closest('tr').find('td:nth-child(8)').html('<i class="fa fa-pencil-square-o" onclick="editScanReport(this)" aria-hidden="true" style="cursor: pointer;"></i><i class="fa fa-trash" onclick="deleteScanReport(this)" aria-hidden="true" style="margin-left: 25px; cursor: pointer;"></i>');
+        bodyScroll(); 
+        $("#bagArticleModal").modal('hide');
+    }
+  function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+} 
+
+
+ 		function viewExamOrder(e) {
+		var id=e.id;
+		
+ 		$.ajax({ 
+ 			url: "getExamOrder?qrylevel=EAD&id=" + id ,
+ 			type : "post",
+ 			success: function(data){
+ 			    $("body").css('overflow-y', 'hidden');
+                $("#summaryContent").html(data);
+                $("#viewSummaryModal").modal('show');
+                $("#viewSummaryModal").css('overflow-y', 'auto');
+                $("#bagArticleModal").modal('hide');
+                 			},
+ 			error: function(re, e){
+ 				swal('OOPS!', 'Something', 'error');
+ 			}
+ 		 })
+ 		} 
+</script>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+
+a.nav-link {
+	font-weight: bold;
+	color : black;
+	text-transform : uppercase;
+	font-size : 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background : #0a3052 !important;
+}
+
+.buttons-excel{
+display: none;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div> 
+<input type="hidden" id="rangecS">
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Directory Management> Pincode Directory</h3>
+<h3 style="text-align: center; color: #1616e0; ">
+    <div th:if="${session.data1=='PNA'}"> NATIONAL SYSTEM ADMINISTRATOR (PNA)</div> 
+	<div th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+<!-- ul class="nav nav-pills" role="tablist" style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+        <li class="nav-item" onclick="viewmappedpincode()" style="width: 50%;text-align: center;">
+        <a class="nav-link active show" data-toggle="pill" href="javascript:;" >View pincode mapped to FPO Site's</a>
+      </li>
+      <li class="nav-item"  onclick="pincdechange()" style="width: 50%;text-align: center;" value="0">
+        <a class="nav-link" data-toggle="pill" href="javascript:;">Change pincode mapping for inbound articles</a>
+      </li>
+    </ul-->
+    <div class="viewmappedpincode">
+<div style ="font-weight: bold;text-align: center; font-family: times new roman;background: deepskyblue;"><h4>Pincode Directory</h4></div>
+
+  <div class= "col-md-12 row">
+  <div class="col-md-1"></div>
+	<div class="col-md-7 row"
+		style="justify-content: end;  text-align: end;padding-right: 110px;">
+		<label class="control-label" for="SiteCode"
+			style="font-weight: 600;margin-top:8px;">Select CusSite:</label>
+		<div class="col-sm-3 dropdown">
+			<select class="form-control selcusite" id="selcusite" style="width:auto;"> 
+				<option>--Select CusSite--</option>
+				<option>All Sites</option>
+				<div th:each="sC : ${siteCd}">
+					<option th:value="${sC[0]}" th:text="${sC[1]}"></option>
+				</div>
+			</select>
+			<div class="invalid-feedback"></div>
+		</div>
+		</div>
+		<!-- <div class="col-md-3" style="margin-top: 0%;display: flex; justify-content: end">
+		<button type="button" onclick="pincdechange()" class="btn" style="background : royalblue; color : white" >Change pincode mapping for inbound articles</button></div> -->
+	</div>
+	
+		<!-- <div class="col-md-12 row">
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>-->
+				
+	 <div id="pincodedata" style="padding: 20px;">
+		<table id="pincdemaptable"
+			class="table table-striped table-bordered"
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">STATES MAPPED TO THE SELECTED CUSTOMS FPO SITE NAME</th>
+					<th scope="col">START PINCODE</th>
+					<th scope="col">END PINCODE</th>
+					<th scope="col">DESTINATION CUSTOMS FPO SITE NAME</th>
+					<th scope="col">FPO SITE CODE</th>
+				</tr>
+			</thead>
+			<tbody id="mappingdata">
+				
+			</tbody>
+		</table>
+		<div class="col-md-8">Note : For the changes in PINCODE mapping please contact NIC.</div>
+	</div> 
+	</div>
+	
+	<div class="mappingpincoderange" style="display: none">
+	<div
+		style="font-weight: bold; margin-top: 2%; text-align: center; font-family: times new roman;background: deepskyblue;">
+		<h4>Mapping Pincode with Custom's FPO Site</h4>
+	</div>
+
+	<div class="col-sm-12 row "
+		style="justify-content: center; position: relative; font-family: times new roman; text-align: end; ">
+		<label class="control-label" for="SiteCode"
+			style="font-weight: 600; margin-top: 5px;">Select:</label>
+		<div class="dropdown col-sm-2">
+			<select class="form-control selpartpincode">
+				<option value="PP">Particular pincode</option>
+				<option value="PR">Pincode range</option>
+			</select>
+			<div class="invalid-feedback"></div>
+		</div>
+	</div>
+	<div
+		style="margin-top: 2%; display: flex; padding-left: 18%; padding-right: 18%; justify-content: center; font-family: times new roman;"
+		class="col-sm-12 partdiv">
+		<div class="col-sm-4">
+			<div class="form-group "
+				style="display: flex; justify-content: center;">
+				<label class="control-label "
+					style="color: #808080; margin-top: 8px;">Enter Start
+					Pincode : </label>
+				<div class="col-sm-6">
+					<input type="text" autocomplete="off" id="partpin"
+						class="form-control"
+						style="width: 220px; border-color: royalblue;"
+						placeholder="Enter Start pincode" maxlength="6">
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-4" style="display: flex; justify-content: end;">
+			<label class="control-label" style="color: #808080; margin-top: 8px;">Mapped
+				State:</label>
+			<div class="dropdown col-sm-8 ">
+				<input type="text" autocomplete="off" id="mappedSt"
+					class="form-control" style="width: 220px; border-color: royalblue;"
+					placeholder="Mapped State">
+
+				<div class="invalid-feedback"></div>
+			</div>
+		</div>
+
+		<div class="col-sm-4" style="display: flex; justify-content: end;">
+			<label class="control-label" for="SiteCode"
+				style="color: #808080; margin-top: 8px;">Mapped CusSite:</label>
+			<div class="dropdown col-sm-8">
+				<input type="text" id="mappedCs" class="form-control"
+					style="width: 220px; border-color: royalblue;"
+					placeholder="Mapped CusSite" maxlength="6">
+				<div class="invalid-feedback"></div>
+			</div>
+		</div>
+
+		<div class="col-sm-5" style="display: flex; justify-content: center;">
+			<label class="control-label" style="color: #808080; margin-top: 8px;"><span>To
+					re-assign pincode with alternate</span><br> <span>(Custom's
+					FPO Site)</span></label>
+			<div class="dropdown col-sm-6">
+				<select class="form-control chngeCs"
+					style="border-color: royalblue;width:auto;">
+					<option value="0">--Select CusSite--</option>
+					<!-- <div th:each="sC : ${siteCd}">
+						<option th:text="${sC}" id="updtpin"></option>
+					</div> -->
+				</select>
+				<div class="invalid-feedback"></div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="col-md-12" Style="display: flex; justify-content: center;">
+		<button type="button" id="partinsertpin" class="btn btn-success">Submit</button>
+	</div>
+	<div class="pinrange"
+		style="text-align: center; display: none; font-family: times new roman;">
+		<h4>Please Select and view from the existing pincode range mapped
+			to FPO Sites</h4>
+
+		<div class="col-md-12 row"
+			style="justify-content: center; margin-top: 1%; padding-right: 5%">
+			<div class="col-sm-3 row"
+				style="justify-content: end; position: relative; font-size: larger">
+				<label class="control-label"
+					style="color: #808080; margin-top: 8px;">Select State :</label>
+				<div class="dropdown col-sm-8">
+					<select class="form-control statelist"
+						style="border-color: royalblue;">
+						<option>--Select State--</option>
+						<div th:each="StList : ${stList}">
+							<option th:text="${StList}"></option>
+						</div>
+					</select>
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+		</div>
+
+		<div
+			style="justify-content: center; margin-top: 2%; padding-right: 5%; padding-left: 5%;"
+			class="col-sm-12 row">
+			<div class="col-sm-3">
+				<div class="form-group row "
+					style="position: relative; justify-content: center; text-align: end; font-size: larger">
+					<label class="control-label "
+						style="color: #808080; margin-top: 8px;">Enter Start
+						Pincode : </label>
+					<div class="col-sm-6">
+						<input type="text" id="strtpin" class="form-control"
+							style="width: 220px; border-color: royalblue;"
+							placeholder="Enter Start pincode" maxlength="6">
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group row "
+					style="position: relative; text-align: center; justify-content: center; font-size: larger">
+					<label class="control-label "
+						style="color: #808080; margin-top: 8px;">Enter End Pincode
+						: </label>
+					<div class="col-sm-6">
+						<input type="text" id="endpin" class="form-control"
+							style="width: 220px; border-color: royalblue;"
+							placeholder="Enter End pincode" maxlength="6">
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3 row"
+				style="justify-content: end; position: relative; font-size: larger">
+				<label class="control-label"
+					style="color: #808080; margin-top: 8px;">Mapped State:</label>
+				<div class="dropdown col-sm-8">
+					<input type="text" id="Stmapped" class="form-control"
+						style="width: 220px; border-color: royalblue;"
+						placeholder="Mapped State" maxlength="6">
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+
+			<div class="col-sm-3 row"
+				style="justify-content: center; position: relative; text-align: end; font-size: larger">
+				<label class="control-label"
+					style="color: #808080; margin-top: 8px;">Mapped Cussite:</label>
+				<div class="dropdown col-sm-6">
+					<input type="text" id="Csmapped" class="form-control"
+						style="width: 220px; border-color: royalblue;"
+						placeholder="Mapped CusSite" maxlength="6">
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12 row"
+			style="justify-content: center; margin-top: 1%; padding-right: 5%; font-size: larger">
+			<div class="col-sm-3 row"
+				style="justify-content: end; position: relative;">
+				<label class="control-label"
+					style="color: #808080; margin-top: 8px;">Select State :</label>
+				<div class="dropdown col-sm-8">
+					<select class="form-control rangestate"
+						style="border-color: royalblue;">
+						<option>--Select State--</option>
+					</select>
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+
+			<div class="col-sm-4 row"
+				style="justify-content: center; position: relative;">
+				<label class="control-label"
+					style="color: #808080; margin-top: 8px;"><span>To
+						re-assign pincode with alternate:</span><br> <span>(Custom's
+						FPO Site)</span></label>
+				<div class="dropdown col-sm-5">
+					<select class="form-control rangecS" 
+						style="border-color: royalblue;width:auto;">
+						<option value="0">--Select CusSite--</option>
+					</select>
+					<div class="invalid-feedback"></div>
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="col-md-12" Style="display: flex; justify-content: center;">
+			<button type="button" id="insertrangepin" class="btn btn-success">Submit</button>
+		</div>
+	</div>
+
+	<br>
+	<br>
+	<br>
+	<div class="modal fade" id="priorityreas" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Please
+						provide reason?</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+						<textarea id="recordMsg" style="height: auto;" rows="3"
+							onkeyup="EnableDisable(this)" class="form-control priorityresp"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="clsereas"
+						data-dismiss="modal" style="margin-right: 328px">Close</button>
+					<button id="submitresn" type="button" data-dismiss="modal"
+						class="btn btn-primary">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="cnfrmreall" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body" style="text-align: center">
+					<h4 style="font-family: 'FontAwesome';">Do you want to
+						proceed?</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="notsure" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="cnfmpopup"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="qryreplymodal" class="modal fade" tabindex="-1"
+		style="overflow-y: auto;" data-backdrop="static" data-keyboard="false"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document" style="max-width: 60%;">
+			<div class="modal-content">
+				<div class="modal-header"
+					style="padding-top: 5px; padding-bottom: 5px; background: #f4f9ff;">
+					<h5 class="modal-title" style="font-weight: bold;">LIST OF PINCODE</h5>
+					
+					<h5 class="modal-title pinstNme" style="font-weight: bold;margin-left :55%;"></h5> 
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">x</span>
+					</button>
+				</div>
+				<div class="modal-body" id="qryreplycontent"></div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+  
+</body>
+<script src="js/pincodemapping.js"></script>
+<script>
+ function goback() {
+     window.location = "viewdirectory";
+     
+     }   
+</script>
+</html>
+

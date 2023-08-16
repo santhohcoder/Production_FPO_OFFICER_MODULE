@@ -1,0 +1,985 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+        
+        
+.ead_decisionsf {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkgreen;
+	font-size: 11px;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: black;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+/* .active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+} */
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+#summaryContent .container{
+	padding: 0 !important;
+	border:none !important;
+}
+
+body {
+	width :100%;
+}
+
+.pointer-class{
+    	cursor:pointer;
+    }
+
+.completed span::before {
+	content: '\2713'
+}
+
+.btn-secondary,.btn-secondary:hover {
+    color: #fff;
+    background-color: #006400;
+    border-color: #f8fff8;
+}
+
+.active span {
+    background-color: #b93655;
+    color: #fff;
+    border: 2px solid white;
+}
+
+.active p {
+	font-weight: 700;
+}
+
+.pointer-class{
+    	cursor:pointer;
+    }
+    
+    .table-dark span {
+    background-color: initial;
+    color: blue;
+    border: indianred;
+}
+
+.detain-remarks-btn {
+    margin-top: 10px;
+    background: red;
+    margin-left: 10px;
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+.detain-remarks-btn:not(:disabled):not(.disabled).active:focus,
+.detain-remarks-btn:not(:disabled):not(.disabled):active:focus,
+.show>.detain-remarks-btn.dropdown-toggle:focus,
+.detain-remarks-btn:hover {
+    color: white;
+    background: red;
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+.scroll_down {
+	width:auto;
+	height: 85px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+</style>
+
+<body style="background: #d6dcd9">
+<input type="hidden" th:value="${assvalacl}" id="maxval">
+<input type="hidden" th:value="${check.TOT_ASS_VAL}" id="totassval">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<input type="hidden" id="itemId" th:value="${check.ITEM_ID}">
+<input type="hidden" id="cinno" th:value="${check.id}">
+    <div
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;max-width: 100%;
+    margin: 10px;
+    padding: 15px 20px;">
+    <div class="col-md-1" style="padding-left: 10px;">
+			<button type="button" class="btn btn-info" onclick="goBack();" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div>
+		<div class="row mt-4">
+			<div class="col-md-3">
+			<button th:if="${lastDetained}" th:attr="articleId=${check.ITEM_ID},detainedNo=${lastDetainedNo}" onclick="viewDetainedRemarks(this)" class="btn btn-info detain-remarks-btn">View Adjudication Proceeding / Detention Info</button>
+			</div>
+			<div class="col-md-6" align="center">
+				<h2>Postal Imports -  Articles Arrived at FPO (AAF)</h2>
+			</div>
+			<div class="col-md-3" style="text-align:end;">
+			    <button th:attr="articleId=${check.ITEM_ID}" onclick="viewScanReport(this)" style="margin-right:10px;white-space: break-spaces;" th:classappend="${scanReportExist} ? 'detain-remarks-btn' : ''" class="btn btn-info">View Import RID / Bag Arrival Confirmation & Scan Report</button>
+			</div>
+		</div>
+           <div id="disphead">
+            </div>
+
+		<!-- div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text" id="itemId"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${check.ORIGPOST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${check.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${check.id}" id="inputPassword">
+			</div>
+		</div-->	
+
+		<nav class="navbar navbar-expand-lg " style="margin-left: -19px">
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item px-1"><a
+						class="nav-link btn btn-secondary btn-sm" href="#"> <strong>CN
+								22/CN 23 Summary</strong>
+					</a></li>
+					<li class="nav-item px-1"><a
+						class="nav-link btn btn-secondary btn-sm check" th:id="${check.id}"
+						onclick="fviewDetail(this);" href="#"><strong>Process
+								Item wise </strong></a></li>
+								
+					<li class="nav-item px-5">
+							<div class="scroll_down" id="aclcmtsback" style="display: none">
+								<label
+									style="width:150px; color: blue; font-size: 14px; font-weight: 700; margin-bottom: 0;">AC's
+									Remarks</label>
+								<div class="ead_decisions mt-1" 
+									th:each="aclcmts,iter : ${acCmts}">
+									<p th:text="${aclcmts.cmts}" th:id="acldata"></P>
+								</div>
+							</div>
+
+							<div class="scroll_down" id="aprcmtsback" style="display: none">
+								<label
+									style="width:150px;color: blue; font-size: 14px; font-weight: 700; margin-bottom: 0;">PAO's
+									Remarks</label>
+								<div class="ead_decisions mt-1"
+									th:each="aprCmts,iter : ${aprCmts}">
+									<p th:text="${aprCmts.cmts}" th:id="aprdata"></P>
+								</div>
+							</div>
+						</li>
+					
+				</ul>
+				
+				<div class="row" style="width:31%;">
+					<div class="col-md-6" style="color: white;">
+						<div class="ead_decisionsf">							
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD Query : </strong><span th:text="${qry}">&nbsp;&nbsp;  </span>
+							</p>
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD Exam Order : </strong> <span th:text="${exmord}">&nbsp;&nbsp;  </span>
+							</p>
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD DECISIONS : </strong> <span th:text="${eaddeci}">&nbsp;&nbsp;  </span>
+							</p>
+						</div>
+					</div>
+				<div  class="col-md-6" th:if="${oocinfo}" style="color: white;background-color:darkgreen;align:center;">
+				<ul class="navbar-nav">
+				<a th:id="ooccancel"  onclick="getPopup();" href="#" >
+				<li class="nav-item px-1" style="margin-bottom: 0rem;align:center;color: white;background-color:darkgreen;"><strong>View OOC Cancellation Info</strong> </li>
+  	            <li  class="nav-item px-1" style="margin-bottom: 0rem;font-size:small;align:center" >
+  	            <table id="oocdttab" border=0 style="align:center">
+  	            </tr>
+							</thead-->
+							<thead>
+							<th  style="vertical-align: middle;align:left;Color:white;font-weight:bold;">OOC Given on</th></thead>
+							<tbody>
+							<tr valign="middle"  th:each="s1,iter : ${oocdt}" >
+							<td  style="vertical-align: middle;text-align:left;Color:white;font-weight:bold;" th:text="${iter.index+1}+') ' +${s1}"></td>
+  	           </tr>
+						</tbody>
+						</table>
+  	            </li></a></ul>
+				</div>
+				</div>
+				
+			<!-- 	<div class="row">
+					<div class="col-md-12" style="color: white; margin-left: 47%;">
+						<div class="ead_decisionsf">							
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD Query : </strong><span th:text="${qry}">&nbsp;&nbsp;  </span>
+							</p>
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD Exam Order : </strong> <span th:text="${exmord}">&nbsp;&nbsp;  </span>
+							</p>
+							<p style="margin-bottom: 0rem;">
+							 <strong>&nbsp;&nbsp; 	EAD DECISIONS : </strong> <span th:text="${eaddeci}">&nbsp;&nbsp;  </span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<div class="row"  th:if="${oocinfo}">
+				<div class="col-md-12" style="color: white;background-color:darkgreen;align:center;margin-left: 100%;">
+				<ul class="navbar-nav">
+				<a th:id="ooccancel"  onclick="getPopup();" href="#" >
+				<li class="nav-item px-1" style="margin-bottom: 0rem;align:center;color: white;background-color:darkgreen;"><strong>View OOC Cancellation Info</strong> </li>
+  	            <li  class="nav-item px-1" style="margin-bottom: 0rem;font-size:small;align:center" >
+  	            <table id="oocdttab" border=0 style="align:center">
+							thead style="background-color: #a1c4e6;">
+								<tr style="background-color: #a1c4e6;">
+								<th scope="col" width="1%">Sl No.</th>
+								<th scope="col" width="1%">OOC Date Given on</th>
+  	            </tr>
+							</thead
+							<thead>
+							<th  style="vertical-align: middle;align:left;Color:white;font-weight:bold;">OOC Given on</th></thead>
+							<tbody>
+							<tr valign="middle"  th:each="s1,iter : ${oocdt}" >
+							<td  style="vertical-align: middle;text-align:left;Color:white;font-weight:bold;" th:text="${iter.index+1}+') ' +${s1}"></td>
+  	           </tr>
+						</tbody>
+						</table>
+  	            </li></a></ul>
+				</div>
+				</div> -->
+			</div>
+
+
+
+	<!--div align="right">
+					<ul class="navbar-nav">
+					    <li class="nav-item px-1" style="color: white;"><a
+							class="nav-link btn btn-secondary btn-sm" data-toggle="modal"
+							data-target="#setasideModal">Set aside</a></li>
+						
+						<!-- <li class="nav-item px-1"><a
+							class="nav-link btn btn-secondary btn-sm" href="import_list">Back </a></li> -->
+					</ul>
+				</div-->
+		</nav>
+		<div class="breadcrumb-pagination mt-1" id="breadcrumb">
+			<div class="active">
+				<span>1</span>
+				<p>Summary</p>
+			</div>
+			
+			<div class="todo pointer-class" th:attr="onclick=|redirect('final_declared')|">
+				<span>2</span>
+				<p>Assessment</p>
+			</div>
+			
+			<div class="todo" th:attr="onclick=${qryraised} ? |redirect('import_query')| : ''" th:classappend ="${qryraised} ? pointer-class : ''">
+				<span>3</span>
+				<p>D-Call Letter</p>
+			</div>
+			
+			
+			
+			<div class="todo" th:attr="onclick=${examraised} ? |redirect('imp_order')| : ''" th:classappend ="${examraised} ? pointer-class : ''">
+				<span>4</span>
+				<p>Examination</p>
+			</div>
+		</div>
+		
+		<div class="breadcrumb-pagination mt-1" id="breadcrumb1">
+			<div class="active">
+				<span>1</span>
+				<p>Summary</p>
+			</div>
+			
+			<div class="todo" th:attr="onclick=${qryraised} ? |redirect('import_query')| : ''" th:classappend ="${qryraised} ? pointer-class : ''">
+				<span>2</span>
+				<p>D-Call Letter</p>
+			</div>
+			
+			<div class="todo pointer-class" th:attr="onclick=|redirect('final_declared')|">
+				<span>3</span>
+				<p>Assessment</p>
+			</div>
+			
+			<div class="todo" th:attr="onclick=${examraised} ? |redirect('imp_order')| : ''" th:classappend ="${examraised} ? pointer-class : ''">
+				<span>4</span>
+				<p>Examination</p>
+			</div>
+		</div>
+		
+
+		
+		<div id="summaryContent"></div>
+		<!--  div class="row">
+			<div class="col-md-6 ">
+				<div class="bg_rec">
+					<h4 class="mt-1">
+						<strong>Recipient Information : </strong>
+					</h4>
+					<div class="row mt-2">
+						<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+						<div class="col-sm-10">
+							<p style="font-weight: 700" th:text="${check.RECP_NAME}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+						<div class="col-sm-10">
+							<p style="font-weight: 700" th:text="${check.RECP_ADD1}"></p>
+							<p style="font-weight: 700" th:text="${check.RECP_ADD2}"></p>
+						</div>
+					</div>
+					<div class="row ">
+						<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+						<div class="col-sm-6">
+							<p style="font-weight: 700" th:text="${check.RECP_CITY}"></p>
+						</div>
+						<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+						<div class="col-sm-1">
+							<p style="font-weight: 700" th:text="${check.RECP_CNTRY_CD}"></p>
+						</div>
+					</div>
+
+					<div class="row ">
+						<p class="col-sm-2 col-form-label">STATE</p>
+						<div class="col-sm-6">
+							<p style="font-weight: 700" th:text="${check.RECP_STATE}"></p>
+						</div>
+
+						<p class="col-sm-1 col-form-label">PIN</p>
+						<div class="col-sm-3">
+							<p style="font-weight: 700" th:text="${check.RECP_ZIP}">
+						</div>
+					</div>
+					<div class="row">
+						<p class="col-sm-2 col-form-label">EMAIL</p>
+						<div class="col-sm-10">
+							<p style="font-weight: 700" th:text="${check.RECP_EMAILID}">
+						</div>
+					</div>
+
+					<div class="form-group row ">
+						<p class="col-sm-2 col-form-label">PHONE</p>
+						<div class="col-sm-3">
+							<p style="font-weight: 700" th:text="${check.RECP_PHONE}">
+						</div>
+						<p class="col-sm-1 col-form-label">FAX</p>
+						<div class="col-sm-2">
+							<p style="font-weight: 700" th:text="${check.RECP_FAX}">
+						</div>
+						<p class="col-sm-1 col-form-label">RECP_ID</p>
+						<div class="col-sm-3">
+							<p style="font-weight: 700" th:text="${check.RECP_IDREF}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-6 ">
+				<div class="bg_rec">
+					<h4 class="mt-1">
+						<strong>Sender Information : </strong>
+					</h4>
+					<div class="row mt-2">
+						<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+						<div class="col-sm-10">
+							<p style="font-weight: 700" th:text="${check.SEND_NAME}"></p>
+						</div>
+					</div>
+					<div class="row">
+						<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+						<div class="col-sm-10">
+							<p style="font-weight: 700" th:text="${check.SEND_ADD1}"></p>
+							<p style="font-weight: 700" th:text="${check.SEND_ADD2}"></p>
+						</div>
+					</div>
+
+
+
+					<div class="row ">
+						<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+						<div class="col-sm-6">
+							<p style="font-weight: 700" th:text="${check.SEND_CITY}"></p>
+						</div>
+						<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+						<div class="col-sm-1">
+							<p style="font-weight: 700" th:text="${check.SEND_CNTRY_CD}"></p>
+						</div>
+					</div>
+
+					<div class="row ">
+						<p class="col-sm-2 col-form-label">STATE</p>
+						<div class="col-sm-6">
+							<p style="font-weight: 700" th:text="${check.SEND_STATE}"></p>
+						</div>
+
+						<p class="col-sm-1 col-form-label">PIN</p>
+						<div class="col-sm-3">
+							<p style="font-weight: 700" th:text="${check.SEND_ZIP}">
+						</div>
+					</div>
+
+					<div class="row">
+						<p class="col-sm-2 col-form-label">EMAIL</p>
+						<div class="col-sm-10">
+							<p style="font-weight: 700" th:text="${check.SEND_EMAILID}">
+						</div>
+
+					</div>
+
+					<div class="form-group row ">
+						<p class="col-sm-2 col-form-label">PHONE</p>
+						<div class="col-sm-3">
+							<p style="font-weight: 700" th:text="987465465">
+						</div>
+
+
+						<p class="col-sm-1 col-form-label">FAX</p>
+						<div class="col-sm-2">
+							<p style="font-weight: 700" th:text="${check.RECP_FAX}">
+						</div>
+
+						<p class="col-sm-1 col-form-label">RECP_ID</p>
+						<div class="col-sm-3">
+							<p style="font-weight: 700" th:text="${check.SEND_IDREF}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="col-md-12 bg_rec">
+			<div class="row">
+				<p class="col-sm-1 col-form-label">Mail ID</p>
+				<div class="col-sm-5">
+					<p style="font-weight: 700" th:text="${check.MAIL_PID}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">DECL ID</p>
+				<div class="col-sm-5">
+					<p style="font-weight: 700" th:text="${check.DECLARATION_PID}"></p>
+				</div>
+
+			</div>
+			<div class="row">
+				<p class="col-sm-1 col-form-label">CUST ORG</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700;" th:text="${check.CUST_ORG_CD}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">HANDLING</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.HANDLING_CLASS_CD}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">DESTPOST</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.DESTPOST_ORG_CD}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">CUS_SITE</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.CUS_SITE}"></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<p class="col-sm-1 col-form-label">JOB_NO</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700;" th:text="${check.JOB_NO}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">JOB_DT</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.JOB_DT}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">TRANS_DATE</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.TRANS_DATE}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">TRANS_MODE</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.TRANS_MODE}"></p>
+				</div>
+			</div>
+			<div class="row">
+				<p class="col-sm-1 col-form-label">GROSS_WT</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.GROSS_WT}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">MEASWT</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.MEASURED_GROSS_WT}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">MODIFIED</p>
+				<div class="col-sm-1">
+					<p style="font-weight: 700" th:text="${check.MODIFIED}"></p>
+				</div>
+
+
+				<!-- <p class="col-sm-1 col-form-label">UNIQUE_ID</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.UNIQUE_ID}"></p>
+				</div> >
+			</div>
+
+			<div class="form-group row  mt-2">
+				<p class="col-sm-1 col-form-label">POST_AMT</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.POSTAGE_AMT}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">Curr_CD</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.POSTAGE_CURR_CD}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">INS VAL</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.INS_VAL}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">INS_CURRCD</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.INS_VAL_CURRCD}"></p>
+				</div>
+			</div>
+
+			<div class="form-group row  mt-2">
+				<p class="col-sm-1 col-form-label">TOT_DECL_VAL</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.TOT_DECL_VAL}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">TOT_ASS_VAL</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.TOT_ASS_VAL}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">TOT_DUTY</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.TOT_DUTY}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">INS_VAL</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.INS_VAL}"></p>
+				</div>
+			</div>
+
+
+
+			<div class="form-group row  mt-2">
+				<p class="col-sm-1 col-form-label">MAIL_CATEGORY</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.MAIL_CATEGORY_CD}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">MAIL_CLASS</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.MAIL_CLASS_CD}"></p>
+				</div>
+
+				<p class="col-sm-1 col-form-label">MAIL_STATE</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.MAIL_STATE_CD}"></p>
+				</div>
+				<p class="col-sm-1 col-form-label">STATE_REMARKS</p>
+				<div class="col-sm-2">
+					<p style="font-weight: 700" th:text="${check.MAIL_STATE_REMARKS}"></p>
+				</div>
+			</div>
+
+			<div class="row ">
+				<p class=" col-sm-1 col-form-label">DOCUMENTS</p>
+				<p style="font-weight: 700" th:text="${check.DOCUMENTS}" rows="3"></p>
+			</div>
+		</div-->
+		 <div class="modal fade" id="setasideModal" tabindex="-1" role="dialog"
+			aria-labelledby="setasideModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document"> <!-- Chnge this line  --> 
+				<div class="modal-content" style="margin-left: 1%; margin-right: 1%;" >
+					<div class="modal-body" align="center">
+						<h4>Reasons to be entered for keeping this as SET ASIDE</h4>
+					</div>
+					<div style="margin-left: 1%; margin-right: 1%;" ><textarea class="form-control" name="setasidetxt"
+							th:id="setasidetxt" onkeyup="successFirst1(id)"
+							placeholder="Reasons for set aside" rows="3"></textarea></div>
+					<div class="modal-footer">
+					   <div class="col-6" style="justify-content: flex-start;display: flex;"> <!-- Chnge this line  -->  
+						   <button type="button" class="btn btn-danger"	   
+							   data-dismiss="modal"><font bgcolor="red" color="white">No</font></button>
+					 </div>	  <!-- Chnge this line  --> 	   
+					 <div class="col-6" style="display: flex;justify-content: flex-end;">   <!-- Chnge this line  --> 
+						   <button class="btn btn-success" th:id="${check.id}" name="setasideyes" 
+ 							   onclick="fsavesetaside(this);"><font bgcolor="green" color="white">Yes</font></button>
+ 					  </div>  <!-- Chnge this line  --> 		   
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div th:replace="detention/detention-modal.html :: div"></div>
+
+<div class="modal fade" id="scanReportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scanReportTitle" style="font-weight: bold;text-transform: uppercase;">Scan Report</h5>
+                <button type="button" class="close" onclick="closeScanReportModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="scanReportBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+		<br>
+		<div class="mt-2" style="float: right;display:none;">
+			<a class="nav-link btn btn-secondary btn-sm" href="import_list">Back </a>
+		</div>
+
+
+		<br> <br>
+
+	</div>
+	  <div class="modal fade" id="oocCancelRemarkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #d9ecff;">
+                    <h5 class="modal-title" id="oocCancelRemarkTitle" style="font-weight: bold;text-transform: uppercase;"></h5>
+                    <button type="button" class="close" onclick="closeOocCancelModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="oocCancelRemarkBody" style="background: #d9ecff;">
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal fade" id="deptmCommentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deptmCommentsTitle" style="font-weight: bold;text-transform: uppercase;"></h5>
+                    <button type="button" class="close" onclick="closeDeptCommentsModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="deptCommentsBody">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="aprWarningMsg" class="modal fade">
+		<div class="modal-dialog modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>
+						Please see AC remarks.
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+</body>
+
+<script type="text/javascript">
+$.ajax({
+                url: 'getSummary?id=' + $("#itemId").val(),
+                type: "post",
+                success: function(data) {
+                    $("#summaryContent").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+            
+          	function redirect(page){
+            	window.location.href=""+page+"?id="+$("#inputPassword").val();
+            }
+$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                    queryRaised = $("#disphead").find("[name='queryraised']").val();
+                     console.log(queryRaised)
+                     
+                         if (queryRaised == 'true') {
+						        $("#breadcrumb1").show(); 
+						        $("#breadcrumb").hide();  
+						    } else {
+						        $("#breadcrumb1").hide();  
+						        $("#breadcrumb").show();  
+						    }
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+	
+	function viewScanReport(obj) {
+		$.ajax({
+			url: 'articlereportscan?articleId=' + $(obj).attr('articleId'),
+			type: "post",
+			success: function(data) {
+				$("#scanReportBody").html(data);
+				$("#scanReportModal").modal('show');
+			},
+			error: function(rs, e) {
+				swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+			}
+		});
+	}
+	
+	function closeScanReportModal() {
+		$("#scanReportBody").html('');
+		$("#scanReportModal").modal('toggle');	
+	}
+	
+	function goBack(){
+	
+	window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+	}
+	
+	 function viewSummary(obj) {
+	        $.ajax({
+	            url: 'getSummary?id=' + $("#itemId").val(),
+	            type: "post",
+	            success: function(data) {
+	                $("#deptmCommentsBody").html(data);
+                    $("#deptmCommentsTitle").text('Article Summary');
+                    $("#oocCancelRemarkModal").modal('hide');
+                     $("#oocCancelRemarkModal").hide();
+	                $("#deptmCommentsModal").modal('show');
+	                $("#detentionRemarkModal").modal('hide');
+	            },
+	            error: function(rs, e) {
+	                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	            }
+	        });	
+        }
+	
+	
+	
+	function getPopup() {
+	        var articleid = $("#itemId").val();
+            $.ajax({
+                url: "ooccancellationremarks?itemId=" + articleid + "&view=TRUE&cmtflows=FALSE",
+                type: "get",
+                success: function(data) {
+                  //  document.getElementById("detained-view-summary").disabled=true;
+                    $("#oocCancelRemarkBody").html(data);
+                    $("#oocCancelRemarkTitle").text('OOC Cancelled Details');
+                    $('#detained-view-summary').hide();
+                    $('.dept-cmts').hide();
+                    $("#oocCancelRemarkModal").modal('show');
+                    $("#detentionRemarkModal").modal('hide');
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+        }
+        
+    function closeOocCancelModal() {
+            $("#oocCancelRemarkBody").html('');
+            $("#oocCancelRemarkModal").modal('toggle');
+        }
+        
+        
+     function closeDeptCommentsModal() {
+        	$("#deptCommentsBody").html('');
+	        $("#deptCommentsModal").modal('hide');
+        	$("#oocCancelRemarkModal").modal('show');
+        }
+    function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+<script src="js/ead_main.js"></script>
+<script src="js/detention.js"></script>
+</html>

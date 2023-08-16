@@ -1,0 +1,155 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div id="tablediv" class="col-md-12">
+			<div align="center">
+				<span id="titletab" class="form_txt ">Report on detained parcels</span>
+			</div>
+			
+				<!-- <a id="PDFExport" onclick="detinedpdfdownload(this)" title="PDF">
+				<button class="btn btn-primary" style="font-size:15px">PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a> -->
+				
+				<a id="ExcelExport" title="Excel">
+				<button class="btn btn-primary" style="font-size:15px">Excel <i class="fas fa-file-excel"></i></button>
+				</a>
+				
+				
+				<!-- <a id="Print" title="Print">
+				<button class="btn btn-primary" style="font-size:15px">Print <i class="fa fa-print"></i></button>
+				</a> -->
+				
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div>
+
+			<table id="processtable" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					
+					<tr>
+						<th scope="col" style="text-align: center;">Opening Balance (in counts)</th>
+						<th scope="col" style="text-align: center;">Receipt for the month (as imported parcels)</th>
+						<th scope="col" style="text-align: center;">Receipt up to the month</th>
+						<th scope="col" style="text-align: center;">Detained parcels (for the month)</th>
+						<th scope="col" style="text-align: center;">Detained parcels (up to the month)</th>
+						<th scope="col" style="text-align: center;">Disposal for the month</th>
+						<th scope="col" style="text-align: center;">Disposal up to the month</th>
+						<th scope="col" style="text-align: center;">Closing Balance (in counts)</th>
+						<th scope="col" style="text-align: center;">Customs Duty collected for the month (in Rs)</th>
+						<th scope="col" style="text-align: center;">Customs duty collected up to the month (in Rs)</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values: ${DetainedParcelClearencecolumns}" class="" >
+					   <td th:text="${values.opening_balance}"></td>
+					   <td th:text="${values.month_receipt}"></td>
+					   <td th:text="${values.uptomonth_receipt}"></td>
+					   <td th:text="${values.detained_for_month}"></td>
+					   <td th:text="${values.detained_upto_month}"></td>
+					   <td th:text="${values.disposal_for_month}"></td>
+					   <td th:text="${values.disposal_upto_month}"></td>
+					   <td th:text="${values.closing_balance}"></td>
+					   <td th:text="${values.customs_duty_month}"></td>
+					   <td th:text="${values.customs_duty_upto_month}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<script  th:inline="javascript" >
+		$(document).ready(function() {
+	$("#processtable").dataTable({
+        "processing": false,
+        "paging": true,
+        "dom": 'Bfrtip',
+        buttons: [
+            'excel', 'pdf', 'print'
+        ]
+    });
+	
+	
+	
+
+});
+
+
+$("#ExcelExport").on('click',function(){
+  	    	  $(".buttons-excel").trigger('click'); 
+			  //$(".buttons-print").trigger('click'); 
+  	    	this.blur();
+  	      });
+
+$("#Print").on('click',function(){
+			$(".buttons-print").trigger('click'); 
+  	    	this.blur();
+  	      });
+  	      
+function detinedpdfdownload(obj) {
+
+    var oMyForm = new FormData();
+
+    oMyForm.append("monthnum", $('#selectmonth').val());
+    oMyForm.append("year", $('#selectyear').val());
+
+
+    jQuery.ajax({
+        url: "detainedparceldownload",
+        global: false,
+        data: oMyForm,
+        dataType: 'text',
+        processData: false,
+        contentType: false,
+        type: 'POST',
+
+        success: function(response) {
+            console.log('inside success');
+
+            $("#staticreportdownloadanchortag").attr("href", "downloadPdfFile?filename=" + response);
+
+            document.getElementById("staticreportdownloadanchortag").click();
+
+        }
+    });
+
+} 
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+} 	      
+</script>
+

@@ -1,0 +1,1219 @@
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+<style>
+    .form_txt {
+        font-weight: 700
+    }
+
+    .col-form-label {
+        padding-top: 2px;
+    }
+
+    .lab_txt {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .form-group {
+        margin-bottom: 0rem;
+    }
+
+    .scroll_down {
+        height: 425px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .numradius {
+        border: 2px solid black;
+        background-color: white;
+        color: black;
+    }
+
+    hr {
+        border-top: 1px solid rgb(0, 0, 139);
+    }
+
+    .breadcrumb-pagination {
+        width: 100%;
+        border-bottom: 1px solid #E1E6EB;
+        text-align: center;
+        color: #B3B7C1;
+    }
+
+    .breadcrumb-pagination div {
+        width: 15%;
+        display: inline-block;
+    }
+
+    .breadcrumb-pagination div span {
+        margin: 0 auto;
+        display: block;
+        border-radius: 100%;
+        width: 36px;
+        font-size: 20px;
+    }
+
+    .completed span {
+        background-color: NONE;
+        color: #95db89;
+        border: 2px solid #95db89;
+    }
+
+    .active span {
+        background-color: #00abc9;
+        color: #fff;
+    }
+
+    .todo span {
+        background-color: none;
+        color: #E1E6EB;
+        border: 2px solid #E1E6EB;
+    }
+
+    .breadcrumb-pagination div p {
+        text-align: center;
+        line-height: 0;
+        margin: 10px auto 0px;
+    }
+
+    .active p {
+        border-bottom: 2px solid #00abc9;
+        padding-bottom: 20px;
+        margin-bottom: 0px !important;
+        color: #3c4043;
+        font-weight: 700;
+    }
+
+    .completed p {
+        color: "#bsb7c1";
+    }
+
+    .completed span::before {
+        content: '\2713'
+    }
+
+    #queryContent .containerStyle {
+        border: none !important;
+        margin: 0 !important;
+    }
+
+    .modal-label {
+        padding-top: calc(.375rem + 1px) !important;
+        font-size: 14px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    #additionalQueryForm input[disabled],
+    #additionalQueryForm textarea[disabled] {
+        color: #000000;
+        background-color: #f1f1f1 !important;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #dcallLetterModal,
+        #dcallLetterModal * {
+            visibility: visible;
+        }
+
+        #dcallLetterModal {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+    
+    .pointer-class{
+    	cursor:pointer;
+    }
+    
+    .btn-dred {
+    	background: darkred;
+    	border-color: darkred;
+    }
+         #overlay{
+         position: absolute;
+         left: 0%;
+         top: 0%;
+         z-index: 9999;
+         width: 100%;
+         background: rgba(255, 255, 255, .7);
+         }
+         #loader {
+         position: fixed;
+         display: block;
+         left: 50%;
+         top: 48%;
+         z-index: 9999;
+         width: 100%;
+         height: 100%;
+         background-image: url(images/report/loader.gif);
+         background-repeat: no-repeat;
+         margin: -77px 0 0 -75px;
+         }
+         
+         .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+         
+</style>
+
+<body style="background: #d6dcd9">
+<input type="hidden" id="cinno" th:value="${head.id}">
+<input type="hidden" id="itemId" th:value="${head.ITEM_ID}">
+
+<input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totassval">
+	<input type="hidden" th:value="${head.ROLE}" id="role">
+    <input type="hidden" th:value="${assvalacl}" id="maxval">
+    
+       <div id="overlay" style="display: none;">
+         <div id="loader">
+         <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+         </div>
+      </div>
+    <div class="modal fade" id="alertpopupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 50%;">
+            <div class="modal-content">
+                <div class="modal-body" style="background: #f1f8ff;">
+                    <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex; color: rgb(255, 0, 0); border-color: rgb(255, 0, 0);"><div class="swal2-icon-content">!</div></div>
+                    <div align="center"><h1>National Alert</h1></div>
+                    <!-- <div>
+                    <textarea disabled class="swal2-html-container alertpopup" id="swal2-html-container" th:value="${alert}" th:text="${alert}"></textarea>
+                    </div> -->
+                    <ul th:each="values: ${alerts}">
+                    <li th:text="${values}" id="alert"  th:value="${values}"></li>
+                    </ul>
+                </div>
+                <div class="modal-footer" align="center" style="background: #f1f8ff;border-top: none;display: inline;" id="">
+                    <button type="button" class="btn btn-danger" onclick="alertview('All India')" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <div class="modal fade" id="localalertpopupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 50%;">
+            <div class="modal-content">
+                <div class="modal-body" style="background: #f1f8ff;">
+                    <div class="swal2-icon swal2-warning swal2-icon-show" style="display: flex; color: rgb(255, 0, 0); border-color: rgb(255, 0, 0);"><div class="swal2-icon-content">!</div></div>
+                    <div align="center"><h1>Site Alert</h1></div>
+                    <!-- <div>
+                    <textarea disabled class="swal2-html-container alertpopup" id="swal2-html-container" th:value="${alert}" th:text="${alert}"></textarea>
+                    </div> -->
+                    <ul th:each="values: ${sitealert}">
+                    <li th:text="${values}" id="localalert"  th:value="${values}"></li>
+                    </ul>
+                </div>
+                <div class="modal-footer" align="center" style="background: #f1f8ff;border-top: none;display: inline;" id="">
+                    <button type="button" class="btn btn-danger" onclick="alertview('Site')" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+        <div class="col-md-3" style="padding-left: 5px;">
+				<a th:href="@{pen_main?back=true&id={id}(id = ${head.id})}"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button></a>
+			</div><div class="mt-4" align="center">
+            <h2>Postal Imports - Articles Awaiting Arrival</h2>
+            <h3>AAA Query</h3>
+        </div>
+	
+			<div id="disphead">
+            </div>
+
+<!--         <div class="form-group row mt-4">
+            <div class="px-1" style="width: 14%" align="center">
+                <label class="lab_txt">TRACKING_NO</label> <input type="text" id="itemId" class="form-control form_txt" readonly="readonly" th:value="${head.ITEM_ID}">
+            </div>
+            <div class="px-1" style="width: 11%" align="center">
+                <label class="lab_txt">DATE </label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.postDate}">
+            </div>
+            <div class="px-1" style="width: 9%" align="center">
+                <label class="lab_txt">TIME </label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.POSTINGTIME}">
+            </div>
+            <div class="px-1" style="width: 9%" align="center">
+                <label class="lab_txt">ORGIN_POST </label> <input type="text" style="text-align: center;" class="form-control form_txt" readonly="readonly" th:value="${head.POST_ORG_CD}">
+            </div>
+            <div class="px-1" style="width: 11%" align="center">
+                <label class="lab_txt">FPO ALLOCATED</label> <input type="text" style="text-align: center;" class="form-control form_txt" readonly="readonly" th:value="${head.FPO_CODE}">
+            </div>
+            <div class="px-1" style="width: 26%" align="center">
+                <label class="lab_txt">NATURE TRANSACTION</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.NATURE_TYPE_CD}">
+            </div>
+            <div class="px-1" style="width: 20%" align="center">
+                <label class="lab_txt">CIN_NO</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.id}" id="inputPassword">
+            </div>
+        </div> -->
+
+        <!--    muchos disgustimos   -->
+        <div class="breadcrumb-pagination mt-3">
+            <a style="color: #b3b7c1;" th:attr="href=|pen_main?id=${head.id}|"><div class="completed">
+                <span></span>
+                <p>Summary</p>
+            </div></a>
+            <div class="active">
+                <span>2</span>
+                <p>Query Reply & D-Call Letter</p>
+            </div>
+            <div class="todo" th:classappend ="${curque== 'N1' || curque== 'N3'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','pen_declared')|">
+                <span>3</span>
+                <p>Assessment</p>
+            </div>
+            <div class="todo" th:classappend ="${curque== 'N3'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','pen_order')|">
+                <span>4</span>
+                <p>Exam Order</p>
+            </div>
+        </div>
+   <div id="queryContent">
+		<div style="text-align: center;margin: 25px;">
+        <button type="button"  id="lock" class="btn btn-success" onclick="viewrlyEadDCallLetter()"
+         style="margin-right: 25px;margin-left: 50px;">View EAD D-Call Letter</button>
+        <button type="button"  id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()"
+style="margin-right: 25px;">View EAD Query Reply</button>
+        <button type="button"  th:if="${session.data1=='PAO'}" th:unless="${AAAAdditionQueryFileExist}" 
+        id="additionalQry" onclick="addQuery()" class="btn btn-success btn-dred" style="">Additional Query</button>
+        <button type="button"  th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" 
+        onclick="viewAAACallLetter()" style="margin-right: 25px;margin-left: 50px;">View AAA D-Call Letter</button>
+        <button type="button"  th:if="${session.data1=='PAC' && !notShowIfNotReply}" 
+        id="additionalQryaprvl" th:id="${head.id}" onclick="additionalapproval()" class="btn btn-success btn-dred" style="">Approve / Modify Additional Query</button>
+        <button type="button"  th:if="${AAAAdditionQueryFileExist && notShowIfNotReply}" class="btn btn-success" 
+        onclick="viewAdditionQueryReply()" style="margin-right: 25px;">View Additional Query Reply</button>
+        <button type="button" data-toggle="modal" style="margin-left: 25px;" data-target="#exampleModal1" class="btn btn-danger" id="firstBtn"
+        		th:if="${session.data1=='PAO' && cancelquery}">Cancel Additional Query</button>
+        </div>
+        <div class="row">
+        <div class="col-md-12" style="text-align : center;" th:unless="${session.data1=='PAC' && !notShowIfNotReply}">
+		<a th:href="@{pen_main?back=true&id={id}(id = ${head.id})}">
+		<button type="button" class="btn btn-info" style="margin-right: 10px;">Back</button></a>
+		<button type="button" class="nxtbtn btn btn-info" th:id="${head.id}"	onclick="nextPageValidation(this);">Next</button>
+		</div>
+		</div></div>
+        
+        
+   
+        <input type="hidden" id="additionalDcallFileName" th:value="${AAAAdditionQueryFileName}">
+        <input type="hidden" id="additionalDcallFileExist" th:value="${AAAAdditionQueryFileExist}">
+        <!-- <form th:action="@{/ead_callletter}" method="post" target="_blank">
+			<input type="hidden" name="cinNo" th:value="${head.id}"> <input
+				type="hidden" name="ITEM_ID" th:value="${head.ITEM_ID}">
+			<div class="mt-2" align="center">
+				<h5>
+					<strong><i>Clarification Required From Receiver</i></strong>
+				</h5>
+			</div>
+
+
+			<table class="table">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col" style="width: 8%">Item No</th>
+						<th scope="col">Item Description</th>
+						<th scope="col" >Query</th>
+						<th scope="col">Query Response</th>
+					</tr>
+					<tr align="center">
+						<th scope="col" style="width: 4%">Item No</th>
+						<th scope="col" style="width: 18%">Item Description</th>
+						<th scope="col" style="width: 18%">Query</th>
+						<th scope="col" style="width: 11% ; background-color: #A9A9A9">Query Response</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr  align="center" th:each="fpoQuery,iter : ${getAllFpoQuery}">
+						<th th:if="${fpoQuery.QRY != null}" scope="row"
+							th:text="${fpoQuery.ITEM_NO}"></th>
+						<td th:if="${fpoQuery.QRY != null}" th:text="${fpoQuery.itemDesc}"></td>
+						<td th:if="${fpoQuery.QRY != null}" th:text="${fpoQuery.QRY}"></td>
+						<td th:if="${fpoQuery.QRY != null}" style="background-color: #D3D3D3"; th:text="${fpoQuery.rply ?: '-null-'}"></td>
+
+					</tr>
+				</tbody>
+			</table>
+
+			<br> <br>
+			<table class="table mt-3">
+				<thead class="thead-dark">  
+					<tr>
+						<th scope="col" style="width: 6%">Sl No</th>
+						<th scope="col" style="width: 68%">Default Query</th>
+						<th scope="col">Select</th>
+						<th scope="col" style="background-color: #A9A9A9; color: #495057; width: 22%">Default Query Response</th>
+
+					</tr>
+				</thead>
+				<tbody th:each="defqry,iter : ${getDefQry}">
+					<tr class="check">
+						<th scope="row">1</th>
+						<td id="queryOne"></td>
+						<td><input type="checkbox" name="defualtQueryOne" id=defualtQuery1
+							th:checked="${defqry.defqry1} == 1" value="1" ></td>
+                          <td th:text="${defqry.rply ?: '-null-'}" style="background-color: #D3D3D3; text-align:center"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row">2</th>
+						<td id="queryTwo"></td>
+						<td><input type="checkbox" name="defualtQueryTwo" id=defualtQuery2
+							th:checked="${defqry.defqry2} == 2" value="2" ></td>
+							<td style="background-color: #D3D3D3; text-align:center"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row">3</th>
+						<td id="queryThree"></td>
+						<td><input type="checkbox" name="defualtQueryThree" id=defualtQuery3
+							th:checked="${defqry.defqry3} == 3" value="3" ></td>
+							<td style="background-color: #D3D3D3; text-align:center"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row">4</th>
+						<td id="queryFour"></td>
+						<td><input type="checkbox" name="defualtQueryFour" id=defualtQuery4
+							th:checked="${defqry.defqry4} == 4" value="4"></td>
+							<td style="background-color: #D3D3D3; text-align:center"></td>
+					</tr>
+
+				</tbody>
+			</table>
+
+			<div th:each="allcmts,iter : ${getAllcmts}">
+				<div class="form-group mb-3">
+					<br> <label class="lab_txt">General Remarks : [max
+						2000 characters]</label>
+					<textarea type="text" class="form-control" name="generalQuery"
+						th:id="generalRemarks" th:text="${allcmts.remarks}"
+						onkeyup="generalRemarksSuccess(id)"
+						placeholder="Enter your Remarks..." rows="3" readonly></textarea>
+				</div>
+
+				<div class="form-group mb-3" id="deptcmtsApr">
+					<br> <label class="lab_txt">Departmental Comment [APR]
+						: [min 6 characters ; max 2000 characters]</label>
+					<textarea type="text" class="form-control deptcmtsApr"
+						th:text="${allcmts.depComments}" name="queryRemarks"
+						th:id="textsend" onkeyup="success(id)"
+						placeholder="Enter your Remarks..." rows="5" readonly></textarea>
+				</div>
+            
+				<div class="form-group mb-3 deptcmtsAcl" style="display: none">
+					<br> <label class="lab_txt">Departmental Comment [PAC]
+						: [min 6 characters ; max 2000 characters]</label>
+					<textarea type="text" class="form-control" name="queryRemarks1"
+						th:id="textsend" onkeyup="success(id)"
+						placeholder="Enter your Remarks..." rows="3" ></textarea>
+				</div>
+			</div> 
+			 <div class="form-group mb-3" id="pendeptcmts1">
+					<br> <label class="lab_txt"> Departmental Comment [From Query Response]:
+						</label>
+					<textarea type="text" class="form-control pendeptcmts"
+						th:text="${getDepcmts}" name="queryRemarks3"
+						th:id="textsend1" onkeyup="success(id)"
+						placeholder="Enter your Remarks..." rows="5" readonly></textarea>
+				</div>
+					
+			<div class="row">
+				<div class="col-md-6"></div>
+				<div class="col-md-3">
+					<p style="color: blue; font-size: 17px">
+						<strong>Document Identification Number : </strong>
+					</p>
+				</div>
+				<div class="col-md-3">
+					<p style="color: blue; font-size: 17px">
+						<input type="text" class="form-control form_txt" name="din" readonly="readonly"
+							id="din" onblur="validateForm()"> <span class="error"><p
+								id="dinErr"></p></span>
+					</p>
+				</div>
+				<div class="col-md-12">
+					<p style="margin-bottom: 0rem;">
+						<strong>Note :</strong>
+					</p>
+					<p style="font-size: 14px;">[DIN number will appear only if the din was recorded at the time of generating the d-callletter.]</p>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-md-5" style="font-size: 14px;">
+					<div id="aclMsg" style="display: none">
+						<p style="color: blue; margin-bottom: 0rem;">
+							<strong>Notes :</strong>
+						</p>
+						<p>For sending it back to APR please go back to
+							Assessment screen</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" style="text-align : center;">
+					<button type="button" class="btn btn-info" onclick="goBack()">Back</button>
+					<button type="button" id="lock" onclick="enableNum()"
+						class="btn btn-success" disabled>Submit</button>
+					<button type="button" class="nxtbtn btn btn-info" th:id="${head.id}"
+						onclick="viewDetail1(this);">Next</button>
+				</div>
+			</div>
+
+			Modal
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h4 th:text="1" id="dinValidate"></h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal" id="aclClose">Close</button>
+							<button type="submit" class="btn btn-success" id="my_button">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form> -->
+		
+		<div class="modal fade" id="exampleModal" tabindex="-1" data-backdrop="static" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h4 th:text="1" id="dinValidate" style="text-align: center;"></h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal" id="aclClose">Close</button>
+							<button type="submit" class="btn btn-success queryinfobtncancel" id="my_button">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		
+        <br>
+
+
+
+        <div id="aclWarningMsgQry" class="modal fade">
+            <div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+                <div class="modal-content">
+                    <div class="modal-body" align="center">
+                        <h4>
+                            If the Default Query / General Remarks raised by PAO is to
+                            be modified, <br> Please check <i style="color: blue;" class="fas fa-check-square"></i> or uncheck <i style="color: #afafaf;" class="fas fa-square"></i> and suitably
+                            modify the General remarks if required.
+                        </h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-success">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    
+    
+        	<div id="aclWarningMsg" class="modal fade">
+		<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4 id="aclpopupmsg"></h4>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success" id="okbtn">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="modal fade" id="additionalQueryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 35%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #f1f8ff;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;text-transform: uppercase;">Additional Query</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #f1f8ff;">
+                    <!-- <div class="alert alert-success alert-dismissible fade show" id="successQuery" style="display : none;">
+                        <strong>Success!</strong> Your Query has been raised successfully.
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div> -->
+                    <form id="additionalQueryForm">
+                        <div class="form-group row" style="margin-bottom:1rem">
+                            <label for="inputEmail3" class="col-sm-4 col-form-label modal-label">Query<label style="color: red;">&nbsp;*</label></label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows=10 id="additionquery" onKeyPress="onChangeEvent(this)" name="query" placeholder="Please Enter Query"></textarea>
+                            </div>
+                        </div>
+                         <!-- display none given for temporarly later remove display none later Email ana SMS -->
+                        <div class="form-group row" style="margin-bottom:1rem;display:none;">
+                            <label for="inputPassword3" class="col-sm-4 col-form-label modal-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="email" onKeyPress="onChangeEvent(this)" name="email" placeholder="Please Enter Email">
+                            </div>
+                        </div>
+                         <!-- display none given for temporarly later remove display none later Email ana SMS -->
+                        <div class="form-group row" style="margin-bottom:1rem;display:none;">
+                            <label for="inputPassword3" class="col-sm-4 col-form-label modal-label">Mobile Number</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="mobile" onKeyPress="if(this.value.length==10) return false; onChangeEvent(this)" name="mobile" placeholder="Please Enter Mobile Number">
+                                
+                            </div>
+                        </div>
+                        <!-- div class="form-group row" style="margin-bottom:1rem">
+                            <label for="inputPassword3" class="col-sm-4 col-form-label modal-label">Document Identification Number<label style="color: red;">&nbsp;*</label></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="dinNo" onKeyPress="onChangeEvent(this)" name="dinNo" placeholder="Please Enter Document Identification Number">
+                            </div>
+                        </div-->
+                    </form>
+                </div>
+                <div class="modal-footer" style="background: #f1f8ff;" id="FooterAdditionalQuery">
+                <div class="col-6" style="justify-content: flex-start;display: flex;">
+                    <button type="button" class="btn btn-danger"  id="closeQueryBtn"  data-dismiss="modal">Close</button></div>
+                <div class="col-6" style="display: flex;justify-content: flex-end;">
+                    <button type="button" class="btn btn-success" id="submitQueryBtn" onclick="addlqrydetail()">NEXT</button>
+                 </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="dcallLetterModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 90%;">
+            <div id="dcallLetterContent" class="modal-content" style="padding: 10px;border-radius: 25px;border: 5px solid indianred;">
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totDuty">
+    <input type="hidden" th:value="${head.ROLE}" id="role">
+    <input type="hidden" th:value="${back}" id="back">
+    
+    <div class="modal fade" id="replymodal" tabindex="-1" style="overflow-y: auto;" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 70%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Reply and Documents</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+
+
+
+<div id="replyinfo">
+			<table id="replytable" class="table mt-2">
+			   <thead class="thead-dark">
+			      <tr>
+			         <th scope="col" style="width: 10%">Sl No</th>
+			         <th scope="col" style="width: 80%">Select and enter any of the following </th>
+			         <th scope="col" style="width: 10%">Select</th>
+			      </tr>
+			   </thead>
+			   <tbody th:each="defqry,iter : ${getScndDefQry}">
+			      <tr class="check">
+			         <th scope="row" align=center  th:text="${iter.index + 1}">
+			            
+			         </th>
+			         <td> <div class="form-group">
+			         <span th:id="'query' +${iter.index + 1}" th:text="${defqry.DESCRIPTION}"></span>
+			         	<li  th:if="${defqry.INP_REQ == 1}" th:data-inpreq="${defqry.INP_REQ}"  style="list-style-type: none;"><input th:id="'addlquery' +${defqry.SLNO}" readonly="readonly"  style="width:50%;border-top: 0;border-right: 0;border-left: 0;box-shadow: none;outline: none;" type="text"  class="blankline"></li>
+			         <ol type="i">
+			        	 <li  th:if="${defqry.INP_REQ == 2}" th:data-inpreq="${defqry.INP_REQ}"><input th:id="'addlquery' +${defqry.SLNO}" readonly="readonly"  style="width:50%;border-top: 0;border-right: 0;border-left: 0;box-shadow: none;outline: none;" type="text" class="blankline"></li>
+			        	 <li  th:if="${defqry.INP_REQ == 2}" th:data-inpreq="${defqry.INP_REQ}"><input th:id="'addlquery1' +${defqry.SLNO}" readonly="readonly"  style="width:50%;border-top: 0;border-right: 0;border-left: 0;box-shadow: none;outline: none;" type="text" class="blankline1"></li>
+			         </ol>
+			         </div></td>
+			         <td><input th:id="'addlcheckbox' +${defqry.SLNO}" th:checked="${defqry.SECQRY_SEQ}==1" th:styleappend="${defqry.SECQRY_SEQ} == 1 ? 'pointer-events: none;' : ''" type="checkbox" name="defualtQueryOne"
+			            th:value="${defqry.SLNO}" class="scndcheck"></td>
+			      </tr>
+			   </tbody>
+			</table>
+        </div>
+        
+        
+        
+        </div>
+        
+
+
+         <div class="modal-footer">
+         <div class="col-6" style="justify-content: flex-start;display: flex;">
+         <button type="button" class="btn btn-danger" onclick="switchPopUp()" data-dismiss="modal">Back</button></div>
+         <div class="col-6" style="display: flex;justify-content: flex-end;">
+          <button type="button" id="replybtn" class="btn btn-success" th:data-cin="${head.id}" th:data-itemid="${head.ITEM_ID}" onclick="raiseqryreply(this)">Submit</button></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  
+
+    <div class="modal fade bd-example-modal-lg" id="dcallLetterModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 90%;">
+            <div id="dcallLetterContent" class="modal-content" style="padding: 10px;border-radius: 25px;border: 5px solid indianred;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+        <div class="modal fade" id="pdfModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Document Call Letter</h4>
+          <button type="button" class="close queryinfobtncancel" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+			<div>
+				<button onclick="printdcall()" type="button" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;float: right;" class="mr-3 mb-3">PRINT</button>
+        		<!-- <button onclick="downloaddcall()" type="button" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;float: right;" class="mr-3">Download</button> -->
+     		</div>
+<iframe id="embedpdf"
+                               frameborder="0" width="100%"  style="height: 88vh;">
+        </iframe>
+        
+        </div>
+        
+
+
+         <div class="modal-footer">
+         <button type="button" id="queryinfobtncancel" class="btn btn-secondary queryinfobtncancel" data-dismiss="modal">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  
+
+    <!-- Modal -->
+        <div class="modal fade" id="rlypdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Document Call Letter</h4>
+          <button type="button" class="close rlyqueryinfobtncancel" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+<iframe id="rlyembedpdf"
+                               frameborder="0" width="100%"  style="height: 88vh;">
+        </iframe>
+        
+        
+        
+        </div>
+        
+
+
+         <div class="modal-footer">
+         <button type="button" id="rlyqueryinfobtncancel" class="btn btn-secondary rlyqueryinfobtncancel" data-dismiss="modal">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  <div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;height:95%;" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  			<div class="modal-dialog  modal-dialog-centered" role="document" style="width: auto;max-width: 90%;height:95%;">
+  				<div class="modal-content" style="height:95%;">
+  				<div class="modal-header" style="height:95%;padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+        			<h5 class="modal-title" style="font-weight: bold;">QUERY REPLY</h5>
+        				<button type="button" class="close" data-dismiss="modal" onclick="deleteDataMapped()" aria-label="Close">
+          					<span aria-hidden="true">x</span>
+        				</button>
+      				</div>
+  					<div class="modal-body" id="qryreplycontent" style="background: #b8daff;height:95%;">
+	  				</div>
+    			</div>
+			</div>
+		</div>
+  
+<div class="modal fade" id="sendbacktoao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 30%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #f1f8ff;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;text-transform: uppercase;">AC's remarks to AO</h5>
+                    <button type="button" class="close" onclick="showPrevious()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #f1f8ff;">
+                  <div class="sendbtnshow" >
+					<label class="lab_txt">AC's remarks to AO</label>
+					<textarea class="form-control" name="sndbackcmts"
+						th:id="sndbackcmts" onkeyup="success(id)"
+						placeholder="Dept. Comments" rows="5"></textarea>
+				</div>
+				<div class="mt-4 sendbtnshow d-flex justify-content-center align-item-center" >
+					<button type="button" id="locked" style="font-size: 15px;padding:11px;"
+						onclick="sendAprBack(value)" class="btn btn-danger btn-sm"
+						disabled>
+						Save & Send back to AO
+					</button>
+				</div>
+                   
+                </div>
+              
+            </div>
+        </div>
+    </div>
+    
+    
+      <div class="modal fade" id="sendbacktoac" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 30%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #f1f8ff;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;text-transform: uppercase;">AO's remarks to AC</h5>
+                    <button type="button" class="close" onclick="showPrevious()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #f1f8ff;">
+	                <div class="sendpaobtnshow">
+						<label class="lab_txt">AO's remarks to AC</label>
+						<textarea class="form-control" name="aprsndbackcmts"
+							th:id="aprsndbackcmts" onkeyup="success1(id)"
+							placeholder="Dept. Comments" rows="5"></textarea>
+					</div>
+					<div class="mt-4 sendpaobtnshow d-flex justify-content-center align-item-center queryinfobtncancel" >
+						<button type="button" id="lock2" style="font-size: 15px;padding:11px;"
+							onclick="sendAclBack(value)" class="btn btn-danger btn-sm"
+							disabled>
+							Save &  Send back to AC
+						</button>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+        <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4>Do you want to Cancel Additional Query?</h4>
+				</div>
+				<div class="modal-footer" style="display:flex;justify-content:space-between;">
+					<button type="button" class="btn btn-danger"
+						data-dismiss="modal">No</button>
+					<button class="btn btn-success" onclick="deleteAddlquery(value)">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+	var mailSent;
+	
+	function deleteDataMapped() {
+		$("#qryreplycontent").html('');
+	}
+	
+    /*$.ajax({
+        url: 'getEadQuery?reply=true&id=' + $("#itemId").val()+'&back='+$("#back").val(),
+        type: "post",
+        success: function(data) {
+            $("#queryContent").html(data);
+            $("#queryTitle").text('Clarification Required From Receiver');
+            $("#queryContent").append('<div class="row"><div class="col-md-12" style="text-align : center;">' +
+                '<button type="button" class="btn btn-info" onclick="goBack()" style="margin-right: 10px;">Back</button><button type="button" ' +
+                'class="nxtbtn btn btn-info" id=' + $("#inputPassword").val() + '	onclick="nextPageValidation(this);">Next</button></div></div>');
+            $("#oemailid").closest('tr').append('<td><button type="button" id="lock" class="btn btn-success" onclick="viewrlyEadDCallLetter()" style="margin-right: 25px;margin-left: 50px;">View EAD D-Call Letter</button><button type="button" id="additionalQry" onclick="addQuery()" class="btn btn-success btn-dred" style="">Additional Query</button></td>');
+        	$("#queryContent").find('h2').text('AAA Query');
+        	$("#oemailid").closest('tr').next().append('<td><button type="button" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;margin-left: 50px;">View EAD Query Reply</button></td>');
+        	if($("#additionalDcallFileExist").val()=='true'){
+        		$("#additionalQry").after('<button type="button" class="btn btn-success" onclick="viewAAACallLetter()" style="margin-right: 25px;">View AAA D-Call Letter</button>');
+        		$("#additionalQry").remove();
+        		$("#viewEadQueryReply").after('<button type="button" class="btn btn-success" onclick="viewAdditionQueryReply()" style="margin-right: 25px;">View Additional Query Reply</button>')
+        	}
+	},
+        error: function(rs, e) {
+            alert("Error in nextPageRedirect");
+        }
+    });*/
+    
+    function viewEadQueryReply() {
+    	$.ajax({
+                url: "viewqueryreply?cinNo="+$("#inputPassword").val(),
+                type: "get",
+                success: function(data) {
+                    $("#qryreplycontent").html(data);
+					$("#qryreplymodal").find('h5').text('VIEW QUERY REPLY & UPLOADED DOCUMENTS');
+					$("#previewKycSectionDiv").next().remove();
+					$("#qryreplymodal").modal('show');
+                	
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+    }
+    
+    function viewAdditionQueryReply() {
+    	$.ajax({
+                url: "viewadditionalqueryreply?cinNo="+$("#inputPassword").val()+"&articleStage=N",
+                type: "get",
+                success: function(data) {
+                    $("#qryreplycontent").html(data);
+					$("#qryreplymodal").find('h5').text('VIEW ADDITIONAL QUERY REPLY & UPLOADED DOCUMENTS');
+					$("#previewKycSectionDiv").next().remove();
+					$("#qryreplymodal").modal('show');
+                	
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+    }
+    
+    function viewAAACallLetter() {
+    	$("#rlyembedpdf").attr('src','file/pdf/'+$('#additionalDcallFileName').val() + '#toolbar=0&navpanes=0;readonly=true;');
+        $("#rlypdfModal").modal('toggle');
+    } 
+
+    function addQuery() {
+        $('#additionalQueryModal').modal('toggle');
+        $("#additionalQueryForm").find("input, textarea").val("");
+        $("#additionalQueryForm").find('small').remove();
+        fetchAdditionQueryDetails($("#inputPassword").val());
+    }
+
+function fetchAdditionQueryDetails(cinNo) {
+        $.ajax({
+            url: "getArticleAwaitingQuery?cinNo=" + $("#inputPassword").val() +"&qrytype=N",
+            type: "get",
+            success: function(data) {
+                if (data.status == 'Success') {
+                    $("#dinNo").val(data.dinNo);
+                    $("#exampleModalLongTitle").text('Additional Query ');
+                    $("#mobile").val(data.fpoQuery.QRY_MOBILENO);
+                    $("#email").val(data.fpoQuery.QRY_EMAILID);
+
+					/**if(data.fpoQuery.QRY_DEPCMTS_APR != null && data.fpoQuery.QRY_DEPCMTS_APR != 'undefined'){
+						$("#additionquery").val(data.fpoQuery.QRY_DEPCMTS_APR);
+					}else if(data.fpoQuery.QRY_DEPCMTS_ACL != null && data.fpoQuery.QRY_DEPCMTS_ACL != 'undefined'){
+						$("#additionquery").val(data.fpoQuery.QRY_DEPCMTS_ACL);
+					}**/
+                    $("#additionquery").val(data.fpoQuery.QRY_DESC);
+                    $("#additionalQueryForm").find("input, textarea").attr("disabled", "disabled");
+                    $("#submitQueryBtn").remove();
+                    $("#updateQueryBtn").remove();
+                    $("#editQueryBtn").remove();
+                     $("#senbackbtn").remove();
+                     $("#closeQueryBtn").remove();
+                   if ($("#role").val() == 'PAC') {
+					  $("#FooterAdditionalQuery").append(
+					    '<button type="button" class="btn btn-primary" id="senbackbtn" onclick="sendback()">Send Back to AO</button>' +
+					    '<button type="button" class="btn btn-success" id="editQueryBtn" onclick="editQuery()">Edit Query</button>'
+					  );
+					} else if ($("#role").val() == 'PAO') {
+					  $("#FooterAdditionalQuery").append(
+					    '<button type="button" class="btn btn-primary" id="senbackbtn" onclick="sendback()">Send Back to AC</button>' +
+						'<button type="button" class="btn btn-success" id="editQueryBtn" onclick="editQuery()">Edit Query</button>'
+					  );
+				}
+                }
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+        });
+    }
+
+
+    function onChangeEvent(obj) {
+        $(obj).next().remove()
+    }
+
+   
+    function validateQuery() {
+        var error = 0;
+        if ($("#additionquery").val().trim() == '') {
+            error = error + 1;
+            $("#additionquery").next().remove()
+            $("#additionquery").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">Query Required</small>');
+        }
+        if ($("#email").val().trim() != '') {
+            $("#email").next().remove()
+            var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!regex.test($("#email").val().trim())) {
+                error = error + 1;
+                $("#email").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">Valid Email Id Only</small>');
+            }
+        }
+        if ($("#mobile").val().trim() != '') {
+            $("#mobile").next().remove()
+            if ($("#mobile").val().length !== 10) {
+                error = error + 1;
+                $("#mobile").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">Mobile Number must be in length of 10 digits</small>');
+            }
+        }
+      /*  if ($("#dinNo").val().trim() == '') {
+            error = error + 1;
+            $("#dinNo").next().remove()
+            $("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">Document Identification Number Required</small>');
+        } else {
+            /*var dinReg = /CBIC-[0-9]{4}0[1-9]|1[0-2][0-9]{4}[0-9]{6}/;
+            var numberReg = /^[0-9]+$/;
+            var din = $("#dinNo").val().trim();
+            var inputVal = new Array(din);
+            if (!dinReg.test(din)) {
+                $("#dinNo").next().remove()
+                $("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">CBIC-YYYYMMZCDRNNNNNN only</small>');
+                error = error + 1;
+            } else {
+                var currentTime = new Date();
+                var yearFromSystem = currentTime.getFullYear();
+                var res = din.split("-");
+                if(res.length<2){
+					$("#dinNo").next().remove()
+                    $("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">CBIC-YYYYMMZCDRNNNNNN only</small>');
+                    error = error + 1;
+				}else{
+                var yearFromUser = res[1].substring(0, 4);
+
+                if (yearFromUser > yearFromSystem) {
+                    $("#dinNo").next().remove()
+                    $("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">CBIC-YYYYMMZCDRNNNNNN only</small>');
+                    error = error + 1;
+                }
+                }
+            }*/
+            
+		
+/*	var dinReg = /[0-9]{8}[A-Z]{2}[0-9]{7}[A-Z]{3}/;
+
+	var din =  $("#dinNo").val().trim();
+
+	
+	if (!dinReg.test(din)) {
+		$("#dinNo").next().remove()
+		$("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">e.g. : 20220272MR0000222FBD</small>');
+		error = error + 1;
+	}else {
+
+		var currentTime = new Date();
+		var yearFromSystem = currentTime.getFullYear();
+		
+		var res = din.substring(0, 4);
+		
+		 if(res.length<2){
+					$("#dinNo").next().remove()
+                    $("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">e.g. : 20220272MR0000222FBD</small>');
+                    error = error + 1;
+				}
+		
+			else if(res > yearFromSystem) {
+				$("#dinNo").next().remove()
+				$("#dinNo").closest('div').append('<small id="emailHelp" class="form-text text-muted" style="color:red !important;">e.g. : 20220272MR0000222FBD</small>');
+				error = error + 1;
+			}
+		 
+
+		
+	}
+         }*/
+        return error;
+    }
+
+    function generateDCallLetter(cinNo) {
+        $.ajax({
+            url: "getArticleAwaitingDCallLetter?cinNo=" + cinNo,
+            type: "get",
+            success: function(data) {
+                $("#dcallLetterContent").html(data);
+                $("#dcallLetterModal").modal('toggle');
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+        });
+    }
+
+    function viewEadDCallLetter() {
+        $.ajax({
+            url: "getEadDCallLetter?cinNo=" + $("#inputPassword").val(),
+            type: "get",
+            success: function(data) {
+            	hideLoader();
+                 $("#dcallLetterContent").html(data);
+                    $("#embedpdf").attr('src','file/pdf/'+$('#pdffilename').val() + '#toolbar=0&navpanes=0;readonly=true;');
+                	$("#pdfModal").modal('toggle');
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+        });
+    }
+    
+    $(".queryinfobtncancel").click(function() {
+	  $.ajax({
+            url: "addlqryprocess?id=" + $("#inputPassword").val() + "&que="+ "A2",
+            type: "get",
+            success: function(data) {
+            	if(mailSent){
+            		window.location.href="process_ead";
+            		/*  to be uncommented later Email ana SMS */
+	             /*  swal("Mail Sent Successfully !","", "success").then((value) => {
+	 					window.location.href="process_ead";
+					}); */
+                }else{
+                	window.location.href="process_ead";
+                }
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+        });
+	//window.location.href="process_ead";
+});
+
+    
+
+    function viewrlyEadDCallLetter() {
+        $.ajax({
+            url: "getrlyEadDCallLetter?cinNo=" + $("#inputPassword").val(),
+            type: "get",
+            success: function(data) {
+                 $("#dcallLetterContent").html(data);
+                    $("#rlyembedpdf").attr('src','file/pdf/'+$('#pdffilename').val() + '#toolbar=0&navpanes=0;readonly=true;');
+                	$("#rlypdfModal").modal('toggle');
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+        });
+    }
+     
+
+    
+	
+	
+	
+	
+	
+$(".scndcheck").click(function() {
+	if($(this).prop('checked') == true){
+		 $(this).closest('tr').find('.blankline').removeAttr('readonly');
+	$(this).closest('tr').find('.blankline1').removeAttr('readonly');
+	}else{
+		$(this).closest('tr').find('.blankline').attr('readonly','readonly');
+		$(this).closest('tr').find('.blankline1').attr('readonly','readonly');
+	}
+	
+});
+
+$("#replytable tbody tr input:checkbox:checked").each(function(){
+   console.log($(this).closest("tr").find('.blankline').val());
+});
+    
+    function nextPageValidation(e) {
+		$.ajax({
+            url: "getArticleAwaitingQuery?cinNo=" + e.id,
+            type: "get",
+            success: function(data) {
+                if (data.status == 'Success') {
+                swal({
+                    title: "Do you want to do assessment as you have raised query ?",
+                    icon: "warning",
+                    buttons: ["No", "Yes"],
+                    dangerMode: false,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                    	window.location.href='pen_declared?id='+e.id;
+                    }else{
+                    	window.location.href='pen_order?id='+e.id;
+                    }
+                });
+                }else{
+                	window.location.href='pen_declared?id='+e.id;
+                }
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+            }
+        });
+	}
+	
+	function redirect(que,page){
+            	if(que=='N3'){
+            		window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+            	}else if(que=='N1'){
+            		if(page != 'pen_order'){
+            			window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+            		}
+            	}else if(que=='N2'){
+            		if(page != 'pen_order' && page != 'pen_declared'){
+            			window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+            		}
+            	}
+            }
+            
+                        $.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+            
+            
+            
+</script>
+<script src="js/pen_ead_query.js"></script>
+<script src="js/sweetalert.min.js"></script>
+
+</html>

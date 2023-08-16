@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<style type="text/css">
+.table-bordered thead td, .table-bordered thead th {
+	border-bottom-width: 1px;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #040404;
+}
+
+.table-bordered td, .table-bordered th {
+	border: 1px solid #000000;
+}
+
+body {
+	background: white !important;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+table.dataTable tbody tr {
+	font-size: 90%;
+}
+        #overlay {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            z-index: 9999;
+            width: 100%;
+            background: rgba(255, 255, 255, .7);
+            height: 100%;
+        }
+
+        #loader {
+            position: fixed;
+            display: block;
+            left: 50%;
+            top: 48%;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background-image: url(images/report/loader.gif);
+            background-repeat: no-repeat;
+            margin: -77px 0 0 -75px;
+        }
+
+
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+
+<body>
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+ <div id="overlay">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+    </div>
+	<div id=" " style="padding: 20px; display: block;">
+		<h2 style="text-align: center">RECENTLY PROCESSED BY SSO ID: <span th:text="${offId}"></span></h2>
+		<div>
+			<table class="table table-bordered table-striped recentp" id="recentlyprocessedtable"
+				style="font-size: 14px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr style="background-color: #a1c4e6;">
+						<th scope="col">No</th>
+						<th scope="col">Article ID</th>
+						<!-- th scope="col">Processed </th-->
+						<th scope="col">Processed Date</th>
+						<th scope="col">Processed at</th>
+						<th scope="col">MailClass</th>
+						<th scope="col">Item Category</th>
+						<th scope="col">Country</th>
+						<th scope="col">Current Status</th>
+						<th scope="col">Receptacle ID</th>
+						<th scope="col">Bag No</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr valign="middle" class="rowDis" th:each="s1,iter : ${recent}">
+						<td width="1%" style="vertical-align: middle; text-align:right;margin-right:10px;"
+							th:text="${iter.index+1}"></td>
+						<td width="8%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.ITEM_ID!=null ? s1.ITEM_ID : '-'}"></span></td>
+						<td width="8%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.QUE_DT!=null ? s1.QUE_DT : '-'}"></span></td>	
+						<td width="8%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.STAGE_NAME!=null ? s1.STAGE_NAME : '-'}"></span></td>											
+						<td width="8%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.MAIL_CLASS_CD !=null ? s1.MAIL_CLASS_CD : '-'}"></span></td>
+						<td width="8%" style="vertical-align: middle; text-align:cene;margin-left:10px;"><span
+							th:text="${s1.CATEGORY !=null ? s1.CATEGORY : '-'}"></span></td>
+						<td width="8%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.send_cntry_cd !=null ? s1.send_cntry_cd : '-'}"></span></td>																			
+						<td width="25%" style="vertical-align: middle; text-align:left;margin-left:10px;"><span
+							th:text="${s1.currentStatus!=null ? s1.currentStatus : '-'}"></span></td>
+					    <td width="25%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.recp_id!=null ? s1.recp_id : '-'}"></span></td>
+					    <td width="25%" style="vertical-align: middle; text-align:center;margin-left:10px;"><span
+							th:text="${s1.bag_no!=null ? s1.bag_no : '-'}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script src="js/header.js"></script>
+	<script type="text/javascript">
+	
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+hideLoader();
+
+var sitecode_name= $("#sitecode").val();
+     $('#recentlyprocessedtable').DataTable({
+		
+	
+		"processing": true,
+		"paging": true,
+		"ordering": false,
+		"processing": true,
+		"lengthMenu": [ 5, 10, 15, 20, 25 ],
+		"pageLength": 15,
+		"dom": '<"pull-left"Bl>frtip',
+
+		
+		buttons: [
+				{extend: 'csvHtml5', text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:'RECENTLY PROCESSED TABLE',
+					message:'RECENTLY PROCESSED TABLE @ ' + sitecode_name + '\n\r'+datetimes,
+					
+				}, 
+						
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    				className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'RECENTLY PROCESSED TABLE @ ' + sitecode_name,
+					filename:'RECENTLY PROCESSED TABLE',
+				     orientation: 'landscape',
+					exportOptions: {
+        				columns: [ 0,1,2,3,4,5,6],
+						margin: true,
+					
+      						}, 
+		   		     customize: function(doc, header) {
+					doc.content[1].table.widths = ['12%','12%','12%','13%','13%','13%','25%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+				
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: '+empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,90,0,20],
+					
+					},],});  
+						doc.content.splice(1, 0,{
+					text: [{text:' Date:'+datetimes, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,90,0,20],
+					
+					},],});		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+				},
+				
+				
+				 {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				 filename:'VIEW FPO SITE HISTORY',
+					message:'VIEW FPO SITE HISTORY @ '+ sitecode_name + '\n\r' + datetimes ,
+				customize: function ( win ) {
+					console.log("sucess");
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+		
+		"initComplete": function( settings ) {
+	        $("#recentlyprocessedtable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearAlltab1()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+ 					$("#recentlyprocessedtable_filter input[type='search']").attr('id', 'searchAlltab');		
+						
+   	}
+	
+});
+			
+			
+function clearAlltab1(){
+	document.getElementById("searchAlltab").value=""
+      var table = $('#recentlyprocessedtable').DataTable();
+      table.search('').draw();
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div id="divcontent">
+			<table id="itemtable" class="table mt-2">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col" style="width: 10%">Sl No</th>
+						<th scope="col" style="width: 80%">Default Query</th>
+						<th scope="col" style="width: 10%">Select</th>
+
+					</tr>
+				</thead>
+				<tbody th:each="defqry,iter : ${getDefQry}">
+					<tr class="check">
+						<th scope="row" align=center th:text="${iter.index + 1}">1</th>
+						<td th:id="'query' +${iter.index + 1}" th:text="${defqry}"></td>
+						<td><input type="checkbox" name="defualtQueryOne"
+							th:checked="${defqry} == 1" value="1"></td>
+
+					</tr>
+
+				</tbody>
+			</table>
+        <div class="modal-footer">
+          <button type="button" onclick="remarkchange()" class="btn btn-primary">Next</button>
+        </div>
+        </div>
+  <script type="text/javascript">
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+</script>

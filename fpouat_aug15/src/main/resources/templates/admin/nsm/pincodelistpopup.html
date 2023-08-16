@@ -1,0 +1,24 @@
+
+<table align="center" id="listpincde"
+	class="table table-bordered table-striped table-bordered">
+	<thead>
+		<tr style="background: #b8daff;">
+			<!--   <th scope="col" width="8%" style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;Start Pinocde</th> -->
+			<th scope="col" width="1%" style="text-align: center;">No</th>
+			<th scope="col" width="8%" style="text-align: center;">Start
+				Pinocde</th>
+			<th scope="col" width="8%" style="text-align: center;">End
+				Pincode</th>
+			<th scope="col" width="8%" style="text-align: center;">CusSite</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr height=50px; valign="middle" class="rowDis"
+			th:each="pincodedata,iter : ${pincdeList}">
+			<td style="text-align: center;" th:text="${iter.index+1}"></td>
+			<td style="text-align: center;" th:text="${pincodedata[0]}"></td>
+			<td style="text-align: center;" th:text="${pincodedata[1]}"></td>
+			<td style="text-align: center;" th:text="${pincodedata[2]}"></td>
+		</tr>
+	</tbody>
+</table>

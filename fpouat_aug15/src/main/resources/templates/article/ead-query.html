@@ -1,0 +1,493 @@
+<style>
+    /* .form_txt {
+        font-weight: 700
+    }
+
+    .col-form-label {
+        padding-top: 2px;
+    }
+
+    .lab_txt {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .form-group {
+        margin-bottom: 0rem;
+    }
+
+    .scroll_down {
+        height: 425px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .numradius {
+        border: 2px solid black;
+        background-color: white;
+        color: black;
+    }
+
+    hr {
+        border-top: 1px solid rgb(0, 0, 139);
+    }
+
+    .breadcrumb-pagination {
+        width: 100%;
+        border-bottom: 1px solid #E1E6EB;
+        text-align: center;
+        color: #B3B7C1;
+    }
+
+    .breadcrumb-pagination div {
+        width: 15%;
+        display: inline-block;
+    }
+
+    .breadcrumb-pagination div span {
+        margin: 0 auto;
+        display: block;
+        border-radius: 100%;
+        width: 36px;
+        font-size: 20px;
+    }
+
+    .scroll_down {
+        height: 550px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .completed span {
+        background-color: NONE;
+        color: #95db89;
+        border: 2px solid #95db89;
+    }
+
+    .active span {
+        background-color: #00abc9;
+        color: #fff;
+    }
+
+    .todo span {
+        background-color: none;
+        color: #E1E6EB;
+        border: 2px solid #E1E6EB;
+    }
+
+    .breadcrumb-pagination div p {
+        text-align: center;
+        line-height: 0;
+        margin: 10px auto 0px;
+    }
+
+    .active p {
+        border-bottom: 2px solid #00abc9;
+        padding-bottom: 20px;
+        margin-bottom: 0px !important;
+        color: #3c4043;
+        font-weight: 700;
+    }
+
+    .completed p {
+        color: "#bsb7c1";
+    }
+
+    .completed span::before {
+        content: '\2713'
+    }
+
+    .mb-1 input[disabled],
+    .mb-1 textarea[disabled] {
+        background: #ffffff !important
+    } */
+   #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+    
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div style="
+    background: #f8f9fa;
+    margin: 20px;
+    padding: 10px;
+    border-right: 4px solid rgb(74, 223, 131);
+    border-radius: 10px;
+">
+
+    <input type="hidden" id="inputPassword" th:value="${cinNo}">
+        <input type="hidden" id="additionalDcallFileName" th:attr="eadFirstQueryFileName=${eadFirstQueryFileName},AAFAdditionQueryFileName=${AAFAdditionQueryFileName},AAAAdditionQueryFileName=${AAAAdditionQueryFileName},AAFFirstQueryFileName=${AAFFirstQueryFileName}">
+        <div th:if="${(eadFirstQueryRaised ne null and eadFirstQueryRaised) or (eadFirstQueryReplied ne null and eadFirstQueryReplied)
+        or (aafFirstQueryRaised ne null and aafFirstQueryRaised) or (aafFirstQueryReplied ne null and aafFirstQueryReplied) 
+        or (aaaAdditionalQueryReplied ne null and aaaAdditionalQueryReplied) or (aaaAdditionalQueryReplied ne null and aaaAdditionalQueryReplied) 
+        or (aafAdditionalQueryRaised ne null and aafAdditionalQueryRaised) or (aafAdditionalQueryReplied ne null and aafAdditionalQueryReplied) or (isY != 0)}">
+            <div align="center" style="
+    margin-bottom: 25px;
+">
+        <h2 th:text="${qrylevel+' QUERY'}"></h2>
+       	<p th:if="${offid ne null}" style="color:blue;font-weight:bold;text-transform:capitalize;"><span style="color: green;font-weight: 400;font-size: 40px;animation: blink 1s linear infinite;text-transform:uppercase;"  th:text="${'Intital Query is Done by officer-Id : '+offid.qRY_OFF_ID + ' on date '+#dates.format(offid.qRY_DATE, 'dd-MMM-yyyy hh:mm:ss a')}"></p>
+
+    </div>
+		<div style="text-align: center;margin: 25px;">
+        <button type="button" th:if="${eadFirstQueryRaised}"id="lock" class="btn btn-success" onclick="viewDCallLetter('eadFirstQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View EAD D-Call Letter</button>
+        <button type="button" th:if="${eadFirstQueryReplied}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View EAD Query Reply</button>
+        <button type="button" th:if="${aafFirstQueryRaised}"id="lock" class="btn btn-success" onclick="viewDCallLetter('AAFFirstQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View First Query D-Call Letter</button>
+        <button type="button" th:if="${aafFirstQueryReplied}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View First Query Reply</button>
+        <button type="button" th:if="${aaaAdditionalQueryRaised}" class="btn btn-success" onclick="viewDCallLetter('AAAAdditionQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View AAA D-Call Letter</button>
+        <button type="button" th:if="${aaaAdditionalQueryReplied}" class="btn btn-success" onclick="viewAdditionQueryReply('N')" style="margin-right: 25px;">View AAA Additional Query Reply</button>
+        <button type="button" th:if="${aafAdditionalQueryRaised}" class="btn btn-success" onclick="viewDCallLetter('AAFAdditionQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View AAF D-Call Letter</button>
+        <button type="button" th:if="${aafAdditionalQueryReplied}" class="btn btn-success" onclick="viewAdditionQueryReply('P')" style="margin-right: 25px;">View AAF Additional Query Reply</button>
+        </div>
+        <div class="row">
+        <div class="col-md-12" style="text-align : center;">
+		<!-- <button type="button" class="btn btn-info" onclick="goBack()" style="margin-right: 10px;">Back</button>
+		<button type="button" class="btn btn-info" th:id="${head.id}"	onclick="nextPageValidation(this);">Next</button> -->
+		</div>
+		</div></div>
+		<div th:unless="${(eadFirstQueryRaised ne null and eadFirstQueryRaised) or (eadFirstQueryReplied ne null and eadFirstQueryReplied)
+        or (aafFirstQueryRaised ne null and aafFirstQueryRaised) or (aafFirstQueryReplied ne null and aafFirstQueryReplied) 
+        or (aaaAdditionalQueryReplied ne null and aaaAdditionalQueryReplied) or (aaaAdditionalQueryReplied ne null and aaaAdditionalQueryReplied) 
+        or (aafAdditionalQueryRaised ne null and aafAdditionalQueryRaised) or (aafAdditionalQueryReplied ne null and aafAdditionalQueryReplied)}" th:if="${isY != 0}">
+		<h1 style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">QUERY NOT RAISED</h1>
+		</div>
+		
+		<h1 th:if="${isY == 0}" style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">QUERY NOT RAISED</h1>
+  <div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="document" style="max-width: 95%;">
+  				<div class="modal-content">
+  				<div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+        			<h5 class="modal-title" style="font-weight: bold;">QUERY REPLY</h5>
+        				<button type="button" class="close" data-dismiss="modal" onclick="deleteDataMapped()" aria-label="Close">
+          					<span aria-hidden="true">x</span>
+        				</button>
+      				</div>
+  					<div class="modal-body" id="qryreplycontent" style="background: #b8daff;">
+	  				</div>
+    			</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="rlypdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Document Call Letter</h4>
+          <button type="button" class="close rlyqueryinfobtncancel" onclick="clearData()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+<iframe id="rlyembedpdf"
+                               frameborder="0" width="100%"  style="height: 88vh;">
+        </iframe>
+        
+        
+        
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  <div class="modal fade bd-example-modal-lg" id="dcallLetterModal" style="overflow:scroll;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 90%;">
+            <div id="dcallLetterContent" class="modal-content" style="padding: 10px;border-radius: 25px;border: 5px solid indianred;">
+            </div>
+        </div>
+    </div>
+		    <!-- <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" style="width: 8%">Item No</th>
+                <th scope="col">Item Description</th>
+                <th scope="col" style="text-align: center">Query</th>
+                <th scope="col" th:if="${getDepcmts != null}" style="width: 50% ; background-color: #A9A9A9">Query Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="fpoQuery,iter : ${getAllFpoQuery}">
+                <th align=center th:if="${fpoQuery.QRY != null}" scope="row" th:text="${fpoQuery.ITEM_NO}"></th>
+                <td th:if="${fpoQuery.QRY != null}" th:text="${fpoQuery.itemDesc}"></td>
+                <td th:if="${fpoQuery.QRY != null}" style="text-align: center" th:text="${fpoQuery.QRY}"></td>
+                <td th:if="${fpoQuery.QRY != null && getDepcmts != null}" style="background-color: #D3D3D3" ; th:text="${fpoQuery.rply ?: '-NIL-'}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table mt-2">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col" th:style="${getDepcmts != null ? 'width: 5%' : 'width :10%'}">Sl No</th>
+                <th scope="col" th:style="${getDepcmts != null ? 'width: 40%' : 'width :80%'}">Default Query</th>
+                <th scope="col" th:style="${getDepcmts != null ? 'width: 5%' : 'width :10%'}">Select</th>
+                <th scope="col" th:if="${getDepcmts != null}" style="background-color: #A9A9A9; color: #495057; width: 50%">Default Query Response</th>
+
+            </tr>
+        </thead>
+        <tbody th:each="defqry,iter : ${getDefQry}">
+            <tr class="check">
+                <th scope="row" align=center>1</th>
+                <td id="queryOne"></td>
+                <td><input type="checkbox" name="defualtQueryOne" style="pointer-events: none;" th:checked="${defqry.defqry1} == 1" value="1"></td>
+                <td rowspan=4 th:if="${getDepcmts != null}" th:text="${defqry.rply ?: '-NIL-'}" style="background-color: #D3D3D3; vertical-align: middle; text-align:center"></td>
+            </tr>
+            <tr class="check">
+                <th scope="row" align=center>2</th>
+                <td id="queryTwo"></td>
+                <td><input type="checkbox" name="defualtQueryTwo" style="pointer-events: none;" th:checked="${defqry.defqry2} == 2" value="2"></td>
+            </tr>
+            <tr class="check">
+                <th scope="row" align=center>3</th>
+                <td id="queryThree"></td>
+                <td><input type="checkbox" name="defualtQueryThree" style="pointer-events: none;" th:checked="${defqry.defqry3} == 3" value="3"></td>
+            </tr>
+            <tr class="check">
+                <th scope="row" align=center>4</th>
+                <td id="queryFour"></td>
+                <td><input type="checkbox" name="defualtQueryFour" style="pointer-events: none;" th:checked="${defqry.defqry4} == 4" value="4"></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div th:each="allcmts,iter : ${getAllcmts}" style="margin-left:2%;margin-right:5%;">
+        <div class="form-group mb-1">
+            <br> <label class="lab_txt">General Remarks : [min 6 characters ; max
+                2000 characters]</label>
+            <textarea type="text" class="form-control" name="generalQuery" th:id="generalRemarks" th:text="${allcmts.remarks}" disabled placeholder="Enter your Remarks..." rows="3"></textarea>
+        </div>
+
+        <div class="form-group mb-1" id="deptcmtsApr">
+            <br> <label class="lab_txt">Departmental Comment [PAO]
+                : [min 6 characters ; max 2000 characters]</label>
+            <textarea type="text" class="form-control deptcmtsApr" th:text="${allcmts.depComments}" name="queryRemarks" th:id="textsend" disabled placeholder="Enter your Remarks..." rows="3"></textarea>
+        </div>
+        <div th:if="${getDepcmts} != null" class="form-group mb-3" id="pendeptcmts1">
+            <br> <label class="lab_txt"> Departmental Comment [From Query Response]:
+            </label>
+            <textarea type="text" class="form-control pendeptcmts" th:text="${getDepcmts}" name="queryRemarks3" th:id="textsend1" placeholder="Enter your Remarks..." rows="5" disabled></textarea>
+        </div>
+        <table style="margin-left:2%;margin-right:5%;">
+            <tr>
+                <td colspan=5>&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+                <td align=right><label class="lab_txt">EMAIL ID &nbsp;:&nbsp;&nbsp;&nbsp;*</label></td>
+                <td id="oemailid" align="center" valign=middle> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${head.RECP_EMAILID}">&nbsp;&nbsp;&nbsp;<font size=1>(As received in the EAD)</font>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td valign=middle align="center"><input maxlength="125" type="text" id="mail" name="emailid" disabled th:value="${emailid}" class="form-control form_txt">&nbsp;&nbsp;&nbsp;<font size=1>(Please enter Manually)**</font>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td align=left>( in the format abc@xyz.com to send MAIL)</td>
+            </tr>
+            <tr>
+                <td colspan=6>&nbsp;&nbsp;</td>
+            </tr>
+            <tr>
+                <td align=right><label class="lab_txt">MOBILE NO. &nbsp;:&nbsp;&nbsp;&nbsp;*</label></td>
+                <td id="omobile" valign=middle align="center"> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${head.RECP_PHONE}">&nbsp;&nbsp;&nbsp;<font size=1>(As received in the EAD)</font>
+                </td>
+                <td width="5%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td valign=middle align=center><input maxlength="10" type="number" id="phoneno" name="mobileno" disabled th:value="${phoneno}" class="form-control form_txt">&nbsp;&nbsp;&nbsp;<font size=1>(Please enter Manually)**</font>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td align=left>( to send SMS)</td>
+            </tr>
+        </table>
+        <div class="row mt-1" style="margin-left:2%;margin-right:5%;">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>
+                            <font size=1>* - DCALL letter in PDF will be sent to the EMAIL ID and initmation about the DCALL letter will be sent in SMS</font>
+                        </span>
+                    </div>
+                    <div class="col-md-12"><span>
+                            <font size=1>** - Officer may also enter the EMAIL ID and Mobile No. to which EMAIL / SMS is to be sent, if any available.</font>
+                        </span></div>
+                    <div class="col-md-12"><span>
+                            <font size=1>Note 1: EMAIL / SMS will be sent only on submission of EAD Decision.</font>
+                        </span></div>
+                    <div class="col-md-12"><span>
+                            <font size=1>Note 2: EMAIL / SMS will be sent only if the EMAILID and Mobile Nos. of the Recipients are received as part of EAD</font>
+                        </span></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <p style="color: blue; font-size: 17px">
+                    <strong>Document Identification Number : </strong>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <p style="color: blue; font-size: 17px">
+                    <input type="text" class="form-control form_txt" th:value="${allcmts.din1}" disabled name="din" id="din"> <span class="error">
+                        <p id="dinErr"></p>
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="row" style="margin-left:2%;margin-right:5%;">
+
+            <div class="col-md-5" style="font-size: 14px;">
+                <div id="aclMsg" style="display: none">
+                    <p style="color: blue; margin-bottom: 0rem;">
+                        <strong>Notes :</strong>
+                    </p>
+                    <p>For sending it back to PAO please go back to
+                        Assessment screen</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+<script type="text/javascript">
+function clearData(){
+	$("#dcallLetterContent").html('');
+}
+
+function viewrlyEadDCallLetter() {
+        $.ajax({
+            url: "getEadDCallLetter?cinNo=" + $("#inputPassword").val(),
+            type: "get",
+            success: function(data) {
+                 $("#dcallLetterContent").html(data);
+                    $("#rlyembedpdf").attr('src','file/pdf/'+$('#pdffilename').val() + '#toolbar=0&navpanes=0;readonly=true;');
+                	$("#rlypdfModal").modal('toggle');
+            },
+            error: function(rs, e) {
+                swal('OOPS!', 'Something went wrong!', 'error');
+            }
+        });
+    }
+
+function viewEadQueryReply() {
+    	$.ajax({
+                url: "viewqueryreply?cinNo="+$("#inputPassword").val(),
+                type: "get",
+                success: function(data) {
+                    $("#qryreplycontent").html(data);
+					$("#qryreplymodal").find('h5').text('VIEW QUERY REPLY & UPLOADED DOCUMENTS');
+					$("#previewKycSectionDiv").next().remove();
+					$("#qryreplymodal").modal('show');
+                	
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong!', 'error');
+                }
+            });
+    }
+
+
+    
+    function viewAdditionQueryReply(artStage) {
+    	$.ajax({
+                url: "viewadditionalqueryreply?cinNo="+$("#inputPassword").val()+"&articleStage="+artStage,
+                type: "get",
+                success: function(data) {
+                    $("#qryreplycontent").html(data);
+					$("#qryreplymodal").find('h5').text('VIEW ADDITIONAL QUERY REPLY & UPLOADED DOCUMENTS');
+					$("#previewKycSectionDiv").next().remove();
+					$("#qryreplymodal").modal('show');
+                	
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong!', 'error');
+                }
+            });
+    }
+
+
+    
+    function viewDCallLetter(qrytype) {
+    	$("#rlyembedpdf").attr('src','file/pdf/'+$('#additionalDcallFileName').attr(qrytype) + '#toolbar=0&navpanes=0;readonly=true;');
+        $("#rlypdfModal").modal('toggle');
+    }
+    
+  function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}  
+</script>
+ <!--   $.ajax({
+        url: 'getDefualtQuery',
+        dataType: "json",
+        contentType: "application/json",
+        type: "post",
+        success: function(data) {
+            $("#queryOne").text(data[0]);
+            $("#queryTwo").text(data[1]);
+            $("#queryThree").text(data[2]);
+            $("#queryFour").text(data[3]);
+            console.log(data);
+
+        },
+        error: function(rs, e) {
+            console.log(rs, responseText);
+        }
+    });
+</script> -->

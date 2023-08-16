@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="admin/lsm/LsmHeader :: header">
+<meta charset="utf-8">
+</head>
+
+<style>
+.buttons-excel{
+display: none;
+} 
+a.nav-link {
+	font-weight: bold;
+	color : black;
+	text-transform : uppercase;
+	font-size : 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background : #0a3052 !important;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<div class="col-md-12" style="padding:0px">
+		<h3 style="font-size: 19px;margin-left:20px">Dashboard> User
+			Management> View History</h3>
+		<h3 style="text-align: center; color: #1616e0;">LOCAL SYSTEM
+				ADMINISTRATOR</h3>
+			 
+<ul class="nav nav-pills" role="tablist" style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+        <li class="nav-item" id="hstryofroles" onclick="hstryofroles()" style="width: 50%;text-align: center;">
+        <a class="nav-link active show" data-toggle="pill" href="javascript:;"> History of Roles held by an SSOID</a>
+      </li>
+      <li class="nav-item" id="userhstry" onclick="userhstry()" style="width: 50%;text-align: center;" value="0">
+        <a class="nav-link" data-toggle="pill" href="javascript:;">Roles held by users</a>
+      </li>
+    </ul>
+
+<div class="hstryofroles">
+ 	<h4 style="text-align: center; margin-top: 30px; font-family: times new roman;background: deepskyblue;">
+			 History of Roles held by an SSOID</h4>
+ 
+		<div class="form-group row "
+			style="font-weight: 500; margin-top: 2%; justify-content: center;padding-right: 50px;">
+			<label class="control-label" for="State" style="font-size: 110%; margin-right: 20px">Select 
+				User:</label>
+			<div>
+				<select id="siteState" class="form-control userid" style="width: 200px"
+					 name="siteState" required="required">
+					<option value="">--Select User--</option>
+					<div th:each="Lsmuser,iter : ${getlistOfUser}">
+						<option class="form-control" th:text="${Lsmuser}"></option>
+					</div>
+				</select>
+			</div>
+		</div>
+
+<div id="pdf&excelExport" style="display : none">
+	 <div class="col-md-12 row">
+  <div class="col-md-1" ></div>
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div></div>
+				
+	<div id="HistryofLSM" style="padding-left: 9%; padding-right: 9%;display : none">
+		<table id="lSMHstry" class="table table-bordered table-striped"
+			style="font-size: 14px; text-align: center;">
+
+			<thead>
+				<tr style="background-color: #63cfe0">
+					<th scope="col">Sl.No.</th>
+					<th scope="col">USER NAME</th>
+					<th scope="col">SSOID</th>
+					<th scope="col">ROLE NAME</th>
+					<th scope="col">ASSIGN_BY</th>
+					<th scope="col">ASSIGNED_DATE</th>
+					<th scope="col">REVOKED_BY</th>
+					<th scope="col">END_DATE</th>
+				</tr>
+			</thead>
+			<tbody id="getLsmHstrydata" style="font-weight: 500;">
+				
+			</tbody>
+		</table>
+	</div>
+	</div>
+	
+	<div class="rolesheldbyuser" style="display:none">
+	<h4 style="text-align: center; margin-top: 30px; font-family: times new roman;background: deepskyblue;">
+			Roles held by users</h4>
+	<div class="form-group row"
+		style="margin-top: 2%; justify-content: center;padding-right: 2%;">
+		<label class="control-label" for="SiteCode"
+			style="font-weight: 600; padding-right: 20px;">Active PLA Users of FPO Site :</label>
+		<div class=" dropdown">
+			<select class="form-control selsite" style="width: 250px;">
+				<option>--Select Active Sites--</option>
+				<div th:each="siteactve,iter : ${activelstlsm}">
+					<option th:value="${siteactve[1]}" th:text="${siteactve[0]}"
+						id="userstecde"></option>
+				</div>
+			</select>
+		</div>
+	</div>
+	<br>
+	
+	<div id="pdf&excelExport1" style="display : none">
+	 <div class="col-md-12 row">
+  <div class="col-md-1" ></div>
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a onclick="pdfdownload1(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a onclick="exceldownload1(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div></div>
+				
+	<div id="activeusers"
+		style=" padding-left: 5%; padding-right: 5%; display: none">
+		<table id="ViewuserHstrySite" class="table table-bordered table-sm"
+			style="font-size: 14px; text-align: center;">
+			<thead>
+				<tr style="background-color: #63cfe0">
+					<th scope="col" style="width:1% !important;">SI.No</th>
+					<th scope="col">FPO SITE NAME</th>
+					<th scope="col">SITE CODE</th>
+					<th scope="col">SSOID</th>
+					<th scope="col">NAME</th>
+					<th scope="col">ROLES</th>
+					<th scope="col">START-DATE</th>
+					<th scope="col">END-DATE</th>
+				</tr>
+			</thead>
+			<tbody id="viewactveuser">
+			</tbody>
+		</table>
+		<!-- <button type="button" id="viewuserhstry" class="btn btn-success" style="margin-left: 86%" >View History</button>  -->
+	</div>
+	<br>
+	</div>
+</body>
+<script src="js/lsmJS/viewLsmSiteHstry.js"></script>
+<script src="js/lsmJS/hstryofrole.js"></script>
+<script>
+        function goback() {
+     window.location = "allocation_of_roles";
+     
+     } 
+</script> 
+</html>
+

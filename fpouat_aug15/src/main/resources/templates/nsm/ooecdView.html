@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+
+a.nav-link {
+	font-weight: bold;
+	color : black;
+	text-transform : uppercase;
+	font-size : 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background : #0a3052 !important;
+}
+
+.buttons-excel{
+display: none;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div> 
+<input type="hidden" id="rangecS">
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Directory Management> OOE Codes Directory</h3>
+<h3 style="text-align: center; color: #1616e0; ">
+    <div th:if="${session.data1=='PNA'}"> NATIONAL SYSTEM ADMINISTRATOR (PNA)</div> 
+	<div th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+<!-- ul class="nav nav-pills" role="tablist" style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+        <li class="nav-item" onclick="viewmappedpincode()" style="width: 50%;text-align: center;">
+        <a class="nav-link active show" data-toggle="pill" href="javascript:;" >View pincode mapped to FPO Site's</a>
+      </li>
+      <li class="nav-item"  onclick="pincdechange()" style="width: 50%;text-align: center;" value="0">
+        <a class="nav-link" data-toggle="pill" href="javascript:;">Change pincode mapping for inbound articles</a>
+      </li>
+    </ul-->
+    
+<div style ="font-weight: bold;text-align: center; font-family: times new roman;background: deepskyblue;"><h4>OOE Codes Directory</h4></div>
+
+ 
+		<!-- <div class="col-md-12 row">
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>-->
+				
+	 <div id="stdata" style="padding: 20px;">
+		<table id="stcdtable"
+			class="table table-striped table-bordered"
+			style="font-size: 14px; text-align: center;width:60%;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col">Sl.No</th>
+					<th scope="col">IMPC CODE</th>
+					<th scope="col">IMPC NAME</th>
+					<th scope="col">SHORT CODE</th>
+					<th scope="col">POST ORG NAME</th>
+				</tr>
+			</thead>
+			<tbody id="stcddata">
+				<tr height=50px; valign="middle" class="rowDis"
+					th:each="s,iter : ${ooecdList}">
+					<td style="vertical-align: middle;" th:text="${s[0]}"></td>
+					<td style="vertical-align: middle;" th:text="${s[1]}"></td>
+					<td style="vertical-align: middle;" th:text="${s[2]}"></td>
+					<td style="vertical-align: middle;" th:text="${s[3]}"></td>
+					<td style="vertical-align: middle;" th:text="${s[4]}"></td>
+				</tr>
+			</tbody>	
+	
+  
+</body>
+<script>
+ function goback() {
+     window.location = "viewdirectory";
+     
+     }   
+ 
+ 
+ $(document).ready(function() {
+$('#stcdtable').dataTable({
+					"paging": true,
+				"ordering": false,
+				//"dom": 'Bfrtip',
+			//	buttons: ['excel']
+						"dom": '<"pull-left"Bl>frtip',
+	buttons: [{extend: 'csv', text: '<i>EXCEL</i>',
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'OOE Codes Directory',
+					message:'OOE Codes Directory @ ' + sitecode + '\n\r' + datetime,
+					/*customize: function ( xlsx ) {
+    				var sheet = xlsx.xl.worksheets['sheet1.xml'];
+					$('c[r=A4] t', sheet).text( 'Custom text' );
+					} */
+					
+				},
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'OOE Codes Directory ' + sitecode,
+					filename:'OOE Codes Directory',
+				     orientation: 'landscape',
+					exportOptions: {
+        				//columns: [ 0,1,2,3,4,5,6,7,8,9,10],
+						margin: true,
+						modifier:{
+							selected:true
+							},
+      						},
+		   		     customize: function(doc, header) {
+					doc.content[1].table.widths = ['10%','20%','30%','20%','20%'];
+			
+				doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.defaultStyle.Arial=true;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'OOE Codes Directory @ ' + sitecode + '\n\r' + datetime ,
+					filename:'OOE Codes Directory',	  
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '8pt' )
+						
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+                       
+						}, 
+					
+					
+					           
+			}],	
+			});
+});
+     
+</script>
+<script src="js/ooecdView.js"></script>
+
+</html>
+

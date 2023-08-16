@@ -1,0 +1,1012 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+
+<style>
+.ead_decisions {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkblue;
+	font-size: 14px;
+	width : 450px;
+	
+	color: white;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 12px;
+	color: blue;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+	border-bottom-width: 1px;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #040404;
+}
+
+.table-bordered td, .table-bordered th {
+	border: 1px solid #000000;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active1 p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.scroll_down {
+	width: 310%;
+	height: 69px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+
+.container {
+	border-right:0px solid rgb(74, 223, 131) !important;
+}
+#overlay {
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	z-index: 9999;
+	width: 100%;
+	background: rgba(255, 255, 255, .7);
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+
+#nextarticleid {
+    position: absolute;
+    top: 41%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #28a745;
+     display:none; 
+   
+}
+
+
+</style>
+
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+		<div id="loader">
+		<div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+		</div>
+	</div>
+	<div style="background-color: #f8f9fa;
+    border-right: 4px solid rgb(74, 223, 131);
+    border-radius: 10px;
+    max-width: 100%;
+    margin: 10px;
+    padding: 15px 20px;
+    ">
+<input type="hidden" id="itemId" th:value="${check.ITEM_ID}">
+<input type="hidden" id="cinno" th:value="${check.id}">
+<input type="hidden" id="role3blink" th:value="${session.data1}">
+
+		<div><div class="col-md-1" style="padding-left: 5px;">
+				<a href="ead_list"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">EAD List Page</button></a>
+			</div>
+			<div class="mt-3" align="center">
+				<h2>Postal Imports -  Electronic Advance Data (EAD)</h2>
+			</div>
+
+            <div id="disphead">
+            </div>
+            
+            <div  id="nextarticleid">
+            <h1>Next Article ID</h1>
+            </div>
+			<!--div class="form-group row mt-4" style="margin-left:1%;">
+			<div class="px-1" style="width: 10%" align="center">
+					<label class="lab_txt">MAIL CLASS</label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${mc}">
+				</div>
+				<div class="px-1" style="width: 13%" align="center">
+					<label class="lab_txt">ARTICLE ID / ITEM ID</label> <input type="text" id="itemId"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${check.ITEM_ID}">
+				</div>
+				<div class="px-1" style="width: 11%" align="center">
+
+					<label class="lab_txt">POSTING DATE </label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${postdt}">
+				</div>
+				<!--div class="px-1" style="width: 8.5%" align="center">
+					<label class="lab_txt">TIME </label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${check.POSTINGTIME}">
+				<div>
+				<div class="px-1" style="width: 9%" align="center">
+					<label class="lab_txt">ORGIN_POST </label> <input type="text"
+						style="text-align: center;" class="form-control form_txt"
+						readonly="readonly" th:value="${orgpost}">
+
+				</div>
+				
+				<div class="px-1" style="width: 18%" align="center">
+					<label class="lab_txt">ITEM CATEGORY</label> <input
+						type="text" style="text-align: center;"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${itcat}">
+				</div>
+				<div class="px-1" style="width: 13%" align="center">
+					<label class="lab_txt">CIN_NO</label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${check.id}" id="inputPassword">
+				</div>
+				<div class="px-1" style="width: 13%" align="center">
+					<label class="lab_txt">CIN_DT</label> <input type="text"
+						class="form-control form_txt" readonly="readonly"
+						th:value="${cindt}" id="inputPassword">
+				</div>
+				<div class="px-1" style="width: 11%" align="center">
+					<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+						style="text-align: center;" class="form-control form_txt"
+						readonly="readonly" th:value="${check.FPO_CODE}">
+				</div>
+			</!--div-->
+			<nav class="navbar navbar-expand-lg " style="margin-left: -19px">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarNav" aria-controls="navbarNav"
+					aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li class="nav-item px-1"><a
+							class="nav-link btn btn-outline-success btn-sm" href="#"> <strong>CN
+									22/ CN 23 Summary</strong>
+						</a></li>
+						<!-- 	<li class="nav-item px-1"><a
+							class="nav-link btn btn-success btn-sm" href="#">First Check
+						</a></li> -->
+						<li class="nav-item px-1"><a
+							class="nav-link btn btn-success btn-sm check frblink" th:id="${check.id}"
+							onclick="viewDetail(this);" href="#">Process Item wise </a></li>
+
+						<li class="nav-item px-5">
+							<div class="scroll_down" id="aclcmtsback" style="display: none;width:auto;">
+								<label
+									style="width:150px; color: blue; font-size: 14px; font-weight: 700; margin-bottom: 0;">AC's
+									Remarks</label>
+								<div class="ead_decisions mt-1" 
+									th:each="aclcmts,iter : ${acCmts}">
+									<p th:text="${aclcmts.cmts}" th:id="acldata"></P>
+								</div>
+							</div>
+
+							<div class="scroll_down" id="aprcmtsback" style="display: none;width:auto;">
+								<label
+									style="width:150px;color: blue; font-size: 14px; font-weight: 700; margin-bottom: 0;">PAO's
+									Remarks</label>
+								<div class="ead_decisions mt-1"
+									th:each="aprCmts,iter : ${aprCmts}">
+									<p th:text="${aprCmts.cmts}" th:id="aprdata"></P>
+								</div>
+							</div>
+
+
+						</li>
+					</ul>
+				</div>
+
+				<div align="right">
+					<ul class="navbar-nav">
+					    <li th:if="${session.data1 == 'PAO'}" class="nav-item px-1" style="color: white;"><a
+							class="nav-link btn btn-success btn-sm" data-toggle="modal"
+							data-target="#setasideModal">Set aside</a></li>
+						<li class="nav-item px-1" style="color: white;"><a
+							class="nav-link btn btn-success btn-sm toblink" data-toggle="modal"
+							data-target="#exampleModal">First Check</a></li>
+						<!-- <li class="nav-item px-1"><a
+							class="nav-link btn btn-info btn-sm" href="ead_list">Back </a></li> -->
+					</ul>
+				</div>
+			</nav>
+			<!--    muchos disgustimos   -->
+			<div class="breadcrumb-pagination mt-3">
+				<div class="active1">
+					<span>1</span>
+					<p>Summary</p>
+				</div>
+				<div class="todo">
+					<span>2</span>
+					<p>Assessment</p>
+				</div>
+				<div class="todo">
+					<span>3</span>
+					<p>D-Call Letter</p>
+				</div>
+				<div class="todo">
+					<span>4</span>
+					<p>Exam Order</p>
+				</div>
+				<div class="todo">
+					<span>5</span>
+					<p>Submit</p>
+				</div>
+			</div>
+		<div id="summaryContent"></div>
+			<!-- <div class="row">
+				<div class="col-md-6 ">
+					<div class="bg_rec">
+						<h4 class="mt-1">
+							<strong>Recipient Information : </strong>
+						</h4>
+						<div class="row mt-2">
+							<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+							<div class="col-sm-10">
+								<p style="font-weight: 700" th:text="${check.RECP_NAME}"></p>
+							</div>
+						</div>
+						<div class="row">
+							<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+							<div class="col-sm-10">
+								<p style="font-weight: 700" th:text="${check.RECP_ADD1}"></p>
+								<p style="font-weight: 700" th:text="${check.RECP_ADD2}"></p>
+							</div>
+						</div>
+
+						<div class="row " style="margin-bottom: -17px;">
+							<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+							<div class="col-sm-6">
+								<p style="font-weight: 700" th:text="${check.RECP_CITY}"></p>
+							</div>
+							<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700" th:text="${check.RECP_CNTRY_CD}"></p>
+							</div>
+						</div>
+
+						<div class="row " style="margin-bottom: -17px;">
+							<p class="col-sm-2 col-form-label">STATE</p>
+							<div class="col-sm-6">
+								<p style="font-weight: 700" th:text="${check.RECP_STATE}"></p>
+							</div>
+
+							<p class="col-sm-2 col-form-label">PIN</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700" th:text="${check.RECP_ZIP}">
+							</div>
+						</div>
+
+						<div class="row" style="margin-bottom: -17px;">
+							<p class="col-sm-2 col-form-label">EMAIL</p>
+							<div class="col-sm-10">
+								<p style="font-weight: 700" th:text="${check.RECP_EMAILID}">
+							</div>
+
+						</div>
+
+						<div class="form-group row " style="margin-bottom: -17px;">
+							<p class="col-sm-2 col-form-label">PHONE</p>
+							<div class="col-sm-3">
+								<p style="font-weight: 700" th:text="${check.RECP_PHONE}">
+							</div>
+
+
+							<p class="col-sm-1 col-form-label">FAX</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.RECP_FAX}">
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-md-6 ">
+					<div class="bg_rec">
+						<h4 class="mt-1">
+							<strong>Sender Information : </strong>
+						</h4>
+						<div class="row mt-2">
+							<p class="col-sm-2 lab_txt col-form-label">NAME</p>
+							<div class="col-sm-10">
+								<p style="font-weight: 700" th:text="${check.SEND_NAME}"></p>
+							</div>
+						</div>
+						<div class="row">
+							<p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+							<div class="col-sm-10">
+								<p style="font-weight: 700" th:text="${check.SEND_ADD1}"></p>
+								<p style="font-weight: 700" th:text="${check.SEND_ADD2}"></p>
+							</div>
+						</div>
+
+						<div class="row " style="margin-bottom: -17px;">
+							<p class="col-sm-2 lab_txt col-form-label">CITY</p>
+							<div class="col-sm-6">
+								<p style="font-weight: 700" th:text="${check.SEND_CITY}"></p>
+							</div>
+							<p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700" th:text="${check.SEND_CNTRY_CD}"></p>
+							</div>
+						</div>
+
+						<div class="row " style="margin-bottom: -17px;">
+							<p class="col-sm-2 col-form-label">STATE</p>
+							<div class="col-sm-6">
+								<p style="font-weight: 700" th:text="${check.SEND_STATE}"></p>
+							</div>
+
+							<p class="col-sm-2 col-form-label">PIN</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700" th:text="${check.SEND_ZIP}">
+							</div>
+						</div>
+
+						<div class="row" style="margin-bottom: -17px;">
+							<p class="col-sm-2 col-form-label">EMAIL</p>
+							<div class="col-sm-10">
+								<p style="font-weight: 700" th:text="${check.SEND_EMAILID}">
+							</div>
+
+						</div>
+
+						<div class="form-group row " style="margin-bottom: -17px;">
+							<p class="col-sm-2 col-form-label">PHONE</p>
+							<div class="col-sm-3">
+								<p style="font-weight: 700" th:text="987465465">
+							</div>
+
+
+							<p class="col-sm-1 col-form-label">FAX</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.RECP_FAX}">
+							</div>
+
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr>
+
+
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item"><a class="nav-link active" id="home-tab"
+					data-toggle="tab" href="#home" role="tab" aria-controls="home"
+					aria-selected="true">Item Information</a></li>
+				<li class="nav-item"><a class="nav-link" id="profile-tab"
+					data-toggle="tab" href="#profile" role="tab"
+					aria-controls="profile" aria-selected="false">Other Information</a></li>
+
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="home" role="tabpanel"
+					aria-labelledby="home-tab">
+
+					<div class="bg_rec">
+						<h4 class="mt-1">
+							<strong>Item Information : </strong>
+						</h4>
+						<table class="table table-sm table-bordered">
+							<thead style="text-align: center;">
+								<tr class="table-dark col-form-label">
+									<th scope="col" rowspan="2" style="width: 8%">Item. No</th>
+									<th scope="col" rowspan="2" style="width: 45%">Item
+										Description</th>
+									<th scope="col" rowspan="2" style="width: 13%">HS Code</th>
+									<th scope="col" rowspan="2">Units</th>
+									<th scope="col" colspan="2">Declared Value <br> <span
+										style="font-size: 10px;">(as received in EAD)</span></th>
+									<th scope="col" colspan="1">Assessed Value<sup
+										style="color: red; font-size: 16px; font-weight: 300">*</sup></th>
+								</tr>
+								<tr class="table-dark col-form-label">
+									<th scope="col">USD</th>
+									<th scope="col">INR</th>
+									<th scope="col" colspan="1">INR</th>
+								</tr>
+							</thead>
+							<tbody style="font-weight: 700">
+								<tr th:each="items,iter : ${itemlist}">
+									<td th:text="${items.ITEM_NO}">1</td>
+									<td th:text="${items.ITEM_DESC}">shirt</td>
+									<td th:text="${items.CTH}">98041222</td>
+									<td th:text="${items.NOU}">5</td>
+									<td th:text="${items.DECL_VAL}">35600</td>
+									<td th:text="${items.ASSESS_VAL}">35600</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td class="col-form-label">Total</td>
+									<td><input readonly="readonly" type="text"
+										style="text-align: right; background-color: #fdfeff; padding: 0px;"
+										class="form-control form_txt"></td>
+									<td><input readonly="readonly" type="text"
+										style="text-align: right; background-color: #fdfeff; padding: 0px;"
+										class="form-control form_txt"></td>
+									<td><input readonly="readonly" type="text"
+										style="text-align: right; background-color: #fdfeff; padding: 0px;"
+										class="form-control form_txt"></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="form-group row">
+							<div class="col-md-7">
+
+								<p style="font-size: 13px;">
+									<sup style="color: red; font-size: 17px">*</sup>Assessed value
+									will be displayed only after the successful updation of the
+									assessment done by the officer.
+								</p>
+
+							</div>
+						</div>
+
+
+					</div>
+
+
+
+				</div>
+				<div class="tab-pane fade" id="profile" role="tabpanel"
+					aria-labelledby="profile-tab">
+
+
+
+
+					<div class="col-md-12 bg_rec">
+
+						<div class="row">
+							<p class="col-sm-1 col-form-label">MAIL PID</p>
+							<div class="col-sm-5">
+								<p style="font-weight: 700" th:text="${check.MAIL_PID}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">DECL PID</p>
+							<div class="col-sm-5">
+								<p style="font-weight: 700" th:text="${check.DECLARATION_PID}"></p>
+							</div>
+
+						</div>
+						<div class="row">
+							<p class="col-sm-1 col-form-label">CUST ORG</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700;" th:text="${check.CUST_ORG_CD}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">HANDLING</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.HANDLING_CLASS_CD}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">DESTPOST</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.DESTPOST_ORG_CD}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">CUS_SITE</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.CUS_SITE}"></p>
+							</div>
+						</div>
+
+						<div class="row">
+							<p class="col-sm-1 col-form-label">JOB_NO</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700;" th:text="${check.JOB_NO}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">JOB_DT</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.JOB_DT}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">TRANS_DATE</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.TRANS_DATE}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">TRANS_MODE</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.TRANS_MODE}"></p>
+							</div>
+						</div>
+
+						<div class="row">
+							<p class="col-sm-1 col-form-label">GROSS_WT</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.GROSS_WT}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">MEASWT</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.MEASURED_GROSS_WT}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">MODIFIED</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700" th:text="${check.MODIFIED}"></p>
+							</div>
+
+
+							<!-- <p class="col-sm-1 col-form-label">UNIQUE_ID</p>
+					<div class="col-sm-2">
+						<p style="font-weight: 700" th:text="${check.UNIQUE_ID}"></p>
+					</div>
+						</div>
+
+						<div class="form-group row  mt-2">
+							<p class="col-sm-1 col-form-label">POST_AMT</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.POSTAGE_AMT}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">POST_CURRCD</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.POSTAGE_CURR_CD}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">INS VAL</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.INS_VAL}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">INS_CURRCD</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.INS_VAL_CURRCD}"></p>
+							</div>
+						</div>
+
+						<div class="form-group row  mt-2">
+							<p class="col-sm-1 col-form-label">TOT_DECL_VAL (USD)</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.TOT_DECL_VAL}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">TOT_Decl_VAL (INR)</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.TOT_ASS_VAL}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">
+								TOT_DUTY<sup style="color: red; font-size: 16px">**</sup>
+							</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.TOT_DUTY}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">INS_VAL</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.INS_VAL}"></p>
+							</div>
+						</div>
+
+
+
+						<div class="form-group row  mt-2">
+							<p class="col-sm-2 col-form-label">MAIL_CATEGORY</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700" th:text="${check.MAIL_CATEGORY_CD}"></p>
+							</div>
+							<p class="col-sm-1 col-form-label">MAIL_CLASS</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.MAIL_CLASS_CD}"></p>
+							</div>
+
+							<p class="col-sm-1 col-form-label">MAIL_STATE</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.MAIL_STATE_CD}"></p>
+							</div>
+							<p class="col-sm-0 col-form-label">STATE_REMARKS</p>
+							<div class="col-sm-1">
+								<p style="font-weight: 700"
+									th:text="${check.MAIL_STATE_REMARKS}"></p>
+							</div>
+							<p class="col-sm-2 col-form-label">RECP_ID</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.RECP_IDREF}"></p>
+							</div>
+							<p class="col-sm-2 col-form-label"><div>&nbsp;</div></p>
+							<p class="col-sm-2 col-form-label">SEND_ID</p>
+							<div class="col-sm-2">
+								<p style="font-weight: 700" th:text="${check.SEND_IDREF}"></p>
+							</div>
+						</div>
+
+						
+						
+
+
+						<div class="row ">
+							<p class=" col-sm-2 col-form-label">DOCUMENTS</p>
+							<p style="font-weight: 700" th:text="${check.DOCUMENTS}" rows="3"></p>
+						</div>
+					</div>
+
+					<div>
+						<p>
+							<sup style="color: red; font-size: 17px">**</sup>Tentative duty
+							assessed by system based on declared value, without extending any
+							benefits. This is subject to change once the assessment is done
+							by the officer.
+						</p>
+					</div>
+
+
+
+
+				</div>
+
+			</div> -->
+
+		</d!--div>
+
+		<!-- <div class="bg_rec">
+				<h4 class="mt-1">
+					<strong>Item Information : </strong>
+				</h4>
+				<table class="table table-sm table-bordered">
+					<thead style="text-align: center;">
+						<tr class="table-dark col-form-label">
+							<th scope="col" rowspan="2" style="width: 8%">Item. No</th>
+							<th scope="col" rowspan="2" style="width: 45%">Item
+								Description</th>
+							<th scope="col" rowspan="2" style="width: 13%">HS Code</th>
+							<th scope="col" rowspan="2">Units</th>
+							<th scope="col" colspan="2">Declared Value <br> <span
+								style="font-size: 10px;">(as received in EAD)</span></th>
+							<th scope="col" colspan="1">Assessed Value<sup
+								style="color: red; font-size: 16px; font-weight: 300">*</sup></th>
+						</tr>
+						<tr class="table-dark col-form-label">
+							<th scope="col">USD</th>
+							<th scope="col">INR</th>
+							<th scope="col" colspan="1">INR</th>
+						</tr>
+					</thead>
+					<tbody style="font-weight: 700">
+						<tr th:each="items,iter : ${itemlist}">
+							<td th:text="${items.ITEM_NO}">1</td>
+							<td th:text="${items.ITEM_DESC}">shirt</td>
+							<td th:text="${items.CTH}">98041222</td>
+							<td th:text="${items.NOU}">5</td>
+							<td th:text="${items.DECL_VAL}">35600</td>
+							<td th:text="${items.ASSESS_VAL}">35600</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="col-form-label">Total</td>
+							<td><input readonly="readonly" type="text"
+								style="text-align: right; background-color: #fdfeff; padding: 0px;"
+								class="form-control form_txt"></td>
+							<td><input readonly="readonly" type="text"
+								style="text-align: right; background-color: #fdfeff; padding: 0px;"
+								class="form-control form_txt"></td>
+							<td><input readonly="readonly" type="text"
+								style="text-align: right; background-color: #fdfeff; padding: 0px;"
+								class="form-control form_txt"></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="form-group row">
+					<div class="col-md-7">
+
+						<p style="font-size: 13px;">
+							<sup style="color: red; font-size: 17px">*</sup>Assessed value
+							will be displayed only after the successful updation of the
+							assessment done by the officer.
+						</p>
+
+					</div>
+				</div>
+
+
+			</div>
+
+
+			<hr> -->
+
+
+		<div class="mt-2" style="float: right;display:none;">
+			<a class="nav-link btn btn-info btn-sm" href="ead_list">Back </a>
+		</div>
+
+
+		<br> <br>
+
+		<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog  modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>Pls resort to First Check only if absolutely required. As
+							it may delay the assessment and  clearance process.</h4>
+					</div>
+					<div class="modal-footer">
+
+						<button type="button" class="btn btn-danger"
+						style="margin-right:370px"	data-dismiss="modal">No</button>
+
+						<button class="btn btn-success" th:id="${check.id}"
+							onclick="viewDetail1(this);">Yes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		
+		<div class="modal fade" id="setasideModal" tabindex="-1" role="dialog"
+			aria-labelledby="setasideModalLabel" aria-hidden="true">
+			<div class="modal-dialog  modal-dialog-centered" role="document">
+				<div class="modal-content" style="margin-left: 1%; margin-right: 1%;" >
+					<div class="modal-body" align="center">
+						<h4>Reasons to be entered for keeping this as SET ASIDE</h4>
+					</div>
+					<div style="margin-left: 1%; margin-right: 1%;" ><textarea class="form-control" name="setasidetxt"
+							th:id="setasidetxt" 
+							placeholder="Reasons for set aside" rows="3"></textarea></div>
+					<div class="modal-footer">
+					       <div class="col-6" style="justify-content: flex-start;display: flex;">
+                                  <button type="button" class="btn btn-danger" data-dismiss="modal" style="">
+				                       <font bgcolor="red" color="white">No</font>
+		                          </button>
+                           </div>
+						
+ 					     <div class="col-6" style="display: flex;justify-content: flex-end;">
+		                            <button class="btn btn-success" th:id="${check.id}" name="setasideyes" onclick="savesetaside(this);">
+				                           <font bgcolor="green" color="white">Yes</font>
+		                            </button>
+                          </div>	
+                      </div>     
+                        <!-- <button type="button" class="btn btn-danger"
+							data-dismiss="modal"><font bgcolor="red" color="white">No</font></button> -->
+						<!-- <!-- <button class="btn btn-success" th:id="${check.id}" name="setasideyes" 
+ 							onclick="savesetaside(this);"><font bgcolor="green" color="white">Yes</font></button> --> 
+ 							      
+					
+				</div>
+			</div>
+		</div>
+		
+	
+		
+		<div id="othersModal" class="modal fade">	
+			<div class="modal-dialog modal-dialog-centered" style="max-width: fit-content;">	
+				<div class="modal-content">	
+					<div class="modal-header">	
+			          <h4 class="modal-title" style="color: blue;">Others Document Submission</h4>	
+			          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>	
+			        </div>	
+					<div class="modal-body" align="center">	
+						<div class="row" style="justify-content:center;font-weight:700;">	
+						<label for="othersDoc">DOCUMENT NAME</label>	
+						</div>	
+						<input type="text" id="othersDoc">	
+					</div>	
+					<div class="modal-footer">	
+						<!-- <button data-dismiss="modal" type="submit" class="btn btn-success">SUBMIT</button> -->
+						<button type="submit" class="btn btn-success" onclick="return validateOthersDoc();">SUBMIT</button>	
+					</div>	
+				</div>
+			</div>	
+		</div>
+		
+		<div id="aprWarningMsg" class="modal fade">
+		<div class="modal-dialog modal-dialog-centered" style="max-width: fit-content;">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4>
+						Please see PAC remarks.
+					</h4>
+				</div>
+				<div class="modal-footer">
+					<button data-dismiss="modal" class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+		<div id="WarningMsgFirst" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4 >
+							AO/Supdt has raised First Check examination order, <br>Please
+							click "FIRST CHECK" to proceed further.
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-success">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div th:each="exam,iter : ${getOrder}">
+
+		<input type="hidden" id="firstCheck" th:value="${exam.FIRST_CHECK}">
+
+	</div>
+	<input type="hidden" th:value="${check.TOT_ASS_VAL}" id="totassval">
+	<input type="hidden" th:value="${check.ROLE}" id="role1">
+	<input type="hidden" th:value="${assvalacl}" id="maxval">
+	
+</body>
+<script type="text/javascript">
+$.ajax({
+                url: 'getSummary?id=' + $("#itemId").val(),
+                type: "post",
+                success: function(data) {
+                    $("#summaryContent").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+            
+            
+                var blink = localStorage.getItem("blinking");
+    /*if (blink === 'true') {
+        var disphead = $('#disphead');
+        var blinkInterval = setInterval(function() {
+            disphead.fadeOut(500, function() {
+                disphead.fadeIn(500);
+            });
+        }, 1000);
+
+       
+        setTimeout(function() {
+            clearInterval(blinkInterval);
+        }, 20000);
+        localStorage.removeItem("blinking");
+    }*/
+    
+    
+    
+ if($('#role3blink').val() != 'PAC'){
+    if (blink === 'true') {
+        $('#nextarticleid').css('display', 'block');
+        
+$('#nextarticleid').fadeIn('slow', function() {
+    var nextarticleInterval = setInterval(function() {
+        $('#nextarticleid').fadeOut('slow', function() {
+            $('#nextarticleid').fadeIn('slow');
+        });
+    }, 1000);
+    setTimeout(function() {
+                clearInterval(nextarticleInterval);
+        $('#nextarticleid').css('display', 'none');
+        var blinkInterval = setInterval(function() {
+         clearInterval(nextarticleInterval);
+        $('#nextarticleid').css('display', 'none');
+            $('#disphead').fadeOut('slow', function() {
+                $('#disphead').fadeIn('slow');
+            });
+        }, 1000);
+        
+        setTimeout(function() {
+            clearInterval(blinkInterval);
+            $('#nextarticleid').css('display', 'none');
+            $('#disphead').css('display', 'block');
+        }, 20000);
+    }, 4000);
+    
+});
+$('#nextarticleid').css('display', 'none');
+localStorage.removeItem("blinking");
+    }
+         }
+         
+</script>
+<script src="js/ead_main.js"></script>
+</html>

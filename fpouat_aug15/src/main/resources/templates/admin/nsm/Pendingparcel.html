@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+</head>
+
+<style>
+.buttons-excel{
+display: none;
+} 
+a.nav-link {
+	font-weight: bold;
+	color : black;
+	text-transform : uppercase;
+	font-size : 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background : #0a3052 !important;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+
+<body>
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+	<div class="col-md-12" style="padding:0px">
+		<h3 style="font-size: 19px;margin-left:20px">Dashboard> Miscellaneous> Pending Parcel without FPO Site
+			</h3>
+		<h3 style="text-align: center; color: #1616e0;">NATIONAL SYSTEM
+				ADMINISTRATOR</h3><br>
+		
+			 
+<ul class="nav nav-pills" role="tablist" style="border: 2px solid;border-radius: 7px;margin:20px;">
+        <li class="nav-item" id="hstryofroles" onclick="ntmappSite()" style="width: 33.3%;text-align: center;">
+        <a class="nav-link active show" data-toggle="pill" href="javascript:;">Not Mapped to Site</a>
+      </li>
+      <li class="nav-item" id="userhstry" onclick="yettomap()" style="width: 33.3%;text-align: center;" value="0">
+        <a class="nav-link" data-toggle="pill" href="javascript:;">Arrived at Site and Yet to be Mapped</a>
+      </li>
+        <li class="nav-item" id="userhstry" onclick="maptospecSite()" style="width: 33.4%;text-align: center;" value="0">
+        <a class="nav-link" data-toggle="pill" href="javascript:;">Mapped by officer to specific Sites</a>
+      </li>
+    </ul>
+      
+<div id="Notmappedtbl" style="padding: 20px;margin:20px;">
+	<table id="NotmappedSite" class="table table-bordered table-striped"
+		style="font-size: 14px; text-align: center;">
+		<thead style="background-color: #a1c4e6;">
+			<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">ARTICLE ID</th>
+					<th scope="col">ARTICLE ID DT</th>
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr align="middle" class="rowDis" th:each="s1,iter : ${notmappeddata}">
+				<td width="1%" style="vertical-align: middle;"
+					th:text="${iter.index+1}"></td>
+				   <td width="10%" th:text="${s1[0]}"></td>
+					<td width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td>
+					<td width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+			        <td width="10%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+    
+<div id="yettobemaptbl" style="padding: 20px; display : none;margin:20px;">
+	<table id="yettobemapSite" class="table table-bordered table-striped"
+		style="font-size: 14px; text-align: center;">
+		<thead style="background-color: #a1c4e6;">
+			<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">ARTICLE ID</th>
+					<th scope="col">ARTICLE ID DT</th>
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+					<th scope="col">RECEIVED FPO</th>
+					<th scope="col">RECEIVED DATE</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr align="middle" class="rowDis" th:each="s1,iter : ${yettobemapped}">
+				<td width="1%" style="vertical-align: middle;"
+					th:text="${iter.index+1}"></td>
+				   <td width="10%" th:text="${s1[0]}"></td>
+					<td width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td>
+					<td width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+					<td width="8%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td>
+					<td width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td width="8%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div id="maptospectbl" style="padding: 20px; display : none;margin:20px;">
+	<table id="maptospefcSite" class="table table-bordered table-striped"
+		style="font-size: 14px; text-align: center;">
+		<thead style="background-color: #a1c4e6;">
+			<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">ARTICLE ID</th>
+					<th scope="col">ARTICLE ID DT</th>
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+					<th scope="col">RECEIVED FPO</th>
+					<th scope="col">RECEIVED DATE</th>
+					<th scope="col">OFFICER ID</th>
+					<th scope="col">MAPPED DATE</th>
+					<th scope="col">REASON</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr align="middle" class="rowDis" th:each="s1,iter : ${mapbyoff}">
+				<td width="1%" style="vertical-align: middle;"
+					th:text="${iter.index+1}"></td>
+				   <td width="10%" th:text="${s1[0]}"></td>
+					<td width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td>
+					<td width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+					<td width="8%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td>
+					<td width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td width="10%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td width="10%" th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					   <!-- td th:text="${s1[10]!=null ? s1[10] : '-'}"></td--> 
+			</tr>
+		</tbody>
+	</table>
+</div>
+    
+	</div>
+</body>
+<script src="js/header.js"></script>
+<script src="js/lsmJS/pendingparcel.js"></script>
+<script>
+           function goback() {
+     window.location = "miscellaneous";
+     
+     } 
+     </script>
+</html>
+

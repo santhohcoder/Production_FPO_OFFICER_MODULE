@@ -1,0 +1,80 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="container" style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px; max-width: 98%; margin: 20px; height: auto; padding: 20px;">
+	<div align="center" style="margin-bottom: 25px;">
+		<h2>DELIVERY ACKNOWLEDGEMENT FROM POST</h2>
+        <table th:if="${ooc}" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;text-transform: uppercase;border-collapse: inherit;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+                    <th scope="col" style="text-align: center;">Delivery PO</th>
+                    <th scope="col" style="text-align: center;">Delivery Date</th>
+                    <th scope="col" style="text-align: center;">Delivery Status</th>
+                    <th scope="col" style="text-align: center;">Delivery Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${not #lists.isEmpty(deliveryarticles)}" th:each="deliveryarticle : ${deliveryarticles}">
+            <td th:text="${deliveryarticle.cussite}"></td>
+            <td th:text="${deliveryarticle.item_id}"></td>
+            <td th:text="${deliveryarticle.postingdt}"></td>
+            <td th:text="${deliveryarticle.eadstatus}"></td>
+            <td th:text="${deliveryarticle.mailclass}"></td>
+            <td th:text="${deliveryarticle.oocdt}"></td>
+            <td th:text="${deliveryarticle.deli_po}"></td>
+            <td th:text="${deliveryarticle.deli_dt}"></td>
+            <td th:text="${deliveryarticle.deli_status}"></td>
+            <td th:text="${deliveryarticle.deli_mode}"></td>
+            </tr>
+            <tr th:unless="${not #lists.isEmpty(deliveryarticles)}">
+            <td colspan="5">DELIVERY ACKNOWLEDGEMENT FROM POST FOR THIS ARTICLE ID IS NOT AVAILABLE</td>
+            </tr>
+            </tbody>
+        </table>
+        <h1 th:unless="${ooc}" style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">OOC not given</h1>
+	</div>
+	</div>
+	<script  th:inline="javascript" >
+	function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+	
+	</script>

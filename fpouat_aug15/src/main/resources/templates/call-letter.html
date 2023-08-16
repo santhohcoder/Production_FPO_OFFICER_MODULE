@@ -1,0 +1,230 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/datatables.min.js}"></script>
+    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/font.js}"></script>
+
+    <style type="text/css">
+        @media print {
+            #printbtn {
+                display: none;
+            }
+        }
+
+        p {
+            margin-bottom: 0rem;
+        }
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }   
+        
+    </style>
+</head>
+
+<body style="font-family: initial;">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+    <div style="display : flex;">
+        <div class="col-md-6">
+            <p>
+                OLD DIN : <strong th:text="${dinList.din1}"> </strong>
+            </p>
+        </div>
+        <div class="col-md-6" align="right">
+            <p>
+                DIN : <strong th:text="${dinList.din2}"> </strong>
+            </p>
+        </div>
+    </div>
+    <div class="col-md-12" align="center">
+        <img src="images/CBEC.png" height="130" width="125">
+        <p>INDIAN CUSTOMS,</p>
+        <p>POSTAL APPRAISING DEPARTMENT,</p>
+        <p>FOREIGN POST OFFICE,</p>
+        <p>
+            Address : <span> Chamarajpete Post Office, 4th Main, 5th
+                Cross, Chamarajpete, Bengaluru - 560018</span>
+        </p>
+        <p>
+            Email : <span> xyz@ymail.in</span>
+        </p>
+        <p>
+            (Visiting Hours : <span> 10.00 am to 5.30 pm</span>)
+        </p>
+    </div>
+    <div class="col-md-12" align="center">
+        <h6>
+            <u><strong>Document Call Letter :</strong> <span th:text="${dinList.uniqueNo}"> </span></u>
+        </h6>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <div style="margin-left: 18px;">
+                <p>To,</p>
+                <p th:text="${fpoMainData.RECP_NAME}">address</p>
+                <p th:text="${fpoMainData.RECP_ADD1}">address</p>
+                <p th:text="${fpoMainData.RECP_ADD2}">line 1</p>
+                <p th:text="${fpoMainData.RECP_CITY}">CITY - </p>
+                <span th:text="${fpoMainData.RECP_ZIP}"></span>
+                <p>Ph - <span th:text="${fpoMainData.RECP_PHONE}"></span></p>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+            <p>ON INDIA GOVERNMENT SERVICE</p>
+            <p>By SPEED POST</p>
+        </div>
+    </div>
+    <div class="col-md-12 mt-4" align="left">
+        <p>Sir/Madam,</p>
+    </div>
+    <div class="col-md-12" align="center">
+        <p>
+        <h5>Sub: IMPORT - Foreign Post Parcel No.<strong th:id="cinNo" th:text="${fpoMainData.id}">Item ID /CIN No</strong>-reg.</h5>
+        </p>
+        <p>***</p>
+    </div>
+    <div class="col-md-12" align="left">
+        <p>
+            1. The above mentioned import parcel addressed to you is expected to
+            arrive at the <strong> Bengaluru </strong>FPO and is being taken up
+            for assessment by the Indian Customs.
+        </p>
+        <p>2. In this regard, it is requested to provide clarifications on
+            the following queries raised by the department:/ provide the
+            documents called for.</p>
+    </div>
+    <div class="col-md-12" align="center">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 13%">Item No</th>
+                    <th scope="col">Item Description</th>
+                    <th scope="col">Query</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fpoQuery,iter : ${callMemo}">
+                    <th th:if="${fpoQuery.QRY != null}" scope="row" th:text="${fpoQuery.ITEM_NO}"></th>
+                    <td th:if="${fpoQuery.QRY != null}" th:text="${fpoQuery.itemDesc}"></td>
+                    <td th:if="${fpoQuery.QRY != null}" th:text="${fpoQuery.QRY}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-12" align="center">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 13%">Sl.No</th>
+                    <th scope="col">General Query /Clarification required</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="defualtQuery,iter : ${defualtQueryList}">
+                    <th scope="row" th:text="${iter.index+1}"></th>
+                    <td th:text="${defualtQuery}"></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-12" align="left">
+        <p>
+            <strong>General Remarks : </strong><span th:text="${dinList.remarks}">
+            </span>
+        </p>
+
+    </div>
+
+    <div class="col-md-12" align="left" style="padding: 15px;">
+        <p>
+            <strong>Additional Query : </strong><span th:text="${additionalQuery}"></span>
+        </p>
+
+    </div>
+
+    <div class="col-md-12" align="left">
+        <p>3. The addressee is requested to clarify the queries and submit
+            the required supporting documents sought above along with the copy of
+            the KYC documents and enable Indian Customs to process for further
+            assessment and levy of duties, if any, subject to provisions of
+            Foreign Trade Policy or any other Act for the time being in force as
+            applicable to the goods contained in the parcel. If no reply is
+            received within 7days (SEVEN DAYS) from the date of receipt of this
+            communication, the parcel on its arrival, will be liable to be
+            assessed on merits or confiscated or returned to the sender with
+            costs, as per the provisions of the Customs Act, 1962 without any
+            further intimation to you.</p>
+        <p>4. It is also clarified that in case of undue delay in receipt
+            of reply (i.e. beyond 30 days from the date of receipt of this
+            Document Call letter), the assessment of the goods will be completed
+            based on the documents and information available on record with the
+            department without any further reference to the addressee /
+            consignee.</p>
+        <p>5. This letter does not confer any right on the addressee for
+            clearance of the parcel from the Foreign Post Office. Further, Indian
+            Customs is not responsible for any loss or shortage of goods found at
+            the time of examination or delivery of the parcel.</p>
+
+        <p>6. Please quote the above parcel number in all your
+            correspondence.</p>
+    </div>
+    <div class="col-md-12" align="right">
+        <p>Yours sincerely,</p>
+        <br>
+        <p>AC/DC OF CUSTOMS</p>
+        <p>
+            PAD, <strong>BANGALORE</strong>
+        </p>
+    </div>
+    <div class="col-md-12 mb-5" align="center">
+        <input id="printbtn" class="btn btn-primary" type="button" value="Print this page" onclick="window.print();">
+    </div>
+</body>
+
+<script>
+
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+</script>
+</html>

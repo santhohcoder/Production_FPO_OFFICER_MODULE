@@ -1,0 +1,1016 @@
+<style>
+   label,
+   p {
+   font-weight: bold;
+   cursor:default;
+   }
+   .lab_txt {
+   color: black;
+   }
+   input[readonly] {
+   background-color: white !important;
+   font-weight: bold;
+   cursor:default;
+   }
+   input:focus{
+   box-shadow: none !important;
+   border: none !important;
+   }
+ #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }  
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="row">
+   <div class="col-md-6">
+      <div class="mt-2" align="center">
+         <h4 style="
+            font-weight: bold;
+            ">DECLARED DETAILS<br>(System by default takes Duty/ Notification details for personal imports)</h4>
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="mt-2" align="center">
+         <h4 style="
+            font-weight: bolder;
+            ">ASSESSED DETAILS</h4>
+      </div>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="
+    position: relative;
+    bottom: 30px;
+    right: 20px;
+">
+          <span aria-hidden="true">&times;</span>
+        </button>
+   </div>
+</div>
+<div class="row">
+   <div class="col-sm-6" th:if="${amended}">
+      <div>
+         <div class="col-md-12 " style="background: wheat; border-radius: 8px; margin: 15px;margin-top: 0;padding: 10px;box-shadow: 5px 10px #ff7878;">
+            <div class="bg_item" th:each="fpoItemCth : ${fpoAmendItemsCth}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Item Details : </p>
+               </div>
+               <div class="form-group row">
+                  <p class="col-sm-3 lab_txt col-form-label">Item No :</p>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ITEM_NO}">
+                  </div>
+                  <p class="col-sm-3 lab_txt col-form-label">Item Description :</p>
+                  <div class="col-sm-4">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ITEM_DESC}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">CTH :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.CTH}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Number Of Units :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.NOU}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Net Weight :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.NETWT}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Declared Value :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.DECL_VAL}">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <p class="col-sm-3 lab_txt col-form-label">Currency Code :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.CURRCD}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Origin Country Code :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ORIGCNTRYCD}">
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:unless="${not #lists.isEmpty(fpoAmendItemsCthOthers)}">
+               <div th:each="fpoItemCth : ${fpoAmendItemsCth}">
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">BCD Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.BCD_AMT_FG}">
+                     </div>
+                  </div>
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">IGST Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.IGST_AMT_FG}">
+                     </div>
+                  </div>
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">SW Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.SW_AMT_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoAmendItemsCthOthers)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Other Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthOther : ${fpoAmendItemsCthOthers}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthOther.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoAmendItemsCthManual)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Manual Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthManual : ${fpoAmendItemsCthManual}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthManual.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoAmendItemsCthOtherManual)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Manual Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthOtherManual : ${fpoAmendItemsCthOtherManual}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoAmendItemFines)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Fine Details : </p>
+               </div>
+               <div th:each="fpoItemFine,iter : ${fpoAmendItemFines}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Amount'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemFine.fineAmt}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Section'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemFine.fineUs}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoAmendItemPenalties)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Penalty Details : </p>
+               </div>
+               <div th:each="fpoItemPenalty,iter : ${fpoAmendItemPenalties}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Amount'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemPenalty.penalAmt}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Section'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemPenalty.penalUs}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1">
+               <div class="form-group row mt-2 ">
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Rate :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Duty :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Duty FG :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- 	<div align="right">
+            <button type="button" class="btn btn-secondary btn-sm"
+            	data-toggle="modal" data-target="#exampleModalLong">Change
+            </button>
+            </div> -->
+         <hr>
+      </div>
+   </div>
+   <div class="col-sm-6" th:unless="${amended}">
+      <div>
+         <div class="col-md-12 " style="background: wheat; border-radius: 8px; margin: 15px;margin-top: 0;padding: 10px;box-shadow: 5px 10px #ff7878;">
+            <div class="bg_item" th:each="fpoItemCth : ${fpoItemsCth}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Item Details : </p>
+               </div>
+               <div class="form-group row">
+                  <p class="col-sm-3 lab_txt col-form-label">Item No :</p>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ITEM_NO}">
+                  </div>
+                  <p class="col-sm-3 lab_txt col-form-label">Item Description :</p>
+                  <div class="col-sm-4">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ITEM_DESC}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">CTH :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.CTH}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Number Of Units :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.NOU}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Net Weight :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.NETWT}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Declared Value :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.DECL_VAL}">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <p class="col-sm-3 lab_txt col-form-label">Currency Code :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.CURRCD}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Origin Country Code :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ORIGCNTRYCD}">
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:unless="${not #lists.isEmpty(fpoItemsCthOthers)}">
+               <div th:each="fpoItemCth : ${fpoItemsCth}">
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">BCD Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.BCD_AMT_FG}">
+                     </div>
+                  </div>
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">IGST Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.IGST_AMT_FG}">
+                     </div>
+                  </div>
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">SW Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.SW_AMT_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemsCthOthers)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Other Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthOther : ${fpoItemsCthOthers}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthOther.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemsCthManual)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Manual Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthManual : ${fpoItemsCthManual}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthManual.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemsCthOtherManual)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Manual Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthOtherManual : ${fpoItemsCthOtherManual}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemFines)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Fine Details : </p>
+               </div>
+               <div th:each="fpoItemFine,iter : ${fpoItemFines}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Amount'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemFine.fineAmt}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Section'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemFine.fineUs}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemPenalties)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Penalty Details : </p>
+               </div>
+               <div th:each="fpoItemPenalty,iter : ${fpoItemPenalties}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Amount'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemPenalty.penalAmt}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Section'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemPenalty.penalUs}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1">
+               <div class="form-group row mt-2 ">
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Rate :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Duty :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Duty FG :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- 	<div align="right">
+            <button type="button" class="btn btn-secondary btn-sm"
+            	data-toggle="modal" data-target="#exampleModalLong">Change
+            </button>
+            </div> -->
+         <hr>
+      </div>
+   </div>
+   <!-- Assessed Details -->
+   <div class="col-sm-6">
+      <div>
+         <div class="col-md-12 " style="background: wheat; border-radius: 8px; margin: 0px 15px 15px 0px; width: 98%;padding: 10px;box-shadow: 5px 10px #ff7878;">
+            <div class="bg_item" th:each="fpoItemCth : ${fpoItemsCth}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Item Details : </p>
+               </div>
+               <div class="form-group row">
+                  <p class="col-sm-3 lab_txt col-form-label">Item No :</p>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ITEM_NO}">
+                  </div>
+                  <p class="col-sm-3 lab_txt col-form-label">Item Description :</p>
+                  <div class="col-sm-4">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ITEM_DESC}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">CTH :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.CTH}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Number Of Units :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.NOU}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Net Weight :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.NETWT}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Declared Value :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.DECL_VAL}">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <p class="col-sm-3 lab_txt col-form-label">Currency Code :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.CURRCD}">
+                  </div>
+               </div>
+               <div class="form-group row ">
+                  <p class="col-sm-3 lab_txt col-form-label">Origin Country Code :</p>
+                  <div class="col-sm-9">
+                     <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.ORIGCNTRYCD}">
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:unless="${not #lists.isEmpty(fpoItemsCthOthers)}">
+               <div th:each="fpoItemCth : ${fpoItemsCth}">
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">BCD Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.BCD_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.BCD_AMT_FG}">
+                     </div>
+                  </div>
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">IGST Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.IGST_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.IGST_AMT_FG}">
+                     </div>
+                  </div>
+                  <div class="form-group row" style="
+                     margin-bottom: 0;
+                     ">
+                     <p class="col-sm-12 lab_txt col-form-label" style="
+                        font-size: 20px;
+                        text-decoration: underline;
+                        ">SW Duty Details : </p>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_NSNO}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_RTA}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemCth.SW_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemCth.SW_AMT_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemsCthOthers)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Other Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthOther : ${fpoItemsCthOthers}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOther.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthOther.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemsCthManual)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Manual Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthManual : ${fpoItemsCthManual}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthManual.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthManual.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemsCthOtherManual)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Manual Duty Details : </p>
+               </div>
+               <div th:each="fpoItemsCthOtherManual : ${fpoItemsCthOtherManual}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Description :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_DESC}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">NOTN :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_NOTN}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">S.No :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_SLNO}">
+                     </div>
+                  </div>
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Rate Of Duty :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_RTA}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount :</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_AMT}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt">Amount FG :</label> <input type="text" class="form-control form_txt " readonly="readonly" th:value="${fpoItemsCthOtherManual.DUTY_FG}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemFines)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Fine Details : </p>
+               </div>
+               <div th:each="fpoItemFine,iter : ${fpoItemFines}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Amount'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemFine.fineAmt}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Section'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemFine.fineUs}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1" th:if="${not #lists.isEmpty(fpoItemPenalties)}">
+               <div class="form-group row" style="
+                  margin-bottom: 0;
+                  ">
+                  <p class="col-sm-12 lab_txt col-form-label" style="
+                     font-size: 20px;
+                     text-decoration: underline;
+                     ">Penalty Details : </p>
+               </div>
+               <div th:each="fpoItemPenalty,iter : ${fpoItemPenalties}">
+                  <div class="form-group row ">
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Amount'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemPenalty.penalAmt}">
+                     </div>
+                     <div class="col-md-4" align="center">
+                        <label class="lab_txt" th:text="${(iter.index+1)+'.Section'}"></label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${fpoItemPenalty.penalUs}">
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="bg_item mt-1">
+               <div class="form-group row mt-2 ">
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Rate :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Duty :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+                  <label for="inputPassword" class="col-sm-2 lab_txt col-form-label">Duty FG :</label>
+                  <div class="col-sm-2">
+                     <input type="text" class="form-control form_txt" readonly="readonly">
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- 	<div align="right">
+            <button type="button" class="btn btn-secondary btn-sm"
+            	data-toggle="modal" data-target="#exampleModalLong">Change
+            </button>
+            </div> -->
+         <hr>
+      </div>
+   </div>
+</div>
+
+<script type="text/javascript">
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>

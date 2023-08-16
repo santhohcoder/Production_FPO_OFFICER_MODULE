@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<style type="text/css">
+.ui-widget-content .ui-icon {
+	background-image: url(images/report/ui-icons_222222_256x240.png)
+		!important;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+.error-date {
+	color: red;
+}
+
+.dataTables_wrapper {
+	position: static;
+	clear: both;
+	zoom: 1;
+}
+
+.ead_decisions {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkblue;
+	font-size: 14px;
+	width: 450px;
+	color: white;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 12px;
+	color: blue;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+	border-bottom-width: 1px;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #040404;
+}
+
+.table-bordered td, .table-bordered th {
+	border: 1px solid #000000;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active1 p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.scroll_down {
+	width: 310%;
+	height: 69px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.completed p {
+	color: "#bsb7c1;"
+}
+
+.completed span::before {
+	content: '\2713'
+}
+
+li {
+	cursor: pointer;
+}
+
+body {
+	background: white !important;
+}
+
+
+
+ a.nav-link,
+        a.nav-link:hover {
+        
+            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            font-size: 15px;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+        
+            /* background: #463f3a !important; */
+            background: #0a3052 !important;
+        }
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+.buttons-excel{
+display: none;
+}
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+<body style="overflow-x: hidden;">
+	<div id="overlay"
+		style="background: rgba(255, 255, 255, .7); height: 618566px">
+		<div id="loader">
+		<div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px;">
+		 <div class="backto" style="text-align: center; display : none;width: 8%;">
+			 <button class="btn btn-primary bckto">Back</button>
+		</div> 
+
+		<div align="center" style="width:100%;">
+			<h2>Mapping of Article-IDs to FPO Site</h2>
+			<span style="font-size: 20px">(For import postal data - EAD - received
+				without pin code for those articles where OOE FPO and Destination FPO are same)</span>
+		</div>
+	</div>
+	
+	
+<ul class="nav nav-pills" role="tablist" style="width: 100%; border: 2px solid; border-radius: 5px; margin:12px">
+       <li onclick="showmap();" class="nav-item" style="width: 50%; text-align: center;"><a class="nav-link active show" data-toggle="pill" href="javascript:;">LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  <br><font size=2>(MAPPED TO THIS SITE AND ARTICLE ARRIVAL INFORMATION RECEIVED)</font></a></li>
+       <li  onclick="shownotmap();" class="nav-item" style="width: 50%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">LIST OF ARTICLE-IDs OF EAD  WITHOUT PINCODE  - ALL INDIA <br><font size=2>(NOT MAPPED TO ANY SITE AND ARTICLE ARRIVAL INFORMATION NOT YET RECEIVED)</font></a></li>
+    </ul>
+
+
+	<div class="form-group row"
+		style="justify-content: center; margin-top: 2%;display:none">
+		<label class="control-label "
+			style="font-weight: 600; margin-top: 8px;">Enter Article ID :
+		</label>
+		<div class="col-sm-2">
+			<input onchange="entrarticleid(this)" type="text" id="entaritcleid"
+				class="form-control" name="Articleid" maxlength="13"
+				placeholder="Enter Article-Id" style="width: 290px">
+			<div class="invalid-feedback"></div>
+		</div>
+	</div>
+
+   
+		
+		
+	<div class= "row">
+    </div>
+    
+    <div id="map" align="right" style="margin-right:1%;" >  
+		   <div  align="center" style="margin-top: 15px; width: 100%">  
+ 		<h5><font size=4>LIST OF ARTICLE-IDs WITHOUT PINCODE MAPPED TO THIS SITE</h5></div>  
+	</div>  
+	
+ 	<div id="notmap" align="right" style="margin-right:1%;" >
+	 <div  align="center" style="margin-top: 15px; width: 100%"> 
+		<h5><font size=4>LIST OF ARTICLE-IDs WITHOUT PINCODE AND NOT MAPPED TO ANY SITE</h5></div>
+   
+    </div>
+   
+  <div id="tblewithoutcusite" style="padding: 20px;display :block;">
+  <!--  div class="col-md-12 row pdfexcel" >
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div> -->
+		<table id="Tablewithoutpincds"
+			class="table table-bordered mt-1 mapTable "
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col" style="vertical-align: middle;">No1</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID DT</th>
+					<th scope="col" style="vertical-align: middle;">MAIL CLASS</th>
+					<th scope="col" style="vertical-align: middle;">COO</th>
+					<th scope="col" style="vertical-align: middle;">RECP NAME</th>
+					<th scope="col" style="vertical-align: middle;">RECP ADDRESS</th>
+					<th scope="col" style="vertical-align: middle;">RECEPTACLE ID</th>
+					<th scope="col" style="vertical-align: middle;">OOE ARRIVAL</th>
+					<th scope="col" style="vertical-align: middle;">ARRIVAL OOE DT</th>
+					<th scope="col" style="vertical-align: middle;">BAG NO</th>
+					<th scope="col" style="vertical-align: middle;">ARR DESTN FPO</th>
+					<th scope="col" style="vertical-align: middle;">ARR DESTN DT</th>
+					<th scope="col" style="vertical-align: middle;" width="10%">Select Many <br><input type="checkbox" id="chkselall"  style="width:24px;height:24px;vertical-align: middle;" onclick="selall();" ><br>Bulk Mapping</th>					
+                    <th  style="vertical-align: middle;"  scope="col" width="15%">Article wise Mapping<font size=1></font></th></tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${artid}">
+					<td style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+					<input type="hidden" name="itemid" id="itemid" th:value="${s1[0]}">
+					<input type="hidden" name="currow" id="currow" th:value="${iter.index+1}">
+					<td style="vertical-align: middle;" width="10%"><a href="javascript:;" th:id="${iter.index+1}" onclick=viewSummary(this) th:text="${s1[0]}"></a></td>
+					<td style="vertical-align: middle;"  width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td style="vertical-align: middle;" width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td style="vertical-align: middle;" width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[15] : '-'}"></td>
+					<td style="vertical-align: middle;" th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					<td style="vertical-align: middle;" th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+					<td  style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkbox" class="chckbox" name="chkbox[]" style="width:24px;height:24px"
+												 title="Check for Mapping with this site..." ></td>
+					<td style="vertical-align: middle;"  width="5%"><a href="javascript:;" onclick="viewDetails(this)" ><img src="images/handicon.png"  title="Click to see Detailed Mapping" width="20px" height="20px"></a>
+				</tr>
+			</tbody>
+			  <tfoot>
+	     <tr style="border:none;"> <td colspan=15 style="border:none;">
+	     <div class="row">
+	     <div class="col-md-4" align="left" style="margin-left:1%">Note: Click any Art.ID to see the summary of the article.</div>
+	     <div class="col-md-4" align="center"><button type="button" id="mapsuball" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+						onclick="mapsubmitall()" disabled><strong>SUBMIT FOR MAPPING WITH THIS SITE</strong></button></div>
+		 </div></td></tr>
+		</tfoot>
+		</table>
+		</div>
+	
+	
+	<div id="tblewithoutcusitenotmapped" style="padding: 20px;display :none;">
+	<!-- div class="col-md-12 row pdfexcel" >
+		<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+		<a id="PDFExport" onclick="pdfdownloadnm(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+		<a id="ExportExcel" onclick="exceldownloadnm(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>  -->
+		<table id="Tablewithoutpincdsnotmapped"
+			class="table table-bordered mt-1 mapTablenotmapped  "
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col" style="vertical-align: middle;">No</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID DT</th>
+					<th scope="col" style="vertical-align: middle;">MAIL CLASS</th>
+					<th scope="col" style="vertical-align: middle;">COO</th>
+					<th scope="col" style="vertical-align: middle;">RECP NAME</th>
+					<th scope="col" style="vertical-align: middle;">RECP ADDRESS</th>
+					<th scope="col" style="vertical-align: middle;">RECEPTACLE ID</th>
+					<th scope="col" style="vertical-align: middle;">OOE ARRIVAL</th>
+					<th scope="col" style="vertical-align: middle;">ARRIVAL OOE DT</th>
+					<th scope="col" style="vertical-align: middle;">BAG NO</th>
+					<th scope="col" style="vertical-align: middle;" width="10%">Select Many <br><input type="checkbox" id="chkselallw"  style="width:24px;height:24px;vertical-align: middle;" onclick="selallwithout();" ><br>Bulk Mapping</th>
+<!-- 					<th scope="col" style="vertical-align: middle;">FPO ARRIVED</th> -->
+<!-- 					<th scope="col" style="vertical-align: middle;">FPO DATE</th>   -->
+					</tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${artidnotmapped}">
+					<td style="vertical-align: middle;" width="2%" th:text="${iter.index+1}"></td>
+					<input type="hidden" name="itemid" id="itemid" th:value="${s1[0]}">
+					<input type="hidden" name="currow" id="currow" th:value="${iter.index+1}">
+					<td style="vertical-align: middle;" width="10%"><a href="javascript:;"  th:id="${iter.index+1}" onclick=viewSummary1(this) th:text="${s1[0]}"></a></td>
+					<td style="vertical-align: middle;"  width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td style="vertical-align: middle;" width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td style="vertical-align: middle;" width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[11]!=null ? s1[11] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+					<td  style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkbox" class="chcknotmap" name="chkbox[]" style="width:24px;height:24px"
+												 title="Check for Mapping with this site..." ></td>
+			</tr>   
+			</tbody>
+			  
+	     <tr style="border:none;">
+	      <td colspan=15 style="border:none;">
+	      <div class="row">
+	     <div class="col-md-4" align="left" style="margin-left:1%">Note: Click any Art.ID to see the summary of the article.</div>
+ 	     <div class="col-md-4" align="center"><button  type="button" class="btn btn-primary" id="notmapsub" style="background-color:green;border-radius:30px" 
+ 						onclick="notmapsubmitall()" disabled><strong>SUBMIT FOR MAPPING WITH THIS SITE</strong></button></div> 
+ 		 </div></td> 
+		 </tr>
+		
+		</table>
+	</div> 
+	
+	
+				
+<!--	<div align="center" class="headingtyp" style="display : none;margin-top: 10px">
+		<span style="font-size: 20px">(Select state / district from the CN22/23 label of the Article received at this FPO and map the Article ID)</span>
+	</div>
+
+	<div id="tblewithoutcusite" style="padding: 20px;display :block;">
+		<table id="Tablewithoutpincds"
+			class="table table-bordered mt-1 mapTable "
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col" style="vertical-align: middle;">No1</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID DT</th>
+					<th scope="col" style="vertical-align: middle;">MAIL CLASS</th>
+					<th scope="col" style="vertical-align: middle;">COO</th>
+					<th scope="col" style="vertical-align: middle;">RECP NAME</th>
+					<th scope="col" style="vertical-align: middle;">RECP ADDRESS</th>
+					<th scope="col" style="vertical-align: middle;">RECEPTACLE ID</th>
+					<th scope="col" style="vertical-align: middle;">OOE ARRIVAL</th>
+					<th scope="col" style="vertical-align: middle;">ARRIVAL OOE DT</th>
+					<th scope="col" style="vertical-align: middle;">BAG NO</th>
+					<th scope="col" style="vertical-align: middle;">ARR DESTN FPO</th>
+					<th scope="col" style="vertical-align: middle;">ARR DESTN DT</th>
+					<th scope="col" style="vertical-align: middle;" width="10%">Select Many <br><input type="checkbox" id="chkselall"  style="width:24px;height:24px;vertical-align: middle;" onclick="selall();"><br>Bulk Mapping</th>					
+                    <th  style="vertical-align: middle;"  scope="col" width="15%">Article wise Mapping<font size=1></font></th></tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${artid}">
+					<td style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+					<input type="hidden" name="itemid" id="itemid" th:value="${s1[0]}">
+					<input type="hidden" name="currow" id="currow" th:value="${iter.index+1}">
+					<td style="vertical-align: middle;" width="10%"><a href="javascript:;" onclick=viewSummary() th:text="${s1[0]}"></a></td>
+					<td style="vertical-align: middle;"  width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td style="vertical-align: middle;" width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td style="vertical-align: middle;" width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[15] : '-'}"></td>
+					<td style="vertical-align: middle;" th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					<td style="vertical-align: middle;" th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+					<td  style="color: black;vertical-align: middle;" ><input 
+												type="checkbox" id="chkbox" name="chkbox[]" style="width:24px;height:24px"
+												 title="Check for Mapping with this site..." ></td>
+					<td style="vertical-align: middle;"  width="5%"><a href="javascript:;" onclick="viewDetails(this)" ><img src="images/handicon.png"  title="Click to see Detailed Mapping" width="20px" height="20px"></a>
+				</tr>
+			</tbody>
+			  <tfoot>
+	     <tr style="border:none;"> <td colspan=15 style="border:none;">
+	     <div class="row">
+	     <div class="col-md-4" align="left" style="margin-left:1%">Note: Click any Art.ID to see the summary of the article.</div>
+	     <div class="col-md-4" align="center"><button type="button" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+						onclick="mapsubmitall()"><strong>SUBMIT FOR MAPPING WITH THIS SITE</strong></button></div>
+		 </div></td></tr>
+		</tfoot>
+		</table>
+	</div> 
+	
+	
+	<div id="tblewithoutcusitenotmapped" style="padding: 20px;display :none;">
+		<table id="Tablewithoutpincdsnotmapped"
+			class="table table-bordered mt-1 mapTablenotmapped "
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col" style="vertical-align: middle;">No</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID DT</th>
+					<th scope="col" style="vertical-align: middle;">MAIL CLASS</th>
+					<th scope="col" style="vertical-align: middle;">COO</th>
+					<th scope="col" style="vertical-align: middle;">RECP NAME</th>
+					<th scope="col" style="vertical-align: middle;">RECP ADDRESS</th>
+					<th scope="col" style="vertical-align: middle;">RECEPTACLE ID</th>
+					
+					
+					<th scope="col" style="vertical-align: middle;">OOE ARRIVAL</th>
+					<th scope="col" style="vertical-align: middle;">ARRIVAL OOE DT</th>
+					</tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${artidnotmapped}">
+					<td style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+					<input type="hidden" name="itemid" id="itemid" th:value="${s1[0]}">
+					<input type="hidden" name="currow" id="currow" th:value="${iter.index+1}">
+					<td style="vertical-align: middle;" width="10%"><a href="javascript:;" onclick=viewSummary() th:text="${s1[0]}"></a></td>
+					<td style="vertical-align: middle;"  width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<td style="vertical-align: middle;" width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td style="vertical-align: middle;" width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+				</tr>
+			</tbody>
+			  <tfoot>
+	     <tr style="border:none;"> <td colspan=15 style="border:none;">
+	     <div class="row">
+	     <div class="col-md-4" align="left" style="margin-left:1%">Note: Click any Art.ID to see the summary of the article.</div>
+	     <div class="col-md-4" align="center"><button type="button" class="btn btn-primary"  style="background-color:green;border-radius:30px"
+						onclick="mapsubmitall()"><strong>SUBMIT FOR MAPPING WITH THIS SITE</strong></button></div>
+		 </div></td></tr>
+		</tfoot>
+		</table>
+	</div>  -->
+	
+	
+	<div id="withouteadtbl" style="padding: 20px; display : none">
+		<table id="Tablewithoutead"
+			class="table table-bordered table-striped "
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col" style="vertical-align: middle;">No</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID</th>
+					<th scope="col" style="vertical-align: middle;">ARTICLE ID DT</th>
+					<!--th scope="col">EAD STATUS</th>
+					<th scope="col" style="vertical-align: middle;">CIN</th>
+					<th scope="col">CIN DT</th-->
+					<th scope="col" style="vertical-align: middle;">MAIL CLASS</th>
+					<th scope="col" style="vertical-align: middle;">COO</th>
+					<th scope="col" style="vertical-align: middle;">RECP NAME</th>
+					<th scope="col" style="vertical-align: middle;">RECP ADDRESS</th>
+					<th scope="col"> style="vertical-align: middle;"RECEPTACLE ID</th>
+					<th scope="col" style="vertical-align: middle;">OOE ARRIVAL</th>
+					<th scope="col" style="vertical-align: middle;">ARRIVAL OOE DT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${withoutEAD}">
+					<td  style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+					<td style="vertical-align: middle;" width="10%"><a href="javascript:;" onclick="viewDetails(this)" th:text="${s1[0]}"></a></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<!--td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+					<td style="vertical-align: middle;" width="8%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td-->
+					<td style="vertical-align: middle;" width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td style="vertical-align: middle;" width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+				    <td style="vertical-align: middle;" width="10%" th:text="${s1[12]!=null ? s1[12] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[13] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[14]!=null ? s1[14] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td style="vertical-align: middle;" width="10%" th:text="${s1[13]!=null ? s1[15] : '-'}"></td>
+					<td style="vertical-align: middle;" th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					<td style="vertical-align: middle;" th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	</div>
+</body>
+<Modal>
+<div class="modal fade" id="summaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="summaryModalTitle" style="font-weight: bold;text-transform: uppercase;">Article Summary</h5>
+                    <button type="button" class="close" onclick="closeSummaryModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="summaryModalBody">
+                </div>
+                	<div  align="center">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="closeSummaryModal()" style="background-color:green">OK</button>
+					</div>
+            </div>
+        </div>
+    </div>
+	
+
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">Do you want to MAP  all selected Art.IDs to this site? Please Confirm</font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="mapsuball()" style="background-color:green">Yes</button></div>
+					
+					<!-- a href="import_ooc_search">					
+					</a-->
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="Modalfornotmap" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">Selected Article ID will move to Assessment Queue in AAF. <br> Please Confirm </font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-secondary" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-primary" onclick="notmapsuball()" style="background-color:green">Yes</button></div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="mapModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body" align="center">
+					<h4><font color="black">Mapping with this site is done FOR ALL SELECTED</font></h4>
+				</div>
+				<div class="modal-footer">
+					<div class="row"></div>
+					<div class="col-md-12" align="right">
+					<button type="button" align ="centre" class="btn btn-primary" onclick="refresh()" style="background-color:green">OK</button></div>
+					
+					<!-- a href="import_ooc_search"-->					
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Modal>
+
+
+
+
+<script th:src="@{js/fpoallotreplacetable.js}"></script>
+<script src="js/allotfposite.js"></script>
+	<script src="js/artidwithoutpincds.js"></script>
+	<script th:src="@{js/sweetalert.min.js}">
+	
+	
+	
+	
+/*$(".chckbox").click(function(){
+	
+		if ($(this).is(":checked")){
+			$("#mapsuball").attr("disabled", false);
+		}
+		else{
+		   $("#mapsuball").attr("disabled", true);
+		}
+	
+});
+
+$("#chkselall").click(function(){
+	
+		if ($(this).is(":checked")){
+			$("#mapsuball").attr("disabled", false);
+		}
+		else{
+		   $("#mapsuball").attr("disabled", true);
+		}
+	
+});	*/
+	 
+	/* function shownotmap() {
+			$("#tblewithoutcusite").hide();
+			$("#tblewithoutcusitenotmapped").show('slow');
+        }
+        
+        function showmap() {
+        	$("#tblewithoutcusitenotmapped").hide('slow');
+			$("#tblewithoutcusite").show();
+			
+        }*/
+	
+	
+/*$("#chkbox").keyup(function(){
+
+$('mapsuball').attr('disabled',false);
+
+
+
+});*/
+	
+	
+	
+	</script>
+</html>

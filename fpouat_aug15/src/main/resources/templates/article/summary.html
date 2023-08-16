@@ -1,0 +1,687 @@
+<style>
+    .ead_decisions {
+        border-radius: 5px;
+        padding: 2px;
+        font-size: 11px;
+        background-color: darkblue;
+        font-size: 14px;
+        width: 450px;
+
+        color: white;
+    }
+
+    .lab_txt,
+    .col-form-label {
+        font-size: 12px;
+        color: blue;
+    }
+
+    .table-bordered thead td,
+    .table-bordered thead th {
+        border-bottom-width: 1px;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 1px solid #040404;
+    }
+
+    .table-bordered td,
+    .table-bordered th {
+        border: 1px solid #000000;
+    }
+
+    .form_txt {
+        font-weight: 700
+    }
+
+    .bg_rec {
+        background-color: #e6e5e5;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+    .lab_txt {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .col-form-label {
+        padding-top: 2px;
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .col-form-label {
+        padding-top: 2px;
+    }
+
+    .breadcrumb-pagination {
+        width: 100%;
+        border-bottom: 1px solid #E1E6EB;
+        text-align: center;
+        color: #B3B7C1;
+    }
+
+    .breadcrumb-pagination div {
+        width: 15%;
+        display: inline-block;
+    }
+
+    .breadcrumb-pagination div span {
+        margin: 0 auto;
+        display: block;
+        border-radius: 100%;
+        width: 36px;
+        font-size: 20px;
+    }
+
+    /* .completed span {
+        background-color: NONE;
+        color: #95db89;
+        border: 2px solid #95db89;
+    } */
+
+    .active1 span {
+        background-color: #00abc9;
+        color: #fff;
+    }
+
+    .todo span {
+        background-color: none;
+        color: #E1E6EB;
+        border: 2px solid #E1E6EB;
+    }
+
+    .breadcrumb-pagination div p {
+        text-align: center;
+        line-height: 0;
+        margin: 10px auto 0px;
+    }
+
+    .active1 p {
+        border-bottom: 2px solid #00abc9;
+        padding-bottom: 20px;
+        margin-bottom: 0px !important;
+        color: #3c4043;
+        font-weight: 700;
+    }
+
+    /* .scroll_down {
+        width: 310%;
+        height: 69px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    } */
+
+    .completed p {
+        color: "#bsb7c1";
+    }
+
+    .completed span::before {
+        content: '\2713'
+    }
+  #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }  
+    
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="container" style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;height: auto;padding: 20px;">
+    <div align="center" style="
+    margin-bottom: 25px;
+">
+        <h2>CN 22 / CN 23 Summary</h2>
+
+    </div>
+    
+    <div align="center" style="margin-bottom: 25px;font-size:20px;font-weight:600;">
+       <label style="color:blue" for="itemIDShow">Article ID - </label>
+       <span id="itemIDShow" th:text="${check.ITEM_ID + ';'}"></span>
+       <label style="color:blue" >Posting Date - </label>
+        <span id="itemIDShow" th:text="${fpomain1}"></span> 
+
+    </div>
+
+    
+    <div class="row">
+        <div class="col-md-6 ">
+            <div class="bg_rec" style="padding-bottom: 32px;">
+                <h4 class="mt-1">
+                    <strong>Recipient Information : </strong>
+                </h4>
+                <br>
+                <div class="row mt-2">
+                    <p class="col-sm-2 lab_txt col-form-label">NAME</p>
+                    <div class="col-sm-10">
+                        <p style="font-weight: 700" th:text="${check.RECP_NAME == null ? '-NIL-' : check.RECP_NAME}"></p>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+                    <div class="col-sm-10">
+                        <p style="font-weight: 700" th:text="${check.RECP_ADD1 == null ? '-NIL-' : check.RECP_ADD1}"></p>
+                        <p style="font-weight: 700" th:text="${check.RECP_ADD2 == null ? '-NIL-' : check.RECP_ADD2}"></p>
+                        
+                    </div>
+                </div>
+                <div class="row " style="margin-bottom: -17px;">
+                    <p class="col-sm-2 lab_txt col-form-label">CITY</p>
+                    <div class="col-sm-6">
+                        <p style="font-weight: 700" th:text="${check.RECP_CITY == null ? '-NIL-' : check.RECP_CITY}"></p>
+                        
+                    </div>
+                    <p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700" th:text="${check.RECP_CNTRY_CD == null ? '-NIL-' : check.RECP_CNTRY_CD}"></p>
+                        
+                    </div>
+                </div>
+				<br>
+                <div class="row " style="margin-bottom: -17px;">
+                    <p class="col-sm-2 col-form-label">STATE</p>
+                    <div class="col-sm-6">
+                        <p style="font-weight: 700" th:text="${check.RECP_STATE == null ? '-NIL-' : check.RECP_STATE}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-2 col-form-label">PIN</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700" th:text="${check.RECP_ZIP == null ? '-NIL-' : check.RECP_ZIP}">
+                        
+                    </div>
+                </div>
+				<br>
+                <div class="row" style="margin-bottom: -17px;">
+                    <p class="col-sm-2 col-form-label">EMAIL</p>
+                    <div class="col-sm-10">
+                        <p style="font-weight: 700" th:text="${check.RECP_EMAILID == null ? '-NIL-' : check.RECP_EMAILID}">
+                        
+                    </div>
+
+                </div>
+				<br>
+                <div class="form-group row " style="margin-bottom: -17px;">
+                    <p class="col-sm-2 col-form-label">PHONE</p>
+                    <div class="col-sm-6">
+                        <p style="font-weight: 700" th:text="${check.RECP_PHONE == null ? '-NIL-' : check.RECP_PHONE}">
+                        
+                    </div>
+
+
+                    <p class="col-sm-2 col-form-label">FAX</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700" th:text="${check.RECP_FAX == null ? '-NIL-' : check.RECP_FAX}">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 ">
+            <div class="bg_rec" style="padding-bottom: 32px;">
+                <h4 class="mt-1">
+                    <strong>Sender Information : </strong>
+                </h4>
+                <br>
+                <div class="row mt-2">
+                    <p class="col-sm-2 lab_txt col-form-label">NAME</p>
+                    <div class="col-sm-10">
+                        <p style="font-weight: 700" th:text="${check.SEND_NAME == null ? '-NIL-' : check.SEND_NAME}"></p>
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-sm-2 lab_txt col-form-label">ADDRESS</p>
+                    <div class="col-sm-10">
+                        <p style="font-weight: 700" th:text="${check.SEND_ADD1 == null ? '-NIL-' : check.SEND_ADD1}"></p>
+                        
+                        <p style="font-weight: 700" th:text="${check.SEND_ADD2 == null ? '-NIL-' : check.SEND_ADD2}"></p>
+                        
+                    </div>
+                </div>
+                <div class="row " style="margin-bottom: -17px;">
+                    <p class="col-sm-2 lab_txt col-form-label">CITY</p>
+                    <div class="col-sm-6">
+                        <p style="font-weight: 700" th:text="${check.SEND_CITY == null ? '-NIL-' : check.SEND_CITY}"></p>
+                        
+                    </div>
+                    <p class="col-sm-2 lab_txt col-form-label">COUNTRY</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700" th:text="${check.SEND_CNTRY_CD == null ? '-NIL-' : check.SEND_CNTRY_CD}"></p>
+                        
+                    </div>
+                </div>
+				<br>
+                <div class="row " style="margin-bottom: -17px;">
+                    <p class="col-sm-2 col-form-label">STATE</p>
+                    <div class="col-sm-6">
+                        <p style="font-weight: 700" th:text="${check.SEND_STATE == null ? '-NIL-' : check.SEND_STATE}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-2 col-form-label">PIN</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700; white-space:nowrap" th:text="${check.SEND_ZIP == null ? '-NIL-' : check.SEND_ZIP}">
+                        
+                    </div>
+                </div>
+				<br>
+                <div class="row" style="margin-bottom: -17px;">
+                    <p class="col-sm-2 col-form-label">EMAIL</p>
+                    <div class="col-sm-10">
+                        <p style="font-weight: 700" th:text="${check.SEND_EMAILID == null ? '-NIL-' : check.SEND_EMAILID}">
+                        
+                    </div>
+
+                </div>
+				<br>
+                <div class="form-group row " style="margin-bottom: -17px;">
+                    <p class="col-sm-2 col-form-label">PHONE</p>
+                    <div class="col-sm-6">
+                        <p style="font-weight: 700" th:text="${check.SEND_PHONE == null ? '-NIL-' : check.SEND_PHONE}">
+                        
+                    </div>
+
+
+                    <p class="col-sm-2 col-form-label">FAX</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700" th:text="${check.RECP_FAX == null ? '-NIL-' : check.RECP_FAX}">
+                        
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+    <div class="col-md-4" align="left">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Item Information</a></li>
+        <li class="nav-item"><a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Other Information</a></li>
+
+    </ul>
+    </div>
+    <div class="col-md-7" align="right">
+    <span th:if="${check.commercial=='Y'}" style="margin-right:20px; background-color: darkgreen; border-color: darkgreen;color:white;"><strong> COMMERCIAL  </strong></span> 
+    <strong><font color="blue"> Item Category : </font></strong> <span th:text="${itcat}"> </span>
+    </div>
+    </div>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+            <div class="bg_rec">
+                <h4 class="mt-1">
+                    <strong>Item Information : </strong>
+                </h4>
+                <table class="table table-sm table-bordered">
+                    <thead style="text-align: center;">
+                        <tr class="table-dark col-form-label">
+                            <th scope="col" rowspan="2" style="vertical-align: middle;width: 8%">Item. No</th>
+                            <th scope="col" rowspan="2" style="vertical-align: middle;width: 40%">Item
+                                Description</th>
+                            <th scope="col" rowspan="2" style="vertical-align: middle;width: 13%">HS Code</th>
+                            <th scope="col" rowspan="2" style="vertical-align: middle;width: 13%">CTH (SYSTEM ALLOTTED)</th>
+                            <th scope="col" rowspan="2" style="vertical-align: middle;">Units</th>
+                            <th scope="col" colspan="2" style="vertical-align: middle;">Declared Value <br> <span style="font-size: 10px;">(as received in EAD)</span></th>
+                            <th scope="col" style="vertical-align: middle;">Insurance <sup style="color: blue; font-size: 16px; font-weight: 300">#</th>
+                            <th scope="col" style="vertical-align: middle;">Freight<sup style="color: blue; font-size: 16px; font-weight: 300">#</th>
+                            <th scope="col" style="vertical-align: middle;">Assessable <br>Value (CIF) <sup style="color: red; font-size: 16px; font-weight: 300">*</sup></th>
+                        </tr>
+                        <tr class="table-dark col-form-label">
+                            <th scope="col">USD</th>
+                            <th scope="col">INR</th>
+                             <th scope="col">INR</th>
+                            <th scope="col" colspan="1">INR</th>
+                            <th scope="col" colspan="1">INR</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-weight: 700">
+                        <tr th:each="items,iter : ${itemlist}">
+                            <td th:text="${items.ITEM_NO}">1</td>
+                            <td th:text="${items.ITEM_DESC}">shirt</td>
+                            <td align="center" th:text="${items.CTH}">98041222</td>
+                            <td align="center" th:text="${items.GEN_CTH}">98041222</td>
+                            <td align="right" th:text="${items.NOU}">5</td>
+                            <td align=right th:text="${#numbers.formatDecimal(items.DECL_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                            <td align=right th:text="${#numbers.formatDecimal(items.ASSESS_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                            <td style="vertical-align: middle;" th:if="${iter.index==0}" th:rowspan="${#lists.size(itemlist)}" align=right th:text="${#numbers.formatDecimal(check.INS_CALC_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                            <td style="vertical-align: middle;" th:if="${iter.index==0}" th:rowspan="${#lists.size(itemlist)}" align=right th:text="${#numbers.formatDecimal(check.FRT_CALC_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                            <td align=right th:text="${#numbers.formatDecimal(items.ASSVAL_INSFRT, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                        </tr>
+                                                <tr>
+   
+                            <td class="col-form-label" align="right" colspan="6"> Total</td>                  
+<!--td><input readonly="readonly" type="text" style="text-align: right; background-color: #fdfeff; padding: 0px;" class="form-control form_txt"></--!td-->
+                            <td align=right style="background-color: #fdfeff; "  th:text="${#numbers.formatDecimal(check.TOTASS_CALC_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                           <td align=right style="background-color: #fdfeff; " th:text="${#numbers.formatDecimal(check.INS_CALC_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                            <td align=right style="background-color: #fdfeff; " th:text="${#numbers.formatDecimal(check.FRT_CALC_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                             <td align=right style="background-color: #fdfeff;font-weight:bolder "  th:text="${#numbers.formatDecimal(check.TOT_ASS_VAL, 0, 'COMMA', 2, 'POINT')}">35600</td>
+                        </tr>
+                        <!--tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="col-form-label"  align="center">Freight</td>
+                            <td></td>
+                            <td></td>
+                            <td align=right th:text="${check.FRT_CALC_VAL}">35600</td>
+                             <td></td>
+                        </!--tr>
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="col-form-label"  align="center">Insurance</td>
+                            <td></td>
+                            <td></td>
+                            <td align=right th:text="${check.INS_CALC_VAL}">35600</td>
+                             <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="col-form-label" align="center">Grand Total</td>
+                            <td></td> 
+                            <td></td>                           
+<!--td><input readonly="readonly" type="text" style="text-align: right; background-color: #fdfeff; padding: 0px;" class="form-control form_txt"></--!td>
+                            <td align=right  style="background-color: #fdfeff; " th:text="${check.TOT_ASS_VAL}">35600</td>
+                            <td align=right  style="background-color: #fdfeff; " th:text="${check.TOT_ASS_VAL}">35600</td>
+                        </tr-->
+                    </tbody>
+                </table>
+                <div class="form-group row">
+                    <div class="col-md-7">
+
+                        <p style="font-size: 13px;">
+                            <!--sup style="color: blue; font-size: 17px">#</--!sup># - Insurance Value and Freight Value calculated by System ;
+                            <font color=red>*</font>Actual Assessed value will be displayed after the assessment done by the officer.-->
+                            <font color=blue>#</font>- Insurance Value and Freight Value calculated by System  &nbsp;&nbsp; ; &nbsp;&nbsp;
+                            <font color=red>*</font> - System Assessed value.(Subject to change during assessment by AO if any)
+                        </p>
+                         <p style="font-size: 12px;">
+                         Note - If the above Ins,Frt, Ass.value fields  found empty - Ex.Rate may have to be entered by AO during assessment for the non-std currency declared.
+                         </p>
+                         <p style="font-size: 12px;">
+                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- System considers Exchange Rate as on the date of receipt of EAD
+                         </p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+
+
+            <div class="col-md-12 bg_rec">
+
+                <!--                 <div class="row">
+                    <p class="col-sm-1 col-form-label">MAIL PID</p>
+                    <div class="col-sm-5">
+                        <p style="font-weight: 700" th:text="${check.MAIL_PID}"></p>
+                    </div>
+                    <p class="col-sm-1 col-form-label">DECL PID</p>
+                    <div class="col-sm-5">
+                        <p style="font-weight: 700" th:text="${check.DECLARATION_PID}"></p>
+                    </div>
+
+                </div> -->
+                <div class="row">
+                    <p class="col-sm-1 col-form-label">CUST ORG</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700;" th:text="${check.CUST_ORG_CD == null ? '-NIL-' : check.CUST_ORG_CD}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">HANDLING</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.HANDLING_CLASS_CD == null ? '-NIL-' : check.HANDLING_CLASS_CD}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">DESTPOST</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.DESTPOST_ORG_CD == null ? '-NIL-' : check.DESTPOST_ORG_CD}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">CUS_SITE</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.CUS_SITE == null ? '-NIL-' : check.CUS_SITE}"></p>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="col-sm-1 col-form-label">JOB_NO</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700;" th:text="${check.JOB_NO == null ? '-NIL-' : check.JOB_NO}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">JOB_DT</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.JOB_DT == null ? '-NIL-' : check.JOB_DT}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">TRANS_DATE</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.TRANS_DATE == null ? '-NIL-' : check.TRANS_DATE}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">TRANS_MODE</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.TRANS_MODE == null ? '-NIL-' : check.TRANS_MODE}"></p>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="col-sm-1 col-form-label">GROSS_WT</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.GROSS_WT == null ? '-NIL-' : check.GROSS_WT}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">MEASWT</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.MEASURED_GROSS_WT == null ? '-NIL-' : check.MEASURED_GROSS_WT}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">MODIFIED</p>
+                    <div class="col-sm-1">
+                        <p style="font-weight: 700" th:text="${check.MODIFIED == null ? '-NIL-' : check.MODIFIED}"></p>
+                        
+                    </div>
+
+
+                    <!-- <p class="col-sm-1 col-form-label">UNIQUE_ID</p>
+					<div class="col-sm-2">
+						<p style="font-weight: 700" th:text="${check.UNIQUE_ID}"></p>
+					</div> -->
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <p class="col-sm-1 col-form-label">POST_AMT</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.POSTAGE_AMT == null ? '-NIL-' : check.POSTAGE_AMT}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">POST_CURRCD</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.POSTAGE_CURR_CD == null ? '-NIL-' : check.POSTAGE_CURR_CD}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">INS VAL</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.INS_VAL == null ? '-NIL-' : check.INS_VAL}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">INS_CURRCD</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.INS_VAL_CURRCD == null ? '-NIL-' : check.INS_VAL_CURRCD}"></p>
+                        
+                    </div>
+                </div>
+
+                <div class="form-group row  mt-2">
+                    <p class="col-sm-1 col-form-label">TOT_DECL_VAL (USD)</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.TOT_DECL_VAL == null ? '-NIL-' : check.TOT_DECL_VAL}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">TOT_Decl_VAL (INR)</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.TOT_ASS_VAL == null ? '-NIL-' : check.TOT_ASS_VAL}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">
+                        TOT_DUTY<sup style="color: red; font-size: 16px">**</sup>
+                    </p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.TOT_DUTY == null ? '-NIL-' : check.TOT_DUTY}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">INS_VAL</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.INS_VAL == null ? '-NIL-' : check.INS_VAL}"></p>
+                        
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row  mt-2">
+                    <p class="col-sm-1 col-form-label">MAIL_CATEGORY</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.MAIL_CATEGORY_CD == null ? '-NIL-' : check.MAIL_CATEGORY_CD}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">MAIL_CLASS</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.MAIL_CLASS_CD == null ? '-NIL-' : check.MAIL_CLASS_CD}"></p>
+                        
+                    </div>
+
+                    <p class="col-sm-1 col-form-label">MAIL_STATE</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.MAIL_STATE_CD == null ? '-NIL-' : check.MAIL_STATE_CD}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">STATE_REMARKS</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.MAIL_STATE_REMARKS == null ? '-NIL-' : check.MAIL_STATE_REMARKS}"></p>
+                        
+                    </div>
+                    <p class="col-sm-1 col-form-label">RECP_ID</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.RECP_IDREF == null ? '-NIL-' : check.RECP_IDREF}"></p>
+                        
+                    </div>
+                    <p class=" col-sm-1 col-form-label">NATURE OF TRANSACTION</p>
+                    <div class="col-sm-2"><p style="font-weight: 700" th:text="${check.NATURE_TYPE_CD == null ? '-NIL-' : check.NATURE_TYPE_CD}"></p>
+                    
+                    </div>
+                    <p class="col-sm-2 col-form-label">
+                    <div class="col-sm-1">
+                        
+                    </div>
+                    </p>
+                    <p class="col-sm-1 col-form-label">SEND_ID</p>
+                    <div class="col-sm-2">
+                        <p style="font-weight: 700" th:text="${check.SEND_IDREF == null ? '-NIL-' : check.SEND_IDREF}"></p>
+                        
+                    </div>
+                </div>
+
+                <input type="hidden" th:value="${check.TOT_ASS_VAL}" id="totassval">
+                <input type="hidden" th:value="${check.ROLE}" id="role1">
+                <input type="hidden" th:value="${assvalacl}" id="maxval">
+
+
+                <div class="row ">
+                    <p class=" col-sm-1 col-form-label">DOCUMENTS</p>
+                    <p class=" col-sm-2" style="font-weight: 700" th:text="${check.DOCUMENTS == null ? '-NIL-' : check.DOCUMENTS}" rows="3"></p>
+                    
+                </div>
+            </div>
+
+            <div id="init" th:if="${asscou>0}"><!--Duty assessed by system or by the officer based on declared value with or without extending any benefits. -->
+
+                <p>
+                    <sup style="color: red; font-size: 17px">**</sup>Tentative duty
+                    assessed by system (for Personal Imports - 9804) based on declared value, without extending any
+                    benefits. This is subject to change once the assessment is done
+                    by the officer .
+                </p>
+            </div>
+            
+            <div id="fin" th:unless="${asscou>0}"><!--Duty assessed by system or by the officer based on declared value with or without extending any benefits. -->
+
+                <p>
+                    <sup style="color: red; font-size: 17px">**</sup>Duty assessed by system or by the officer based on declared value with or without extending any benefits.
+                </p>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+</div>
+<script src="js/ead_main.js"></script>
+<script>
+var queryRaised;
+$.ajax({
+            url: 'getdisphead?id=' + $("#cinno").val(),
+            type: "post",
+            success: function(data) {
+               $("#disphead").html(data);
+               queryRaised = $("#disphead").find("[name='queryraised']").val();
+               console.log(queryRaised)
+           },
+           error: function(rs, e) {
+               alert("Error in nextPageRedirect");
+           }
+});	
+</script>

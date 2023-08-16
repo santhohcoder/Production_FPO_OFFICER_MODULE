@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  
+ <style>
+ 
+ 
+body{
+background: white !important;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+     	 
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+  .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 75px;
+        top: 6px;
+    }
+
+ .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 5px;
+        top: 5.5px;
+    }
+    
+
+.swal-modal .swal-text {
+    text-align: center;
+}
+
+	.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-between;
+    	}
+    	
+    	.swal-button:focus {
+		    outline: none;
+		    box-shadow: none;
+		}
+
+
+
+
+.delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 3px;
+       top:6px;
+}
+</style>
+</head>
+<body>
+ <div align=left style="margin-left: 1%; margin-right: 1%">
+ <div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+ 
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> User Management> Allocate PLA</h3>
+ <h3 style="text-align: center; margin-top: 0px; color: #1616e0; padding-left: 100px;">NATIONAL SYSTEM ADMINISTRATOR (PNA)</h3>
+ <div style ="font-weight: bold; margin-top: 2%; text-align: center; padding-left: 100px; font-family: times new roman;background: deepskyblue;"><h4>Allocate Local System administrator</h4></div><br>
+ 
+  <div class="form-group row" style="justify-content: center; margin-top: 1%; text-align: end;">
+				<label class="control-label col-sm-1" for="SiteCode" style="font-weight: 600;padding-left: 33px;">Select FPO Site:</label>
+				<div class="col-sm-2 dropdown">
+					<select class="form-control selsite"   
+						style="width: 310px;">
+						<option>--Select FPO Sites--</option>
+							<div th:each="sitestate,iter : ${listsite}">
+							<option th:text="${sitestate[0]}" id="userstecde"></option>
+						</div>
+						</select>
+						<div class="invalid-feedback"></div>
+				</div>
+			</div> 
+			
+<div style="margin-top: 1%">
+  <form class="form-horizontal" >
+			<div style="position: relative; text-align: end">
+				<div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">SSOID<span
+						style="color: red">*</span>:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="ssoid" class="form-control"
+							style="width: 310px" placeholder="Enter SSOID">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				<div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Name<span
+						style="color: red">*</span>:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="empname" class="form-control"
+							style="width: 310px" placeholder="Enter Name">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				<div id="displyoption"  class="form-group row"
+					style=" justify-content: center; margin-top: 1%; display: none;text-align: end;">
+					<label class="control-label col-sm-1"
+						style="font-weight: 600; margin-top: 1px">Site
+						Code<span style="color: red">*</span>:
+					</label>
+					<div class="col-sm-2 dropdown" >
+						<select class="form-control sitecde" id="getsitecde"
+							style=" width: 310px;">
+							<option>--Select Site code--</option>
+							<option value="" id="sitecode1"></option>
+							<option value="" id="sitecode2"></option>
+						</select>
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div id="inputxt" class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Site
+						Code<span style="color: red">*</span>:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="sitecod" class="form-control"
+							 style="width: 310px" placeholder="Enter Site Code">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				<div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Designation:
+					</label>
+					<div class="col-sm-2">
+						<input type="text" id="designation" class="form-control"
+							style="width: 310px;" placeholder="Designation">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div id="inputxt" class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Mobile-No:
+					</label>
+					<div class="col-sm-2">
+						<input type="number"   id="lsmphn" class="form-control" maxlength="10"  onblur="validatephone()"
+							style="width: 310px" placeholder="Mobile Number">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+
+				<div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Email-id:
+					</label>
+					<div class="col-sm-2"> 
+						<input type="text" id="emailid" class="form-control" onblur="validateEmailid()"
+							style="width: 310px;" placeholder="Email-id">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+			
+				<div class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Remarks:
+					</label>
+					<div class="col-sm-2"> 
+						<input type="text" id="rmks" class="form-control" 
+							style="width: 310px;" placeholder="Enter Remarks">
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				
+			<div  class="form-group row " style="justify-content: center;">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Upload:</label>
+					<div class="col-sm-2"> 
+						 <input class="form-control" 
+							style="width: 310px;" onchange="uploadFile(this,1)" type="text" id="kyc-filetxt-1" placeholder="Please Upload the  document" />	
+						 <div class="invalid-feedback"></div>
+						 <input type="file" id="kyc-file-1"  onchange="uploadFile(this,1)" onclick="this.value=null;" style="display: none;" accept="application/pdf" >	
+						 <span class="upload-btn" onclick="fileUpload(1)"><a>Upload</a></span> 
+					 </div>
+				</div>
+			</div>
+			<br>
+  </form>	
+</div>
+	    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>
+<div class="row">
+<div class="col-md-8" style="text-align: end;
+    padding-right: 72px;">
+ <button type="submit" id="addlsmsite" class="btn btn-success" >Submit</button></div>
+ <div class="col-md-2" style="margin-left:1%">
+ <button type="submit" id="canceladdlsmsite" class="btn btn-success" >Cancel</button>
+</div></div>
+<div style="font-weight: 600; margin-left:4%"><span style="color: blue; font-weight: bold">Note:</span> Two "Local System Administrators" (PLA) can be allocated for a Site.</div>
+ <div style="font-weight: 600; margin-left:4%; margin-top:0%"><span style="color: blue; font-weight: bold">Note:</span> If two "Local System Administrators" (PLA) are already added for a site, those sites will not be available for allocating any Local System Administrator (PLA).</div>		
+
+  <div class="modal fade" id="lsmadded" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Local Systems Administrator for this Site already exist. (Please remove the current Local Systems Administrator to add new Local Systems Administrator to this site)</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="siterefresh1" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		 <div class="modal fade" id="lsmfou" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Officer for this Site as Local Systems Administrator is already added.  </h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="siterefresh2" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="Lsmaddtwice" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">This Site do have Local Systems Administrator. Do you want to add one more Local Systems Administrator?</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-danger" style="margin-right: 670px;">No</button>
+						<button type="button" data-dismiss="modal" id="scndLsmadd" class="btn btn-success" >Yes</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="addinglsm" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Local Systems Administrator for this Site has been successfully added</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refreshlsm" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="siteCmpre" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">SSO ID entered is not mapped to this site </h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refSiteCmpre" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="ssonotfou" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center" id="ssofoumsg"> </h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refssonotfou" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+		
+		<div class="modal fade" id="twoLsmperSite" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">Per Site Only Two Local Systems Administrator will be added.</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refLsmpersite" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 	
+		
+		<div class="modal fade" id="Useridreq" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+					</div>
+					<div class="modal-body">
+						<h4 align="center">No Longer User id required.</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" id="refLsmpersite" class="btn btn-success" >Ok</button>
+					</div>
+				</div>
+			</div>
+		</div> 	
+					<input type="hidden" id="offcrlogin" th:value="${loginid}">
+</body>
+<script src="js/allocatelsm.js"></script>
+<script>
+  function goback() {
+     window.location = "current_lsm";
+     
+     }      
+     
+         var kycFiles = {};
+	var supportFiles = {};
+function uploadFile(obj, count) {
+	
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles) {
+                    if (kycFiles[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles) {
+                        if (supportFiles[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#kyc-filetxt-" + count).val(obj.files[0].name);
+                        $("#kyc-filetxt-" + count).addClass('pl-25');
+                        kycFiles[count] = obj;
+                        $(obj).next().remove();
+                      //  $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+                        $(obj).after('<span class="view-btn" id="viewbtn" onclick="viewFile(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn" onclick="deleteFile(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+function fileUpload(count) {
+            $("#kyc-file-" + count).click();
+        }
+ function viewFile(count) {
+            //pdfLoader(kycFiles[count].files[0]);
+            $("#embedpdf").attr('src', URL.createObjectURL(kycFiles[count].files[0]));
+            $("#pdfView").modal('toggle');
+            $("#qryreplymodal").scrollTop($("#pdfView").offset().top);
+        }
+ function deleteFile(obj, count) {
+            $("#kyc-filetxt-" + count).val('');
+            $("#kyc-filetxt-" + count).removeClass('pl-25');
+            delete kycFiles[count];
+            $(obj).next().remove();
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn" onclick="fileUpload(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+</script>
+</html>

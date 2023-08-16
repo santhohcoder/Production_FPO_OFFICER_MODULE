@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+        position: fixed;
+        left: 0%;
+         top: 0%;
+         z-index: 9999;
+          width: 100%;
+          background: rgba(255, 255, 255, .7);
+         height: 100%;
+        }
+  #loader {
+         position: fixed;
+        display: block;
+        left: 50%;
+        top: 48%;
+        z-index: 9999;
+         width: 100%;
+         height: 100%;
+         background-image: url(images/report/loader.gif);
+         background-repeat: no-repeat;
+          margin: -77px 0 0 -75px;
+        }
+
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> User
+		Management</h3>
+	<h3 style="text-align: center; color: #1616e0; ">
+	<div th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+	
+	<div class="col-md-12" style ="padding: 2%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #007bff80; height:205px;">
+        <h5 class="card-title">Role	Management</h5>
+        <p class="card-text">To allocate and edit / remove roles for officers in the local site through  System Administrator PLA / PAA . </p>
+        <a href="roles_allocation" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #4ac0d3; height:205px;">
+        <h5 class="card-title" >View Active</h5>
+        <p class="card-text">To View Active Roles allotted to the Users  in the  FPO Site to use this FPO  Imports application.</p><br>
+        <a href="active_users" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #d3d1d1; height:205px;">
+        <h5 class="card-title">View History</h5>
+        <p class="card-text">To View Past Roles allotted to the users  in the FPO Site </p>
+        <a href="viewLsmroleHstry" class="btn btn-success" style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--  div class="col-md-12" >
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #bfbbb1">
+        <h5 class="card-title">Update Details</h5>
+        <p class="card-text">To udpate details of Mobile No. and SSO ID </p><br>
+        <a href="updatelsmdetails" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div-->
+
+</body>
+
+<script>
+
+   function back() {
+     window.location = "lsm_module";
+     } 
+ $(document).ready(function() {
+	showLoader();
+	hideLoader();
+	});	     
+ function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+     
+</script> 
+</html>
+

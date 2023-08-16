@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+.lsmtable.table.table-bordered.table-sm>tbody>tr>td {
+	border: 1px solid #000000 !important;
+}
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+a.nav-link {
+	font-weight: bold;
+	color: black;
+	text-transform: uppercase;
+	font-size: 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background: #0a3052 !important;
+}
+
+/* a:hover {
+color: none !important;
+} */
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+	position: absolute;
+	left: -9999px;
+}
+
+[type="checkbox"]:not(:checked)+label, [type="checkbox"]:checked+label {
+	position: relative;
+	padding-left: 20px;
+	cursor: pointer;
+}
+
+[type="checkbox"]:not(:checked)+label:before, [type="checkbox"]:checked+label:before
+	{
+	content: '';
+	position: absolute;
+	left: -5px;
+	top: 5px;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border-radius: 3px;
+	box-shadow: inset 0 1px 3px rgb(86, 30, 30);
+	border-radius: 46%;
+	outline: none;
+}
+
+[type="checkbox"]:not(:checked)+label:after, [type="checkbox"]:checked+label:after
+	{
+	content: "\2713";
+	position: absolute;
+	top: 9px;
+	left: -1px;
+	font-size: 16px;
+	line-height: 0.8;
+	color: #fff;
+	transition: all .5s;
+	background-color: green;
+	border-radius: 48%;
+}
+
+[type="checkbox"]:not(:checked)+label:after {
+	opacity: 0;
+	transform: scale(0);
+}
+
+[type="checkbox"]:checked+label:after {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.card-text:last-child {
+	margin-bottom: 1rem !important;
+}
+
+.card-body {
+	padding: 0.5rem !important;
+}
+.headers{
+font-weight : bold;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+  .menuIconToggle:before {
+       		display:none !important;
+       }
+       
+       .menuIconToggle:after {
+       		display:none !important;
+       }
+</style>
+<head lang="en" th:replace="header :: header"></head>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<div class="row">
+		<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Allocate
+			Roles> Edit Roles</h3></div>
+			<h3 style="text-align: center; color: #1616e0; ">
+	<div align="center" th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div align="center" th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+	<div class="col-md-12 row">
+	<!--div class="col-md-1" style="margin-top: 1%; text-align: center;"><button class="btn btn-info" id="bcktorleallt">Back</button></div>
+	<div class="col-md-11" style="margin-top: 1%; text-align: center;"-->
+	<div class="col-md-12" style="margin-top: 1%; text-align: center;">
+		<h2 style="font-weight: 500;margin-right: 5px;">Role Management</h2>
+	</div></div>
+
+	<ul class="nav nav-pills" role="tablist"
+		style="width: 100%; border: 2px solid; border-radius: 7px; margin-bottom: 20px; margin-top: 20px;">
+		<li class="nav-item" id="queryQueue"
+			style="width: 50%; text-align: center;"><a class="nav-link"
+			data-toggle="pill" onclick="alloctrole()" href="javascript:;">Allocation
+				of roles</a></li>
+		<li class="nav-item" id="otherqueues" onclick="rolehstry()"
+			style="width: 50%; text-align: center;" value="0"><a
+			class="nav-link active show" data-toggle="pill" href="javascript:;">Edit
+				/ Remove roles</a></li>
+	</ul>
+
+
+
+	<div class="form-group editselrole row"
+		style="font-weight: 500; margin-top: 2%; justify-content: center; margin-right: 0%">
+		<label class="control-label" for="State" style="font-size: 110%;">Select
+			User:</label>
+		<div class="col-sm-2">
+			<select id="siteState" class="form-control userid" name="siteState"
+				required="required">
+				<option value="">--Select User--</option>
+				<div th:each="Lsmroles,iter : ${getuserid}">
+					<option class="form-control" th:text="${Lsmroles[1]}"  th:value="${Lsmroles[0]}"></option>
+				</div>
+			</select>
+		</div>
+	</div>
+	<div class=row id="LSMUser" style="display: none">
+		<div class="col-sm-3"></div>
+		<div class="col-md-7" style="display: flex;">
+			<table width="80%">
+				<thead>
+					<tr style="background-color: #007bff40">
+				<th scope="col" width="8%" style="font-size: larger;">&nbsp;&nbsp;&nbsp;&nbsp;SSOID:</th>
+				<th scope="col" id="LsmSSid" width="15%"
+					style="color: #0062cc; font-size: larger;"></th>
+				<th scope="col" width="8%" style="font-size: larger;">&nbsp;&nbsp;NAME:</th>
+				<th scope="col" width="16%" id="LsmNme"
+					style="color: #0062cc; font-size: larger;"></th>
+				<th scope="col" width="12%" style="font-size: larger;">DESIGNATION:</th>
+				<th scope="col" id="LsmDes" width="13%"
+					style="color: #0062cc; font-size: larger;"></th>
+			</tr>
+				</thead>
+			</table>
+		</div>
+		<div class="col-sm-1">
+			<button type="button" id="clearchckbox" class="btn btn-success">Remove
+				All Roles</button>
+		</div>
+		<div class="col-sm-1 emprofile" style="display: none;text-align:center;align:right;"><button type="button" id="userprofile" class="btn btn-info">User Profile</button></div>
+	</div><br>
+	<div class="chkbxnote" style="display : none;"><h4 style="text-align : center"> Uncheck the boxes to remove / edit roles. </h4>
+	 <div class="row " style="margin-top:-40px; margin-left:86rem;" >
+	     <div>
+	      	<button type="button" id="Updatederles" class="btn btn-success" style=" margin-right:36px;">Save Changes</button>
+	     </div>
+	     <div>
+		    <button type="button" id="cancelderles" class="btn btn-success">Cancel Changes</button>
+	     </div>
+	     </div>
+	</div><br>
+	<div class="col-md-12 row editroles"
+		style="display: flex; justify-content: center;">
+		<div class="col-md-4 editacadminrole " style="display: none">
+			<div style="display: flex; justify-content: center;">
+				<font size=5 color="black"><strong>ADMIN ROLES</strong></font>
+			</div>
+			<br>
+			<div class="editadminrole"
+				style="list-style-type: none; padding-right: 50px; padding-left: 50px;"></div>
+		</div>
+		<div class="col-md-4 edittransroleslist" style="display: none">
+			<div style="display: flex; justify-content: center;">
+				<font size=5 color="black"><strong>TRANSACTION ROLES</strong></font>
+			</div>
+			<br>
+			<div class="edittransroles" id="editransroles"
+				style="list-style-type: none; padding-right: 50px; padding-left: 50px;">
+			</div>
+		</div>
+		<div class="col-md-4 editmiscellist" style="display: none">
+			<div style="display: flex; justify-content: center;">
+				<font size=5 color="black"><strong>MISCELLANEOUS
+						ROLES</strong></font>
+			</div>
+			<br>
+			<div class="editmiscelroles"
+				style="list-style-type: none; padding-right: 50px; padding-left: 50px;">
+			</div>
+		</div>
+	</div>
+	 <div class="submitbutn row" style="display: none">
+	<div class="col-md-7" style="margin-left:1%">
+	 <b>Note:</b> Certain Transaction Roles like PAO, PIN and PSU which can be allotted based on Mail Classes. 
+Hence, if such roles are already allotted to all the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mail Classes (Letters, EMS, Parcels, Empty Receptacles) for the users at the site, 
+the same will not be appearing for allocation.</style>  </div>
+       <div class="col-md-1"></div>
+	    <div class="row col-md-4" >
+	     <div class="col-md-6" >
+	      	<!-- <button type="button" id="Updatederles" class="btn btn-success">Save Changes</button> -->
+	     </div>
+	     <div class="col-md-6" >
+		    <!-- <button type="button" id="cancelderles" class="btn btn-success">Cancel Changes</button> -->
+	     </div>
+	     </div>
+	  </div>	
+	
+	<br>
+	
+	<!-- Want to write the code -->
+	
+	<!--  <div class="submitbutn" style="display: none">
+	<div class="col-md-9" style="justify-content: end; display: flex;">
+		<button type="button" id="Updatederles" class="btn btn-success">View user profile</button>
+	</div></div><br> -->
+
+	<input type=hidden id="lsmCusite" th:value="${LsmcuSite}" />
+	<input type=hidden id="LsmOffid" th:value="${Lsmoffid}" />
+	<input type=hidden id="mcpao" />
+	<input type=hidden id="mcpin"  />
+	<input type=hidden id="mcpsu" />
+	
+
+	<!-- Edit Assigned role Modal popup -->
+	<div class="modal fade" id="rolecnfrm" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center" id="selectedroles"
+						style="font-family: 'FontAwesome';"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="notsure" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="addrole"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mail-Class Conformation -->
+
+	<div class="modal fade" id="mailclascfrmPAO" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="blinkpao">Please select mail class code for - PAO</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" id="cnfrmspao"
+						class="btn btn-success">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Select mail-class for PSU -->
+	<div class="modal fade" id="mailclascfrmPSU" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="blinkpsu">Please select mail class code for - PSU</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" id="cnfrmspsu"
+						class="btn btn-success">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="editmailclascfrapr" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="font-weight: 600;background: black;
+    color: white;">
+     Edit / Remove Mail-Class for Appraising Officer(AO) from EAD, AAA and AAF submodules</div>
+				<div class="modal-body" style="margin-left: 20px">
+					<div class="row" style="margin-right: 4px;">
+						<div class="col-md-6 mc">
+						<span class="headers">Mail Class</span>
+						<div id="allmcpao">
+							<input type="checkbox" id="editallmailclsao">
+							 <label class="container" for="editallmailclsao">All</label> </div>
+					    <div id="upao">
+							 <input type="checkbox" id="editlettersao"> 
+							 <label class="container" for="editlettersao">Letters</label> </div>
+						<div id="epao">
+							 <input type="checkbox" id="editemsao">
+							 <label class="container" for="editemsao">EMS</label> </div>
+						<div id="cpao">
+							 <input type="checkbox" id="editparcelao">
+							 <label class="container" for="editparcelao">Parcels</label> </div>
+						<div id="tpao">
+							 <input type="checkbox" id="editemptyrecao">
+							 <label class="container" for="editemptyrecao">Empty receptacles</label></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div style="margin-right: 100px"></div>
+					<button type="button" data-dismiss="modal" id="editmailclsAo"
+						class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="editmailclascfrpin" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header" style="font-weight: 600;background: black;
+    color: white;">
+     Edit / Remove Mail-Class for Postal Inspector(PIN)</div>
+				<div class="modal-body" style="margin-left: 20px">
+					<div class="row" style="margin-right: 4px;">
+						<div class="col-md-6 mc">
+						<span class="headers">Mail Class</span>
+						<div id="allmcpin">
+							<input type="checkbox" id="editallmailclspin">
+							 <label class="container" for="editallmailclspin">All</label> </div>
+						<div id="upin">
+							 <input type="checkbox" id="editletterspin"> 
+							 <label class="container" for="editletterspin">Letters</label>  </div>
+						<div id="epin">
+							 <input type="checkbox" id="editemspin">
+							 <label class="container" for="editemspin">EMS</label>  </div>
+						<div id="cpin">
+							 <input type="checkbox" id="editparcelpin">
+							 <label class="container" for="editparcelpin">Parcels</label>  </div>
+						<div id="tpin">
+							 <input type="checkbox" id="editemptyrecpin">
+							 <label class="container" for="editemptyrecpin">Empty receptacles</label> </div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div style="margin-right: 100px"></div>
+					<button type="button" data-dismiss="modal" id="editmailclspin"
+						class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	  <div class="modal fade" id="editmailclascfrsup" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true" >
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content" style="display : flex; right: 9px;">
+				<div class="modal-header" style="font-weight: 600;background: black;color: white;">
+   Edit / Remove Mail-Class for OOC Superintendent </div>
+				<div class="modal-body" style="margin-left:20px">
+					<div class="row" style="margin-right: 4px;">
+						<div class="col-md-6 mc">
+						<span class="headers">Mail Class</span>
+				 <div id="allmcpsu">
+				<input type="checkbox" id="editallmailclssup" >
+				<label class="container" for="editallmailclssup">All</label></div>
+				<div id="upsu">
+					<input type="checkbox" id="editletterssup" >
+					<label class="container" for="editletterssup">Letters</label></div>
+				<div id="epsu">
+					 <input type="checkbox" id="editemssup" ><label class="container" for="editemssup">EMS</label> </div>
+			    <div id="cpsu">
+					<input type="checkbox" id="editparcelsup" ><label class="container" for="editparcelsup">Parcels</label></div>
+				<div id="tpsu">
+					 <input type="checkbox" id="editemptyrecsup" ><label class="container" for="editemptyrecsup">Empty receptacles</label></div>
+				</div>
+				</div></div>
+				<div class="modal-footer">
+				<div style="margin-right: 100px"></div>
+					<button type="button" data-dismiss="modal" id="editmailclssup"
+						class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+   
+    <div class="modal fade" id="editroleremvecnfrmAO" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="blinkAO">Please confirm on the changes carried out</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;" id="editnotsureAO">No</button>
+					<button type="button" data-dismiss="modal" id="editcnfrmrolermvAO"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="editroleremvecnfrmPIN" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="blinkAO">Are you sure to remove the role?<br><span>Mail-class will be removed.</span></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;" id="editnotsurePIN">No</button>
+					<button type="button" data-dismiss="modal" id="editcnfrmrolermvPIN"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="editroleremvecnfrmPSU" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="blinkAO">Are you sure to remove the role?<br><span>Mail-class will be removed.</span></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;" id="editnotsurePSU">No</button>
+					<button type="button" data-dismiss="modal" id="editcnfrmrolermvPSU"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="modal fade" id="PLAmaxrole" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #343232fa; font-family: 'FontAwesome'; transition: 0.5s;">Maximum
+						of 2 users can be given for Local System Administrator (PLA)  role.
+						Please remove one of the user from PLA role to allocate for any
+						new user ID which is mapped to this Site.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="PLArolelimit" data-dismiss="modal" 
+						class="btn btn-success">OK</button>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="PAAmaxrole" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #343232fa; font-family: 'FontAwesome'; transition: 0.5s;">Maximum
+						of 2 users can be given for Alternate System Administrator (PAA) role.
+						Please remove one of the user from PAA role to allocate for any
+						new user ID which is mapped to this Site.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="PAArolelimit" data-dismiss="modal" 
+						class="btn btn-success">OK</button>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="ARPmaxrole" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #343232fa; font-family: 'FontAwesome'; transition: 0.5s;">Maximum
+						of 5 users can be given for (ARP) Analytical Reports role.
+						Please remove one of the user from ARP role to allocate for any
+						new user ID which is mapped to this Site.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="ARProlelimit" data-dismiss="modal" 
+						class="btn btn-success">OK</button>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+</body>
+<script src="js/lsmJS/editroles.js"></script>
+<script>
+           function goback() {
+     window.location = "allocation_of_roles";
+     
+     } 
+     </script>
+<!-- <script type="text/javascript">
+        
+         var blink1 = document.getElementById('blinkpsu');
+        setInterval(function() {
+            blink1.style.opacity = (blink1.style.opacity == 0 ? 1 : 0);
+        }, 1000);
+    </script> -->
+</html>

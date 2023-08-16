@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- <head lang="en" th:replace="header :: header"> -->
+<head lang="en" th:replace="header :: header"></head>
+<style>
+.form-control {
+	height: 42px;
+}
+
+.input_box_style {
+	border-radius: 1rem;
+	border-block-color: #9e9e9e;
+}
+
+.button_height {
+	margin-left: 37%;
+	font-size: 142%;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+	<div th:if="${statusMsg}" id="successMessage"
+		class="alert alert-danger">Site adding Operation failed due to
+		Site already exiting in Database.Please try again</div>
+	<div class="container">
+		<h3>Dashboard> Site Management> Add FPO Site</h3>
+		<form name="addingSiteForm" class="form-horizontal div_c" action="#"
+			onsubmit="return validateForm()" th:action="@{/addFPOSite}">
+			<div class="form-group  row ">
+				<label class="control-label col-sm-2 " for="FPO Site Name">FPO
+					Site Name:</label>
+				<div class="col-sm-6 ">
+					<input type="text" class="form-control input_box_style " id="Fsn"
+						placeholder="FPO Site Name" name="siteName">
+				</div>
+			</div>
+
+			<!--div class="form-group  row">
+				<label class="control-label col-sm-2" for="State">State:</label>
+				<div class="col-sm-6 ">
+					<select id="siteState" class="form-control" style="height: 43px;"
+						name="siteState" required="required" onchange="getCityCode()">
+						<option value="">Select your state</option>
+						<div th:each="siteState,iter : ${stateList}">
+							<option class="form-control" th:text="${siteState}"></option>
+						</div>
+					</select>
+				</div>
+			</div-->
+			
+			<div class="form-group  row">
+				<label class="control-label col-sm-2" for="Site code">Site Code:</label>
+				<div class="col-sm-6 ">
+					<input id ="siteCode" type="text" onfocus="this.value=''" name="siteCode" required="required" placeholder="Select Site Code"
+						list="selectNumber" class="form-control" style="height: 43px;" />
+					<datalist id="selectNumber">
+
+					</datalist>
+				</div>
+			</div>
+			
+			<div class="form-group  row">
+				<label class="control-label col-sm-2" for="Site code">Site State:</label>
+				<div class="col-sm-6 ">
+					<input id ="siteState" type="text" onfocus="this.value=''" name="siteState" required="required" placeholder="Select Site State"
+						list="selectNumber" class="form-control" style="height: 43px;" />
+					<datalist id="selectNumber">
+
+					</datalist>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-success"
+						style="margin-left: 61%;">Add FPO Site</button>
+				</div>
+			</div>
+
+			<!-- Modal -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Creating
+								new Site</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">sure! do you want add this site.</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="button" id="saveSite" class="btn btn-primary">Add
+								Site</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+<script src="js/addingSite.js"></script>
+</html>

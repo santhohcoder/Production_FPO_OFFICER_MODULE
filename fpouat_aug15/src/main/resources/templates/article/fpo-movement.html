@@ -1,0 +1,197 @@
+<style type="text/css">
+.button-size {
+	width: 23%;
+}
+.stsclr {
+	background-color: #fff;
+}
+tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+a.nav-link {
+	font-weight: bold;
+	color : black;
+	text-transform : uppercase;
+	font-size : 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background : #0a3052 !important;
+}
+
+.buttons-excel{
+display: none;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+
+<div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 98%;margin: 20px;height: auto;padding: 20px;">
+    <div align="center" style="
+    margin-bottom: 25px;">
+        <h2>ARTICLE ID Movement</h2>
+   <ul class="nav nav-pills" role="tablist"
+		style="width: 100%; border: 2px solid; border-radius: 7px; margin-bottom: 20px; margin-top: 20px;">
+		<li class="nav-item" id="viewmvmntrole" 
+			style="width: 50%; text-align: center;"><a
+			class="nav-link active show" data-toggle="pill" href="javascript:;">FPO MOVEMENT - ROLES</a></li>
+		<li class="nav-item" id="viewmvmntmodule" onclick="viewfpomodule()"
+			style="width: 50%; text-align: center;" value="0"><a
+			class="nav-link" data-toggle="pill" href="javascript:;" > FPO MOVEMENT - MODULE</a></li>
+	</ul>
+    </div>
+    <div id="rolediv">
+    
+        <table id="processtable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th scope="col" id="sinid" style="width: 45px;">SlNo.</th>
+                    <th scope="col" style="text-align: center;">Role Name</th>
+                    <th scope="col" style="text-align: center;">Officer Id</th>
+                    <th scope="col" style="text-align: center;">Entry Date</th>
+                    <th scope="col" style="text-align: center;">Exit Date</th>
+					<th scope="col" style="text-align: center;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fpoMovement,index : ${fpoMovements}" class="">
+                    <td th:text="${index.count}"></td>
+                    <td th:text="${fpoMovement[4]}"></td>
+                    <td th:text="${fpoMovement[3]}"></td>
+                    <td th:text="${fpoMovement[1]}"></td>
+                    <td th:text="${fpoMovement[2] != null ? fpoMovement[2] : 'Still not exited'}"></td>
+                    <td th:text="${fpoMovement[5] != null ? fpoMovement[5] : 'NIL'}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="modulediv" style="display:none">
+        <table id="fullprocesstable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th scope="col" id="sinid" style="width: 45px;">SlNo.</th>
+                    <th scope="col" style="text-align: center;">Module</th>
+                    <th scope="col" style="text-align: center;">Action </th>
+                    <th scope="col" style="text-align: center;">Entry Date</th>
+                    <th scope="col" style="text-align: center;">Exit Date</th>
+                    <th scope="col" style="text-align: center;">Action By</th>
+					<th scope="col" style="text-align: center;">SSO ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="fpoMovement,index : ${fpoMovementmodule}" class="">
+                    <td th:text="${index.count}"></td>
+                    <td th:text="${fpoMovement[1]}" ></td>
+                    <td th:text="${fpoMovement[2]}" style="text-align: left;margin-left:2px;"></td>
+                    <td th:text="${fpoMovement[3]}"></td>
+                    <td th:text="${fpoMovement[4]}"></td>
+                    <td th:text="${fpoMovement[5]}"></td>
+                    <td th:text="${fpoMovement[6]}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#role').css('display', 'block');
+ });
+ 
+    $("#processtable").dataTable({
+        "processing": true,
+        "paging": true,
+        "ordering": false,
+        
+           "initComplete": function( settings ) {
+	        $("#processtable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearprocesstable()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+		$("#processtable_filter input[type='search']").attr('id', 'searchprocesstable');
+    	}
+
+        
+    });
+    
+      function clearprocesstable(){
+    document.getElementById("searchprocesstable").value=""
+    var table = $('#processtable').DataTable();
+    table.search('').draw();
+ }
+  
+    
+     $("#fullprocesstable").dataTable({
+        "processing": true,
+        "paging": true,
+        "ordering": false,
+         "initComplete": function( settings ) {
+	        $("#fullprocesstable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearfullprocesstable()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+		$("#fullprocesstable_filter input[type='search']").attr('id', 'searchfullprocesstable');
+    	}
+    });
+    
+     function clearfullprocesstable(){
+    document.getElementById("searchfullprocesstable").value=""
+    var table = $('#fullprocesstable').DataTable();
+    table.search('').draw();
+ }
+    
+    
+    function viewfporole() {
+	$('#rolediv').css('display', 'block');
+	$('#modulediv').css('display', 'none');
+}
+
+function viewfpomodule() {
+	$('#rolediv').css('display', 'none');
+	$('#modulediv').css('display', 'block');
+}
+
+
+$('#viewmvmntmodule').click(function() {
+$('#rolediv').css('display', 'none');
+	$('#modulediv').css('display', 'block');
+});
+
+
+$('#viewmvmntrole').click(function() {
+$('#rolediv').css('display', 'block');
+	$('#modulediv').css('display', 'none');
+});
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>

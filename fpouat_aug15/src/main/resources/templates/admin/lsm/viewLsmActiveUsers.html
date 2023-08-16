@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="ISO-8859-1">
+</head>
+<style>
+.buttons-excel{
+display: none;
+} 
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<div class="col-md-12" style="padding : 0px">
+		<h3 style="font-size: 19px;margin-left:20px">Dashboard> User
+			Management> View Active Users</h3>
+		<h3 style="text-align: center; color: #1616e0; margin-top: 2%;">
+	<div th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+		<h4
+			style="text-align: center; margin-top: 30px; font-family: times new roman;background: deepskyblue;">View
+			Active Users</h4>
+
+		<div class="form-group row "
+			style="font-weight: 500; margin-top: 2%; justify-content: center;padding-right: 50px;">
+			<label class="control-label" for="State" style="font-size: 110%;">Select Active
+				User:</label>
+			<div class="col-sm-2">
+				<select id="siteState" class="form-control userid" style="width: 200px"
+					 name="siteState" required="required">
+					<option value="">--Select Active User--</option>
+					<option value="All-Users"> All-Users</option>
+					<div th:each="Lsmuser,iter : ${getlistOfUser}">
+						<option class="form-control" th:text="${Lsmuser[1]}"  th:value="${Lsmuser[0]}" ></option>
+					</div>
+				</select>
+			</div>
+		</div>
+	</div>
+
+<!--  div id="pdf&excelExport" style="display : none">
+	 <div class="col-md-12 row">
+  <div class="col-md-1" ></div>
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div></div> -->
+				
+	<div id="lsmActiveUsr"style="margin-top: 2%; padding-left: 10%; padding-right: 10%;display : none">
+		<table id="lSMUsers" class="table table-bordered table-striped table-bordered"
+			style="font-size: 14px; text-align: center;">
+			<thead>
+				<tr style="background-color: #63cfe0">
+					<th scope="col">Sl.No.</th>
+					<th scope="col">USER NAME</th>
+					<th scope="col">SSOID</th>
+					<th scope="col" style="width : 20%">ROLE NAME</th>
+					<th scope="col">Mail-Class</th>
+					<th scope="col">ASSIGN_BY</th>
+					<th scope="col">ASSIGNED_DATE</th>
+				</tr>
+			</thead>
+			<tbody id="getLsmUsers" style="font-weight: 500;">
+				
+			</tbody>
+		</table>
+	</div>
+</body>
+
+<script src="js/lsmJS/viewActiveUsr.js"></script>
+<script>
+        function goback() {
+     window.location = "allocation_of_roles";
+     
+     } 
+</script> 
+</html>
+

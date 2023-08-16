@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <style type="text/css">
+        #titletab {
+            text-transform: uppercase;
+            font-weight: bolder;
+            font-size: 35px;
+            text-decoration: underline;
+        }
+
+        #next-titletab {
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #cf368b;
+        }
+
+        td .btn-grn {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        .ead-class {
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .smalltexthelp {
+            padding-left: 15px;
+            margin-top: 20px !important;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .scan-find-label {
+            text-transform: uppercase;
+            width: 28%;
+            text-align: center;
+            vertical-align: middle;
+            color: blue;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #overlay {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            z-index: 9999;
+            width: 100%;
+            background: rgba(255, 255, 255, .7);
+            height: 100%;
+        }
+
+        #loader {
+            position: fixed;
+            display: block;
+            left: 50%;
+            top: 48%;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background-image: url(images/report/loader.gif);
+            background-repeat: no-repeat;
+            margin: -77px 0 0 -75px;
+        }
+
+        a.nav-link,
+        a.nav-link:hover {
+            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            background: #0a3052 !important;
+        }
+
+        table.dataTable thead th,
+        table.dataTable td {
+            word-break: break-word;
+        }
+
+        .ta-left {
+            text-align: left;
+        }
+
+        .form-control[readonly] {
+            background: white !important;
+        }
+
+        .ui-widget-content .ui-icon {
+            background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+        }
+
+        #documentFileTxt {
+            cursor: not-allowed;
+            background: white;
+            width: 100%;
+            height: 38px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background: rgb(153, 153, 153);
+            color: rgb(255, 255, 255);
+            padding: 3px 15px;
+            font-size: 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            right: 25px;
+            top: 6px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            background: rgb(153, 153, 153);
+            color: rgb(255, 255, 255);
+            padding: 3px 15px;
+            font-size: 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            right: 100px;
+            top: 6px;
+        }
+
+        .delete-btn {
+            display: inline-block;
+            background: rgb(153, 153, 153);
+            color: rgb(255, 255, 255);
+            padding: 3px 15px;
+            font-size: 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            right: 25px;
+            top: 6px;
+        }
+
+        .pdf-icon {
+            color: red;
+            position: absolute;
+            top: 13px;
+            left: 25px;
+            font-weight: 500;
+        }
+
+        .pl-25 {
+            padding-left: 25px !important;
+        }
+        
+        #ooccancelhistorytable tbody tr:hover {
+	        background: #28a745 !important;
+	        font-weight: bold;
+	        cursor: pointer;
+	        color: white;
+    	}
+
+    	#tooltip {
+	        position: absolute;
+	        z-index: 1001;
+	        display: none;
+	        border: 2px solid #000;
+	        color: #fff;
+	        font-weight: bold;
+	        border-radius: 5px;
+	        padding: 10px;
+	        background-color: #000;
+	        cursor: pointer;
+    	}
+    	
+    	.blink-span {
+    		color: red;
+    		font-weight: bold;
+    		text-transform: uppercase;
+    	}
+    	
+    	.blink-span {
+  			animation: blink-animation 1s steps(5, start) infinite;
+  			-webkit-animation: blink-animation 1s steps(5, start) infinite;
+		}
+
+		@keyframes blink-animation {
+		  to {
+		    visibility: hidden;
+		  }
+		}
+		
+		@-webkit-keyframes blink-animation {
+		  to {
+		    visibility: hidden;
+		  }
+		}
+    </style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+
+<body>
+ <div id="overlay">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+    </div>
+    
+      <div class="mt-3" style="background-color: #f8f9fa; padding: 15px;">
+        <div align="center">
+            <span id="titletab" class="form_txt" th:text="${'ACK from India Post on Delivery of Articles - '+session.data2}"></span>
+        </div>
+        
+        
+        <ul class="nav nav-pills" role="tablist" style="width: 100%; border: 2px solid; border-radius: 7px; margin-bottom: 20px; margin-top: 20px;">
+            <li onclick="switchDiv('oocsent','delack','delackn')" class="nav-item" style="width: 33%; text-align: center;"><a class="nav-link active show" data-toggle="pill" href="javascript:;">OOC Sent to Post<br><font size=2 id="ooccou" value=""></font></a></li>   
+            <li onclick="switchDiv('delack','oocsent','delackn')" class="nav-item" style="width: 33%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Delivery Acknowledgement Received<br><font size=2 id="deliveryart" value=""></font></a></li>
+            <li onclick="switchDiv('delackn','delack','oocsent')" class="nav-item" style="width: 34%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Delivery Acknowledgement Not Received<br><font size=2 id="notdelivery" value=""></font></a></li>
+        </ul>
+          
+        <div id="tooltip"></div>
+          <div id="oocsent" >
+  
+          <div class="row" style="margin: 15px;padding-top: 15px;">
+         		 <div id="ooccou" value=""> </div>
+		   <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">
+		      Select Date Range:
+		   </span>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+		      <input type="text" id="fromdapickooc" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly=""  class="picker form-control form_txt change">  </div>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+		     <input type="text" id="todapickerooc" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select To Date" readonly=""  class="picker form-control form_txt change">
+		   </div>
+		    
+		   <button type="button" onclick="getOoc()" class="btn btn-success">Submit</button>
+		   <button type="button" onclick="resetooc(this)" th:id="${fromdate}" class="btn" th:value="${todate}" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+
+		</div>
+        	<div class="col-md-12" id="oocsentd" style="display:none">
+<!--         	<input type="text" id="ooccou" class="input" /> -->
+				
+                <table id="oocsenttable" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values,iter: ${oocsentarticles}" class="" >
+					   <td th:text="${iter.index+1}"></td>
+					     <td th:text="${values.cussite== null ? '-' : values.cussite}"></td>
+                       <td th:text="${values.item_id}"></td>
+                       <td th:text="${values.postingdt== null ? '-' : values.postingdt}"></td>
+                       <td th:text="${values.eadstatus}"></td>
+                       <td th:text="${values.mailclass== null ? '-' : values.mailclass}"></td>
+                       <td th:text="${values.oocdt== null ? '-' : values.oocdt}"></td>
+                       </tr>
+				</tbody>
+			</table>
+            </div>
+            
+            
+            
+            <div class="col-md-12" id="oocsentf">
+                <table id="oocsenttablef" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+					</tr>
+				</thead>
+				<tbody id="oocsentdataf"> </tbody>
+			</table>
+            </div>
+        </div>
+           
+       <!-- deliveryackreceived -->
+       
+       
+        <div id="delack" style="display:none;" >
+        <div class="row" style="margin: 15px;padding-top: 15px;">
+		   <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">
+		      Select Date Range:
+		   </span>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+		     <input type="text" id="frompicdeackrec" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly=""  class="picker form-control form_txt change">
+		   </div>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+		     <input type="text" id="topicdeackrec" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select To Date" readonly="" class="picker form-control form_txt change">
+		   </div>
+		   <button type="button" onclick="getdeackrec()" class="btn btn-success">Submit</button>
+		  <button type="button" onclick="resetdelackrec(this)" th:id="${fromdate}" class="btn" th:value="${todate}" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+		</div>
+        
+        <div  class="mt-1" id="deliverytablerec" style="align:center;text-align: center;" >	
+     	<div class="col-md-12" >  
+                <table id="deliverytable" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center; width:5%;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+                    <th scope="col" style="text-align: center; width:15%;">Delivery PO</th>
+                    <th scope="col" style="text-align: center;">Delivery Date</th>
+                    <th scope="col" style="text-align: center; width:40%;">Delivery Status </th>
+                    <th scope="col" style="text-align: center; width:40%;">Delivery Mode </th>
+
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values,iter: ${deliveryarticles}" class="" >
+					   <td th:text="${iter.index+1}"></td>
+					     <td th:text="${values.cussite== null ? '-' : values.cussite}"></td>
+                       <td th:text="${values.item_id}"></td>
+                       <td th:text="${values.postingdt== null ? '-' : values.postingdt}"></td>
+                       <td th:text="${values.eadstatus}"></td>
+                       <td th:text="${values.mailclass== null ? '-' : values.mailclass}"></td>
+                       <td th:text="${values.oocdt== null ? '-' : values.oocdt}"></td>
+                       <td th:text="${values.deli_po}"></td>
+                       <td th:text="${values.deli_dt}"></td>
+                       <td th:text="${values.deli_status}"></td>
+                       <td th:text="${values.deli_mode== null ? '-' : values.deli_mode}"></td>
+                       </tr>
+				</tbody>
+			</table>
+           </div>  
+        </div>
+        
+        
+      <div class="col-md-12" id="deliverytablerecf">    
+                <table id="deliverytablef" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center; width:5%;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+                    <th scope="col" style="text-align: center; width:15%;">Delivery PO</th>
+                    <th scope="col" style="text-align: center;">Delivery Date</th>
+                    <th scope="col" style="text-align: center; width:40%;">Delivery Status </th>
+                    <th scope="col" style="text-align: center; width:40%;">Delivery Mode </th>
+
+
+					</tr>
+				</thead>
+				
+				<tbody id="delitabledataf"> </tbody>
+				
+			</table>
+            </div>
+        
+        </div>
+        
+        
+        
+        <!--  deliveryacknotreceived -->
+        
+         <div id="delackn" style="display:none;">
+         
+         <div class="row" style="margin: 15px;padding-top: 15px;">
+		   <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">
+		      Select Date Range:
+		   </span>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+		<input type="text" id="fromdapicknot" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly=""  class="picker form-control form_txt change">		   </div>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+		     <input type="text" id="todapicknot" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select To Date" readonly="" class="picker form-control form_txt change">
+		   </div>
+		    
+		   <button type="button" onclick="getdelacknot()" class="btn btn-success">Submit</button>
+		   <button type="button" onclick="resetdelacknot(this)" th:id="${fromdate}"  th:value="${todate}" class="btn" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+		   </div>
+         
+   <div  class="mt-1" id="deliverytanotre" style="align:center;text-align: center;" >	     
+     <div class="col-md-12">
+                <table id="deliverytablenot" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+                    <!--th scope="col" style="text-align: center;">Delivery PO</th>
+                    <th scope="col" style="text-align: center;">Delivery Date</th>
+                    <th scope="col" style="text-align: center;">Delivery Status</th>
+                    <th scope="col" style="text-align: center;">Delivery Mode</th-->
+        </tr>
+        
+        </thead>
+        <tbody>
+        		
+        		<tr th:each="values,iter: ${notdeliveryarticles}" class="" >
+        		<td th:text="${iter.index+1}"></td>
+        		<td th:text="${values.cussite== null ? '-' : values.cussite}"></td>
+        		<td th:text="${values.item_id}"></td>
+        		<td th:text="${values.postingdt== null ? '-' : values.postingdt}"></td>	
+        		<td th:text="${values.eadstatus}"></td>
+        		<td th:text="${values.mailclass== null ? '-' : values.mailclass}"></td>
+        		<td th:text="${values.oocdt== null ? '-' : values.oocdt}"></td>
+        		<!--td th:text="${values.deli_po== null ? '-' : values.deli_po}"></td>
+        		<td th:text="${values.deli_dt== null ? '-' : values.deli_dt}"></td>
+        		<td th:text="${values.deli_status== null ? '-' : values.deli_status}"></td>
+        		<td th:text="${values.deli_mode== null ? '-' : values.deli_mode}"></td-->  
+        		
+        </tbody>
+		</table>
+        
+       </div>
+     </div>  
+       
+       
+       <div class="col-md-12" id="deliverytanotref" style="align:center;text-align: center;">
+                <table id="delacknotrcf" class="table table-striped table-bordered mt-3 newtable"
+				style="font-size: 16px; text-align: center;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+					<th scope="col" style="text-align: center;">Sl.No</th>
+					<th scope="col" style="text-align: center;">FPO Site</th>
+                    <th scope="col" style="text-align: center;">Article Id</th>
+                    <th scope="col" style="text-align: center;">Posting Dt</th>
+                    <th scope="col" style="text-align: center;">EAD Status</th>
+                    <th scope="col" style="text-align: center;">Mail Class</th>
+                    <th scope="col" style="text-align: center;">OOC Dt</th>
+                    <!--th scope="col" style="text-align: center;">Delivery PO</th>
+                    <th scope="col" style="text-align: center;">Delivery Date</th>
+                    <th scope="col" style="text-align: center;">Delivery Status</th>
+                    <th scope="col" style="text-align: center;">Delivery Mode</th-->
+        </tr>
+        </thead>
+        
+       <tbody id="delacknotrc"></tbody>
+       
+   </table>
+       
+       
+    </div>
+
+    </div>
+    </div>
+</body>
+<script language="JavaScript">
+
+
+function switchDiv(obj1,obj2,obj3) {
+			
+			$('#' + obj1).show('slow');
+			$('#' + obj2).hide('slow');
+			$('#' + obj3).hide('slow');
+			console.log(obj1);
+			$('#deliverytanotre').hide();
+	        $('#deliverytablerec').hide();
+			
+        }
+
+
+//Delivery Ackownledgedment not Received	
+
+$(function() {
+$("#fromdapicknot").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+            onSelect: function(date) {
+                $("#todapicknot").datepicker('option', 'minDate', date);
+            }
+        });
+
+        $("#todapicknot").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+        });
+	});
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+hideLoader();
+	
+/*	
+	var today = new Date();
+var startdate = new Date();
+startdate.setMonth(startdate.getMonth() - 7);
+
+$("#fromdapicknot").datepicker({
+  dateFormat: "dd/mm/yy",
+  defaultDate: startdate,
+  maxDate: new Date(),
+  onSelect: function(date) {
+    $("#todapicknot").datepicker('option', 'minDate', date);
+    var selectedDate = $(this).datepicker('getDate'); // Get selected date from #fromdatepicker
+    if (selectedDate != null) {
+      // Set maxDate option of #todatepicker to today's date
+      $("#todapicknot").datepicker('option', 'maxDate', new Date());
+      $("#todapicknot").datepicker('option', 'beforeShowDay', function(date) {
+        return [true]; // Enable all dates
+      });
+    } else {
+      // If no #fromdatepicker date is selected, reset #todatepicker selection and disable all dates except the current date
+      $("#todapicknot").datepicker('setDate', null);
+      $("#todapicknot").datepicker('option', 'beforeShowDay', function(date) {
+        var currentDate = new Date();
+        var isCurrentDate = date.toDateString() === currentDate.toDateString();
+        return [isCurrentDate]; // Disable all dates except the current date
+      });
+    }
+  }
+});
+$("#todapicknot").datepicker({
+  dateFormat: "dd/mm/yy",
+  maxDate: null, // Remove maxDate restriction initially
+  defaultDate: today,
+  beforeShowDay: function(date) {
+    var fromDate = $("#fromdapicknot").datepicker('getDate'); // Get selected date from #fromdatepicker
+    if (fromDate != null) {
+      // If #fromdatepicker date is selected, enable dates within the range
+      var toDate = $("#todapicknot").datepicker('getDate');
+      return [date >= fromDate && date <= toDate];
+    }
+    // If no #fromdatepicker date is selected, disable all dates except the current date
+    var currentDate = new Date();
+    var isCurrentDate = date.toDateString() === currentDate.toDateString();
+    return [isCurrentDate];
+  }
+});
+
+$("#fromdapicknot").datepicker('setDate', startdate);
+$("#todapicknot").datepicker('setDate', today);
+$("#todapicknot").datepicker('option', 'beforeShowDay', function(date) {
+  var currentDate = new Date();
+  var isCurrentDate = date.toDateString() === currentDate.toDateString();
+  return [isCurrentDate]; // Disable all dates except the current date initially
+});
+ */
+//Not Received
+function getdelacknot() {
+				var frdt = document.getElementById("fromdapicknot").value;
+		        var todt = document.getElementById("todapicknot").value;
+		      //alert(frdt);	
+			  //alert(todt);
+		        	$.ajax({     
+							url:'getdelackartnotrece?frdt=' + frdt + '&todt='+ todt,
+					success: function(data) {
+						
+							var val1 = data;
+							console.log(val1);
+							var count= 0;
+							var table = document.getElementById('delacknotrcf');
+							var rowCount = table.rows.length - 1;
+							var i=0;
+							while(i < rowCount)
+							{
+							 document.getElementById("delacknotrcf").deleteRow(1);
+								i=i+1;
+							}
+						$('#delacknotrcf').dataTable().fnDestroy();	
+						$("#delacknotrc").empty("");
+						$.each(val1, function(index, value) {	
+							var iterator = index + 1;
+							var oocd,delipo,deldt,delstatus,delmode;
+							if (value.oocdt=="" || value.oocdt==null)
+                                   oocd='-';
+                               else
+                                   oocd=value.oocdt;
+							if (value.deli_po=="" || value.deli_po==null)
+                                  delipo ='-';
+                               else
+                                  delipo =value.deli_po;
+							if (value.deli_dt=="" || value.deli_dt ==null)
+                                  deldt ='-';
+                               else
+                                  deldt =value.deli_dt;
+							if (value.deli_status=="" || value.deli_status==null)
+                                  delstatus ='-';
+                               else
+                                  delstatus =value.deli_status;
+							if (value.deli_mode=="" || value.deli_mode==null)
+                                  delmode ='-';
+                               else
+                                  delmode =value.deli_mode;
+							// var markup = "<tr style='valign:middle;' class='rowDis'> <td  width='1%' align='center' class= 'font-weight-medium'>" + iterator + "</td>  <td width='4%'>" + value.cussite + "</td><td width='5%'>" + value.item_id + "</td><td width='3%'>" + value.postingdt + "</td><td width='3%'>" + value.eadstatus + "</td><td width='3%'>" + value.mailclass + "</td> <td width='5%'>" + oocd + "</td> <td width='5%'>" + delipo + "</td><td width='5%'>" + deldt + "</td><td width='5%'>" + delstatus + "</td><td width='5%'>" + delmode + "</td>";
+							 var markup = "<tr style='valign:middle;' class='rowDis'> <td  width='1%' align='center' class= 'font-weight-medium'>" + iterator + "</td>  <td width='4%'>" + value.cussite + "</td><td width='5%'>" + value.item_id + "</td><td width='3%'>" + value.postingdt + "</td><td width='3%'>" + value.eadstatus + "</td><td width='3%'>" + value.mailclass + "</td> <td width='5%'>" + oocd + "</td>";
+							 $("#delacknotrc").append(markup);
+						});	
+						
+						
+						$('#deliverytablenot').hide();
+							 $('#deliverytanotre').hide();
+							 
+							$('#delacknotrcf').show();
+							 $('#deliverytanotref').show();
+								$('#delacknotrc').show();
+							$("#delacknotrcf").dataTable({
+	 "ordering": false,
+	 "processing": true,
+	 "paging": true,		
+	 "lengthMenu": [ 5, 10, 15, 20, 25 ],
+	 "pageLength": 10,
+	 "dom": '<"pull-left"Bl>frtip',
+	 buttons: [{extend: 'excel', text: '<i>EXCEL</i>',
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'Delivery Acknowledgement Not Received',
+					message:'Delivery Acknowledgement Not Received @ ' + sitecode + '\n\r' + datetime,
+				},
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Delivery Acknowledgement Not Received @' + sitecode,
+					filename:'Delivery Acknowledgement Not Received',
+				     orientation: 'landscape',
+					exportOptions: {
+        				//columns: [ 0,1,2,3,4,5,6,7,8,9,10],
+						margin: true,
+						modifier:{
+							selected:true
+							},
+      						},
+		   		     customize: function(doc, header) {
+					 doc.content[1].table.widths = ['10%','15%','15%','15%','15%','15%','15%'];
+						doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'Delivery Acknowledgement Not Received @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Delivery Acknowledgement Not Received ',	 
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '6pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+						$(win.document.body).find('message').css('font-size', '15pt');
+						}, 
+			}],
+			
+			"initComplete": function( settings ) {
+	        $("#delacknotrcf_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="cleardelacknotrcf()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#delacknotrcf_filter input[type='search']").attr('id', 'searchDeliverytablenot');
+    	}
+			
+		
+	}); 
+						
+					},
+
+				});
+}
+
+  
+   function cleardelacknotrcf(){
+     document.getElementById("searchDeliverytablenot").value=""
+      var table = $('#delacknotrcf').DataTable();
+      table.search('').draw();
+   }
+
+
+
+
+function resetdelacknot(eve)
+{
+var fromdt = eve.id;
+var todt = eve.value;
+$('#deliverytanotref').hide();
+$('#delacknotrcf').hide();
+//$('#deliverytanotre').show();
+//$('#deliverytablenot').show();
+$('#fromdapicknot').val('');
+$('#todapicknot').val('');
+$("#fromdapickooc").val('') ;
+$("#todapickerooc").val('')
+ $("#frompicdeackrec").val('') ;
+$("#topicdeackrec").val('');
+$('#oocsentd').hide();
+$('deliverytablenot').hide();
+	$('deliverytable').hide();
+}
+
+
+$(document).ready(function() {
+	$('#delacknotrcf').hide();
+    $('deliverytanotref').hide();
+    $('#deliverytablerecf').hide();
+	$('#delitabledataf').hide();
+	$('#deliverytablenot').show();
+	$('#oocsenttablef').hide();
+	
+	var norecords=$('#oocsenttable').DataTable().page.info().recordsTotal;
+		$("#ooccou").text("(" + norecords + ")"); 
+     var deliverytab=$('#deliverytable').DataTable().page.info().recordsTotal;  
+         $("#deliveryart").text("(" + deliverytab + ")");
+     var delivtabnot=$('#deliverytablenot').DataTable().page.info().recordsTotal; 
+         $('#notdelivery').text("(" + delivtabnot + ")");
+});					
+
+
+$("#deliverytablenot").dataTable({
+	 "ordering": false,
+	 "processing": true,
+	 "paging": true,		
+	 "lengthMenu": [ 5, 10, 15, 20, 25 ],
+	 "pageLength": 10,
+	 "dom": '<"pull-left"Bl>frtip',
+	 buttons: [{extend: 'excel', text: '<i>EXCEL</i>',
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'Delivery Acknowledgement Not Received',
+					message:'Delivery Acknowledgement Not Received @ ' + sitecode + '\n\r' + datetime,
+				},
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Delivery Acknowledgement Not Received @' + sitecode,
+					filename:'Delivery Acknowledgement Not Received',
+				     orientation: 'landscape',
+					exportOptions: {
+        				//columns: [ 0,1,2,3,4,5,6,7,8,9,10],
+						margin: true,
+						modifier:{
+							selected:true
+							},
+      						},
+		   		     customize: function(doc, header) {
+					 doc.content[1].table.widths = ['10%','15%','15%','15%','15%','15%','15%'];
+						doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'Delivery Acknowledgement Not Received @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Delivery Acknowledgement Not Received ',	 
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '6pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+						$(win.document.body).find('message').css('font-size', '15pt');
+						}, 
+			}],
+			
+			"initComplete": function( settings ) {
+	        $("#deliverytablenot_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearDeliverytablenot()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#deliverytablenot_filter input[type='search']").attr('id', 'searchDeliverytablenot');
+    	}
+			
+		
+	});
+
+	 function clearDeliverytablenot(){
+     document.getElementById("searchDeliverytablenot").value=""
+     var table = $('#deliverytablenot').DataTable();
+      table.search('').draw();
+   } 
+	
+	
+	
+/// Delivery Ackownledgedment Received	
+
+
+ 
+ $("#deliverytable").dataTable({
+	
+	"ordering": false,
+	"processing": true,
+	"paging": true,		
+	"lengthMenu": [ 5, 10, 15, 20, 25 ],
+	"pageLength": 10,
+	"dom": '<"pull-left"Bl>frtip',
+	buttons: [{extend: 'excel', text: '<i>EXCEL</i>',
+	
+	exportOptions:{
+		format:{
+			header:function(data,column){
+			if(column==9)
+			return "Delivery Status";
+			
+			if(column==10)
+			return "Delivery Mode";
+			
+			else 
+			return data;
+			}}},
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'Delivery Acknowledgement Received',
+					message:'Delivery Acknowledgement Received @ ' + sitecode + '\n\r' + datetime,
+				},
+				//pdf
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Delivery Acknowledgement Received @' + sitecode,
+					filename:'Delivery Acknowledgement Received',
+				     orientation: 'landscape',
+					exportOptions:{
+		format:{
+			header:function(data,column){
+			if(column==9)
+			return "Delivery Status";
+			
+			if(column==10)
+			return "Delivery Mode";
+			
+			else 
+			return data;
+			}}},
+		   		     customize: function(doc, header) {
+			         doc.content[1].table.widths = ['5%','8%','8%','8%','9%','10%','10%','10%','10%','10%','12%'];
+						doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+			      exportOptions:{
+		format:{
+			header:function(data,column){
+			if(column==9)
+			return "Delivery Status";
+			
+			if(column==10)
+			return "Delivery Mode";
+			
+			else 
+			return data;
+			}}},
+				  message:'Delivery Acknowledgement Received @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Delivery Acknowledgement Received ',	 
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '6pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+						$(win.document.body).find('message').css('font-size', '15pt');
+						}, 
+			}],
+			
+			
+  "initComplete": function() {
+  
+   this.api().columns([9][10]).every(function() {
+        var column = this;
+        var coldata = column[0];
+        if (coldata == 9) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700; width:100%"><option value="">Delivery Status</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+          if (coldata == 10) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700; width:100%"><option value="">Delivery Mode</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+      });
+  
+  
+	        $("#deliverytable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearDeliverytable()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#deliverytable_filter input[type='search']").attr('id', 'searchDeliverytable');
+    	}
+	});
+	
+	
+	
+	
+	
+	
+
+   function clearDeliverytable(){
+    document.getElementById("searchDeliverytable").value=""
+     var table = $('#deliverytable').DataTable();
+    table.search('').draw();
+}
+ 
+ 
+ 
+$(function() {
+$("#frompicdeackrec").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+            onSelect: function(date) {
+                $("#topicdeackrec").datepicker('option', 'minDate', date);
+            }
+        });
+
+        $("#topicdeackrec").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+        });
+	});
+	
+	
+/*	var today = new Date();
+var startdate = new Date();
+startdate.setMonth(startdate.getMonth() - 7);
+
+$("#frompicdeackrec").datepicker({
+  dateFormat: "dd/mm/yy",
+  defaultDate: startdate,
+  maxDate: new Date(),
+  onSelect: function(date) {
+    $("#topicdeackrec").datepicker('option', 'minDate', date);
+    var selectedDate = $(this).datepicker('getDate'); // Get selected date from #fromdatepicker
+    if (selectedDate != null) {
+      // Set maxDate option of #todatepicker to today's date
+      $("#topicdeackrec").datepicker('option', 'maxDate', new Date());
+      $("#topicdeackrec").datepicker('option', 'beforeShowDay', function(date) {
+        return [true]; // Enable all dates
+      });
+    } else {
+      // If no #fromdatepicker date is selected, reset #todatepicker selection and disable all dates except the current date
+      $("#topicdeackrec").datepicker('setDate', null);
+      $("#topicdeackrec").datepicker('option', 'beforeShowDay', function(date) {
+        var currentDate = new Date();
+        var isCurrentDate = date.toDateString() === currentDate.toDateString();
+        return [isCurrentDate]; // Disable all dates except the current date
+      });
+    }
+  }
+});
+
+$("#topicdeackrec").datepicker({
+  dateFormat: "dd/mm/yy",
+  maxDate: null, // Remove maxDate restriction initially
+  defaultDate: today,
+  beforeShowDay: function(date) {
+    var fromDate = $("#frompicdeackrec").datepicker('getDate'); // Get selected date from #fromdatepicker
+    if (fromDate != null) {
+      // If #fromdatepicker date is selected, enable dates within the range
+      var toDate = $("#topicdeackrec").datepicker('getDate');
+      return [date >= fromDate && date <= toDate];
+    }
+    // If no #fromdatepicker date is selected, disable all dates except the current date
+    var currentDate = new Date();
+    var isCurrentDate = date.toDateString() === currentDate.toDateString();
+    return [isCurrentDate];
+  }
+});
+
+$("#frompicdeackrec").datepicker('setDate', startdate);
+$("#topicdeackrec").datepicker('setDate', today);
+$("#topicdeackrec").datepicker('option', 'beforeShowDay', function(date) {
+  var currentDate = new Date();
+  var isCurrentDate = date.toDateString() === currentDate.toDateString();
+  return [isCurrentDate]; // Disable all dates except the current date initially
+});
+
+	*/
+
+
+function getdeackrec() {
+				var fromdate = document.getElementById("frompicdeackrec").value;
+		        var todate = document.getElementById("topicdeackrec").value;
+		        //alert(fromdate);	
+				//alert(todate);
+				console.log(fromdate);
+		        	$.ajax({
+							url:'getdelackartrece?fromdate=' + fromdate + '&todate='+ todate,
+					success: function(data) {	
+							var val = data;
+							console.log(val);
+							var count= 0;
+							var table = document.getElementById('deliverytablef');
+							var rowCount = table.rows.length - 1;
+							var i=0;
+							while(i < rowCount)
+							{
+							 document.getElementById("deliverytablef").deleteRow(1);
+								i=i+1;
+							}
+							$('#deliverytablef').dataTable().fnDestroy();
+							$("#delitabledataf").empty("");
+							$.each(val, function(index, value) {
+							var iterator = index + 1;
+							var oocd,delmod;
+							if (value.oocdt=="" || value.oocdt==null)
+                                   oocd='-';
+                               else
+                                   oocd=value.oocdt;
+							if (value.deli_mode=="" || value.deli_mode==null)
+                                  delmod ='-';
+                               else
+                                  delmod =value.deli_mode;
+							var markup = "<tr style='valign:middle;' class='rowDis'> <td  width='5%' align='center' class= 'font-weight-medium'>" + iterator + "</td> <td width='8%'>" + value.cussite + "</td><td width='8%'>" + value.item_id + "</td><td width='8%'>" + value.postingdt + "</td><td width='10%'>" + value.eadstatus + "</td><td width='8%'>" + value.mailclass + "</td> <td width='8%'>" + oocd + "</td> <td width='12%'>" + value.deli_po + "</td><td width='10%'>" + value.deli_dt + "</td><td width='12%'>" + value.deli_status + "</td><td width='12%'>" + delmod + "</td>";
+							$("#delitabledataf").append(markup);		
+							});
+							
+							 $('#deliverytable').hide();
+							 $('#deliverytablerec').hide();
+							 
+							 
+							 $('#delitabledataf').show();
+							 $('#deliverytablef').show();
+							$('#deliverytablerecf').show();
+							
+	
+							
+						
+ $("#deliverytablef").dataTable({
+	
+	"ordering": false,
+	"processing": true,
+	"paging": true,		
+	"lengthMenu": [ 5, 10, 15, 20, 25 ],
+	"pageLength": 10,
+	"dom": '<"pull-left"Bl>frtip',
+	buttons: [{extend: 'excel', text: '<i>EXCEL</i>',
+	
+	exportOptions:{
+		format:{
+			header:function(data,column){
+			if(column==9)
+			return "Delivery Status";
+			
+			if(column==10)
+			return "Delivery Mode";
+			
+			else 
+			return data;
+			}}},
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'Delivery Acknowledgement Received',
+					message:'Delivery Acknowledgement Received @ ' + sitecode + '\n\r' + datetime,
+				},
+				//pdf
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Delivery Acknowledgement Received @' + sitecode,
+					filename:'Delivery Acknowledgement Received',
+				     orientation: 'landscape',
+					exportOptions:{
+		format:{
+			header:function(data,column){
+			if(column==9)
+			return "Delivery Status";
+			
+			if(column==10)
+			return "Delivery Mode";
+			
+			else 
+			return data;
+			}}},
+		   		     customize: function(doc, header) {
+			         doc.content[1].table.widths = ['5%','8%','8%','8%','9%','10%','10%','10%','10%','10%','12%'];
+						doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+			      exportOptions:{
+		format:{
+			header:function(data,column){
+			if(column==9)
+			return "Delivery Status";
+			
+			if(column==10)
+			return "Delivery Mode";
+			
+			else 
+			return data;
+			}}},
+				  message:'Delivery Acknowledgement Received @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Delivery Acknowledgement Received ',	 
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '6pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+						$(win.document.body).find('message').css('font-size', '15pt');
+						}, 
+			}],
+			
+			
+  "initComplete": function() {
+  
+   this.api().columns([9][10]).every(function() {
+        var column = this;
+        var coldata = column[0];
+        if (coldata == 9) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700; width:100%"><option value="">Delivery Status</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+          if (coldata == 10) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700; width:100%"><option value="">Delivery Mode</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+      });
+  
+  
+	        $("#deliverytablef_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="cleardeliverytablef()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#deliverytablef_filter input[type='search']").attr('id', 'searchdeliverytablef');
+    	}
+	});
+	}
+});
+
+}
+
+   function cleardeliverytablef(){
+        document.getElementById("searchdeliverytablef").value = "";
+        var table = $('#deliverytablef').DataTable();
+        table.search('').draw();
+    }
+
+console.log("djfbksdb")
+
+function resetdelackrec(evn){
+var from = evn.id;
+var to = evn.value;
+$('#deliverytablerecf').hide();
+$('#deliverytablef').hide();
+//$('#deliverytablerec').show();
+//$('#deliverytable').show();
+$('#frompicdeackrec').val('');
+$('#topicdeackrec').val('');
+ $("#fromdapickooc").val('') ;
+$("#todapickerooc").val('')
+$("#fromdapicknot").val('') ;
+$("#todapicknot").val('')
+$('#oocsentd').hide();
+$('deliverytablenot').hide();
+$('deliverytable').hide();
+}
+
+
+
+//OOC
+
+ $("#oocsenttable").dataTable({
+	"ordering": true,
+	"processing": true,
+	"paging": true,		
+	"lengthMenu": [ 5, 10, 15, 20, 25 ],
+	"pageLength": 10,
+	"dom": '<"pull-left"Bl>frtip',
+	buttons: [{extend: 'excel', text: '<i>EXCEL</i>',
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'OOC Sent to Post',
+					message:'OOC Sent to Post @ ' + sitecode + '\n\r' + datetime,
+				},
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'OOC Sent to Post @' + sitecode,
+					filename:'OOC Sent to Post',
+				     orientation: 'landscape',
+					exportOptions: {
+        				//columns: [ 0,1,2,3,4,5,6,7,8,9,10],
+						margin: true,
+						modifier:{
+							selected:true
+							},
+      						},
+		   		     customize: function(doc, header) {
+			         doc.content[1].table.widths = ['10%','15%','15%','15%','15%','15%','15%'];
+						doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'OOC Sent to Post OOC@ ' + sitecode + '\n\r' + datetime ,
+					filename:'OOC Sent to Post',	 
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '6pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+						$(win.document.body).find('message').css('font-size', '15pt');
+						}, 
+			}],
+			
+			"initComplete": function( settings ) {
+	        $("#oocsenttable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearAocsenttable()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#oocsenttable_filter input[type='search']").attr('id', 'searchAocsenttable');
+    	}
+	});
+	
+ 
+
+
+$(function() {
+$("#fromdapickooc").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+            onSelect: function(date) {
+                $("#todapickerooc").datepicker('option', 'minDate', date);
+            }
+        });
+
+        $("#todapickerooc").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+        });
+	});
+	
+	
+	
+	
+/*	var today = new Date();
+var startdate = new Date();
+startdate.setMonth(startdate.getMonth() - 7);
+
+$("#fromdapickooc").datepicker({
+  dateFormat: "dd/mm/yy",
+  defaultDate: startdate,
+  maxDate: new Date(),
+  onSelect: function(date) {
+    $("#todapickerooc").datepicker('option', 'minDate', date);
+    var selectedDate = $(this).datepicker('getDate'); // Get selected date from #fromdatepicker
+    if (selectedDate != null) {
+      // Set maxDate option of #todatepicker to today's date
+      $("#todapickerooc").datepicker('option', 'maxDate', new Date());
+      $("#todapickerooc").datepicker('option', 'beforeShowDay', function(date) {
+        return [true]; // Enable all dates
+      });
+    } else {
+      // If no #fromdatepicker date is selected, reset #todatepicker selection and disable all dates except the current date
+      $("#todapickerooc").datepicker('setDate', null);
+      $("#todapickerooc").datepicker('option', 'beforeShowDay', function(date) {
+        var currentDate = new Date();
+        var isCurrentDate = date.toDateString() === currentDate.toDateString();
+        return [isCurrentDate]; // Disable all dates except the current date
+      });
+    }
+  }
+});
+
+$("#todapickerooc").datepicker({
+  dateFormat: "dd/mm/yy",
+  maxDate: null, // Remove maxDate restriction initially
+  defaultDate: today,
+  beforeShowDay: function(date) {
+    var fromDate = $("#fromdapickooc").datepicker('getDate'); // Get selected date from #fromdatepicker
+    if (fromDate != null) {
+      // If #fromdatepicker date is selected, enable dates within the range
+      var toDate = $("#todapickerooc").datepicker('getDate');
+      return [date >= fromDate && date <= toDate];
+    }
+    // If no #fromdatepicker date is selected, disable all dates except the current date
+    var currentDate = new Date();
+    var isCurrentDate = date.toDateString() === currentDate.toDateString();
+    return [isCurrentDate];
+  }
+});
+
+$("#fromdapickooc").datepicker('setDate', startdate);
+$("#todapickerooc").datepicker('setDate', today);
+$("#todapickerooc").datepicker('option', 'beforeShowDay', function(date) {
+  var currentDate = new Date();
+  var isCurrentDate = date.toDateString() === currentDate.toDateString();
+  return [isCurrentDate]; // Disable all dates except the current date initially
+});
+
+	*/
+
+
+
+function getOoc() {
+				var fromdate = document.getElementById("fromdapickooc").value;
+		        var todate = document.getElementById("todapickerooc").value;
+			$.ajax({     
+					url:'getoocf?fromdate=' + fromdate + '&todate='+ todate,
+					success: function(data) {
+							var val = data;
+							console.log(val);
+							var count= 0;
+							var table = document.getElementById('oocsentdataf');
+							var rowCount = table.rows.length - 1;
+							var i=0;
+							while(i < rowCount)
+							{
+							 document.getElementById("oocsentdataf").deleteRow(1);
+								i=i+1;
+							}
+						$('#oocsenttablef').dataTable().fnDestroy();	
+						$("#oocsentdataf").empty("");
+						$.each(val, function(index, value) {	
+							var iterator = index + 1;
+						/*	var ;
+						if (value.oocdt=="" || value.oocdt==null)
+                                   oocd='-';
+                               else
+                                   oocd=value.oocdt; */
+					var markup = "<tr style='valign:middle;' class='rowDis'> <td  width='1%' align='center' class= 'font-weight-medium'>" + iterator + "</td> <td width='4%'>" + value.cussite + "</td><td width='5%'>" + value.item_id + "</td><td width='3%'>" + value.postingdt + "</td><td width='3%'>" + value.eadstatus + "</td><td width='3%'>" + value.mailclass + "</td> <td width='5%'>" + value.oocdt + "</td>";
+					$("#oocsentdataf").append(markup);				
+		
+				});	
+							 $('#oocsentd').hide();
+							 $('#oocsenttable').hide();
+							 $('#oocsentf').show();
+							 $('#oocsenttablef').show();
+							$('#oocsentdataf').show();
+							 $("#oocsenttablef").dataTable({
+	"ordering": true,
+	"processing": true,
+	"paging": true,		
+	"lengthMenu": [ 5, 10, 15, 20, 25 ],
+	"pageLength": 10,
+	"dom": '<"pull-left"Bl>frtip',
+	buttons: [{extend: 'excel', text: '<i>EXCEL</i>',
+				  	className: 'btn btn-primary mb-3',
+				   	title:'FPO IMPORT APPLICATION - ICES',
+				 	filename:'OOC Sent to Post',
+					message:'OOC Sent to Post @ ' + sitecode + '\n\r' + datetime,
+				},
+				{extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',
+					title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'OOC Sent to Post @' + sitecode,
+					filename:'OOC Sent to Post',
+				     orientation: 'landscape',
+					exportOptions: {
+        				//columns: [ 0,1,2,3,4,5,6,7,8,9,10],
+						margin: true,
+						modifier:{
+							selected:true
+							},
+      						},
+		   		     customize: function(doc, header) {
+			         doc.content[1].table.widths = ['10%','15%','15%','15%','15%','15%','15%'];
+						doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+			
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},
+								],
+							});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},
+								],
+							});  		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					doc.styles.message.alignment = "left";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+    		        },
+					},
+					//{extend: "excel", text: '<i>EXCEL</i>',	
+			{extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'OOC Sent to Post OOC@ ' + sitecode + '\n\r' + datetime ,
+					filename:'OOC Sent to Post',	 
+					
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '6pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+                       //.addClass( 'compact' )
+						$(win.document.body).find('message').css('font-size', '15pt');
+						}, 
+			}],
+			
+			"initComplete": function( settings ) {
+	        $("#oocsenttablef_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearoocsenttablef()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#oocsenttablef_filter input[type='search']").attr('id', 'searchoocsenttablef');
+    	}
+	});
+							
+							
+				}
+		});
+				  function clearoocsenttablef(){
+    document.getElementById("searchoocsenttablef").value=""
+    var table = $('#oocsenttablef').DataTable();
+    table.search('').draw();
+}
+}
+    function clearAocsenttable(){
+       document.getElementById("searchAocsenttable").value=""
+       var table = $('#oocsenttable').DataTable();
+       table.search('').draw();
+}
+
+
+
+
+function resetooc(oocm){
+var from1 = oocm.id;
+var to1 = oocm.value;
+$('#oocsentf').hide();
+$('#oocsenttablef').hide();
+//$('#oocsentd').show();
+//$('#oocsenttable').show();
+
+$("#fromdapickooc").val('') ;
+$("#todapickerooc").val('');
+$("#frompicdeackrec").val('') ;
+$("#topicdeackrec").val('')
+$("#fromdapicknot").val('') ;
+$("#todapicknot").val('')
+
+
+}
+
+
+
+
+
+
+
+</script>
+</html>

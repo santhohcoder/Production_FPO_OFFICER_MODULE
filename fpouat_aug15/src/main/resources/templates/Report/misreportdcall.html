@@ -1,0 +1,102 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div id="queryQueueshow" class="col-md-12">
+
+
+		
+		<div align="center" class=" mt-2" style="margin: 1%;">
+			<lable
+				style="vertical-align: -webkit-baseline-middle;font-weight: 500;color: blue;">No of Art/Item IDs for which D-Call letter is sent again in email for any select period</lable>
+		</div>
+			<a title="Excel">
+				<button id="ExcelExport" class="btn btn-primary"
+					style="font-size: 15px">
+					Export to Excel <i class="fas fa-file-excel" aria-hidden="true"></i>
+				</button>
+			</a>
+			<table id="processtable"
+				class="table table-striped table-bordered newtable"
+				style="font-size: 16px; text-align: center; width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Article Id</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Posting Date</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">D-Call Letter No</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">D-Call letter Date</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Date of pushing D-Call letter again</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;"> SSOID of the officer</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values: ${reportcolumns}" class="">
+						<td class="tablecolumn" th:text="${values.id}"></td>
+						<td class="tablecolumn" th:text="${values.item_id}"></td>
+						<td class="tablecolumn" th:text="${values.post_dt}"></td>
+						<td class="tablecolumn" th:text="${values.dcallno}"></td>
+						<td class="tablecolumn" th:text="${values.dcalldate}"></td>
+						<td class="tablecolumn" th:text="${values.pushdcalldate}"></td>
+						<td class="tablecolumn" th:text="${values.pushdcalldate}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<script th:inline="javascript"> 
+		
+		 $('.datesel').css('display','inline-flex');
+         
+        $("#processtable").dataTable({
+		"processing": true,
+		"paging": false,
+		scrollY: 320,
+		scrollX: true,
+		"ordering": false,
+		"dom": 'Bfrtip',
+		buttons: [
+			'excel', 'pdf', 'print'
+		]
+	});
+$("#ExcelExport").on('click', function() {
+		$(".buttons-excel").trigger('click');
+		this.blur();
+	});
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}         
+      </script>

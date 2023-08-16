@@ -1,0 +1,103 @@
+<html>
+
+<style>
+
+body {
+	width :100%;
+}
+
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+    <div style="background-color: #e6e5e5; padding: 10px;border-radius: 10px;">
+			<div style="background-color:#e6e5e5;padding: 10px;">
+				<div class="mt-3 mb-5 row" align="center" style="color: blue;">
+					<div class= "col-10" >
+					<h2>Commercial Imports - (View BE Information)</h2>
+					</div> 
+				<div class="col-2">
+				<button type="button" class="close" onclick="closeViewReportModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+				</div>
+			<div th:each="view,iter : ${viewBEInfo}" style="padding: 15px 15px 30px 15px;">
+			<table width="100%">	
+				<tr>
+					<td><b>  MBE NO :</b></td><td><span th:text="${view[0]}"></span> </td>
+					<td><b>  MBE DT :</b></td><td><span th:text="${view[1]}"></span></td>
+					<td><b> IEC :</b></td><td><Span th:text="${view[2]}"></Span></td>
+				</tr>
+					<tr><td class="colspan-6"> &nbsp;</td></tr>
+				<tr>
+					<td> <b> GSTIN :</b></td><td><span th:text="${view[3]}"></span> </td>
+					<td><b> ADCODE :</b></td><td><span th:text="${view[4]}"></span></td>
+					<td><b> SCHEME :</b></td><td><Span th:text="${view[5]}"></Span></td>
+				</tr>
+				    <tr><td class="colspan-6"> &nbsp;</td></tr>
+				<tr>
+					<td><b>LICENSE NO :</b></td><td><span th:text="${view[6]}"></span></td>
+					<td><b>PERMISSION NO :</b></td><td><span th:text="${view[7]}"></span></td>
+					<td><b>EDI SITE :</b></td><td><span th:text="${view[8]}"></span></td>
+				</tr>
+				    <tr><td class="colspan-6"> &nbsp;</td></tr><tr><td class="colspan-6"> &nbsp;</td></tr>
+			   <tr>
+					<td><b>CHALLAN NO :</b></td><td><span th:text="${view[9]}"></span> </td>
+					<td><b>CHALLAN DATE :</b></td><td><span th:text="${view[10]}"></span> </td>
+			  </tr>
+		</table>
+    </div></div>
+</body>
+
+<script type="text/javascript">
+$(document).ready(function() {
+hideLoader();
+});
+
+
+            
+            
+            function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+
+function closeViewReportModal() {
+		$("#viewBEBody").html('');
+		$("#ViewBEModal").modal('toggle');	
+	}
+</script>
+</html>

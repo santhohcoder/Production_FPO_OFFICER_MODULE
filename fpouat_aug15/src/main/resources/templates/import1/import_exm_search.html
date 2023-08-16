@@ -1,0 +1,288 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/font.js}"></script>
+
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+.lab_txt {
+	font-size: 14px;
+	color: blue;
+	font-weight: 700;
+}
+
+.tot_no {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.numradius {
+	border: 2px solid #ff4957;
+	background-color: #ff4957;
+	color: white;
+	border-radius: 20px;
+	padding: 10px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+	padding: 0px 10px;
+}
+</style>
+</head>
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+	<div class="row" style="background-color: #69d1f1; color: white;">
+		<div class="col-md-1" align="right">
+			<img style="width: 83px;" src="images/CBEC.png">
+		</div>
+		<div class="col-md-9" style="font-family: initial;">
+			<h5>
+				<strong> FPO IMPORT APPLICATION </strong>
+			</h5>
+			<h6>
+				<strong> CUSTOMS OFFICER MODULE </strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 35%; float: left; border-top: 2px solid white;">
+			<p style="margin-top: 10px; margin-bottom: 4px;">
+				<strong>Central Board of Indirect Taxes and Customs</strong>
+			</p>
+		</div>
+		<div class="col-md-2 mt-4">
+			<h6>
+				<strong>Indian Customs EDI System</strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 89%; float: left; border-top: 2px solid white;">
+			<h6 style="margin-top: 19px;">
+				<strong>Foreign Post Office - Bangalore</strong>
+			</h6>
+		</div>
+	</div>
+	<div class="container"
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+		<div class="mt-4" align="center">
+			<h2>Process Imported Articles - EXAMINATION QUEUE</h2>
+		</div>
+
+
+		<div class="row">
+			<div class="col-md-6">
+				<a href="dash"><button type="button" class="btn btn-secondary">Back
+						to Dashboard</button> </a>
+			</div>
+			<div class="col-md-6" align="right">
+				<p class="tot_no">
+					Tot no of Articles in the Queue: <span class="numradius" th:text="${couexm}" >
+					</span>
+				</p>
+			</div>
+		</div>
+
+		<div class="row" style="text-align: center;">
+			<div class="col-md-2" style="margin-top: 12px;">
+				<br>
+				<h5>Enter Article Details :</h5>
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">CIN_NO</p>
+				<input type="text" id="cin_No" class="form-control form_txt">
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">ITEM_ID</p>
+				<input type="text" id="item_Id" class="form-control form_txt">
+			
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">EAD DATE</p>
+				<input type="text" id="qry_Dt" class="form-control form_txt">
+			</div>
+			<div class="col-md-2">
+				<p class="lab_txt">ORGIN_CD</p>
+				<input type="text" id="org_Cd" class="form-control form_txt">
+			</div>
+			<div class="col-md-2" style="margin-top: 12px;">
+				<br>
+				<button class="btn btn-secondary" id="btnSearch" type="button" value="Yes" onclick="searchshow(this)">
+					<i class="fa fa-search"></i> Search
+				</button>
+			</div>
+		</div>
+<!--div align="right" style="margin-bottom: -32px;">
+<button type="button" class="btn btn-info"
+id="clear" onclick="refreshPage()">Clear</button> 
+</div-->
+
+	<div id="onsearch" style="display: none">
+			<table border=1 class="table table-articleDet" 
+				style="font-size: 14px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col">Sl.No.</th>
+						<th scope="col">CIN No.</th>
+						<th scope="col">ITEM_ID.</th>
+						<th scope="col">CIN Date</th>
+						<th scope="col">Orgn CD</th>
+						<th scope="col">EAD Date</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody  id="articleDet">
+					<tr  th:each="s1,iter : ${check}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[0]}">464654654</td>
+						<td th:text="${s1[1]}">5648912</td>
+						<td th:text="${s1[2]}">01.01.2020</td>
+						<td th:text="${s1[3]}">01.01.2020</td>
+						<td th:text="${s1[3]}">01.01.2020</td>
+						<!-- <td align="center"><i aria-hidden="true" th:id="${s1[0]}"
+							onclick="viewDetail(this);">
+								<button type="button" th:id="${iter.index+1}"
+									class="btn btn-success" style="padding: 0px;">OOC</button>
+						</i> <small> from assessment </small></td> -->
+					</tr>
+
+
+				</tbody>
+			</table>
+
+		</div>
+
+
+
+
+
+
+
+		<div class="row">
+			<div class="col-md-12">
+				<p>[Note : Use any of the above one or the combination of the
+					data field to search.]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-info"
+id="clear" onclick="refreshPage()">Clear</button> </p>
+			</div>
+		</div>
+		<div class="row" align="center">
+			<div class="col-md-10"></div>
+			<div class="col-md-2">
+				<button type="button" id="btnPassport" value="Yes"
+					onclick="ShowHideDiv(this)" class="btn btn-secondary">LIST
+					ALL</button>
+			</div>
+		</div>
+		<br>
+		<div id="dvPassport" style="display: block">
+			<table class="table table-bordered" id="asstTable"
+				style="font-size: 14px; text-align: center;">
+				<thead>
+					<tr class="thead-dark">
+						<th scope="col">Sl.No.</th>
+						<th scope="col">CIN No.</th>
+						<th scope="col">ITEM_ID.</th>
+						<th scope="col">Date</th>
+						<th scope="col">Orgn CD</th>
+						<th scope="col">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s1,iter : ${check}">
+						<td th:text="${iter.index+1}">1</td>
+						<td th:text="${s1[0]}">464654654</td>
+						<td th:text="${s1[1]}">5648912</td>
+						<td th:text="${s1[2]}">01.01.2020</td>
+						<td th:text="${s1[3]}">01.01.2020</td>
+						<td align="center"><i aria-hidden="true" th:id="${s1[0]}"
+							onclick="viewDetail(this);">
+								<button type="button" th:id="${iter.index+1}"
+									class="btn btn-success" style="padding: 0px;">EXAMINE</button>
+						</i> <small> from assessment </small></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+<script th:src="@{js/datatables.min.js}"></script>
+
+<!-- <script th:src="@{js/importsearchooc.js}"></script> -->
+
+<script src="js/importsearchexm.js"></script>
+<script type="text/javascript"> 
+ function refreshPage(){
+    window.location.reload();
+} 
+ </script>
+<!-- <script type="text/javascript">
+	$(document).ready(function() {
+		$("#asstTable").dataTable({
+			"processing" : true,
+			"paging" : true
+		});
+	});
+
+	function ShowHideDiv(btnPassport) {
+		var dvPassport = document.getElementById("dvPassport");
+		if (btnPassport.value == "Yes") {
+			dvPassport.style.display = "block";
+			btnPassport.value = "No";
+		} else {
+			dvPassport.style.display = "none";
+			btnPassport.value = "Yes";
+		}
+	}
+
+	function viewDetail(e) {
+		window.location.href ="import_submit?id=" + e.id;
+	}
+
+	$("table tbody tr").each(
+			function() {
+				var textval = $(this).find("td:eq(0)").text().trim();
+				//	var textval2 = $(this).find("td:eq(1)").text().trim();
+				if (textval > 1) {
+					$('#' + textval).prop('disabled', true);
+					//$(this).find("td:eq(0)").attr('disabled', true);
+				} else {	
+					$("tr.rowDis input, tr.rowDis select, tr.rowDis textarea")
+							.prop('disabled', true);
+					//$('#submitBtn').prop('disabled', false);
+				}
+			});
+</script> -->
+
+</html>

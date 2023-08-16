@@ -1,0 +1,897 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+.scroll_down {
+	height: 425px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.numradius {
+	border: 2px solid black;
+	background-color: white;
+	color: black;
+}
+
+.bg_item {
+	background-color: white;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+hr {
+	border-top: 1px solid rgb(0, 0, 139);
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid black;
+	text-align: center;
+	color: black;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: black;
+	border: 2px solid black;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: '#bsb7c1';
+}
+
+.completed span::before {
+	content: '\2713'
+}
+</style>
+
+<body style="background: #d6dcd9">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+
+	<div class="container"
+		style="background-color: #67acb5; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px;">
+		<div class="mt-4" align="center">
+			<h2>Process Imported Articles - Assessment Queue</h2>
+		</div>
+
+		<div class="mt-4" align="right">
+			<p class="lab_txt">
+				No of Items : <span class="numradius"> <strong>&nbsp;2&nbsp;</strong>
+				</span>
+			</p>
+		</div>
+
+		<div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+			</div>
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.POST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					style="text-align: center;" class="form-control form_txt"
+					readonly="readonly" th:value="${head.FPO_CODE}">
+			</div>
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div>
+
+
+		<div class="breadcrumb-pagination mt-3">
+			<div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div>
+			<div class="active">
+				<span>2</span>
+				<p>Assessment</p>
+			</div>
+			<div class="todo">
+				<span>3</span>
+				<p>D-Call Letter</p>
+			</div>
+			<div class="todo">
+				<span>4</span>
+				<p>Exam Order</p>
+			</div>
+			<!-- <div class="todo">
+				<span>5</span>
+				<p>Submit</p>
+			</div> -->
+		</div>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="mt-2" align="center">
+					<h4>Declared Details</h4>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="mt-2" align="center">
+					<h4>Assessed Details</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="scroll_down">
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div th:each="s1,iter : ${check}">
+						<div class="col-md-12 "
+							style="background: #B0B0B0; border-radius: 8px; padding: 10px;">
+							<div class="bg_item">
+								<div class="form-group row mt-2">
+									<p class="col-sm-1 lab_txt col-form-label">ITEM</p>
+									<div class="col-sm-2">
+										<p style="font-weight: 700" th:text="${iter.index+1}"></p>
+									</div>
+									<p class="col-sm-1 lab_txt col-form-label">DESC</p>
+									<div class="col-sm-8">
+										<p style="font-weight: 700" th:text="${s1.ITEM_DESC}">
+									</div>
+								</div>
+
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">CTH</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.GEN_CTH}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">NOU</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.NOU}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">NETWT</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.NETWT}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">DECL_VAL</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.DECL_VAL}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label">CURRCD</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.CURRCD}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">ORGN_CD</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.ORIGCNTRYCD}"></p>
+									</div>
+
+								</div>
+							</div>
+							<div class="bg_item mt-1">
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_NOTN</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_NOTN}">
+									</div>
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_NSNO</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_NSNO}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_RTA</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_RTA}">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_AMT</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_AMT}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_AMT_FG</label> <input type="text"
+											class="form-control form_txt " readonly="readonly"
+											th:value="${s1.BCD_AMT_FG}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_NOTN</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_NOTN}">
+									</div>
+								</div>
+
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_NSNO</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_NSNO}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_RTA</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_RTA}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_AMT</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_AMT}">
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_AMT_FG</label> <input type="text"
+											class="form-control form_txt " readonly="readonly"
+											th:value="${s1.IGST_AMT_FG}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_NOTN</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_NOTN}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_NSNO</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_NSNO}">
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+
+
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_RTA</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_RTA}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_AMT</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_AMT}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_AMT_FG</label> <input type="text"
+											class="form-control form_txt " readonly="readonly"
+											th:value="${s1.SW_AMT_FG}">
+									</div>
+
+
+								</div>
+							</div>
+							<div class="bg_item mt-1">
+								<div class="form-group row mt-2 ">
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">RATE</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											readonly="readonly" th:value="${s1.RATE}">
+									</div>
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">DUTY</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											readonly="readonly" th:value="${s1.DUTY}">
+									</div>
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">DUTY FG</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											readonly="readonly" th:value="${s1.DUTY_FG}">
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 	<div align="right">
+							<button type="button" class="btn btn-secondary btn-sm"
+								data-toggle="modal" data-target="#exampleModalLong">Change
+							</button>
+						</div> -->
+						<hr>
+					</div>
+
+
+				</div>
+
+				<!-- Assessed Details -->
+
+				<div class="col-sm-6">
+					<div th:each="s1,iter : ${check}">
+						<div class="col-md-12"
+							style="background: #B0B0B0; border-radius: 8px; padding: 10px;">
+							<div class="bg_item">
+								<div class="form-group row mt-2">
+									<p class="col-sm-1 lab_txt col-form-label">ITEM</p>
+									<div class="col-sm-2">
+										<p style="font-weight: 700" th:text="${iter.index+1}"></p>
+									</div>
+									<p class="col-sm-1 lab_txt col-form-label">DESC</p>
+									<div class="col-sm-8">
+										<p style="font-weight: 700" th:text="${s1.ITEM_DESC}">
+									</div>
+								</div>
+
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label">CTH</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.GEN_CTH}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">NOU</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.NOU}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label">NETWT</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.NETWT}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">DECL_VAL</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.DECL_VAL}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label">CURRCD</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.CURRCD}"></p>
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label">ORGN_CD</p>
+									<div class="col-sm-10">
+										<p style="font-weight: 700" th:text="${s1.ORIGCNTRYCD}"></p>
+									</div>
+
+								</div>
+							</div>
+							<div class="bg_item mt-1">
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_NOTN</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_NOTN}">
+									</div>
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_NSNO</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_NSNO}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_RTA</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_RTA}">
+									</div>
+								</div>
+
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_AMT</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.BCD_AMT}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_AMT_FG</label> <input type="text"
+											class="form-control form_txt " readonly="readonly"
+											th:value="${s1.BCD_AMT_FG}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_NOTN</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_NOTN}">
+									</div>
+								</div>
+
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_NSNO</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_NSNO}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_RTA</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_RTA}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_AMT</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.IGST_AMT}">
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_AMT_FG</label> <input type="text"
+											class="form-control form_txt " readonly="readonly"
+											th:value="${s1.IGST_AMT_FG}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_NOTN</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_NOTN}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_NSNO</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_NSNO}">
+									</div>
+
+								</div>
+								<div class="form-group row ">
+
+
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_RTA</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_RTA}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_AMT</label> <input type="text"
+											class="form-control form_txt" readonly="readonly"
+											th:value="${s1.SW_AMT}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_AMT_FG</label> <input type="text"
+											class="form-control form_txt " readonly="readonly"
+											th:value="${s1.SW_AMT_FG}">
+									</div>
+
+
+								</div>
+							</div>
+							<div class="bg_item mt-1">
+								<div class="form-group row mt-2 ">
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">RATE</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											readonly="readonly" th:value="${s1.RATE}">
+									</div>
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">DUTY</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											readonly="readonly" th:value="${s1.DUTY}">
+									</div>
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">Duty FG</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											readonly="readonly" th:value="${s1.DUTY_FG}">
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="exampleModalLong" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalLongTitle"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header"
+						style="color: white; background-color: #7aa4de;">
+						<h5 class="modal-title" id="exampleModalLongTitle">Change /
+							Process item</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div th:each="s1,iter : ${check}">
+							<div class="col-md-12">
+								<div class="form-group row mt-2">
+									<p class="col-sm-1 lab_txt col-form-label">ITEM</p>
+									<div class="col-sm-2">
+										<p style="font-weight: 700" th:text="${iter.index+1}"></p>
+									</div>
+									<p class="col-sm-1 lab_txt col-form-label1">DESC</p>
+									<div class="col-sm-8">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.ITEM_DESC}">
+
+									</div>
+								</div>
+
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label1">CTH</p>
+									<div class="col-sm-10">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.GEN_CTH}">
+									</div>
+
+								</div>
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label1">NOU</p>
+									<div class="col-sm-10">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.NOU}">
+									</div>
+
+								</div>
+
+								<div class="form-group row">
+									<p class="col-sm-2 lab_txt col-form-label1">NETWT</p>
+									<div class="col-sm-10">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.NETWT}">
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label1">DECL_VAL</p>
+									<div class="col-sm-10">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.DECL_VAL}">
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label1">CURRCD</p>
+									<div class="col-sm-10">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.CURRCD}">
+									</div>
+
+								</div>
+
+								<div class="form-group row ">
+									<p class="col-sm-2 lab_txt col-form-label1">ORGN_CD</p>
+									<div class="col-sm-10">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.ORIGCNTRYCD}">
+									</div>
+
+								</div>
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_NOTN</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.BCD_NOTN}">
+									</div>
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_NSNO</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.BCD_NSNO}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_RTA</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.BCD_RTA}">
+									</div>
+								</div>
+
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_AMT</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.BCD_AMT}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">BCD_AMT_FG</label> <input type="text"
+											class="form-control form_txt " th:value="${s1.BCD_AMT_FG}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_NOTN</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.IGST_NOTN}">
+									</div>
+								</div>
+
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_NSNO</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.IGST_NSNO}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_RTA</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.IGST_RTA}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_AMT</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.IGST_AMT}">
+									</div>
+
+								</div>
+
+								<div class="form-group row">
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">IGST_AMT_FG</label> <input type="text"
+											class="form-control form_txt " th:value="${s1.IGST_AMT_FG}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_NOTN</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.SW_NOTN}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_NSNO</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.SW_NSNO}">
+									</div>
+
+								</div>
+								<div class="form-group row ">
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_RTA</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.SW_RTA}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_AMT</label> <input type="text"
+											class="form-control form_txt" th:value="${s1.SW_AMT}">
+									</div>
+
+									<div class="col-md-4" align="center">
+										<label class="lab_txt">SW_AMT_FG</label> <input type="text"
+											class="form-control form_txt " th:value="${s1.SW_AMT_FG}">
+									</div>
+
+
+								</div>
+								<div class="form-group row mt-2">
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">RATE</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.RATE}">
+									</div>
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">DUTY</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.DUTY}">
+									</div>
+									<label for="inputPassword"
+										class="col-sm-1 lab_txt col-form-label">Duty FG</label>
+									<div class="col-sm-3">
+										<input type="text" class="form-control form_txt"
+											th:value="${s1.DUTY_FG}">
+									</div>
+								</div>
+							</div>
+							<hr>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Save
+							changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<div class="mt-3" align="center">
+			<button type="button" class="btn btn-info" onclick="goBack()">Back</button>
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+				data-target="#exampleModal">Save Assesment</button>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h4>Please confirm whether Assessment is over</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" th:id="${head.id}"
+							onclick="viewDetail(this);">Yes</button>
+						<button type="button" class="btn btn-primary" th:id="${head.id}"
+							onclick="viewDetail1(this);">No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+	</div>
+</body>
+
+
+
+
+<script type="text/javascript">
+	function goBack() {
+		window.location.replace(document.referrer);
+	}
+	function viewDetail(e) {
+		//alert(e.id);
+		window.location.href ="import_order?id=" + e.id;
+	}
+
+	function viewDetail1(e) {
+		//alert(e.id);
+		window.location.href ="import_query?id=" + e.id;
+		
+	}
+	function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+
+</html>

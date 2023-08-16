@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<style type="text/css">
+.ui-widget-content .ui-icon {
+	background-image: url(/images/report/ui-icons_222222_256x240.png)
+		!important;
+}
+
+.error-date {
+	color: red;
+}
+
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+.ead_decisions {
+	border-radius: 5px;
+	padding: 2px;
+	font-size: 11px;
+	background-color: darkblue;
+	font-size: 14px;
+	width: 450px;
+	color: white;
+}
+
+.lab_txt, .col-form-label {
+	font-size: 12px;
+	color: blue;
+}
+
+.table-bordered thead td, .table-bordered thead th {
+	border-bottom-width: 1px;
+}
+
+.table thead th {
+	vertical-align: bottom;
+	border-bottom: 1px solid #040404;
+}
+
+.table-bordered td, .table-bordered th {
+	border: 1px solid #000000;
+}
+
+.form_txt {
+	font-weight: 700
+}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active1 span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active1 p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.scroll_down {
+	width: 310%;
+	height: 69px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.completed p {
+	color: "#bsb7c1;"
+}
+
+.completed span::before {
+	content: '\2713'
+}
+
+li {
+	cursor: pointer;
+}
+
+body {
+	background: white !important;
+}
+
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(/images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+.buttons-excel{
+display: none;
+}
+
+table.dataTable tbody tr {
+    font-size: 90%;
+}
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+<body>
+		<div id="overlay"
+		style="background: rgba(255, 255, 255, .7); height: 618566px">
+		<div id="loader">
+		<div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px;width: 100%;">
+		 <div class="viewbackto" style="text-align: center; display : none;width: 8%;">
+			 <button class="btn btn-primary back" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button>		 
+		</div> 
+		 <div  class="row" style="justify-content:center;width: 100%">
+		<h2>ARTICLE ARRIVAL INFORMATION </h2></div>
+	     </div>
+	     <div id="eadhdr" align="center" style=" width: 100%;display:none">
+		<h4>(LIST OF ARTICLES (WITH EAD) ARRIVED PHYSICALLY AT THIS SITE AND AWAITING FOR OOC)</h4></div>
+	     </div>
+	     
+	     <div id="weadhdr" align="center" style=" width: 100%; display:none">
+		<h4>(LIST OF ARTICLES W/O EAD ARRIVED PHYSICALLY AT THIS SITE -  TO BE PROCESSED MANUALLY)</h4><font size=2>(W/O EAD - i.e., without Customs Declaration Data filed in CN 22/23 for inbound items)</font></div>
+	     </div>
+	     
+	    <div id="weadhdr3" align="center" style=" width: 100%; display:none">
+		<h6>(ARTICLE IDs without EAD will exist in this list till the delivery message is received from India Post for the Customs cleared Posts)</h6></div>
+	     </div>
+	     
+	     
+
+		<!--div align="center" style="width:100%;">
+			<h2>Select Article-ID to map for FPO Site</h2>
+			<span style="font-size: 20px">(For import postal data received
+				without pin code.)</span>
+		</!--div-->
+	</div>
+
+
+	<div class="form-group row"
+		style="justify-content: center; margin-top: 2%;display:none">
+		<label class="control-label "
+			style="font-weight: 600; margin-top: 8px;">Enter Article ID :
+		</label>
+		<div class="col-sm-2">
+			<input onchange="viewentrarticleid(this)" type="text" id="viewentaritcleid"
+				class="form-control" name="Articleid" maxlength="13"
+				placeholder="Enter Article-Id" style="width: 290px">
+			<div class="invalid-feedback"></div>
+		</div>
+	</div>
+	<br>
+
+	<div class= "row" style="width: 100%;">
+	<div class="col-sm-2" style="padding-left: 40px;">
+		 <!--a><button type="button" id="viewbtnwithEAD" class="btn btn-info" style="background-color: green;">
+				With EAD</button></a> 
+				
+				<a><button type="button" class="btn" id="viewbtnwithouteead" style="background: royalblue;
+    color: white;">With Out EAD</button></a-->
+    </div>
+	   <!--div class="col-sm-8" align="center" style="margin-top: 15px; width: 100%">
+		<h5>LIST OF ARTICLE-IDs WITHOUT PINCODE</h5></!--div-->
+	</div>
+	<!-- div class="col-md-12 row pdfexcel" style="justify-content:end;margin:0;padding:0;" >
+	<div class="col-md-1">
+				<div class="Export-options">						
+					<a style="display: none;" class="download-Docs" href="#" id="staticreportdownloadanchortag" download=""></a>
+				</div> 
+	<a id="PDFExport" onclick="pdfdownload(this)" title="PDF">
+				<button class="btn btn-primary mb-3" style="font-size:15px">Download PDF  <i class="fa fa-file-pdf-o"></i></button>
+				</a></div>
+				<div class="col-md-1">
+	<a id="ExportExcel" onclick="exceldownload(this)" title="PDF">
+				<button class="btn btn-success mb-3" style="font-size:15px">Export Excel <i class="fa fa-file-excel-o"></i></button>
+				</a></div></div>   -->
+				
+				
+	<!--div align="center" class="headingtyp" style="display : none;margin-top: 10px">
+		<span style="font-size: 20px">(Select state / district from the CN22/23 label of the Article received at this FPO and map the Article ID)</span>
+	</!--div-->
+<div id="viewsingtable" style="padding: 20px;display :block;">
+		<table id="Tablewithoutpincds"
+			class="table table-bordered table-striped arrTable"
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col">S.No</th>
+					<th scope="col">ARTICLE ID</th>
+					<th scope="col">ARTICLE ID DT</th>
+					<!--th scope="col">EAD STATUS</th-->
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+					<th scope="col">ITEM CATEGORY</th>
+					<th scope="col">COO</th>
+					<th scope="col">OOE ARRIVAL</th>
+					<th scope="col">ARRIVAL OOE DT</th>
+					<th scope="col">RECEPTACLE ID</th>
+					<th scope="col">ARRIVAL DESTINATION FPO</th>
+					<th scope="col">ARRIVAL DESTINATION DT</th>
+					<th scope="col">BAG NO</th>
+					<th scope="col">EAD DECISION</th>
+					<th scope="col">QUEUE</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${artid}">
+					<td width="1%" style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+					<td width="5%" style="vertical-align: middle;" ><a href="javascript:;" onclick="viewArtDetails(this)" th:text="${s1.articleId}"></a></td>
+					<td width="10%" style="vertical-align: middle;"><span th:text="${s1.articleDate!=null ? s1.articleDate : '-'}"></span></td>
+					<!--td width="5%" style="vertical-align: middle;"><span th:text="${s1.eadstatus!=null ? s1.eadstatus : '-'}"></span></td-->
+					<td width="10%" style="vertical-align: middle;" ><span th:text="${s1.cinno!=null ? s1.cinno : '-'}"></span></td>
+					<td width="8%" style="vertical-align: middle;"><span th:text="${s1.cindt!=null ? s1.cindt : '-'}"></span></td>
+					<td width="8%" style="vertical-align: middle;" ><span th:text="${s1.codeDesc!=null ? s1.codeDesc : '-'}"></span></td>
+					<td width="8%" style="vertical-align: middle;"><span th:text="${s1.category!=null ? s1.category : '-'}"></span></td>
+					<td width="2%" style="vertical-align: middle;"><span th:text="${s1.cntryCD!=null ? s1.cntryCD : '-'}"></span></td>
+					<td width="10%" style="vertical-align: middle;"><span th:text="${s1.ooe!=null ? s1.ooe : '-'}"></span></td>
+					<td width="10%" style="vertical-align: middle;"><span th:text="${s1.recdeventDt!=null ? s1.recdeventDt : '-'}"></span></td>
+					<td width="10%" style="vertical-align: middle;"><span th:text="${s1.recpid!=null ? s1.recpid : '-'}"></span></td>
+					<td style="vertical-align: middle;"><span th:text="${s1.recdfpo!=null ? s1.recdfpo : '-'}"></span></td>
+					<td style="vertical-align: middle;" ><span th:text="${s1.recdDt!=null ? s1.recdDt : '-'}"></span></td>
+					<td style="vertical-align: middle;"><span th:text="${s1.bagno!=null ? s1.bagno : '-'}"></span></td>
+					<td style="vertical-align: middle;" ><span th:text="${s1.eaddeci!=null ? s1.eaddeci : '-'}"></span></td>
+					<td  width="10%" style="vertical-align: middle;" ><span th:text="${s1.currentStatus!=null ? s1.currentStatus : '-'}"></span></td>
+					<!--td style="vertical-align: middle;" width="20%"><span th:text="${s1.currentStatus!=null ? s1.currentStatus : '-'}"></span></td-->
+				</tr>
+			</tbody>
+		</table>
+	</div> 
+	
+	
+	<div id="viewwithouteadtbl" style="padding: 20px; display : none">
+		<table id="Tablewithoutead"
+			class="table table-bordered table-striped "
+			style="font-size: 14px; text-align: center;">
+			<thead style="background-color: #a1c4e6;">
+				<tr style="background-color: #a1c4e6;">
+					<th scope="col">No</th>
+					<th scope="col">ARTICLE ID</th>
+					<th scope="col">ARTICLE ID DT</th>
+					<!--th scope="col">EAD STATUS</th-->
+					<th scope="col">CIN</th>
+					<th scope="col">CIN DT</th>
+					<th scope="col">MAIL CLASS</th>
+					<th scope="col">COO</th>
+					<th scope="col">OOE ARRIVAL</th>
+					<th scope="col">ARRIVAL OOE DT</th>
+					<th scope="col">ARRIVAL DESTINATION FPO</th>
+					<th scope="col">ARRIVAL DESTINATION DT</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis" th:each="s1,iter : ${withoutEAD}">
+					<td width="1%" style="vertical-align: middle;"
+						th:text="${iter.index+1}"></td>
+					<td width="10%"><a href="javascript:;" onclick="viewArtDetails(this)" th:text="${s1[0]}"></a></td>
+					<td width="10%" th:text="${s1[1]!=null ? s1[1] : '-'}"></td>
+					<!--td width="12%" th:text="${s1[2]!=null ? s1[2] : '-'}"></td-->
+					<td width="10%" th:text="${s1[3]!=null ? s1[3] : '-'}"></td>
+					<td width="8%" th:text="${s1[4]!=null ? s1[4] : '-'}"></td>
+					<td width="8%" th:text="${s1[5]!=null ? s1[5] : '-'}"></td>
+					<td width="2%" th:text="${s1[6]!=null ? s1[6] : '-'}"></td>
+					<td width="10%" th:text="${s1[7]!=null ? s1[7] : '-'}"></td>
+					<td width="10%" th:text="${s1[8]!=null ? s1[8] : '-'}"></td>
+					<td th:text="${s1[9]!=null ? s1[9] : '-'}"></td>
+					<td th:text="${s1[10]!=null ? s1[10] : '-'}"></td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br>
+	<script src="js/artidwithoutpincds.js"></script>
+	<script th:src="@{js/sweetalert.min.js}"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	   $('#eadhdr').show();
+	   });
+	</script>
+</body>
+</html>

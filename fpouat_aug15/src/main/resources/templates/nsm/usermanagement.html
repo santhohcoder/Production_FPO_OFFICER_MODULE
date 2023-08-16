@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--head lang="en" th:replace="admin/nsm/nsmHeader :: header"-->
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+</style>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Role Management</h3>
+<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM ADMINISTRATOR (PNA)</h3>
+  <div style ="font-weight: bold; margin-top: 2%; text-align: center; font-family: times new roman;background: deepskyblue;"><h2>Role Management</h2> </div> 
+
+<div class="col-md-12" style ="padding: 4%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+     <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #0dbcd8">
+        <h5 class="card-title">Role Management for INNSA5</h5>
+        <p class="card-text">To allocate and edit roles of National System Administrator(PNA), National Alert Role(NAL), National Reports(NRP). </p><br>
+        <a href="nsm_allotrole" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #007bff80">
+        <h5 class="card-title">National System Administrator (PNA)</h5>
+        <p class="card-text">View Current and Past National System Administrator(PNA). </p><br><br>
+        <a href="current_nsm" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="col-sm-1" ></div> -->
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #c5cdd9;">
+        <h5 class="card-title" >Role Management - Local System Administrator (PLA) for field Customs FPO Sites</h5>
+        <p class="card-text">Allocate and remove Local System Administrators(PLA).</p>
+        <a href="current_lsm" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+<script src="js/addingSite.js"></script>
+
+</html>

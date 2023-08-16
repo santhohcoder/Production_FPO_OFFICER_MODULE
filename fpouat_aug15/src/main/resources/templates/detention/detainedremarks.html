@@ -1,0 +1,1490 @@
+<!-- <html th:fragment="header"> -->
+
+<!-- <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{css/report/jquery-ui.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{js/jquery-3.4.1.min.js}"></script>
+
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/datatables.min.js}"></script>
+    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/font.js}"></script>
+    <script th:src="@{js/report/jquery-ui.js}"></script>
+</head> -->
+
+<style>
+    .ui-widget-content .ui-icon {
+        background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+    }
+
+    .container-100 {
+        max-width: 100%
+    }
+    
+    .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+    .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2) !important;
+        border-radius: 3px;
+        padding: 0;
+    }
+
+    .mb-2 {
+        margin-bottom: .5rem !important;
+    }
+
+    .mt-2 {
+        margin-top: .5rem !important;
+    }
+
+    .form {
+        padding: 15px 30px 10px;
+    }
+
+    .row.addd {
+        position: relative;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 10px 0 18px;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    body {
+        background: #91c5ff;
+    }
+
+    label.float {
+        color: #333;
+        font-size: 12px;
+        font-weight: 700 !important;
+        position: absolute;
+        pointer-events: none;
+        left: 20px;
+        top: -10px;
+        font-weight: 600;
+        transition: all .2s ease;
+        -moz-transition: .2s ease all;
+        -webkit-transition: all .2s ease;
+        background: #fff;
+        padding: 0 5px;
+    }
+
+    select.control,
+    input[type="text"] {
+        height: 40px;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        color: #495057;
+    }
+
+    select.control:focus,
+    input[type="text"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #828282;
+    }
+
+    div[class^="col-lg-"] {
+        margin-top: 10px;
+    }
+
+    .col-lg-12 {
+        margin-top: 0 !important;
+    }
+
+    .col-lg-3 {
+        max-width: 23%;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .add-btn {
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    .remove-btn {
+        line-height: 30px;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        display: inline-block;
+        width: 35px;
+        height: 32px;
+        border-radius: 40px;
+        text-align: center;
+        margin: 3px 0px 0 14px;
+        cursor: pointer;
+    }
+
+    div[id^="document-section"],
+    div[id^="preview-document-section"],
+    div[id^="fp-section"],
+    div[id^="fine-section"],
+    div[id^="preview-fine-section"],
+    div[id^="penalty-section"],
+    div[id^="preview-penalty-section"],
+    div[id^="detentioncase-section"],
+    div[id^="preview-detentioncase-section"] {
+        display: flex;
+        width: 100%;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+        background: white;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        top: 8px;
+    }
+
+    .delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545 !important;
+    }
+
+    .invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
+        border-color: #dc3545;
+    }
+
+    .invalid-feedback {
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    tbody textarea {
+        resize: none;
+    }
+
+    #overlay {
+        position: fixed;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+        z-index: 9999;
+        width: 100%;
+        background: rgba(255, 255, 255, .7);
+    }
+
+    #loader {
+        position: fixed;
+        display: block;
+        left: 50%;
+        top: 48%;
+        z-index: 9999;
+        width: 100%;
+        height: 100%;
+        background-image: url(images/report/loader.gif);
+        background-repeat: no-repeat;
+        margin: -77px 0 0 -75px;
+    }
+
+    .pdf-icon {
+        color: red;
+        position: absolute;
+        top: 15px;
+        left: 25px;
+    }
+
+    .pl-25 {
+        padding-left: 25px !important;
+    }
+
+    .form-control[readonly] {
+        background: white !important;
+    }
+
+    .valid-box {
+        border: 2px solid #0ee90e !important;
+        color: black;
+        background: #ffedb6 !important;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .cross-icon {
+        color: #818589;
+        position: absolute;
+        top: 13px;
+        right: 30px;
+        cursor: pointer;
+    }
+    
+    .note-subtitle {
+	    color: blue;
+	    font-weight: bold;
+	    margin: 10px 0 18px;
+	    font-size: 16px;
+	}
+
+    .btn-success.dept-cmts {
+        color: white;
+        background: rebeccapurple;
+        border: rebeccapurple;
+    }
+
+    .btn-success.dept-cmts:not(:disabled):not(.disabled).active:focus,
+    .btn-success.dept-cmts:not(:disabled):not(.disabled):active:focus,
+    .show>.btn-success.dept-cmts.dropdown-toggle:focus {
+        color: white;
+        background: rebeccapurple;
+        border: rebeccapurple;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+</style>
+
+<!-- <body> -->
+<div id="overlay" style="display: none;">
+    <div id="loader">
+    <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+    </div>
+</div>
+<input type="hidden" id="cinNo" th:value="${cinNo}">
+<div class="container container-100">
+    <div class="row" id="detainRemarksFullSection">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card mb-2 mt-2" id="detainRemarksUploadSection">
+                <div class="form">
+                    <div class="row addd">
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display: flex;">
+                            <h4 class="subtitle">Detention Remarks</h4><span style="color: red;font-weight:bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display: flex; justify-content: end;">
+                        <div class="form-group floating">
+                        <button type="button" class="btn btn-success dept-cmts" th:articleid="${itemId}" onclick="viewSummary(this)">View Article Summary</button>
+                        <button type="button" class="btn btn-success dept-cmts" th:articleid="${itemId}" onclick="viewDeptComments(this)">View Dept. Comments</button>
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea class="control" rows="5" id="detainRemarks" placeholder="Enter detain remarks" style="width: 50%;resize: none;outline: none;"></textarea>
+                                <div class="invalid-feedback">Detention Remarks is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="detcasesec-full-div">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Detention Case</h4>
+                            <p class="text-muted" style="margin-top: 10px; margin-left: 10px;">(Note: Maximum
+                                of 5 files can be upload.)</p>
+                        </div>
+						<div class="col-lg-6 col-md-6 col-sm-6" style="display:flex;padding-left: 0;">
+						    <div class="col-6" id="typeOfCaseDiv">
+						        <div class="form-group floating">
+						            <select class="control" id="detentioncase-type" onchange="checkDivAdd('casetype',this)">
+							            <option value="">Select Type of Case</option>
+							            <option th:each="detainedCase : ${detainedCaseList}" th:text="${detainedCase.name}" th:value="${detainedCase.name}"></option>
+						            </select>
+						            <div class="invalid-feedback">Type of Case is required</div>
+						            <label class="float">Type of Case<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+						        </div>
+						    </div>
+						    <div class="col-6" id="detentionMethodDiv">
+						        <div class="form-group floating">
+						            <select class="control" id="detentioncase-method" onchange="checkDivAdd('method',this)">
+							            <option value="">Select Detention Method</option>
+							            <option th:each="detainedMethod : ${detainedMethodList}" th:text="${detainedMethod.name}" th:value="${detainedMethod.name}"></option>  
+						            </select>
+						            <div class="invalid-feedback">Detention Method is required</div>
+						            <label class="float">Detention Method<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+						        </div>
+						    </div>
+						</div>
+                        <div id="detentioncase-section-1">
+                            <!-- <div class="col-lg-2 col-md-2 col-sm-2">
+                                <div class="form-group floating">
+                                    <select class="control" id="detentioncase-type-1">
+                                        <option value="">Select Type of Case</option>
+                                        <option th:each="scnDocument : ${scnDocuments}" th:text="${scnDocument.name}" th:value="${scnDocument.name}"></option>
+                                    </select>
+                                    <div class="invalid-feedback">Type of case
+                                        is required</div>
+                                    <label class="float">Type of Case<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+                                </div>
+                            </div> -->
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                	<input class="control" type="text" id="detentioncase-item-1" placeholder="Enter Suspected Item Detail">
+                                    <div class="invalid-feedback">Suspected Item Detail is required</div>
+                                    <label class="float">Suspected Item Detail<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="display:flex;">
+							    <div class="col-6">
+							        <div class="form-group floating">
+							            <input class="control" type="text" id="detentioncase-quantity-1" placeholder="Enter Quantity">
+							            <div class="invalid-feedback">Quantity is required</div>
+							            <label class="float">Quantity<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+							        </div>
+							    </div>
+							    <div class="col-6">
+							        <div class="form-group floating">
+							            <select class="control uqc-keys" id="detentioncase-uqc-1">
+							            <option value="">Select UQC</option>
+							            <option th:each="uqc : ${uqcList}" th:text="${uqc.code + '-' +uqc.name}" th:value="${uqc.code}"></option>
+							            </select>
+							            <div class="invalid-feedback">UQC is required</div>
+							            <label class="float">UQC<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+							        </div>
+							    </div>
+							</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                	<input class="control" type="text" id="detentioncase-value-1" placeholder="Enter Value">
+                                    <div class="invalid-feedback">Value is required</div>
+                                    <label class="float">Value<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input class="control" type="text" id="detentioncase-filetxt-1" placeholder="Please Upload File" disabled>
+                                    <div class="invalid-feedback">Photo attachment is
+                                        required</div>
+                                    <p class="text-muted">(Note: Only PDF is allowed.Maximum
+                                        File size must be in 1 MB.)</p>
+                                    <label class="float">Photo Upload</label> <input type="file" id="detentioncase-file-1" onchange="uploadDetentionFile(this,1)" onclick="this.value=null;" accept="application/pdf" style="display: none;"> <span class="upload-btn" onclick="fileDetentionCaseUpload(1)"><a>Upload</a></span>
+                                </div>
+                            </div>
+                            <div class="mt-10">
+                                <span class="add-btn"><img id="add-detentioncase-1" th:src="@{images/add.png}" onclick="addDetentionCaseSection(this)" alt="add-icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="docsec-full-div">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Document Upload</h4>
+                            <p class="text-muted" style="margin-top: 10px; margin-left: 10px;">(Note: Maximum
+                                of 6 files can be upload.)</p>
+                        </div>
+                        <div id="document-section-1">
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <select class="control" id="document-type-1">
+                                        <option value="">Select Type of Document</option>
+                                        <option th:each="scnDocument : ${scnDocuments}" th:text="${scnDocument.name}" th:value="${scnDocument.name}"></option>
+                                    </select>
+                                    <div class="invalid-feedback">Document Type
+                                        is required</div>
+                                    <label class="float">Type of Document</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input type="text" id="document-date-1" placeholder="Select Document Date" readonly="" class="picker form-control form_txt change">
+                                    <div class="invalid-feedback">Document Date is required</div>
+                                    <label class="float">Document Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input class="control" type="text" id="document-filetxt-1" placeholder="Please Upload File" disabled>
+                                    <div class="invalid-feedback">File attachment is
+                                        required</div>
+                                    <p class="text-muted">(Note: Only PDF is allowed.Maximum
+                                        File size must be in 1 MB.)</p>
+                                    <label class="float">File Upload</label> <input type="file" id="document-file-1" onchange="uploadFile(this,1)" onclick="this.value=null;" accept="application/pdf" style="display: none;"> <span class="upload-btn" onclick="fileUpload(1)"><a>Upload</a></span>
+                                </div>
+                            </div>
+                            <div class="mt-10">
+                                <span class="add-btn"><img id="add-document-1" th:src="@{images/add.png}" onclick="addDocumentSection(this)" alt="add-icon"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="fine-penalty-full-div">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Fine & Penalty</h4>
+                        </div>
+                        <div style="width:50%">
+                            <div id="fine-section-1">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="fineamount-1" placeholder="Enter fine amount">
+                                        <div class="invalid-feedback">Fine Amount is required</div>
+                                        <label class="float">Fine Amount</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="finesection-1" placeholder="Enter fine section">
+                                        <div class="invalid-feedback">Fine Section is required</div>
+                                        <label class="float">Fine Section</label>
+                                    </div>
+                                </div>
+                                <div class="mt-10">
+                                    <span class="add-btn"><img id="add-fine-1" th:src="@{images/add.png}" onclick="addFineSection(this)" alt="add-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:50%">
+                            <div id="penalty-section-1">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="penaltyamount-1" placeholder="Enter penalty amount">
+                                        <div class="invalid-feedback">Penalty Amount is required</div>
+                                        <label class="float">Penalty Amount</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control" type="text" id="penaltysection-1" placeholder="Enter penalty section">
+                                        <div class="invalid-feedback">Penalty Section is required</div>
+                                        <label class="float">Penalty Section</label>
+                                    </div>
+                                </div>
+                                <div class="mt-10">
+                                    <span class="add-btn"><img id="add-penalty-1" th:src="@{images/add.png}" onclick="addPenaltySection(this)" alt="add-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Decision</h4><span style="color: red;font-weight:bold;">&nbsp;*</span>
+                            <div id="note-subtitle-div" style="display: none;">
+                            <h4 class="note-subtitle"> - Note : <span style="color: red;" id="note-subtitle-txt"></span></h4></div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group floating">
+                                <select class="control" id="detainDecision" onchange="detainDecisionChange(this)">
+                                    <option value="">Select Decision</option>
+                                    <option th:each="detainDecision : ${detainDecisions}" th:text="${detainDecision.name}" th:value="${detainDecision.name}"></option>
+                                </select>
+                                <div class="invalid-feedback">Detain Decision is required</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 16px;display:none;" id="finepenmustdiv">
+                        	<span style="color: blue;font-weight: bold;text-transform: uppercase;">- Fine and Penalty is required to be entered</span>
+                        </div>
+                    </div>
+                    <div class="row addd" id="decisionReasonDiv" style="display:none;">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Reason</h4><span style="color: red;font-weight:bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea class="control" rows="5" id="decisionReason" placeholder="Enter decision reason" style="width: 50%;resize: none;outline: none;"></textarea>
+                                <div class="invalid-feedback">Decision Reason is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%;text-align: center;">
+                        <button type="button" onclick="scanningDocuments()" class="btn btn-success">Preview</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="previewDetainRemarksFullSection" style="display:none;">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card mb-2 mt-2" id="previewDetainRemarksUploadSection">
+                <div class="form">
+                    <div class="row addd" id="previewDetainRemarkDiv">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Detention Remarks</h4><span style="color: red;font-weight:bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea disabled class="control valid-box" rows="5" id="previewDetainRemarks" style="cursor:not-allowed;width: 50%;resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Decision</h4><span style="color: red;font-weight:bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group floating">
+                                <input type="text" disabled class="control valid-box" id="previewDetainDecision">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="previewDecisionReasonDiv">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Reason</h4><span style="color: red;font-weight:bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea disabled class="control valid-box" rows="5" id="previewDecisionReason" style="cursor:not-allowed;width: 50%;resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width: 100%;text-align: center;" id="PreviewSubmitBtnDiv">
+                        <button type="button" class="btn btn-primary" onclick="displayDetainRemarkSection()" style="margin-right: 15px;">Back</button>
+                        <button type="button" class="btn btn-success" id="submitScannedDocuments" onclick="submitDocuments()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 85%;">
+        <div class="modal-header" style="background: whitesmoke; padding-top: 5px; padding-bottom: 5px;">
+            <h4 class="modal-title">Uploaded File</h4>
+            <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-content" id="pdfcontent">
+            <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+        </div>
+    </div>
+</div>
+
+<!-- <script th:src="@{js/sweetalert.min.js}"></script> -->
+<script type="text/javascript">
+    var documentFiles = {};
+    var detentionCaseFiles = {};
+
+    $(function() {
+        triggerDatePicker();
+    });
+
+    function triggerDatePicker() {
+        $("[id^='document-date-']").datepicker({
+            dateFormat: "dd/mm/yy",
+            maxDate: new Date(),
+            onSelect: function(date) {
+                if ($(this).closest('div').find('span').length < 1) {
+                    $(this).closest('div').find('label').after('<span><i class="fa fa-times cross-icon" onclick="removeDate(this)" aria-hidden="true"></i></span>');
+                }
+            }
+        });
+    }
+
+    function removeDate(obj) {
+        $(obj).closest('div').find('input').val('');
+        $(obj).closest('span').remove();
+    }
+    
+	/*$('.control.uqc-keys').on('blur focus', function(e) {
+	    $(this.options).text(function() {
+	        return e.type === 'focus' ?
+	            this.getAttribute('data-default-text') :
+	            this.value;
+	    });
+	}).children().attr('data-default-text', function() {
+	    return this.textContent;
+	});
+	
+	$('.control.uqc-keys').on('change', function(e) {
+    	$(this).blur()
+	});*/
+
+	function checkDivAdd(val, obj) {
+	    if ($(obj).val() == 'Others') {
+	        var div = '<div class="col-3" id="' + (val == 'casetype' ? 'typeOfCaseOtherValueDiv' : 'methodOtherValueDiv') + '"><div class="form-group floating">' +
+	            '<input class="control" type="text" id="' + (val == 'casetype' ? 'typeOfCaseOtherValue' : 'methodOtherValue') + '" placeholder="Enter Detail for Others">' +
+	            '<div class="invalid-feedback">Detail for Others is required</div><label class="float">Detail for Others' +
+	            '<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>';
+	        $(val == 'casetype' ? '#typeOfCaseDiv' : '#detentionMethodDiv').after(div);
+	    }else{
+	    	$(val == 'casetype' ? '#typeOfCaseOtherValueDiv' : '#methodOtherValueDiv').remove();
+	    }
+	}
+
+    function addDetentionCaseSection(obj) {
+        var addedNumber = [],
+            count = 5,
+            missingNumber = [];
+        $("[id^='detentioncase-section-']").map(function() {
+            addedNumber.push(parseInt($(this).attr('id').substr($(this).attr('id').length - 1)));
+        });
+        for (var i = 1; i <= count; i++) {
+            if (addedNumber.indexOf(i) == -1) {
+                missingNumber.push(i);
+            }
+        }
+        var nextCount = Math.min(...missingNumber);
+        var detentioncasesection = '<div id="detentioncase-section-' + (nextCount) + '">'+
+        //'<div class="col-lg-2 col-md-2 col-sm-2">' +
+        //'<div class="form-group floating"><select class="control" id="detentioncase-type-' + (nextCount) + '">' + $("#detentioncase-type-1").html() +
+        //'</select><div class="invalid-feedback">Type of case is required</div><label class="float">Type of Case' +
+        //'<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>'+
+        '<div class="col-lg-3 col-md-3 col-sm-3">' +
+        '<div class="form-group floating"><input class="control" type="text" id="detentioncase-item-' + (nextCount) + '"'  +
+        ' placeholder="Enter Suspected Item Detail"><div class="invalid-feedback">Suspected Item Detail is required</div>' +
+		'<label class="float">Suspected Item Detail<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>' +
+        '<div class="col-lg-3 col-md-3 col-sm-3" style="display:flex;"><div class="col-6"><div class="form-group floating"><input class="control" type="text" ' +
+        'id="detentioncase-quantity-' + (nextCount) + '" placeholder="Enter Quantity"><div class="invalid-feedback">Quantity is required</div>' +
+		'<label class="float">Quantity<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>' +
+		'<div class="col-6"><div class="form-group floating"><select class="control uqc-keys" id="detentioncase-uqc-' + (nextCount) + '">' + $("#detentioncase-uqc-1").html() +'</select>' +
+		'<div class="invalid-feedback">UQC is required</div><label class="float">UQC<span style="color: red;font-weight:bold;">&nbsp;*</span>' +
+		'</label></div></div></div>'+
+        '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating"><input class="control" type="text" ' +
+        'id="detentioncase-value-' + (nextCount) + '" placeholder="Enter Value"><div class="invalid-feedback">Value is required</div>' +
+        '<label class="float">Value<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>' +
+        '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating"><input class="control" type="text" ' +
+        'id="detentioncase-filetxt-' + (nextCount) + '" placeholder="Please Upload File" disabled><div class="invalid-feedback">' +
+        'Photo attachment is required</div><p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p>' +
+        '<label class="float">Photo Upload</label> <input type="file" id="detentioncase-file-' + (nextCount) + '" ' +
+        'onchange="uploadDetentionFile(this,' + nextCount + ')" onclick="this.value=null;" accept="application/pdf" style="display: none;"> '+
+        '<span class="upload-btn" onclick="fileDetentionCaseUpload(' + (nextCount) + ')"><a>Upload</a></span></div></div><div class="mt-10">' +
+        '<span class="remove-btn" onclick="removeDetentionCaseSection(this,' + nextCount + ')">X</span></div></div>';
+        $("#detentioncase-section-1").after(detentioncasesection);
+        $(obj).attr('id', 'add-detentioncase-' + (nextCount));
+        if ($("[id^='detentioncase-section-']").length == count) {
+            $("[id^='add-detentioncase-']").closest('div').remove();
+        }
+    }
+
+    function removeDetentionCaseSection(obj, count) {
+        $(obj).closest("[id^='detentioncase-section-']").remove();
+        delete detentionCaseFiles[count];
+        if ($("[id^='add-detentioncase-']").length == 0) {
+            var nxtCount = count - 1;
+            $("#detentioncase-section-1").append('<div class="mt-10"><span class="add-btn"><img id="add-detentioncase-' + (nxtCount) + '" src="images/add.png" onclick="addDetentionCaseSection(this)" alt="add-icon"></span></div>');
+        } else {
+            $("[id^='add-detentioncase-']").attr('id', 'add-detentioncase-' + (count - 1));
+        }
+    }
+
+    function addDocumentSection(obj) {
+        var addedNumber = [],
+            count = 6,
+            missingNumber = [];
+        $("[id^='document-section-']").map(function() {
+            addedNumber.push(parseInt($(this).attr('id').substr($(this).attr('id').length - 1)));
+        });
+        for (var i = 1; i <= count; i++) {
+            if (addedNumber.indexOf(i) == -1) {
+                missingNumber.push(i);
+            }
+        }
+        var nextCount = Math.min(...missingNumber);
+        var documentsection = '<div id="document-section-' + (nextCount) + '"><div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+            '<select class="control" id="document-type-' + (nextCount) + '">' + $("#document-type-1").html() +
+            '</select><div class="invalid-feedback">Document Type is required</div><label class="float">Type of Upload Document</label></div></div>' +
+            '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+            '<input type="text" id="document-date-' + (nextCount) + '" Placeholder="Select Document Date" readonly="" class="picker form-control form_txt change"></input>' +
+            '<div class="invalid-feedback">Document Date is required</div><label class="float">Document Date</label></div></div>' +
+            '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+            '<input class="control" type="text" id="document-filetxt-' + (nextCount) + '" placeholder="Please Upload File" disabled>' +
+            '<div class="invalid-feedback">File attachment is required</div><p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p><label class="float">File Upload</label><input type="file" id="document-file-' + (nextCount) + '" onchange="uploadFile(this,' + nextCount + ')" onclick="this.value=null;" accept="application/pdf"' +
+            ' style="display: none;"><span class="upload-btn" onclick="fileUpload(' + (nextCount) + ')"><a>Upload</a></span></div></div><div class="mt-10">' +
+            '<span class="remove-btn" onclick="removeDocumentSection(this,' + nextCount + ')">X</span></div></div></div>';
+        $("#document-section-1").after(documentsection);
+        $(obj).attr('id', 'add-document-' + (nextCount));
+        if ($("[id^='document-section-']").length == count) {
+            $("[id^='add-document-']").closest('div').remove();
+        }
+        triggerDatePicker();
+    }
+
+    function removeDocumentSection(obj, count) {
+        $(obj).closest("[id^='document-section-']").remove();
+        delete documentFiles[count];
+        if ($("[id^='add-document-']").length == 0) {
+            var nxtCount = count - 1;
+            $("#document-section-1").append('<div class="mt-10"><span class="add-btn"><img id="add-document-' + (nxtCount) + '" src="images/add.png" onclick="addDocumentSection(this)" alt="add-icon"></span></div>');
+        } else {
+            $("[id^='add-document-']").attr('id', 'add-document-' + (count - 1));
+        }
+    }
+
+    function addFineSection(obj) {
+        var addedNumber = [],
+            count = 9,
+            missingNumber = [];
+        $("[id^='fine-section-']").map(function() {
+            addedNumber.push(parseInt($(this).attr('id').substr($(this).attr('id').length - 1)));
+        });
+        for (var i = 1; i <= count; i++) {
+            if (addedNumber.indexOf(i) == -1) {
+                missingNumber.push(i);
+            }
+        }
+        var nextCount = Math.min(...missingNumber);
+        var finesection = '<div id="fine-section-' + (nextCount) + '">' +
+            '<div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+            '<input class="control" type="text" id="fineamount-' + (nextCount) + '" placeholder="Enter fine amount">' +
+            '<div class="invalid-feedback">Fine Amount is required</div><label class="float">Fine Amount</label></div>' +
+            '</div><div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+            '<input class="control" type="text" id="finesection-' + (nextCount) + '" placeholder="Enter fine section">' +
+            '<div class="invalid-feedback">Fine Section is required</div><label class="float">Fine Section</label></div>' +
+            '</div><div class="mt-10">' +
+            '<span class="remove-btn" onclick="removeFineSection(this,' + nextCount + ')">X</span></div></div></div>';
+        $("#fine-section-1").after(finesection);
+        $(obj).attr('id', 'add-fine-' + (nextCount));
+        if ($("[id^='fine-section-']").length == count) {
+            $("[id^='add-fine-']").closest('div').remove();
+        }
+    }
+
+    function removeFineSection(obj, count) {
+        $(obj).closest("[id^='fine-section-']").remove();
+        if ($("[id^='add-fine-']").length == 0) {
+            var nxtCount = count - 1;
+            $("#fine-section-1").append('<div class="mt-10"><span class="add-btn"><img id="add-fine-' + (nxtCount) + '" src="images/add.png" onclick="addFineSection(this)" alt="add-icon"></span></div>');
+        } else {
+            $("[id^='add-fine-']").attr('id', 'add-fine-' + (count - 1));
+        }
+    }
+
+    function addPenaltySection(obj) {
+        var addedNumber = [],
+            count = 9,
+            missingNumber = [];
+        $("[id^='penalty-section-']").map(function() {
+            addedNumber.push(parseInt($(this).attr('id').substr($(this).attr('id').length - 1)));
+        });
+        for (var i = 1; i <= count; i++) {
+            if (addedNumber.indexOf(i) == -1) {
+                missingNumber.push(i);
+            }
+        }
+        var nextCount = Math.min(...missingNumber);
+        var penaltysection = '<div id="penalty-section-' + (nextCount) + '">' +
+            '<div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+            '<input class="control" type="text" id="penaltyamount-' + (nextCount) + '" placeholder="Enter penalty amount">' +
+            '<div class="invalid-feedback">Penalty Amount is required</div><label class="float">Penalty Amount</label></div>' +
+            '</div><div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+            '<input class="control" type="text" id="penaltysection-' + (nextCount) + '" placeholder="Enter penalty section">' +
+            '<div class="invalid-feedback">Penalty Section is required</div><label class="float">Penalty Section</label></div>' +
+            '</div><div class="mt-10">' +
+            '<span class="remove-btn" onclick="removePenaltySection(this,' + nextCount + ')">X</span></div></div></div>';
+        $("#penalty-section-1").after(penaltysection);
+        $(obj).attr('id', 'add-penalty-' + (nextCount));
+        if ($("[id^='penalty-section-']").length == count) {
+            $("[id^='add-penalty-']").closest('div').remove();
+        }
+    }
+
+    function removePenaltySection(obj, count) {
+        $(obj).closest("[id^='penalty-section-']").remove();
+        if ($("[id^='add-penalty-']").length == 0) {
+            var nxtCount = count - 1;
+            $("#penalty-section-1").append('<div class="mt-10"><span class="add-btn"><img id="add-penalty-' + (nxtCount) + '" src="images/add.png" onclick="addPenaltySection(this)" alt="add-icon"></span></div>');
+        } else {
+            $("[id^='add-penalty-']").attr('id', 'add-penalty-' + (count - 1));
+        }
+    }
+
+    function fileUpload(count) {
+        $("#document-file-" + count).click();
+    }
+    
+    function fileDetentionCaseUpload(count) {
+        $("#detentioncase-file-" + count).click();    
+    }
+
+	function uploadDetentionFile(obj, count) {
+	    if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+	        var notSameName = true;
+	        for (var key in documentFiles) {
+	            if (documentFiles[key].files[0].name == obj.files[0].name) {
+	                notSameName = false;
+	                break;
+	            }
+	        }
+	        if (notSameName) {
+	            for (var key in detentionCaseFiles) {
+	                if (detentionCaseFiles[key].files[0].name == obj.files[0].name) {
+	                    notSameName = false;
+	                    break;
+	                }
+	            }
+	            if (notSameName) {
+	                var reader = new FileReader();
+	                reader.onload = function(event) {
+	                    var contents = event.target.result;
+	                    if (contents.indexOf('Encrypt') !== -1) {
+	                        swal('OOPS!', 'Please upload unencrypted PDF !', 'error');
+	                    } else {
+	                        $("#detentioncase-filetxt-" + count).val(obj.files[0].name);
+	                        $("#detentioncase-filetxt-" + count).addClass('pl-25');
+	                        detentionCaseFiles[count] = obj;
+	                        $(obj).next().remove();
+	                        $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+	                        $(obj).after('<span class="view-btn" onclick="viewDetentionFile(' + count + ')"><a>View</a></span>');
+	                        $(obj).after('<span class="delete-btn" onclick="deleteDetentionFile(this,' + count + ')"><a>Delete</a></span>');
+	                    }
+	                };
+	
+	                reader.onerror = function(event) {
+	                    swal('OOPS!', 'Something went wrong !', 'error');
+	                };
+	
+	                reader.readAsText(obj.files[0]);
+	            } else {
+	                swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+	            }
+	        } else {
+	            swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+	        }
+	    } else {
+	        if (obj.files[0].type != 'application/pdf') {
+	            swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+	        } else {
+	            swal('OOPS!', "File size should be within 1MB !", 'error');
+	        }
+	    }
+	}
+
+    function viewDetentionFile(count) {
+        $("#embedpdf").attr('src', URL.createObjectURL(detentionCaseFiles[count].files[0]));
+        $("#pdfView").modal('toggle');
+        $("#detentionRemarkModal").scrollTop($("#pdfView").offset().top);
+    }
+
+    function deleteDetentionFile(obj, count) {
+        $("#detentioncase-filetxt-" + count).val('');
+        $("#detentioncase-filetxt-" + count).removeClass('pl-25');
+        delete detentionCaseFiles[count];
+        $(obj).next().remove();
+        $(obj).next().remove();
+        $(obj).after('<span class="upload-btn" onclick="fileDetentionCaseUpload(' + count + ')"><a>Upload</a></span>');
+        $(obj).remove();
+    }
+
+	function uploadFile(obj, count) {
+	    if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+	        var notSameName = true;
+	        for (var key in documentFiles) {
+	            if (documentFiles[key].files[0].name == obj.files[0].name) {
+	                notSameName = false;
+	                break;
+	            }
+	        }
+	        if (notSameName) {
+	            for (var key in detentionCaseFiles) {
+	                if (detentionCaseFiles[key].files[0].name == obj.files[0].name) {
+	                    notSameName = false;
+	                    break;
+	                }
+	            }
+	            if (notSameName) {
+	                var reader = new FileReader();
+	                reader.onload = function(event) {
+	                    var contents = event.target.result;
+	                    if (contents.indexOf('Encrypt') !== -1) {
+	                        swal('OOPS!', 'Please upload unencrypted PDF !', 'error');
+	                    } else {
+	                        $("#document-filetxt-" + count).val(obj.files[0].name);
+	                        $("#document-filetxt-" + count).addClass('pl-25');
+	                        documentFiles[count] = obj;
+	                        $(obj).next().remove();
+	                        $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+	                        $(obj).after('<span class="view-btn" onclick="viewFile(' + count + ')"><a>View</a></span>');
+	                        $(obj).after('<span class="delete-btn" onclick="deleteFile(this,' + count + ')"><a>Delete</a></span>');
+	                    }
+	                };
+	
+	                reader.onerror = function(event) {
+	                    swal('OOPS!', 'Something went wrong !', 'error');
+	                };
+	
+	                reader.readAsText(obj.files[0]);
+	            } else {
+	                swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+	            }
+	        } else {
+	            swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+	        }
+	    } else {
+	        if (obj.files[0].type != 'application/pdf') {
+	            swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+	        } else {
+	            swal('OOPS!', "File size should be within 1MB !", 'error');
+	        }
+	    }
+	}
+
+    function viewFile(count) {
+        $("#embedpdf").attr('src', URL.createObjectURL(documentFiles[count].files[0]));
+        $("#pdfView").modal('toggle');
+        $("#detentionRemarkModal").scrollTop($("#pdfView").offset().top);
+    }
+
+    function deleteFile(obj, count) {
+        $("#document-filetxt-" + count).val('');
+        $("#document-filetxt-" + count).removeClass('pl-25');
+        delete documentFiles[count];
+        $(obj).next().remove();
+        $(obj).next().remove();
+        $(obj).after('<span class="upload-btn" onclick="fileUpload(' + count + ')"><a>Upload</a></span>');
+        $(obj).remove();
+    }
+
+    function showLoader() {
+        $("#overlay").css("display", "block");
+    }
+
+    function hideLoader() {
+        setTimeout(function() {
+            $("#overlay").css("display", "none");
+        }, 500);
+    }
+
+    function displayDetainRemarkSection() {
+        $("#detainRemarksFullSection").show();
+        $("#previewDetainRemarksFullSection").hide('slow');
+        $("html, body").animate({
+            scrollTop: 0
+        }, "slow");
+    }
+
+    function detainDecisionChange(obj) {
+        if ($(obj).val() == 'Send back to assessment without SCN / OnO') {
+            $("#docsec-full-div").hide('slow');
+            $("#fine-penalty-full-div").hide('slow');
+            $("#detcasesec-full-div").hide('slow');
+            $("#decisionReasonDiv").show('slow');
+        } else {
+            $("#docsec-full-div").show('slow');
+            $("#fine-penalty-full-div").show('slow');
+            $("#detcasesec-full-div").show('slow');
+            $("#decisionReasonDiv").hide('slow');
+        }
+        displayNote(obj);
+    }
+    
+    var blinkInterval;
+    
+    function displayNote(obj) {
+    	var blink=document.getElementById('note-subtitle-div');
+    	$(blink).show();
+    	clearInterval(blinkInterval);
+    	blinkInterval=setInterval(function () {
+    	 blink.style.opacity = (blink.style.opacity == 1 ? 0 : 1);
+    	}, 500);
+    	if($(obj).val() == 'Cleared with fine and penalty') {
+    		$("#note-subtitle-txt").text('This Article will move back to assessment queue');
+    	}else if($(obj).val() == 'Absolutely confiscated') {
+    		$("#note-subtitle-txt").text('This Article will not move back to assessment queue');
+    	} else if($(obj).val() == 'Send back to assessment without SCN / OnO' || $(obj).val() == 'Partial clearance - with or without fine and penalty') {
+    		$("#note-subtitle-txt").text('This Article will move back to assessment queue only after AC Approval');
+    	}else {
+    		$("#note-subtitle-txt").text('');
+    		$(blink).hide();
+    	}
+    	if($(obj).val() == 'Cleared with fine and penalty'){
+    		$("#finepenmustdiv").show();
+    	}else{
+    		$("#finepenmustdiv").hide();
+    	}
+    }
+
+    var oMyForm = new FormData();
+
+    function scanningDocuments() {
+    	var count = 5;
+        for (var i = 1; i <= count; i++) { 
+             
+             var reg =/<(.|\n)*?>/g; 
+  			 if (reg.test($('#detentioncase-item-'+i).val()) == true || reg.test($('#detentioncase-quantity-'+i).val()) == true || reg.test($('#detentioncase-value-'+i).val()) == true ) {
+  			        swal('OOPS!', 'Special character Not allowed!!', 'error');
+  					return false
+  			    }
+             }
+      var count = 9;
+        for (var i = 1; i <= count; i++) { 
+             
+             var reg =/<(.|\n)*?>/g; 
+  			 if (reg.test($('#fineamount-'+i).val()) == true || reg.test($('#finesection-'+i).val()) == true || reg.test($('#penaltyamount-'+i).val()) == true || reg.test($('#penaltysection-'+i).val()) == true ) {
+  			        swal('OOPS!', 'Special character Not allowed!!', 'error');
+  					return false
+  			    }
+             }
+      
+      
+      			var reg =/<(.|\n)*?>/g; 
+  				 	if (reg.test($('#detainRemarks').val()) == true) {
+  				        swal('OOPS!', 'Special character Not allowed!!', 'error');
+  						return false
+  				    }	
+    
+        var error = 0;
+        oMyForm = new FormData();
+        var iteration = 0;
+        var docSectionAdded = false;
+        $("#previewDetCaseTitleDiv").remove();
+        $("#previewDocUploadTitleDiv").remove();
+        $("#previewFineAndPenaltyTitleDiv").remove();
+        if (!$("#docsec-full-div").is(":hidden")) {
+            $("[id^='document-section-']").each(function(i) {
+                var docListNo = parseInt($(this).attr('id').substr($(this).attr('id').length - 1));
+                var checkall = false;
+                var docUploadFields = ['document-type', 'document-date', 'document-filetxt'];
+                docUploadFields.forEach(function(e) {
+                    if ($('#' + e + '-' + docListNo).val().trim() != '') {
+                        checkall = true;
+                    }
+                });
+                if (checkall) {
+                    if ($("#previewDocUploadTitleDiv").length < 1) {
+                     	if ($("#previewDetCaseTitleDiv").length > 0) {
+	                        $("#previewDetCaseTitleDiv").after('<div class="row addd" id="previewDocUploadTitleDiv"><div class="col-lg-12 col-md-12 col-sm-12" ' +
+	                            'style="display: flex;"><h4 class="subtitle">Document Upload</h4><p class="text-muted" style="margin-top: 10px; margin-left: 10px;">' +
+	                            '(Note: Maximum of 6 files can be upload.)</p></div></div>');
+                    	}else{
+	                        $("#previewDetainRemarkDiv").after('<div class="row addd" id="previewDocUploadTitleDiv"><div class="col-lg-12 col-md-12 col-sm-12" ' +
+	                            'style="display: flex;"><h4 class="subtitle">Document Upload</h4><p class="text-muted" style="margin-top: 10px; margin-left: 10px;">' +
+	                            '(Note: Maximum of 6 files can be upload.)</p></div></div>');                    	
+                    	}
+                    }
+                    $("#previewDocUploadTitleDiv").append('<div id="preview-document-section-' + (docListNo) + '">' +
+                        '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                        '<input type="text" disabled class="control valid-box" id="preview-document-type-' + (docListNo) + '">' +
+                        '<label class="float">Type of Document</label></div></div>' +
+                        '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                        '<input type="text" disabled id="preview-document-date-' + (docListNo) + '" class="valid-box picker form-control form_txt change">' +
+                        '<label class="float">Document Date</label></div></div>' +
+                        '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+                        '<input class="control valid-box" type="text" id="preview-document-filetxt-' + (docListNo) + '"' +
+                        ' placeholder="Please Upload File" disabled style="padding-left:25px;">' +
+                        '<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>' +
+                        '<span class="upload-btn" onclick="viewFile(' + (docListNo) + ')"><a>View</a></span>' +
+                        '<p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p>' +
+                        '<label class="float">File Upload</label></div></div></div>');
+                    docUploadFields.forEach(function(e) {
+                        if ($('#' + e + '-' + docListNo).val().trim() == '') {
+                            $('#' + e + '-' + docListNo).next().show();
+                            $('#' + e + '-' + docListNo).addClass('invalid');
+                            error = error + 1;
+                        } else {
+                            $('#' + e + '-' + docListNo).next().hide();
+                            $('#' + e + '-' + docListNo).removeClass('invalid');
+                            $('#preview-' + e + '-' + docListNo).val($('#' + e + '-' + docListNo).val());
+                            docSectionAdded = true;
+                            oMyForm.append("documentSections[" + iteration + "]." + (e == 'document-type' ? 'documentType' : e == 'document-date' ? 'documentDate' : 'documentFile'), e == 'document-filetxt' ? documentFiles[docListNo].files[0] : $('#' + e + '-' + docListNo).val());
+                        }
+                    });
+                    iteration = iteration + 1;
+                } else {
+                    docUploadFields.forEach(function(e) {
+                        $('#' + e + '-' + docListNo).next().hide();
+                        $('#' + e + '-' + docListNo).removeClass('invalid');
+                    });
+                }
+            });
+        }
+        iteration = 0;
+        if (!$("#fine-penalty-full-div").is(":hidden")) {
+            $("[id^='fine-section-']").each(function(i) {
+                var fineListNo = parseInt($(this).attr('id').substr($(this).attr('id').length - 1));
+                var checkall = false;
+                var fineFields = ['fineamount', 'finesection'];
+                fineFields.forEach(function(e) {
+                    if ($('#' + e + '-' + fineListNo).val().trim() != '') {
+                        checkall = true;
+                    }
+                });
+                if($('#detainDecision').val() == 'Cleared with fine and penalty') {
+    				checkall=true;
+    			}
+                if (checkall) {
+                    if ($("#previewFineAndPenaltyTitleDiv").length < 1) {
+                        if ($("#previewDocUploadTitleDiv").length > 0) {
+                            $("#previewDocUploadTitleDiv").after('<div class="row addd" id="previewFineAndPenaltyTitleDiv">' +
+                                '<div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;"><h4 class="subtitle">Fine & Penalty</h4></div>');
+                        }else if($("#previewDetCaseTitleDiv").length > 0){
+                        	$("#previewDetCaseTitleDiv").after('<div class="row addd" id="previewFineAndPenaltyTitleDiv">' +
+                                '<div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;"><h4 class="subtitle">Fine & Penalty</h4></div>');
+                        } else {
+                            $("#previewDetainRemarkDiv").after('<div class="row addd" id="previewFineAndPenaltyTitleDiv">' +
+                                '<div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;"><h4 class="subtitle">Fine & Penalty</h4></div>');
+                        }
+                    }
+                    if ($("#previewFineSectionDiv").length < 1) {
+                        $("#previewFineAndPenaltyTitleDiv").append('<div style="width:50%" id="previewFineSectionDiv"></div>');
+                    }
+                    $("#previewFineSectionDiv").append('<div id="preview-fine-section-' + (fineListNo) + '">' +
+                        '<div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+                        '<input class="control valid-box" type="text" id="preview-fineamount-' + (fineListNo) + '" disabled>' +
+                        '<label class="float">Fine Amount</label></div></div>' +
+                        '<div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+                        '<input class="control valid-box" type="text" id="preview-finesection-' + (fineListNo) + '" disabled>' +
+                        '<label class="float">Fine Section</label></div></div></div>');
+                    fineFields.forEach(function(e) {
+                        if ($('#' + e + '-' + fineListNo).val().trim() == '') {
+                            $('#' + e + '-' + fineListNo).next().show();
+                            $('#' + e + '-' + fineListNo).addClass('invalid');
+                            error = error + 1;
+                        } else {
+                            $('#' + e + '-' + fineListNo).next().hide();
+                            $('#' + e + '-' + fineListNo).removeClass('invalid');
+                            $('#preview-' + e + '-' + fineListNo).val($('#' + e + '-' + fineListNo).val());
+                            oMyForm.append("fineSections[" + iteration + "]." + (e == 'fineamount' ? 'amount' : 'section'), $('#' + e + '-' + fineListNo).val());
+                        }
+                    });
+                    iteration = iteration + 1;
+                } else {
+                    fineFields.forEach(function(e) {
+                        $('#' + e + '-' + fineListNo).next().hide();
+                        $('#' + e + '-' + fineListNo).removeClass('invalid');
+                    });
+                }
+            });
+            iteration = 0;
+            $("[id^='penalty-section-']").each(function(i) {
+                var penaltyListNo = parseInt($(this).attr('id').substr($(this).attr('id').length - 1));
+                var checkall = false;
+                var penaltyFields = ['penaltyamount', 'penaltysection'];
+                penaltyFields.forEach(function(e) {
+                    if ($('#' + e + '-' + penaltyListNo).val().trim() != '') {
+                        checkall = true;
+                    }
+                });
+                if($('#detainDecision').val() == 'Cleared with fine and penalty') {
+    				checkall=true;
+    			}
+                if (checkall) {
+                    if ($("#previewFineAndPenaltyTitleDiv").length < 1) {
+                        if ($("#previewDocUploadTitleDiv").length > 0) {
+                            $("#previewDocUploadTitleDiv").after('<div class="row addd" id="previewFineAndPenaltyTitleDiv">' +
+                                '<div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;"><h4 class="subtitle">Fine & Penalty</h4></div>');
+                        } else {
+                            $("#previewDetainRemarkDiv").after('<div class="row addd" id="previewFineAndPenaltyTitleDiv">' +
+                                '<div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;"><h4 class="subtitle">Fine & Penalty</h4></div>');
+                        }
+                    }
+                    if ($("#previewPenaltySectionDiv").length < 1) {
+                        $("#previewFineAndPenaltyTitleDiv").append('<div style="width:50%" id="previewPenaltySectionDiv"></div>');
+                    }
+                    $("#previewPenaltySectionDiv").append('<div id="preview-penalty-section-' + (penaltyListNo) + '" disbaled>' +
+                        '<div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+                        '<input class="control valid-box" type="text" id="preview-penaltyamount-' + (penaltyListNo) + '" disabled>' +
+                        '<label class="float">Penalty Amount</label></div></div>' +
+                        '<div class="col-lg-5 col-md-5 col-sm-5"><div class="form-group floating">' +
+                        '<input class="control valid-box" type="text" id="preview-penaltysection-' + (penaltyListNo) + '" disabled>' +
+                        '<label class="float">Penalty Section</label></div></div></div>');
+                    penaltyFields.forEach(function(e) {
+                        if ($('#' + e + '-' + penaltyListNo).val().trim() == '') {
+                            $('#' + e + '-' + penaltyListNo).next().show();
+                            $('#' + e + '-' + penaltyListNo).addClass('invalid');
+                            error = error + 1;
+                        } else {
+                            $('#' + e + '-' + penaltyListNo).next().hide();
+                            $('#' + e + '-' + penaltyListNo).removeClass('invalid');
+                            $('#preview-' + e + '-' + penaltyListNo).val($('#' + e + '-' + penaltyListNo).val());
+                            oMyForm.append("penaltySections[" + iteration + "]." + (e == 'penaltyamount' ? 'amount' : 'section'), $('#' + e + '-' + penaltyListNo).val());
+                        }
+                    });
+                    iteration = iteration + 1;
+                } else {
+                    penaltyFields.forEach(function(e) {
+                        $('#' + e + '-' + penaltyListNo).next().hide();
+                        $('#' + e + '-' + penaltyListNo).removeClass('invalid');
+                    });
+                }
+            });
+        }
+        if ($("#detainRemarks").val().trim() == '') {
+            $("#detainRemarks").next().show();
+            $("#detainRemarks").addClass('invalid');
+            error = error + 1;
+        } else {
+            $("#detainRemarks").next().hide();
+            $("#detainRemarks").removeClass('invalid');
+            oMyForm.append("detainRemarks", $("#detainRemarks").val().trim());
+            $("#previewDetainRemarks").text($("#detainRemarks").val().trim());
+        }
+        if ($("#detainDecision").val().trim() == '') {
+            $("#detainDecision").next().show();
+            $("#detainDecision").addClass('invalid');
+            error = error + 1;
+        } else {
+            $("#detainDecision").next().hide();
+            $("#detainDecision").removeClass('invalid');
+            oMyForm.append("detainDecision", $("#detainDecision").val().trim());
+            $("#previewDetainDecision").val($("#detainDecision").val().trim());
+        }
+        if (!$("#decisionReason").is(':hidden')) {
+            $("#previewDecisionReasonDiv").show();
+            if ($("#decisionReason").val().trim() == '') {
+                $("#decisionReason").next().show();
+                $("#decisionReason").addClass('invalid');
+                error = error + 1;
+            } else {
+                $("#decisionReason").next().hide();
+                $("#decisionReason").removeClass('invalid');
+                oMyForm.append("decisionReason", $("#decisionReason").val().trim());
+                $("#previewDecisionReason").val($("#decisionReason").val().trim());
+            }
+        } else {
+            $("#previewDecisionReasonDiv").hide();
+        }
+        if (!$("#detcasesec-full-div").is(":hidden")) {
+		    iteration = 0;
+		    if ($("#previewDetCaseTitleDiv").length < 1) {
+		        $("#previewDetainRemarkDiv").after('<div class="row addd" id="previewDetCaseTitleDiv"><div class="col-lg-12 col-md-12 col-sm-12" ' +
+		            'style="display: flex;"><h4 class="subtitle">Detention Case</h4><p class="text-muted" style="margin-top: 10px; margin-left: 10px;">' +
+		            '(Note: Maximum of 5 files can be upload.)</p></div></div>');
+		    }
+		    var detTypeMethodFields = ['detentioncase-type', 'typeOfCaseOtherValue', 'detentioncase-method', 'methodOtherValue'];
+		    detTypeMethodFields.forEach(function(e) {
+		    if ($("#" + e).length>0) {
+		        if ($("#" + e).val().trim() == '') {
+		            $("#" + e).next().show();
+		            $("#" + e).addClass('invalid');
+		            error = error + 1;
+		        } else {
+		            $("#" + e).next().hide();
+		            $("#" + e).removeClass('invalid');
+					if($("#preview-det-type-method-div").length<1){
+						$("#previewDetCaseTitleDiv").append('<div class="col-lg-6 col-md-6 col-sm-6" style=' +
+						'"display:flex;padding-left: 0;" id="preview-det-type-method-div"></div>');
+					}
+					var colVal = (e == detTypeMethodFields[0] || e== detTypeMethodFields[2]) ? '6' : '3';
+					var labelVal = e == detTypeMethodFields[0] ? 'Type of Case' : e == detTypeMethodFields[2] ? 'Detention Method' : 'Detail for Others';
+					var formVal = e == detTypeMethodFields[0] ? 'detainCase' : e == detTypeMethodFields[1] ? 'detainCaseOther' : e == detTypeMethodFields[2] ? 'detainMethod' : 'detainMethodOther';
+					$("#preview-det-type-method-div").append('<div class="col-'+colVal+'">' +
+					'<div class="form-group floating"><input type="text" disabled class="control valid-box" ' +
+					'id="preview-'+e+'"><label class="float">'+labelVal+'<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div</div>');
+		            oMyForm.append(formVal, $("#" + e).val().trim());
+		            $('#preview-' + e).val($("#" + e).val().trim());
+		        }
+		    }
+		    });
+		    $("[id^='detentioncase-section-']").each(function(i) {
+		        var detCaseNo = parseInt($(this).attr('id').substr($(this).attr('id').length - 1));
+		        var detCaseFields = ['detentioncase-item', 'detentioncase-quantity', 'detentioncase-uqc', 'detentioncase-value'];
+		        $("#previewDetCaseTitleDiv").append('<div id="preview-detentioncase-section-' + (detCaseNo) + '">' +
+		            '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+		            '<input type="text" disabled class="control valid-box" id="preview-detentioncase-item-' + (detCaseNo) + '">' +
+		            '<label class="float">Suspected Item Detail<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>' +
+		            '<div class="col-lg-3 col-md-3 col-sm-3" style="display:flex;"><div class="col-6">' +
+		            '<div class="form-group floating">' +
+		            '<input type="text" disabled id="preview-detentioncase-quantity-' + (detCaseNo) + '" class="valid-box control">' +
+		            '<label class="float">Quantity<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>' +
+		            '<div class="col-6"><div class="form-group floating">' +
+		            '<input type="text" disabled id="preview-detentioncase-uqc-' + (detCaseNo) + '" class="valid-box control">' +
+		            '<label class="float">UQC<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div></div>' +
+		            '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+		            '<input type="text" disabled class="control valid-box" id="preview-detentioncase-value-' + (detCaseNo) + '">' +
+		            '<label class="float">Value<span style="color: red;font-weight:bold;">&nbsp;*</span></label></div></div>' +
+		            '<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">' +
+		            '<input class="control valid-box" type="text" id="preview-detentioncase-filetxt-' + (detCaseNo) + '"' +
+		            ' placeholder="Please Upload File" disabled style="padding-left:25px;">' +
+		            '<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>' +
+		            '<span class="upload-btn" onclick="viewDetentionFile(' + (detCaseNo) + ')"><a>View</a></span>' +
+		            '<p class="text-muted">(Note: Only PDF is allowed.Maximum File size must be in 1 MB.)</p>' +
+		            '<label class="float">Photo Upload</label></div></div></div>');
+		        detCaseFields.forEach(function(e) {
+		            if ($('#' + e + '-' + detCaseNo).val().trim() == '') {
+		                $('#' + e + '-' + detCaseNo).next().show();
+		                $('#' + e + '-' + detCaseNo).addClass('invalid');
+		                error = error + 1;
+		            } else {
+		                $('#' + e + '-' + detCaseNo).next().hide();
+		                $('#' + e + '-' + detCaseNo).removeClass('invalid');
+		                $('#preview-' + e + '-' + detCaseNo).val($('#' + e + '-' + detCaseNo).val());
+		                oMyForm.append("detainedCaseSections[" + iteration + "]." + (e == 'detentioncase-item' ? 'suspectedItem' : e == 'detentioncase-quantity' ? 'quantity' : e == 'detentioncase-uqc' ? 'uqc' : 'value'), $('#' + e + '-' + detCaseNo).val());
+		            }
+		        });
+		        if ($('#detentioncase-filetxt-' + detCaseNo).val().trim() != '') {
+		            docSectionAdded = true;
+		            $('#detentioncase-filetxt-' + detCaseNo).next().hide();
+		            $('#detentioncase-filetxt-' + detCaseNo).removeClass('invalid');
+		            $('#preview-detentioncase-filetxt-' + detCaseNo).val($('#detentioncase-filetxt-' + detCaseNo).val());
+		            oMyForm.append("detainedCaseSections[" + iteration + "].detentionFile", detentionCaseFiles[detCaseNo].files[0]);
+		        } else {
+		            $('#preview-detentioncase-filetxt-' + detCaseNo).closest('.col-lg-3').remove();
+		        }
+		        iteration = iteration + 1;
+		    });
+		}        
+        if (error == 0) {
+            oMyForm.append("cinNo", $("#cinNo").val().trim());
+            showLoader();
+            if (docSectionAdded) {
+                $.ajax({
+                    url: 'scanningDetainDocuments',
+                    data: oMyForm,
+                    contentType: false,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    type: 'POST',
+                    success: function(data) {
+                        var documentMalicious = [];
+                        var detentionCaseMalicious = [];
+                        data.maliciousFiles.forEach(item => {
+                            if (Object.keys(documentFiles).find(key => documentFiles[key].files[0].name === item) != undefined) {
+                                documentMalicious.push(Object.keys(documentFiles).find(key => documentFiles[key].files[0].name === item));
+                            }
+                            if (Object.keys(detentionCaseFiles).find(key => detentionCaseFiles[key].files[0].name === item) != undefined) {
+                                detentionCaseMalicious.push(Object.keys(detentionCaseFiles).find(key => detentionCaseFiles[key].files[0].name === item));
+                            }
+                        });
+                        documentMalicious.forEach(doc => {
+                            $("#preview-document-filetxt-" + doc).addClass('invalid');
+                            $("#preview-document-filetxt-" + doc).removeClass('valid-box');
+                            $("#document-filetxt-" + doc).addClass('invalid');
+                            $("#document-filetxt-" + doc).next().text('Uploaded Document is found to be not safe.Please upload malware free Document.');
+                            $("#document-filetxt-" + doc).next().show();
+                            $("#preview-document-filetxt-" + doc).after('<div class="invalid-feedback" style="display: block;">Uploaded Document is found to be not safe.Please upload malware free Document.</div>');
+                        });
+                        detentionCaseMalicious.forEach(detentionCase => {
+                            $("#preview-detentioncase-filetxt-" + detentionCase).addClass('invalid');
+                            $("#preview-detentioncase-filetxt-" + detentionCase).removeClass('valid-box');
+                            $("#detentioncase-filetxt-" + detentionCase).addClass('invalid');
+                            $("#detentioncase-filetxt-" + detentionCase).next().text('Uploaded Document is found to be not safe.Please upload malware free Document.');
+                            $("#detentioncase-filetxt-" + detentionCase).next().show();
+                            $("#preview-detentioncase-filetxt-" + detentionCase).after('<div class="invalid-feedback" style="display: block;">Uploaded Document is found to be not safe.Please upload malware free Document.</div>');
+                        });
+                        if (data.maliciousFiles.length > 0) {
+                            $("#submitScannedDocuments").hide();
+                        } else {
+                            $("#submitScannedDocuments").show();
+                        }
+                        hideLoader();
+                        $("#detainRemarksFullSection").hide('slow');
+                        $("#previewDetainRemarksFullSection").show();
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, "slow");
+                    },
+                    error: function(e) {
+                        swal('Error!', "Something went wrong !", 'error');
+                    }
+                });
+            } else {
+                hideLoader();
+                $("#detainRemarksFullSection").hide('slow');
+                $("#previewDetainRemarksFullSection").show();
+                $("html, body").animate({
+                    scrollTop: 0
+                }, "slow");
+            }
+        }
+    }
+
+    function submitDocuments() {
+     //   event.preventDefault();
+        var textmsg;
+        if($('#previewDetainDecision').val() == 'Cleared with fine and penalty') {
+    		textmsg='This Article will move back to assessment queue';
+    	}else if($('#previewDetainDecision').val() == 'Absolutely confiscated') {
+    		textmsg='This Article will not move back to assessment queue';
+    	} else if($('#previewDetainDecision').val() == 'Send back to assessment without SCN / OnO' || $('#previewDetainDecision').val() == 'Partial clearance - with or without fine and penalty') {
+    		textmsg='This Article will move back to assessment queue only after AC Approval';
+    	}
+        swal({
+                title: "Do you want to submit ?",
+                text: textmsg,
+                icon: "warning",
+                buttons: ["No", "Yes"],
+                dangerMode: false,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: 'savedetainreply',
+                        data: oMyForm,
+                        contentType: false,
+                        processData: false,
+                        enctype: 'multipart/form-data',
+                        type: 'POST',
+                        success: function(data) {
+                            if (data.status) {
+                                swal('Post Detention Proceedings saved !', "Thanks", 'success').then((value) => {
+                                    $("#detentionRemarkModal").find('.close').click();
+                                    $("#detentiontable").DataTable().ajax.reload();
+                                    $("#detentionhistorytable").DataTable().ajax.reload();
+                                });
+                            } else {
+                                swal('Error!', "Something went wrong !", 'error');
+                            }
+                        },
+                        error: function(e) {
+                            swal('Error!', "Something went wrong !", 'error');
+                        }
+                    });
+                }
+            });
+    }
+</script>
+<!-- </body>
+
+</html> -->

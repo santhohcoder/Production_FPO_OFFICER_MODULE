@@ -1,0 +1,162 @@
+<!-- <html th:fragment="header"> -->
+<html th:fragment="header" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/datatables.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/font.js}"></script>
+ <script th:src="@{js/report/sweetalert.js}"></script>
+ <script th:src="@{js/sweetalert.min.js}"></script> 
+<script th:src="@{js/moment.min.js}"></script>
+</head>
+<body style="background: #d6dcd9; overflow-x: hidden;">
+<input type=hidden id="sttime" th:value="${session.stime}">
+	<div class="row" style="background-color: #69d1f1; color: white;">
+		<div class="col-md-1" align="right">
+			<img style="width: 83px;" src="images/CBEC.png">
+		</div>
+		<div class="col-md-4 mt-4">
+			<h5>
+				<strong style="color: #334495;"> FPO IMPORT APPLICATION - 1.0 (TESTING ENVIRONMENT)</strong>
+			</h5>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 95%; float: left; border-top: 2px solid white;">
+			<p style="margin-top: 10px; margin-bottom: 4px;">
+				<strong>Central Board of Indirect Taxes and Customs</strong>
+			</p>
+		</div>
+		<div class="col-md-7" style="display: flex;justify-content: end;" align="left"><div style="margin-right: 25px;" class="mt-4">
+			<h6>
+				<strong>Indian Customs EDI System</strong>
+			</h6>
+			<div id="oth" style="display:none">
+			<hr style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 100%; float: left; border-top: 2px solid white;">
+			<h6 style="margin-top: 10px;">
+				<strong>Foreign Post Office - <span th:text="${session.data2}" id="cuSite"></span></strong>
+			</h6>
+			</div>
+			<div id="pna" style="display:none;align:center">
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 89%; float: left; border-top: 2px solid white;">
+			<h6  style="margin-top: 10px;margin-left:70px;">
+				<strong><span
+					th:text="${session.data2}" id="cuSite"></span></strong>
+			</h6></div>
+			</div>
+			<div style="padding: 20px 0;margin-top: 4px;"><img src="images/nic_logo.png"></div>
+		</div>
+		<input type="hidden" th:value="${session.data}" id="empId" /> <input
+			type="hidden" th:value="${session.data1}" id="role" />
+		
+	</div>
+	<div class="row"
+		style="background-color: #d1ecf1; color: slategrey; font-family: monospace; font-weight: bold;">
+		<div class="col-md-1"></div>
+		<div class="col-md-4" style="padding-top: 6px;">
+			<p style="margin-bottom: 0rem;">
+				WELCOME - <span th:text="${session.data3}">Vignesh</span>
+			</p>
+		</div>
+		
+		<div class="col-md-3" style="padding: 5px 50px 5px 0;display:flex;">
+			<p style="margin-bottom: 0;width: 100%;margin-top: 2px;">
+			<span>Session Time : </span>
+			<span id = "clock1" onload="sessionTime()"></span> &nbsp;  &nbsp;
+			
+			</p>
+		</div>
+		<div class="col-md-3" style="text-align: right;padding: 5px 50px 5px 0;display:flex;">
+			<p style="margin-bottom: 0;width: 100%;margin-top: 2px;">
+			<!-- <span th:text="1"
+					id="currentDateTime" style="font-weight: 900;"></span> -->
+					<span id = "clock" onload="currentTime()"></span>
+			</p>&nbsp;&nbsp;&nbsp;&nbsp;
+			<!-- <i class="fa fa-power-off" aria-hidden="true" onclick="logout();" style="cursor: pointer;color: #ef3c3c;font-size: 30px;"></i> -->
+			<div class="row">
+					 <div class="col-12" style="display:flex;justify-content:center;">
+					 		<!-- <img  src="images/logout.png" style="width:28px;transform:rotate(180deg);" alt="Click to LOGOUT" > -->
+					 		<svg class="powerQuery" onclick="logout()" style="transform:rotate(180deg);" width="24" height="24" fill="none" viewBox="0 0 24 24" id="logout"><path fill="#000" fill-rule="evenodd" d="M2 13H14V11H2V13Z" clip-rule="evenodd"></path><path fill="#000" fill-rule="evenodd" d="M4.79282 7.79289L1.29282 11.2929C.902294 11.6834.902294 12.3166 1.29282 12.7071L4.79282 16.2071 6.20703 14.7929 3.41414 12 6.20703 9.20711 4.79282 7.79289zM14.5954 5.5C12.1159 5.5 9.95745 6.93099 8.89246 9.03855L7.10742 8.13653C8.49483 5.39092 11.3226 3.5 14.5954 3.5 19.2491 3.5 22.9999 7.31769 22.9999 12 22.9999 16.6823 19.2491 20.5 14.5954 20.5 11.3226 20.5 8.49483 18.6091 7.10742 15.8635L8.89246 14.9615C9.95745 17.069 12.1159 18.5 14.5954 18.5 18.1205 18.5 20.9999 15.602 20.9999 12 20.9999 8.39803 18.1205 5.5 14.5954 5.5z" clip-rule="evenodd"></path></svg>
+					 </div>
+					<div class="col-12" style="display:flex;justify-content:center;padding-right:9px;">
+							<small >Logout</small>
+					</div>
+				</div>
+		</div>
+			</div>
+	<Modal>		
+			
+				<div id="logoutModal" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div>
+</div>
+
+<div id="incative" class="modal fade" data-backdrop="static" data-keyboard="false"  tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="max-width: 450px;margin:20.75rem auto" >
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">System is Inactive for more than 45 minutes. Please Logout and Login...</font></h4>
+	  </div>
+	 <div class="modal-footer" style="display:flex;justify-content:center;" >
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="center">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="inactivetime();">OK</button></div>	</div>
+    </div>
+</div>
+</div>	
+</Modal>
+<script src="js/header.js"></script>
+</body>
+<script>
+ 	/* var today = new Date();
+	var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+	var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+	var dateTime = date+' '+time;
+	var utilDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
+	alert(utilDate);
+ 		document.getElementById("currentDateTime").innerHTML = utilDate; 
+ 		var today = new Date();
+ 		var dd = today.getDate();
+
+ 		var mm = today.getMonth()+1; 
+ 		var yyyy = today.getFullYear();
+ 		var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+ 		if(dd<10) 
+ 		{
+ 		    dd='0'+dd;
+ 		} 
+
+ 		if(mm<10) 
+ 		{
+ 		    mm='0'+mm;
+ 		}
+ 		today = dd+'/'+mm+'/'+yyyy;
+ 		console.log(today);
+ 		var dateTime = today+' '+time;
+ 		document.getElementById("currentDateTime").innerHTML = dateTime;*/
+</script>
+
+</html>

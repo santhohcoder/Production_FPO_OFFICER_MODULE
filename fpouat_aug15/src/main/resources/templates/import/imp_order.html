@@ -1,0 +1,961 @@
+<html>
+<head lang="en" th:replace="header :: header"></head>
+<style>
+
+	.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+
+.form_txt {
+	font-weight: 700
+}
+
+.col-form-label {
+	padding-top: 2px;
+}
+
+.lab_txt {
+	font-size: 13px;
+	font-weight: 700;
+	color: blue;
+}
+
+.form-group {
+	margin-bottom: 0rem;
+}
+
+hr {
+	border-top: 1px solid rgb(0, 0, 139);
+}
+
+.breadcrumb-pagination {
+	width: 100%;
+	border-bottom: 1px solid #E1E6EB;
+	text-align: center;
+	color: #B3B7C1;
+}
+
+.breadcrumb-pagination div {
+	width: 15%;
+	display: inline-block;
+}
+
+.breadcrumb-pagination div span {
+	margin: 0 auto;
+	display: block;
+	border-radius: 100%;
+	width: 36px;
+	font-size: 20px;
+}
+
+.completed span {
+	background-color: NONE;
+	color: #95db89;
+	border: 2px solid #95db89;
+}
+
+.active span {
+	background-color: #00abc9;
+	color: #fff;
+}
+
+.todo span {
+	background-color: none;
+	color: #E1E6EB;
+	border: 2px solid #E1E6EB;
+}
+
+.breadcrumb-pagination div p {
+	text-align: center;
+	line-height: 0;
+	margin: 10px auto 0px;
+}
+
+.active p {
+	border-bottom: 2px solid #00abc9;
+	padding-bottom: 20px;
+	margin-bottom: 0px !important;
+	color: #3c4043;
+	font-weight: 700;
+}
+
+.completed p {
+	color: "#bsb7c1";
+}
+
+.completed span::before {
+	content: '\2713'
+}
+.pointer-class{
+    	cursor:pointer;
+    }
+   #overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        } 
+</style>
+<body style="background: #d6dcd9">
+<input type="hidden" id="cinno" th:value="${head.id}">
+<input type="hidden" id="itemId" th:value="${head.ITEM_ID}">
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+	<div style="background-color: #f8f9fa;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+
+
+		<div class="col-md-3" style="padding-left: 5px;">
+				<a th:href="@{final_declared?id={id}(id = ${head.id})}"><button type="button" class="btn btn-info" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back</button></a>
+			</div><div class="mt-4" align="center">
+			<h2>Postal Imports -  Articles Arrived at FPO (AAF)</h2>
+			<h3>Examination order</h3>
+		</div>
+		
+
+			<div id="disphead">
+            </div>
+	<!-- 	<div class="form-group row mt-4">
+			<div class="px-1" style="width: 14%" align="center">
+				<label class="lab_txt">TRACKING_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly" th:id="itemId"
+					th:value="${head.ITEM_ID}">
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">DATE </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.postDate}">
+
+			</div>
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">TIME </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POSTINGTIME}">
+
+			</div>
+
+
+			<div class="px-1" style="width: 9%" align="center">
+				<label class="lab_txt">ORGIN_POST </label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.POST_ORG_CD}">
+
+			</div>
+			<div class="px-1" style="width: 11%" align="center">
+				<label class="lab_txt">FPO ALLOCATED</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.FPO_CODE}">
+			</div>
+
+			<div class="px-1" style="width: 26%" align="center">
+				<label class="lab_txt">NATURE TRANSACTION</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.NATURE_TYPE_CD}">
+
+			</div>
+			<div class="px-1" style="width: 20%" align="center">
+				<label class="lab_txt">CIN_NO</label> <input type="text"
+					class="form-control form_txt" readonly="readonly"
+					th:value="${head.id}" id="inputPassword">
+			</div>
+		</div> -->
+
+
+		<!--    muchos disgustimos   -->
+		<div class="breadcrumb-pagination mt-3">
+			<a style="color: #b3b7c1;" th:attr="href=|import_main?id=${head.id}|"><div class="completed">
+				<span></span>
+				<p>Summary</p>
+			</div></a>
+			<div class="completed" th:classappend ="${curque== 'N2' || curque== 'N3' || curque== 'N1'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','import_query')|">
+				<span></span>
+				<p>Query Reply & D-Call Letter</p>
+			</div>
+			<div class="completed" th:classappend ="${curque== 'N2' || curque== 'N3' || curque== 'N1'} ? pointer-class : ''" th:attr="onclick=|redirect('${curque}','final_declared')|">
+				<span></span>
+				<p>Assessment</p>
+			</div>
+			<div class="active" th:attr="onclick=|redirect('${curque}','imp_order')|">
+				<span>4</span>
+				<p>Exam Order</p>
+			</div>
+			<!-- <div class="todo">
+				<span>5</span>
+				<p>Submit</p>
+				
+			</div> -->
+		</div>
+
+		<!-- <div class="mt-2" style="float: right;">
+			<a class="nav-link btn btn-info btn-sm" style="color: white;"
+				onclick="goBack()">Back </a>
+		</div> -->
+		
+		<div th:if="${examFindings}" id="buttonContent"></div>
+		
+		<div id="examfindingno" th:unless="${examFindings}">
+
+		<form action="#" th:action="@{/final_exam_order_add}" id="final_exam_order_add_id" method="post">
+
+			<input type="hidden" th:value="${head.id}" name="CIN_NO">
+
+			<div class="mt-2" th:each="exam,iter : ${getOrder}">
+				<p>
+					<strong>Order to :</strong>
+				</p>
+
+				<p class="check">
+					1. Scan <input type="checkbox" id="scan" name="EXAM_ORDER"
+						th:checked="${exam.exam1} == Scan" value="Scan">
+				</p>
+				<p class="check">
+					2. Detain <input type="checkbox" id="detain" name="EXAM_ORDER"
+						th:checked="${exam.exam2} == Detain" value="Detain">
+				</p>
+				<p class="check">
+					3. Scan And Open Examination <input type="checkbox"
+						name="EXAM_ORDER" id="scanOpenExam"
+						th:checked="${exam.exam3} == Examination" value="Examination">
+				</p>
+				
+				<p><font color="RED"><b> Note: </b></font><font size="2">Unless any of the options above is selected and Examination Instructions / Order is entered, "SUBMIT" button will not be enabled.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If Examination Order is not required to be given, please click 'Back' button and proceed further.</font></p>
+				
+				
+
+					<div class="form-group mb-1">
+						<br> <label class="lab_txt">Examination instruction /
+							Order : [min 6 characters ; max 2000 characters]</label>
+
+
+						<textarea type="text" class="form-control" name="ORDER_REMARK"
+							 th:text="${exam.ORDER_REMARK}" onkeyup="success(id)"
+							th:id="textsend" rows="5" ></textarea>
+					</div>
+
+			
+
+			</div>
+
+			<div class="row">
+				<div class="col-md-5" style="font-size: 14px;">
+					<div id="aclMsg" style="display: none">
+						<p style="color: blue; margin-bottom: 0rem;">
+							<strong>Notes :</strong>
+						</p>
+						<p>For sending it back to PAO please go back to
+							Assessment screen</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12" style="text-align: center;">
+					<a th:href="@{final_declared?id={id}(id = ${head.id})}">
+					<button type="button" class="btn btn-info">Back</button></a>
+					<!-- <button type="button" data-toggle="modal"
+						data-target="#exampleModal" id="lock" class="btn btn-primary"
+						disabled>save</button> -->
+					<button type="button" class="ordersave btn btn-success" th:id="${head.id}"
+						 data-target="#penexampleModal"onclick="viewDetail(this);">Click after entering Exam Order</button>
+					<button type="button" class="sendac btn btn-success" th:id="${head.id}"
+						 onclick="sendAC(this);">Click to process Without Exam Order </button>
+				
+				</div>
+			</div>
+
+			<br>
+
+	
+
+			<!-- Modal -->
+			<!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-body">
+							<h4 th:text="1" id="msgAprWarning"></h4>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="save" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div> -->
+			
+		   <div class="modal fade" id="penexampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body" align="center">
+							<h4 id="penOrderpopup"></h4>
+						</div>
+						<div class="modal-footer">
+						<div class="col-6" style="justify-content: flex-start;display: flex;">
+							   <button type="button" class="btn btn-danger"
+								   data-dismiss="modal">Close</button>
+						</div>		   
+						<div class="col-6" style="display: flex;justify-content: flex-end;">
+							   <button type="save" class="btn btn-success" onclick="movexm()">Ok</button>
+						</div>	   
+						</div>
+					</div>
+				</div>
+			</div> 
+
+		</form>
+	</div>
+
+	
+		<div id="aclWarningMsgOrder" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>
+							If the Order to / Examination Order Suggested by PAO is to
+							be modified, <br> Please check <i style="color: blue;"
+								class="fas fa-check-square"></i> or uncheck <i
+								style="color: #afafaf;" class="fas fa-square"></i> and suitably
+							modify the General remarks if required.
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-success">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="aprCmtsModel" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Pls enter
+							remarks, If any to forward to AC</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body" align="center">
+						<textarea type="text" class="form-control" name="sndaclcmts"
+							th:id="sndaclcmts" onkeyup="successPopup(id)"
+							placeholder="Enter your Remarks..." rows="5"></textarea>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" id="lock1" class="btn btn-success"
+							onclick="sendAclcmts(value)" disabled>OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="alertmsg" class="modal fade">
+			<div class="modal-dialog  modal-dialog-centered" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>As the value demands AC/DC's permission, it will move to
+							AC/DC.</h4>
+					</div>
+					<div class="modal-footer">
+						<button onclick="listViewf()" class="btn btn-success">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totassval">
+	<input type="hidden" th:value="${head.ROLE}" id="role1">
+	<input type="hidden" th:value="${assvalacl}" id="maxval">
+	<input type="hidden" th:value="${qrycou}" id="qcou">
+	<input type="hidden" th:value="${ordcou}" id="ocou">
+	<input type="hidden" th:value="${session.data}" id="curoffId" /> 
+	<input type="hidden" th:value="${session.data1}" id="currole" />
+    <input type="hidden" th:value="${acloffid}" id="acloffid" />
+
+	<script type="text/javascript">
+	console.log('success');
+		/*$('.check input:checkbox').click(function() {
+			$('.check input:checkbox').not(this).prop('checked', false);
+		});*/
+		function goBack() {
+			window.location.replace(localStorage.getItem("prevUrl") != 'null' ? localStorage.getItem("prevUrl") : document.referrer);
+		}
+		
+		//function viewDetail1(e) {
+			//alert(e.id);
+		//	window.location.href = "import_main?id=" + e.id;
+	//	}
+		
+		function redirect(page){
+			if(page=='final_declared'){
+    			window.location.href=""+page+"?back=true&id="+$("#inputPassword").val();
+    		}else{
+    			window.location.href=""+page+"?id="+$("#inputPassword").val();
+    		}
+		}
+		
+		function viewDetail(e) {
+	if(!($("#scan").is(":checked") || $("#detain").is(":checked") || $("#scanOpenExam").is(":checked"))){
+		swal('OOPS!', 'Select atleast any one order !', 'error');
+		return false;
+	}
+  if ($('#qcou').val() == 0 && $('#ocou').val()==0 && parseFloat($('#totassval').val()) == 0)
+       alert("Either Examination Order / OOC as assessment is over...");
+    else{
+    if (parseFloat($('#totassval').val()) > parseFloat($('#maxval').val()))
+    {
+		if ("PAO" == $('#role1').val() && $('#acloffid').val() != "") {
+			$("#aprCmtsModel").modal('show');
+		} else {
+			if("PAO" == $('#role1').val()){
+				$("#penOrderpopup").text("As the value demands AC/DC's permission, it will move to AC/DC.");
+			}
+			else{
+				$("#penOrderpopup").text("This Article ID will move to Examination Queue  on receipt of the  arrival message.");
+			}
+			$("#penexampleModal").modal('show');
+		}
+	}
+	else
+	{
+				$("#penOrderpopup").text("This Article ID will move to Examination Queue.");
+		        $("#penexampleModal").modal('show');
+	}
+	}
+	
+
+}
+
+
+function sendAC(e){
+
+	if (parseFloat($('#totassval').val()) > parseFloat($('#maxval').val()) && ("PAO" == $('#role1').val() || "" == $('#role1').val())){
+	
+			if ("PAO" == $('#role1').val() && $('#acloffid').val() != "") {
+				$("#aprCmtsModel").modal('show');
+			} else {
+			var developerData = {};
+			developerData['cin_NO'] = $("#cinno").val();
+			var resObj = $.ajax({
+				url: 'updateMainRole',
+				data: JSON.stringify(developerData),
+				dataType: "json",
+				contentType: "application/json",
+				type: "post",
+				success: function(developerDatas) {
+					$("#alertmsg").modal('show');
+			},
+				fail: function(rs, e) {
+					alert("Error in Order");
+				}
+			});
+		}
+	
+	}
+}
+		
+	$(document).ready(function() {
+	$(".ordersave").attr("disabled", true);  
+	if (parseFloat($('#totassval').val()) > parseFloat($('#maxval').val()) && ("PAO" == $('#role1').val() || "" == $('#role1').val())) 
+	
+	   { $('.ordersave').attr('disabled',true);
+		$('.sendac').attr('disabled',false);$('sendac').show();}
+    else
+       { $('.sendac').attr('disabled',true);$('.sendac').hide();
+         
+}
+});	
+
+		/*$('#scan').click(function() {
+		
+			if ($('#scan').is(':checked')) {
+				$("#detain").prop("checked", false);
+				$("#scanOpenExam").prop("checked", false);
+				$("#detain").attr("disabled", true);
+				$("#scanOpenExam").attr("disabled", true);
+			} else {
+				$("#detain").attr("disabled", false);
+				$("#scanOpenExam").attr("disabled", false);
+			}
+		});
+		
+		$('#detain').click(function() {
+			if ($('#detain').is(':checked')) {
+				$("#scanOpenExam").prop("unchecked", true);
+				$("#scan").attr("disabled", true);
+			} else {
+				if ($('#scanOpenExam').is(':checked')) {
+					$("#scan").attr("disabled", true);
+				} else {
+					$("#scan").attr("disabled", false);
+				}
+			}
+		});
+		
+		$('#scanOpenExam').click(function() {
+			if ($('#scanOpenExam').is(':checked')) {
+				$("#detain").prop("unchecked", true);
+				$("#scan").attr("disabled", true);
+			} else {
+				if ($('#detain').is(':checked')) {
+					$("#scan").attr("disabled", true);
+				} else {
+					$("#scan").attr("disabled", false);
+				}
+			}
+		});*/
+		
+		
+		
+		$('#scan').click(function() {
+
+	if ($('#scan').is(':checked')) {
+		$("#detain").prop("checked", false);
+		$("#scanOpenExam").prop("checked", false);
+		$("#detain").attr("disabled", true);
+		$("#scanOpenExam").attr("disabled", true);
+		$('.sendac').attr('disabled',true);
+	} else {
+		$("#detain").attr("disabled", false);
+		$("#scanOpenExam").attr("disabled", false);
+		$('.sendac').attr('disabled',false);
+	}
+});
+		
+		$('#detain').click(function() {
+	if ($('#detain').is(':checked')) {
+		$("#scanOpenExam").prop("unchecked", true);
+		$("#scan").attr("disabled", true);
+		$('.sendac').attr('disabled',true);
+	} else {
+		if ($('#scanOpenExam').is(':checked')) {
+			$("#scan").attr("disabled", true);
+			$('.sendac').attr('disabled',true);
+		} else {
+			$("#scan").attr("disabled", false);
+			$('.sendac').attr('disabled',true);
+		}
+		if($('#detain').is(':checked') && $('#scanOpenExam').is(':checked')){
+			$('.sendac').attr('disabled',true);
+		}else if($('#detain').is(':checked') || $('#scanOpenExam').is(':checked')){
+			$('.sendac').attr('disabled',true);
+		}else{
+			$('.sendac').attr('disabled',false);
+		}
+	
+	
+	}
+	
+});
+		
+		$('#scanOpenExam').click(function() {
+	if ($('#scanOpenExam').is(':checked')) {
+		$("#detain").prop("unchecked", true);
+		$("#scan").attr("disabled", true);
+		$('.sendac').attr('disabled',true);
+	} else {
+		if ($('#detain').is(':checked')) {
+			$("#scan").attr("disabled", true);
+			$('.sendac').attr('disabled',true);
+		} else {
+			$("#scan").attr("disabled", false);
+			$('.sendac').attr('disabled',true);
+		}
+		
+		if($('#detain').is(':checked') && $('#scanOpenExam').is(':checked')){
+			$('.sendac').attr('disabled',true);
+		}else if($('#detain').is(':checked') || $('#scanOpenExam').is(':checked')){
+			$('.sendac').attr('disabled',true);
+		}else{
+			$('.sendac').attr('disabled',false);
+		}
+	}
+});
+		
+	//	$('#msgAprWarning').text("Do you want to submit Exam. Order?");
+	$(document).ready(function() {
+	if (parseFloat($('#totassval').val()) > parseFloat($('#maxval').val()) && "PAC" == $('#role1').val() ){	
+		$("#aclWarningMsgOrder").modal('show');
+		$("#aclMsg").show();
+		$("#aclMsg1").show();
+		$("#firstBtn").hide();
+	}
+//	$('#textsend').val($('#ordrmk').val());
+});
+	
+	
+	$(document).ready(function() {
+//	if ((parseFloat($('#totassval').val()) > parseFloat($('#maxval').val()) && ("PAO" == $('#role1').val() || "" == $('#role1').val())) {
+	if (($('#msgAprWarning').text()=="2") && ("PAO" == $('#role1').val() || "" == $('#role1').val()))
+	  $('#msgAprWarning').text("Do you want to submit First Check Order? This needs AC's Approval.");
+	else if (($('#msgAprWarning').text()=="2") && "PAC" == $('#role1').val())
+		$('#msgAprWarning').text("Do you want to submit First Check Order?");
+	else if	((parseFloat($('#totassval').val()) > parseFloat($('#maxval').val())) && ("PAO" == $('#role1').val() || "" == $('#role1').val())) {
+		$('#msgAprWarning').text("Do you want to submit Exam. Order?  As the value demands AC/DC's permission, it will move to AC/DC.");
+	} 
+	else
+	  $('#msgAprWarning').text("Do you want to submit Exam Order?");	
+});
+	
+	
+		
+		/*function success(e) {
+		    if (document.getElementById(e) != null) {
+		        if (document.getElementById(e).value.length < 5) {
+		            document.getElementById('lock').disabled = true;
+		        } else {
+		            document.getElementById('lock').disabled = false;
+		        }
+		    }
+		}*/
+		
+function success(e) {
+console.log(e)
+	if (document.getElementById(e).value == "") {
+		$(".ordersave").attr("disabled", false);
+		$("#" + $("#inputPassword").val() + "").attr("disabled", true);
+	} else {
+		$(".ordersave").attr("disabled", true);
+		$("#" + $("#inputPassword").val() + "").attr("disabled", false);
+	}
+	
+}
+		
+		function validateExam() {
+			if($("#scan").is(":checked") || $("#detain").is(":checked") || $("#scanOpenExam").is(":checked")){
+				$("#exampleModal").modal('toggle');
+			}else{
+				swal('OOPS!', 'Select atleast any one order !', 'error');			
+			}
+		}
+		
+		function submitExam() {
+			$("#exampleModal").modal('toggle');
+			if($("#scan").is(":checked") || $("#detain").is(":checked") || $("#scanOpenExam").is(":checked")){
+				var checked='';
+				$("input[name=EXAM_ORDER]:checked").each(function(){
+					checked = checked != "" ? checked+','+$(this).val() : $(this).val();
+				});
+				var formData = new FormData();
+		        formData.append("CIN_NO", $("#inputPassword").val());
+		        formData.append("EXAM_ORDER", checked);
+		        formData.append("ORDER_REMARK", $("#textsend").val());
+				$.ajax({
+		                url: "saveexaminationaaf",
+		                type: "post",
+		                global: false,
+		                data: formData,
+		                dataType: 'text',
+		                processData: false,
+		                contentType: false,
+		                success: function(data) {
+							if(JSON.parse(data).examRaised){
+								movexm();
+							}else{
+								swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+							}
+		                },
+		                error: function(rs, e) {
+		                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+		                }
+		            });
+			}else{
+				swal('OOPS!', 'Select atleast any one order !', 'error');			
+			}
+		}
+		//success("textsend")
+		
+		/*function movexm() {
+	//	    var fpoExam = {};
+	//	    fpoExam['cinNo'] = $('#inputPassword').val();
+	//	    $.ajax({
+	//	        url: 'passexmdata',
+	//	        data: JSON.stringify(fpoExam),
+	//	        dataType: "json",
+	//	        contentType: "application/json",
+	//	        type: "post",
+	//	        success: function(data) {
+		        
+		              if (parseFloat($('#totassval').val()) > parseFloat($('#maxval').val()) && ("PAO" == $('#role1').val() || "" == $('#role1').val()))
+    {		
+			$("#aprCmtsModel").modal('show');
+			var developerData = {};
+			developerData['cin_NO'] = $("#inputPassword").val();
+			var resObj = $.ajax({
+				url: 'updateMainRole',
+				data: JSON.stringify(developerData),
+				dataType: "json",
+				contentType: "application/json",
+				type: "post",
+				success: function(developerDatas) {
+					$("#alertmsg").modal('show');
+				},
+				fail: function(rs, e) {
+					alert("Error in Order");
+				}
+			});
+		}
+		else
+		{ var fpoExam = {};
+		    fpoExam['cinNo'] = $('#inputPassword').val();
+		    $.ajax({
+		        url: 'passexmdata',
+		        data: JSON.stringify(fpoExam),
+		        dataType: "json",
+		        contentType: "application/json",
+		        type: "post",
+		       success: function(developerDatas) {
+					//$("#alertmsg").modal('show');
+					window.location.href = "import_list";
+				},
+				fail: function(rs, e) {
+					alert("Error in Order");
+				}
+		    });}
+		 //   window.location.href = "import_list";
+		}*/
+		
+		
+		
+		function movexm() {
+	//	    var fpoExam = {};
+	//	    fpoExam['cinNo'] = $('#inputPassword').val();
+	//	    $.ajax({
+	//	        url: 'passexmdata',
+	//	        data: JSON.stringify(fpoExam),
+	//	        dataType: "json",
+	//	        contentType: "application/json",
+	//	        type: "post",
+	//	        
+	
+		        $("#penexampleModal").modal('hide') ; 
+	 $('#final_exam_order_add_id').trigger('submit');
+	 var fpoExam = {};
+		    fpoExam['cinNo'] = $('#cinno').val();
+		    $.ajax({
+		        url: 'passexmdata',
+		        data: JSON.stringify(fpoExam),
+		        dataType: "json",
+		        contentType: "application/json",
+		        type: "post",
+		       success: function(developerDatas) {
+					//$("#alertmsg").modal('show');
+					window.location.href = "import_list";
+				},
+				fail: function(rs, e) {
+					alert("Error in Order");
+				}
+		    });
+		   
+		 //   window.location.href = "import_list";
+		}
+		
+		
+		function listViewf() {
+	if($('#role1').val() == 'PAC'){
+		movEXM();
+	}
+	window.location.href = "import_list";
+}
+		
+		/*function getExamFindings(){
+			var urlLink = 'getExamFindings?id=' + $("#itemId").val();
+			$.ajax({
+                url: urlLink,
+                type: "post",
+                success: function(data) {
+                    $("#buttonContent").html(data);
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+		}*/
+		
+		function getExamFindings(){
+			var urlLink = 'getExamFindings?id=' + $("#itemId").val();
+			$.ajax({
+                url: urlLink,
+                type: "post",
+                success: function(data) {
+                    $("#buttonContent").html(data);
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+		}
+		
+		if($("#examfindingno").length==0){
+			getExamFindings();
+		}
+		
+		
+		function sendAclcmts(value) {
+
+	       var role = $('#currole').val();
+	       var offId =$('#curoffid').val();
+	       var developerData = {};
+
+	developerData['cin_NO'] = $('#inputPassword').val();
+	developerData['item_ID'] = $('#itemId').val();
+	developerData['cmts'] = $('#sndaclcmts').val();
+	developerData['role'] = $('#role1').val();
+//	developerData['entry_DT'] = new Date();
+	developerData['off_ID'] = offId;
+
+	var resObj = $.ajax({
+		url: 'sendBackAcl',
+		data: JSON.stringify(developerData),
+		dataType: "json",
+		contentType: "application/json",
+		type: "post",
+		success: function(developerDatas) {
+			window.location.href ="import_list";
+		},
+		fail: function(rs, e) {
+			alert("Error in Order");
+		}
+	});
+
+};
+		
+		function sendAprBackf(value) {
+	var developerData = {};
+
+	developerData['cin_NO'] = $("#inputPassword").val();
+	developerData['item_ID'] = $('#itemId').val();
+	developerData['cmts'] = $('#sndaccmts').val();
+	developerData['role'] = $('#role1').val();
+//	developerData['entry_DT'] = new Date();
+	developerData['off_ID'] = $('#curoffId').val();
+
+	var resObj = $.ajax({
+		url: 'sendBackApr',
+		data: JSON.stringify(developerData),
+		dataType: "json",
+		contentType: "application/json",
+		type: "post",
+		success: function(developerDatas) {
+			window.location.href = "import_list";
+		},
+		fail: function(rs, e) {
+			alert("Error in Order");
+		}
+	});
+
+}
+		
+	function listView() {
+	window.location.href = "import_list";
+}
+		
+	function successPopup(e) {
+	if (document.getElementById(e).value === "") {
+		document.getElementById('lock1').disabled = true;
+	} else {
+		document.getElementById('lock1').disabled = false;
+	}
+}
+	
+	function viewScanReport(obj) {
+		$.ajax({
+			url: 'articlereportscan?articleId=' + $(obj).attr('articleId'),
+			type: "post",
+			success: function(data) {
+				$("#scanReportBody").html(data);
+				$("#scanReportModal").modal('show');
+			},
+			error: function(rs, e) {
+				swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+			}
+		});
+	}
+	
+	function closeScanReportModal() {
+		$("#scanReportBody").html('');
+		$("#scanReportModal").modal('toggle');	
+	}
+		
+		$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                     queryRaised = $("#disphead").find("[name='queryraised']").val();
+                     console.log(queryRaised)
+                     
+                         if (queryRaised == 'true') {
+						        $("#breadcrumb1").show(); 
+						        $("#breadcrumb").hide();  
+						    } else {
+						        $("#breadcrumb1").hide();  
+						        $("#breadcrumb").show();  
+						    }
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+	</script>
+<script src="js/detention.js"></script>
+
+</body>
+</html>

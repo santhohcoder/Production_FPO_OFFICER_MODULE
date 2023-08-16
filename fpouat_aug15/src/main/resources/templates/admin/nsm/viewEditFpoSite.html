@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+<!-- <link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"> -->
+<head>
+<meta charset="ISO-8859-1">
+<title>View page</title>
+
+<style type="text/css">
+.button-size {
+	width: 23%;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+</head>
+<body>
+
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input type="hidden" th:value="${session.data2}" id="sitecode" />
+<input type="hidden" th:value="${session.data1}" id="role" />
+<div id="overlay">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+    </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Site
+		Management> Edit/Block/Delete FPO Site</h3>
+	<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM
+		ADMINISTRATOR</h3>
+	<h4 style="text-align: center; margin-top: 30px; font-family: times new roman;background: deepskyblue;">Edit/ Block/ Delete
+		- FPO Site</h4>
+	<div style="margin-top: 8px; padding-left: 12%; padding-right: 12%">
+		<table id="Edittables" class="table table-striped table-bordered "
+			style="font-size: 14px; text-align: center;">
+
+			<thead>
+				<tr id="datarow" style="background-color: #63cfe0">
+					<th scope="col">Sl.No.</th>
+					<th style="width: 330px" scope="col">FPO SITE NAME</th>
+					<th style="width: 200px" scope="col">SITE CODE</th>
+					<th style="width: 200px" scope="col"></th>
+					<th style="width: 300px" scope="col"></th>
+					<th style="width: 200px" scope="col"></th>
+					<th style="width: 35px" scope="col">EDIT</th>
+					<th style="width: 35px" scope="col">DELETE</th>
+					<th style="width: 35px" scope="col">BLOCK</th>
+					<th style="width: 35px" scope="col">UNBLOCK</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr valign="middle" class="rowDis"
+					th:each="FpoSite,iter : ${activeList}">
+					<input type="hidden" id="siteactivelist" th:value="${FpoSite[5]}">
+					<td style="vertical-align: middle; width: 35px"
+						th:text="${iter.index+1}"></td>
+					<td style="vertical-align: middle;" th:text="${FpoSite[0]}"></td>
+					<td style="vertical-align: middle;" th:text="${FpoSite[1]}"></td>
+					<td style="vertical-align: middle;" th:text="${FpoSite[2]}"></td>
+					<td style="vertical-align: middle;" th:text="${FpoSite[3]}"></td>
+					<td style="vertical-align: middle; font-size: 20px"
+						id="fpositestatus"></td>
+					<td style="vertical-align: middle" class="sites"
+						th:style="${FpoSite[5] == 'B' ? 'background: #A9A9A9' : 'background: none'}">
+						<button th:disabled="${FpoSite[5] == 'B' ?  true : false}"  
+						onclick="editsite(this); "  th:id="${FpoSite[1]}"
+							th:value="${FpoSite[0]}" data-target="#myModaledit"
+							class="fa fa-hand-o-up" aria-hidden="true"
+							style="font-size: 26px; margin-top: -4px;"></button>
+					<!--  	th:href="@{editSite/{siteCode}/{siteName}/{siteState}/{siteType}/{clustered}/{clussite}(siteCode= ${FpoSite[1]}, siteName= ${FpoSite[0]}, siteState=${FpoSite[3]}, siteType=${FpoSite[6]},clustered=${FpoSite[7]},clussite=${FpoSite[8]})}">-->
+				 
+					<!--	<button
+								th:disabled="${FpoSite[5] == 'B' ? true : false}"
+								class="fa fa-hand-o-up" aria-hidden="true"
+								style="font-size: 26px; margin-top: -4px;"></button></a>-->
+					</td>
+
+					<td style="vertical-align: middle" class="unblck"
+						th:style="${FpoSite[5] == 'B' ? 'background: #A9A9A9' : 'background: none'}">
+						<button th:disabled="${FpoSite[5] == 'B' ?  true : false}"
+							onclick="sitedelete(this)" th:id="${FpoSite[1]}"
+							th:value="${FpoSite[0]}" data-target="#myModaldel"
+							class="fa fa-trash-o" aria-hidden="true"
+							style="font-size: 26px; color: blue"></button>
+					</td>
+
+					<td style="vertical-align: middle;"
+						th:style="${FpoSite[5] == 'B' ? 'background: #A9A9A9' : 'background: none'}">
+						<button th:disabled="${FpoSite[5] == 'B' ? true : false}"
+							onclick="siteblock(this)" th:id="${FpoSite[1]}"
+							th:value="${FpoSite[0]}" data-target="#myModalBl"
+							class="fa fa-window-close-o siteblock" aria-hidden="true"
+							style="font-size: 26px; color: red"></button>
+					</td>
+
+					<td style="vertical-align: middle;" class="unblck"
+						th:style="${FpoSite[5] == 'B' ? 'background: none' : 'background: #A9A9A9' }">
+						<button th:disabled="${FpoSite[5] == 'B' ? false : true}"
+							onclick="siteunblock(this)" th:id="${FpoSite[1]}"
+							th:value="${FpoSite[0]}" data-target="#myModalunBlc"
+							class="fa fa-unlock unblock" aria-hidden="true"
+							style="font-size: 26px; color: green"></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- 	Block Modal -->
+	<div class="modal fade" id="myModalBl" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 align="center" id="blkmsg"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+						<textarea id="recordMsg" onkeyup="EnableDisable(this)"
+							class="form-control blcresp"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="blcsiteclose" class="btn btn-danger"
+						style="margin-right: 300px" data-dismiss="modal">Close</button>
+					<button id="blockSite" type="submit" class="btn btn-success"
+						data-dismiss="modal">Block Site</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- delete	Modal -->
+	<div class="modal fade" id="myModaldel" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 align="center" id="delmsg"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+						<textarea id="recordMsg" name="deleteres"
+							onkeyup="EnableDisable(this)" class="form-control deleteresp"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger"
+						data-dismiss="modal" style="margin-right: 300px">Close</button>
+					<button id="deleteSite" type="button" class="btn btn-success">Delete
+						Site</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<!-- Delete conformation popup -->
+	<div class="modal fade" id="deletecnfrm" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center" id="delcnfmsg"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-danger" id="delcnfrmNo"
+						style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="sitedeletecnfrm"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<!-- Unblock Modal -->
+	<div class="modal fade" id="myModalunBlc" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 align="center" id="unblkmsg"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+						<textarea id="recordMsg" name="deleteres"
+							onkeyup="EnableDisable(this)" class="form-control unblckresp"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" id="unblckclsebtn"
+						data-dismiss="modal" style="margin-right: 290px">Close</button>
+					<button id="unBlockSite" type="button" class="btn btn-primary">UnBlock
+						Site</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<!-- Block-conformation popup -->
+	<div class="modal fade" id="blckcnfrm" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center" id="blkcnfmsg"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-danger" id="blckcnfrmNo"
+						style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="siteblkcnfrm"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Unblock conformation popup -->
+	<div class="modal fade" id="ublcnfrm" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center" id="unblkcnfmsg"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-danger" id="unblckcnfNo"
+						style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="situnblkcnfrm"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" th:value="${offId}" id="offId">
+</body>
+<script th:src="@{js/datatables.min.js}"></script>
+<!-- <script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script> -->
+<script src="js/vieweditdel.js"></script>
+<script src="js/header.js"></script>
+<script>
+  function goback() {
+     window.location = "nsmHome";
+     
+     }
+     
+   $(document).ready(function() {
+	showLoader();
+	hideLoader();
+	});  
+   function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}  
+</script>
+
+<!-- <script src="js/addingSite.js"></script> -->
+</html>

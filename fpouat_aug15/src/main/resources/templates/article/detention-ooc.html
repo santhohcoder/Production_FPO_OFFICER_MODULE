@@ -1,0 +1,119 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div class="container"
+	style="background-color: #f8f9fa; border-right: 4px solid rgb(74, 223, 131); border-radius: 10px; max-width: 98%; margin: 20px; height: auto; padding: 20px;">
+	<div th:unless="${ooc}" align="center" style="margin-bottom: 25px;">
+		<h2>DETENTION</h2>
+        <table id="detentiontable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;text-transform: uppercase;border-collapse: inherit;">
+            <thead style="background-color: #a1c4e6;">
+                <tr>
+                    <th scope="col" style="text-align: center;">Detention Date</th>
+                    <th scope="col" style="text-align: center;">Detention Officer</th>
+                    <th scope="col" style="text-align: center;">Decision taken</th>
+                    <th scope="col" style="text-align: center;">Decision Date</th>
+                    <th scope="col" style="text-align: center;">Decision taken officer</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${detentionTrack.articleId ne null}">
+            <td th:text="${#dates.format(detentionTrack.detentionDate, 'dd-MMM-yyyy')}"></td>
+            <td th:text="${detentionTrack.detentionOfficer}"></td>
+            <td th:text="${detentionTrack.decisionTaken}"></td>
+            <td th:text="${#dates.format(detentionTrack.decisionDate, 'dd-MMM-yyyy')}"></td>
+            <td th:text="${detentionTrack.decisionOfficer}"></td>
+            </tr>
+            <tr th:unless="${detentionTrack.articleId ne null}">
+            <td colspan="5">Item Id not Detained</td>
+            </tr>
+            </tbody>
+        </table>
+	</div>
+	<div th:if="${ooc}" align="center" style="margin-bottom: 25px;">
+    <h2>OOC</h2>
+    <div th:if="${oocDetail ne null}">
+    <p style="color: green;font-size: 40px;animation: blink 1s linear infinite;text-transform:uppercase;" th:text="${'OOC is given on date '+#dates.format(oocDetail.oocDt, 'dd-MMM-yyyy hh:mm:ss a')+' by officer-Id : '+oocDetail.supId}">OOC is given on date 23/12/2020 12:44:53 AM by officer-Id : 80000414</p>
+    <table id="OOCREC" class="dltrc" border=1 bordercolor="gray"
+							style="background: none">
+							<tbody style="color: gray;" >
+								<tr class="dlheader" style="background-color: #a1c4e6;">
+									<td class="dlheader" width="6%" align=center style="color: black;">ITMNO</td>
+									<td class="dlheader" width="35%" align=center style="color: black;">DESCRIPTION</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">CTH</td>
+									<td class="dlheader" width="8%"a lign=center style="color: black;">QTY</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">ASS.VAL</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">BCD</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">IGST</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">SWS</td>
+									<td class="dlheader" width="8%" align=center style="color: black;">OTHER DUTY</td>
+									<td class="dlheader" width="11%" align=center style="color:black;">TOTAL DUTY</td>
+								</tr>
+								<tr class="dlinfo" th:each="s1,iter : ${item}">
+									<td class="dlinfo" style="color: black;"  width="6%"  th:text="${s1[0]}">464654654</td>
+									<td class="dlinfo"  style="color: black;" width="40%" th:text="${s1[1]}">5648912</td>
+									<td class="dlinfo"  style="color: black;" width="6%" th:text="${s1[2]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="5%" th:id="cth" th:text="${s1[3]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="assval" th:text="${s1[4]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="bg" th:text="${s1[5]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="ic" th:text="${s1[6]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="sw" th:text="${s1[7]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="du" th:text="${s1[9]}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="11%" th:id="ot" th:text="${s1[8]}">01.01.2020</td>
+								</tr>
+								<tr  ><td colspan=4 style="color: black;" align=right><strong> Total</strong>&nbsp;&nbsp; </td>
+								<td class="dlinfo" align="right" style="color: black;" width="5%" th:id="assval" th:text="${gtot[0][0]!=null ? gtot[0][1] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="bcd" th:text="${gtot[0][1]!=null ? gtot[0][2] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="igst" th:text="${gtot[0][2]!=null ? gtot[0][3] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="sws" th:text="${gtot[0][3]!=null ? gtot[0][4] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="oth" th:text="${gtot[0][4]!=null ? gtot[0][5] : '-'}">01.01.2020</td>
+									<td class="dlinfo" align="right" style="color: black;" width="8%" th:id="duty" th:text="${gtot[0][5]!=null ? gtot[0][6] : '-'}">01.01.2020</td>															
+								</tr>
+								<tr><td colspan=9 align="right" style="color: black;align:right" ><strong>Fine</strong>&nbsp;&nbsp;  </td>
+								<td  align="right" class="dlinfo" style="color: black;" width="8%" th:id="fine" th:text="${gtot[0][6]!=null ? gtot[0][8] : '-'}">01.01.2020</td>	</tr>
+								<tr><td colspan=9 align="right" style="color: black;" ><strong>Penalty</strong>&nbsp;&nbsp;</td>
+								<td align="right" class="dlinfo" style="color: black;" width="8%" th:id="penal" th:text="${gtot[0][7]!=null ? gtot[0][9] : '-'}">01.01.2020</td>	</tr>
+								<tr><td colspan=9 align="right" style="color: black;"  ><strong>Grand Total</strong>&nbsp;&nbsp;</td>
+								<td  align="right" class="dlinfo" style="color: black;" width="8%" th:id="totduty" th:text="${gtot[0][8]!=null ? gtot[0][7] : '-'}">01.01.2020</td>	</tr>
+								<tr><td colspan=9 align="right" style="color: black;"><strong>Total Amount Chargeable</strong>&nbsp;&nbsp; </td>
+								<td align="right" class="dlinfo" style="color: black;" width="8%" th:id="totpay" th:text="${gtot[0][9]!=null ? gtot[0][10] : '-'}">01.01.2020</td>	</tr>
+							</tbody>
+						</table></div>
+    <h1 th:unless="${oocDetail ne null}" style="animation: blink 1s linear infinite;text-align: center;margin: 100px;color: red;text-transform: uppercase;">OOC not given</h1>
+</div>
+</div>
+<script type="text/javascript">
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>

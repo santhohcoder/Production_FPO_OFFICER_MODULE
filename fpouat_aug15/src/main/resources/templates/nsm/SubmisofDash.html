@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+<head>
+<meta charset="ISO-8859-1">
+<title>View page</title>
+
+<style type="text/css">
+         
+.button-size {
+	width: 23%;
+}
+#overlay {
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 9999;
+  width: 100%;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+        }
+#loader {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 48%;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background-image: url(images/report/loader.gif);
+  background-repeat: no-repeat;
+  margin: -77px 0 0 -75px;
+   }
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:6%"><b>Please wait...</b>
+</div>   </div> </div>
+<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+</div>
+	<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Site
+		Management>Submission of dashboard</h3>
+	<h3 style="text-align: center; color: #1616e0;">NATIONAL SYSTEM
+		ADMINISTRATOR</h3>
+	<h4
+		style="text-align: center; margin-top: 2%; font-family: times new roman;background: deepskyblue;">Site
+		Level Article Processed Data</h4>
+
+	<div class="form-group row"
+		style="margin-top: 2%; justify-content: center; width: 100%;">
+		<label class="control-label col-sm-1"
+			style="font-weight: 600; margin-top: 5px;">Select FPO Site :</label>
+		<div class="col-sm-2 dropdown">
+			<select class="form-control selsite" id="pushtosite"
+				style="width: 290px;">
+				<option>--Select FPO Site--</option>
+				<option>All Site</option>
+				<div th:each="sitecd,iter : ${stcd}">
+					<option th:text="${sitecd[1]}" id="sitecde" th:value="${sitecd[0]}"></option>
+				</div>
+			</select>
+			<div class="invalid-feedback"></div>
+		</div>
+	</div>
+
+	<!-- select date -->
+	<div class="form-group row"
+		style="margin-top: 2%; justify-content: center; width: 100%">
+		<div class="form-group row">
+			<label class="control-label"
+				style="font-weight: 600; margin-top: 5px;">Select
+				Period:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #007bff">From:</span>
+			</label>
+			<div class="col-sm-2 dropdown">
+				<span><input class="picker form-control form_txt change" 
+					type="text" name="fromdate" readonly id="fromdate"
+					style="display: inline; width: auto; font-weight: 700;"></span>
+				<div class="invalid-feedback"></div>
+			</div>
+		</div>
+		<div class="form-group row" style="margin-left: 20px;">
+			<label class="control-label "
+				style="font-weight: 600; margin-top: 5px; color: #007bff">To:
+			</label>
+			<div class="col-sm-2 dropdown">
+				<span><input class="picker form-control form_txt change"
+					type="text" name="fromdate" readonly id="todate"
+					style="display: inline; width: auto; font-weight: 700;"></span>
+				<div class="invalid-feedback"></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- select Month-->
+
+
+	<div id="activeusersite"
+		style="margin-top: 8px; width: 100%; padding: 25px">
+		<table id="ViewuserHstrySite"
+			class="table table-bordered table-striped "
+			style="font-size: 14px; text-align: center; overflow-x: overlay; display: block; padding: 0; overflow: auto">
+			<thead>
+				<tr height=50px; valign="middle" class="rowDis"
+					style="background-color: #63cfe0">
+					<th style="vertical-align: middle; width: 5%;">SI.No</th>
+					<th style="vertical-align: middle;">FPO SITE</th>
+					<th colspan="2" style="vertical-align: middle; width: 24%;">
+						CUSITM AT SUBMISSION</th>
+					<th colspan="5" style="vertical-align: middle;">ASSESSED</th>
+					<th colspan="5" style="vertical-align: middle; width: 16%;">OOC</th>
+					<th colspan="5" style="vertical-align: middle;">DETENTION</th>
+					<th colspan="5" style="vertical-align: middle;">DELIVERED</th>
+					<th colspan="5" style="vertical-align: middle;">UN DELIVERED</th>
+				</tr>
+				<tr >
+					<th style="vertical-align: middle;"></th>
+					<th style="vertical-align: middle;">Site Code</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">Declared Value</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+					<th style="vertical-align: middle;">Total No of Article ID -
+						Count</th>
+					<th style="vertical-align: middle;">AV</th>
+					<th style="vertical-align: middle;">DUTY</th>
+					<th style="vertical-align: middle;">AMOUNT CHARGED</th>
+					<th style="vertical-align: middle;">DUTY-FG</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr height=50px;>
+					<td></td>
+					<td></td>
+					
+					<!-- CUSITM -->
+					<td></td>
+					<!-- <td></td> -->
+					<td></td>
+
+					<!-- Assessed -->
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+					<!-- OOC -->
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+					<!-- Detention -->
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+
+					<!-- Delivered -->
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+	
+					<!-- UnDelivered -->
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+</body>
+<script th:src="@{js/datatables.min.js}"></script>
+<script src="js/submissionofdash.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+	$('#ViewuserHstrySite').DataTable({
+		"ordering": false,
+		});
+		});
+		
+		function goback() {
+     window.location = "nsmHome";
+     
+     }
+</script>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+#blink {
+	animation: blinker 1s step-start infinite;
+}
+
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+@keyframes blinker { 
+50% {
+	opacity: 0;
+}
+
+}
+a.nav-link {
+	font-weight: bold;
+	color: black;
+	text-transform: uppercase;
+	font-size: 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+	background: #0a3052 !important;
+}
+
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+	position: absolute;
+	left: -9999px;
+}
+
+[type="checkbox"]:not(:checked)+label, [type="checkbox"]:checked+label {
+	position: relative;
+	padding-left: 20px;
+	cursor: pointer;
+}
+
+[type="checkbox"]:not(:checked)+label:before, [type="checkbox"]:checked+label:before
+	{
+	content: '';
+	position: absolute;
+	left: -5px;
+	top: 5px;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border-radius: 3px;
+	box-shadow: inset 0 1px 3px rgb(86, 30, 30);
+	border-radius: 46%;
+	outline: none;
+}
+
+[type="checkbox"]:not(:checked)+label:after, [type="checkbox"]:checked+label:after
+	{
+	content: "\2713";
+	position: absolute;
+	top: 9px;
+	left: -1px;
+	font-size: 16px;
+	line-height: 0.8;
+	color: #fff;
+	transition: all .5s;
+	background-color: green;
+	border-radius: 48%;
+}
+
+[type="checkbox"]:not(:checked)+label:after {
+	opacity: 0;
+	transform: scale(0);
+}
+
+[type="checkbox"]:checked+label:after {
+	opacity: 1;
+	transform: scale(1);
+}
+
+.card-text:last-child {
+	margin-bottom: 1rem !important;
+}
+
+.card-body {
+	padding: 0.5rem !important;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+          .menuIconToggle:before {
+       		display:none !important;
+       }
+       
+       .menuIconToggle:after {
+       		display:none !important;
+       }
+        
+</style>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+ <div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+
+	<div class="row">
+		<h3 style="font-size: 19px; margin-left: 2%;">Dashboard> Allocate
+			Roles</h3></div>
+	<div align="center">
+		<h3 style="color: #1616e0;" align="center">NATIONAL
+			SYSTEM ADMINISTRATOR</h3>
+	</div>
+	<div class="col-md-12 row">
+	<!-- div class="col-md-1" style="margin-top: 1%; text-align: center;">
+			<button class="btn btn-info" id="Nsmbcktorleallt">Back</button>
+		</div-->
+	<div class="col-md-12 mt-2" style="text-align: center;">
+		<h2 style="font-weight: 500;">Role Management</h2>
+	</div></div>
+
+	<ul class="nav nav-pills" role="tablist"
+		style="width: 100%; border: 2px solid; border-radius: 7px; margin-bottom: 20px; margin-top: 20px;">
+		<li class="nav-item" id="queryQueue"
+			style="width: 50%; text-align: center;"><a
+			class="nav-link active show" data-toggle="pill" href="javascript:;">Allocation
+				of roles</a></li>
+		<li class="nav-item" id="otherqueues" onclick="Nsmrolehstry()"
+			style="width: 50%; text-align: center;" value="0"><a
+			class="nav-link" data-toggle="pill" href="javascript:;">Edit /
+				Remove roles</a></li>
+				<!-- <li class="nav-item" id="otherqueues" 
+			style="width: 34%; text-align: center;" value="0"><a
+			class="nav-link" data-toggle="pill" href="javascript:;">
+				View roles</a></li> -->
+	</ul>
+
+	<div class="dropdown">
+		<div class="form-group row"
+			style="font-weight: 500; margin-top: 1%; justify-content: center; margin-right: 0%">
+			<label class="control-label" for="State" style="font-size: 110%;padding-top:8px;">Select
+				User (SSO-ID) :</label>
+			<div class="col-sm-2">
+				<select id="siteState" class="form-control userid" name="siteState"
+					required="required">
+					<option value="">--Select User--</option>
+					<div th:each="Nsmuser,iter : ${getLstofuserdata}">
+						<option class="form-control" th:text="${Nsmuser[1]}" th:value="${Nsmuser[0]}"></option>
+					</div>
+				</select>
+			</div>
+		</div>
+		<div class="col-md-12" style="text-align: center;">
+			<h6>
+				<span style="color: blue; font-weight: bold;">Note:&nbsp;</span>
+				User SSO-ID'S which are mapped to this application and the FPO Site INNSA5
+				will only be available.
+			</h6>
+		</div>
+	</div>
+	<div class="row col-md-12">
+	<table align="center" id="LSMUser" width="50%" style="display: none">
+		<thead>
+			<tr style="background-color: #007bff40">
+				<th scope="col" width="8%" style="font-size: larger;">&nbsp;&nbsp;&nbsp;&nbsp;SSOID:</th>
+				<th scope="col" id="LsmSSid" width="15%"
+					style="color: #0062cc; font-size: larger;"></th>
+				<th scope="col" width="8%" style="font-size: larger;">&nbsp;&nbsp;NAME:</th>
+				<th scope="col" width="16%" id="LsmNme"
+					style="color: #0062cc; font-size: larger;"></th>
+				<th scope="col" width="12%" style="font-size: larger;">DESIGNATION:</th>
+				<th scope="col" id="LsmDes" width="13%"
+					style="color: #0062cc; font-size: larger;"></th>
+					
+			</tr>
+			
+		</thead>
+	</table>
+	<div class="emprofile" style="display: none"><button type="button" id="userprofile" class="btn btn-info">User Profile</button></div>
+	</div>
+	
+<!-- <div class="submitbutn" style="display: none">
+	<div class="col-md-9" style="justify-content: end; display: flex;">
+		<button type="button" id="Updatederles" class="btn btn-success">View user profile</button>
+	</div></div> -->
+	<div class="selrolehead mt-3" style="text-align: center; display: none">
+		<h4>Click appropriate boxes below to assign roles for the
+			selected user.</h4>
+			<div class="row" style="margin-top:-40px; margin-left:88rem;" >
+		<div >
+			<button type="button" id="saveNsmbtn" class="btn btn-success"style=" margin-right:36px;">Submit</button>
+		</div>
+		<div  >
+			<button type="button" id="CanceNsmbtn" class="btn btn-success">Cancel</button>
+		</div>
+		</div>
+	</div>
+
+
+	<div class="col-md-12 mt-4 row allroles"
+		style="display: flex; justify-content: center;">
+		<div class="col-md-4 acadminrole" style="display: none">
+			<div style="display: flex; justify-content: center;">
+				<font size=4 color="black"><strong>ADMIN ROLES</strong></font>
+			</div>
+			
+			<div class="adminrole"
+				style="list-style-type: none; padding-right: 50px; padding-left: 50px;"></div>
+
+		</div>
+		<!-- <div class="col-md-4 transroleslist" style="display: none">
+			<div style="display: flex; justify-content: center;">
+				<font size=4 color="black"><strong>TRANSACTION ROLES</strong></font>
+			</div>
+			
+			<div class="transroles mt-2"
+				style="list-style-type: none; padding-right: 50px; padding-left: 50px;">
+			</div>
+		</div> -->
+		<div class="col-md-4 miscellist" style="display: none">
+			<div style="display: flex; justify-content: center;">
+				<font size=4 color="black"><strong>MISCELLANEOUS
+						ROLES</strong></font>
+			</div>
+			<div class=" miscelroles"
+				style="list-style-type: none; padding-right: 50px; padding-left: 50px;">
+			</div>
+		</div>
+		
+	</div>
+		
+	<div class="submitbutn" style="display: none;text-align:end;">
+		<div class="row">
+		<div class="col-md-8" style="text-align:end;">
+			<!-- <button type="button" id="saveNsmbtn" class="btn btn-success">Submit</button> -->
+		</div>
+		<div class="col-md-2" style="align:right;">
+			<!-- <button type="button" id="CanceNsmbtn" class="btn btn-success">Cancel</button> -->
+		</div>
+		</div>
+	</div>
+	<!-- <input type=hidden id="lsmCusite" th:value="${LsmcuSite}" /> -->
+	<input type=hidden id="NsmOffid" th:value="${Nsmoffid}" />
+
+	<!-- Assign role Modal popup -->
+	 <div class="modal fade" id="rolecnfrm" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center" id="selectedroles"
+						style="font-family: 'FontAwesome';"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="rleback" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="addrole"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div> 
+  
+	<div class="modal fade" id="min1role" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="onerole">Atleast one role to be selected!.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" 
+						class="btn btn-success">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    <div class="modal fade" id="NSApopup" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="PNArole">National System Administrator (PNA) Role is to be alloted only to DG System officer. Please confirm on the same.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="NSAback" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="NSAaddrole"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	 <div class="modal fade" id="NSAmaxrole" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;">Maximum
+						of 3 users can be given for National System Administrator (PNA) role.
+						Please remove one of the user from PNA role to allocate for any
+						new user ID (of DG Systems Officer) which is mapped to INNSA5 .</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="NSArolelimit" data-dismiss="modal" 
+						class="btn btn-success">OK</button>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="userprofileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 60%;">
+            <div class="modal-content" >
+                <div class="modal-header" >
+				<h5  class="modal-title" id="userprofTitle" style="font-weight: bold;text-transform: uppercase;text-align:center">User Profile</h5>
+                    <button type="button" class="close" onclick="closeuserprofModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>				
+				</div>
+				<div class="modal-body" id="userprofileBody">
+                </div>
+
+	<div  align="right" style="margin-right:2%;margin-bottom:2%">
+					<button type="button" class="btn btn-info" data-dismiss="modal" onclick="closeuserprofModal()" style="background-color:green">OK</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		<div class="modal fade" id="ARPmaxrole" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;">Maximum
+						of 30 users can be given for (NRP) National Reports role.
+						Please remove one of the user from NRP role to allocate for any
+						new user ID (of DG Systems Officer) which is mapped to INNSA5 .</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="ARProlelimit" data-dismiss="modal" 
+						class="btn btn-success">OK</button>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	
+	
+	<div class="modal fade" id="DRIpopup" tabindex="-1"
+		role="dialog" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center"
+						style="color: #c70b0b; font-family: 'FontAwesome'; transition: 0.5s;"
+						id="DRIrole">National Alert Role is to be alloted only to DRI Officers. Please confirm on the same.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="DRIback" data-dismiss="modal"
+						class="btn btn-danger" style="margin-right: 366px;">No</button>
+					<button type="button" data-dismiss="modal" id="DRIaddrole"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="js/lsmJS/Lsmaddingroles.js"></script>
+<script src="js/lsmJS/Nsm_role_allot.js"></script>
+<script type="text/javascript">
+        
+        var blink2 = document.getElementById('onerole');
+        setInterval(function() {
+            blink2.style.opacity = (onerole.style.opacity == 0 ? 1 : 0);
+        }, 1000);  
+        
+        
+        
+           function goback() {
+     window.location = "usermanagement";
+     
+     }                      
+    </script>  
+</html>

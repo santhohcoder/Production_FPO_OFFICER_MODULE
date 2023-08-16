@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<style type="text/css">
+.ui-widget-content .ui-icon {
+	background-image: url(images/report/ui-icons_222222_256x240.png)
+		!important;
+}
+
+
+body {
+	background: white !important;
+}
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<h2 style="text-align: center;margin-top: 20px;">Functionalities for DC / AC of Customs FPO</h2>
+		
+<div class="col-md-12" style ="display: flex;margin-top: 5%;padding: 5%;">
+<div class="row" >
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #007bff80; height: 205px;">
+        <h5 class="card-title">Re-allocation</h5>
+        <p class="card-text">To re-assign pending Articles from one ssoid to another ssoid, mapped to this Site. </p><br>
+        <!-- <a href="reallocation" class="btn btn-success">Go-to</a> -->
+        <a href="maintenance" class="btn btn-success" Style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #17a2b8; height: 205px;">
+        <h5 class="card-title" >Priority</h5>
+        <p class="card-text">To provide high priority for any Article ID of this Site in assessment queue.</p>
+        <a href="priority" class="btn btn-success" Style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #aaa; height: 205px;">
+        <h5 class="card-title">Re-Call</h5>
+        <p class="card-text">To re-call any Article ID to the assessment queue from examination or ooc queue.</p><br>
+         <a href="recallid" class="btn btn-success" Style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+        <!-- <a href="maintenance" class="btn btn-success">Go-to</a> -->
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: powderblue; height: 205px;" >
+        <h5 class="card-title">Alert</h5>
+        <p class="card-text">To insert and remove alerts for the Site, however the alerts as such doesn't prevent the user from clearing any Articles.<br><br> </p>
+        <!-- <a href="alertalllevel" class="btn btn-success">All India Level</a>
+        <a href="alertsitelevel" class="btn btn-success">Site Level</a> -->
+         <a href="alertsitelevel" class="btn btn-success" Style="position: absolute; bottom: 20px; left: 20px;">Go-to</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+    <script th:src="@{js/addingSite.js}"></script>
+	<script th:src="@{js/sweetalert.min.js}"></script>
+</body>
+
+<script type="text/javascript">
+
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}
+</script>
+</html>

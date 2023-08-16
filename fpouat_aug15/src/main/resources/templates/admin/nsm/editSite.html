@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head lang="en" th:replace="header :: header"></head>
+</head>
+<style>
+.form-control {
+	height: 42px;
+}
+
+.input_box_style {
+	border-radius: 1rem;
+	border-block-color: #9e9e9e;
+}
+
+.button_height {
+	margin-left: 37%;
+	font-size: 142%;
+}
+body{
+background: white !important;
+}
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+</head>
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+    <input type=hidden id="isclus" th:value="${clustered}">
+	<div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+	<h3 style="font-size: 19px; margin-left: 2%">Dashboard> Site
+		Management> Edit FPO Site</h3>
+	<h3 style="text-align: center; color: #1616e0">NATIONAL SYSTEM
+		MANAGER</h3>
+	<h4
+		style="text-align: center;margin-top: 1%; font-family: times new roman;background: deepskyblue;">
+		Edit FPO Site</h4>
+	<div>
+			
+			
+				<div class="row" style="justify-content: center;text-align: end;margin-top:1%">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Site Name:</label>
+					<div class="col-sm-2">
+						<input type="text" id="sitename"  th:value="${siteName}" class="form-control"
+							style="width: 310px" placeholder="Enter Name" readonly>
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+	
+			
+				<div class="row " style="justify-content: center;text-align: end;margin-top:1%">
+					<label class="control-label col-sm-1 " style="font-weight: 600;">Site Code:</label>
+					<div class="col-sm-2">
+						<input type="text" id="sitecode1" th:value="${siteCode}" class="form-control"
+							style="width: 310px" placeholder="Enter Name" readonly>
+							<div class="invalid-feedback"></div>
+					</div>
+				</div>
+			
+			<!-- //SELECT site_name,site_code,site_type,site_state,off_id -->
+			  <div class="row " style="justify-content: center;text-align: end;margin-top:1%">
+				<label class="control-label col-sm-2"
+					style="font-weight: 600;">Select FPO
+					state:<span style="color: red">*</span>
+				</label>
+				<div class="col-sm-3 dropdown">
+					<select class="form-control selstate" id="getstatename"
+						style="width: 310px;">
+						<option>--Select FPO States--</option>
+						<div th:each="sitestate,iter : ${liststate}">
+							<!-- option th:if="${sitestate!=listsite[3]}" th:text="${listsite[3]}" id="statename"></option-->
+							<option th:value="${sitestate[1]}" th:text="${sitestate[0]}" id="statename"></option>
+						</div>
+					</select>
+				</div>
+			</div>
+
+			<div class="row " style="justify-content: center;text-align: end;margin-top:1%">
+				<label class="control-label col-sm-1"
+					style="font-weight: 600;">State:
+				</label>
+				<div class="col-sm-2" >
+					<input type="text" id="sitestate" class="form-control siteinput"
+						th:value="${listsite[0][3]}" style="width: 310px" readonly>
+				</div>
+			</div>
+
+        
+
+			<div class="row " style="justify-content: center;text-align: end;margin-top:1%">
+				<label class="control-label col-sm-1"
+					style="font-weight: 600;">Site type:
+				</label>
+				<div class="col-sm-2" >
+					<input type="text" id="sitetype" class="form-control siteinput"
+						th:value="${listsite[0][2]}" style="width: 310px" readonly
+						>
+				</div>
+			</div>
+			
+			<div class="row" style="justify-content: center;text-align: end;margin-top:1%">
+					<label class="control-label col-sm-1" style="font-weight:600;">Clustered:
+					</label>
+					<div class="col-sm-2">
+					<input type="checkbox"  id="clus" > Note: Check if the site is required to be  clustered.  Otherwise leave blank / uncheck the box 
+							
+					</div>
+				</div>
+				
+				<div id="clusdiv" class="row" style="justify-content: center;text-align: end;margin-top:1%;display:none;">
+				<label class="control-label col-sm-2"  style="font-weight: 600;" >Select FPO Site with which it is to be clustered<span style="color: red">*</span>:</label>
+				<div class="col-sm-3 dropdown">
+					<select class="form-control selsitem" id="selsitem"
+						style="width: 310px;">
+						<option>--Select FPO Sites with which is to be clustered--</option>
+						<div th:each="sitestate,iter : ${liststate}">
+							<option th:text="${sitestate[0]}"  th:value="${sitestate[1]}" id="clussitename"></option>
+						</div>
+					</select>
+				</div>	
+				</div>
+				
+			</div> 
+				<div id="clussitedisp" class="row " style="justify-content: center;text-align: end;margin-top:1%;display:none;">
+				<label class="control-label col-sm-1 "
+					style="font-weight: 600;">Clustered Site Code:
+				</label>
+				<div class="col-sm-2" >
+					<input type="text" th:value="${listsite[0][5]}" id="clussite"
+						class="form-control" maxlength="6"
+						style="width: 310px" readonly>
+				</div>
+			</div>
+			
+	
+
+			<div class="col-md-8" style="text-align: end;
+    padding-right: 72px;">
+ <button type="submit" id="siteadd" class="btn btn-success" >Update
+				FPO Site</button>
+	</div>
+	<div class="modal fade" id="addsitepopup" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog  modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header"></div>
+				<div class="modal-body">
+					<h4 align="center">Are you sure to Update.</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-danger"
+						style="margin-right: 366px;">No</button>
+					<button type="button" id="editsave" data-dismiss="modal"
+						class="btn btn-success">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="editsitepup" tabindex="-1" role="dialog"
+		data-backdrop="static" data-keyboard="false"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Please
+						provide reasons for Editing this site.</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Record
+							reason:</label>
+						<textarea id="recordMsg" name="deleteres"
+							onkeyup="EnableDisable(this)" class="form-control editsiteresp"></textarea>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary deleteclose"
+						data-dismiss="modal" style="margin-right: 300px">Close</button>
+					<button id="editSite" type="button" class="btn btn-primary"
+						data-target="#addsitepopup">Update Site</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="cl-sites" tabindex="-1"
+					role="dialog" data-backdrop="static" data-keyboard="false"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<div class="modal-header"></div>
+							<div class="modal-body">
+								<h4 align="center">Do you want to make this site as Clustered site. If Yes, then need to choose, with which site, this site is to be clustered.</h4>
+							</div>
+							<div class="modal-footer">
+								<button type="button" data-dismiss="modal" id="noclus"
+									class="btn btn-danger" style="margin-right: 366px;">No</button>
+								<button type="button" data-dismiss="modal" id="yesclus"
+									class="btn btn-success">Yes</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+	<input type="hidden" th:value="${siteid}" id="fpositeid">
+	<input type="hidden" th:value="${officerid}" id="officerid">
+</body>
+<script src="js/editsite.js"></script>
+<script>
+  function goback() {
+     window.location = "viewactiveList";
+     
+     }
+</script>
+
+
+</html>

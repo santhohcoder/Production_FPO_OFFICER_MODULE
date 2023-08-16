@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <style type="text/css">
+        #titletab {
+            text-transform: uppercase;
+            font-weight: bolder;
+            font-size: 35px;
+            text-decoration: underline;
+        }
+        
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+        #next-titletab {
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #cf368b;
+        }
+
+        td .btn-grn {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+
+        .ead-class {
+            color: blue;
+            text-decoration: underline;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .smalltexthelp {
+            padding-left: 15px;
+            margin-top: 20px !important;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .scan-find-label {
+            text-transform: uppercase;
+            width: 28%;
+            text-align: center;
+            vertical-align: middle;
+            color: blue;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .bag-color {
+            color: #bb0e0e;
+        }
+
+        #overlay {
+            position: fixed;
+            left: 0%;
+            top: 0%;
+            z-index: 9999;
+            width: 100%;
+            background: rgba(255, 255, 255, .7);
+            height: 100%;
+        }
+
+        #loader {
+            position: fixed;
+            display: block;
+            left: 50%;
+            top: 48%;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            background-image: url(images/report/loader.gif);
+            background-repeat: no-repeat;
+            margin: -77px 0 0 -75px;
+        }
+
+        a.nav-link,
+        a.nav-link:hover {
+            font-weight: bold;
+            color: black;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .show>.nav-link {
+            background: #0a3052 !important;
+        }
+
+        table.dataTable thead th,
+        table.dataTable td {
+            word-break: break-word;
+        }
+
+        .ta-left {
+            text-align: left;
+        }
+
+        .form-control[readonly] {
+            background: white !important;
+        }
+
+        .ui-widget-content .ui-icon {
+            background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+        }
+
+        #documentFileTxt {
+            cursor: not-allowed;
+            background: white;
+            width: 100%;
+            height: 38px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background: rgb(153, 153, 153);
+            color: rgb(255, 255, 255);
+            padding: 3px 15px;
+            font-size: 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            right: 25px;
+            top: 6px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            background: rgb(153, 153, 153);
+            color: rgb(255, 255, 255);
+            padding: 3px 15px;
+            font-size: 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            right: 100px;
+            top: 6px;
+        }
+
+        .delete-btn {
+            display: inline-block;
+            background: rgb(153, 153, 153);
+            color: rgb(255, 255, 255);
+            padding: 3px 15px;
+            font-size: 13px;
+            border-radius: 3px;
+            cursor: pointer;
+            overflow: hidden;
+            position: absolute;
+            right: 25px;
+            top: 6px;
+        }
+
+        .pdf-icon {
+            color: red;
+            position: absolute;
+            top: 13px;
+            left: 25px;
+            font-weight: 500;
+        }
+
+        .pl-25 {
+            padding-left: 25px !important;
+        }
+        
+        #detentionhistorytable tbody tr:hover {
+	        background: #28a745 !important;
+	        /* font-size: 18px; */
+	        font-weight: bold;
+	        cursor: pointer;
+	        color: white;
+    	}
+
+    	#tooltip {
+	        position: absolute;
+	        z-index: 1001;
+	        display: none;
+	        border: 2px solid #000;
+	        color: #fff;
+	        font-weight: bold;
+	        border-radius: 5px;
+	        padding: 10px;
+	        background-color: #000;
+	        cursor: pointer;
+    	}
+    	
+    	.blink-span {
+    		color: red;
+    		font-weight: bold;
+    		text-transform: uppercase;
+    	}
+    	
+    	.blink-span {
+  			animation: blink-animation 1s steps(5, start) infinite;
+  			-webkit-animation: blink-animation 1s steps(5, start) infinite;
+		}
+
+		@keyframes blink-animation {
+		  to {
+		    visibility: hidden;
+		  }
+		}
+		
+		@-webkit-keyframes blink-animation {
+		  to {
+		    visibility: hidden;
+		  }
+		}
+    </style>
+</head>
+
+<head lang="en" th:replace="header :: header"></head>
+
+<body>
+    <div id="overlay">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+    </div>
+    <input type="hidden" id="selectedArticleId">
+    <input type="hidden" id="roleAppraiser" th:value="${roleAppraiser}">
+    <div class="mt-3" style="background-color: #f8f9fa; padding: 15px;">
+        <div align="center">
+            <span id="titletab" class="form_txt" th:text="${'detained import articles'}"></span>
+            <h4  class="form_txt" th:text="${'List of Article IDs under DETENTION for '+session.data2}"></h4>
+        </div>
+        <ul class="nav nav-pills" role="tablist" style="width: 100%; border: 2px solid; border-radius: 7px; margin-bottom: 20px; margin-top: 20px;">
+            <li onclick="showDetention()" class="nav-item" style="width: 50%; text-align: center;"><a class="nav-link active show" data-toggle="pill" href="javascript:;">Detained Articles</a></li>
+            <li onclick="showDetentionHistory()" class="nav-item" style="width: 50%; text-align: center;"><a class="nav-link" data-toggle="pill" href="javascript:;">Post Detention Proceedings / Detained Articles History</a></li>
+        </ul>
+        <div id="detentionDiv">
+            <div class="col-md-12">
+                <table id="detentiontable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;">
+                    <thead style="background-color: #a1c4e6;">
+                        <tr>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">S.NO</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ARTICLE ID</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ARTICLE
+                                DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ORIGIN COUNTRY</th>
+                            <th scope="col" style="text-align: center;">MAIL CLASS</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ITEM CATEGORY</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ARRIVAL OOE DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">DESTINATION FPO DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">DETENTION DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">RECORD POST DETENTION PROCEEDINGS</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div><div id="tooltip"></div>
+        <div id="detentionHistoryDiv" style="display:none;">
+        <div class="row" style="margin: 15px;padding-top: 15px;">
+		   <span style="font-weight: bold;margin: 0;color: blue;text-transform: capitalize;position: relative;top: 5px;">
+		      Select Date Range:
+		      <p style="margin: 0;font-size: 12px;color: #bb0e0e;">(Date Of Decision Taken on Detained Articles in this module)</p>
+		   </span>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">From:</p>
+		      <input type="text" id="fromdatepicker" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select From Date" readonly="" class="picker form-control form_txt change">
+		   </div>
+		   <div class="col-sm-2" style="display: flex;">
+		      <p style="font-weight: bold;margin: 0;margin-right: 20px;position: relative;top: 5px;">To:</p>
+		      <input type="text" id="todatepicker" style="width: 100%;font-weight: bold;text-align: center;" placeholder="Select To Date" readonly="" class="picker form-control form_txt change">
+		   </div>
+		   <button type="button" onclick="getDetainedHistory()" class="btn btn-success">Submit</button>
+		   <button type="button" onclick="resetDetainedHistory()" class="btn" style="margin-left: 10px;background: #d14e4e;color: white;">Reset</button>
+		</div>
+		<small class="form-text text-muted smalltexthelp" style="color: blue !important;"><span style="color: red;">**</span>
+		Note : decision taken on detained articles during the current month only is listed below. Select Date range for the previous period of decision taken on detained articles.</small>
+            <div class="col-md-12">
+                <table id="detentionhistorytable" class="table table-striped table-bordered mt-3 newtable" style="font-size: 16px; text-align: center;table-layout: fixed;">
+                    <thead style="background-color: #a1c4e6;">
+                        <tr>
+                            <th scope="col" style="text-align: center; vertical-align: middle; width:40px;">S.NO</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ARTICLE ID</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ARTICLE DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ORIGIN COUNTRY</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">MAIL CLASS</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ITEM CATEGORY</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">ARRIVAL OOE DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">DESTINATION FPO DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">DETENTION DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">DECISION TAKEN</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">DECISION DATE</th>
+                            <th scope="col" style="text-align: center; vertical-align: middle;">CURRENT STATUS</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detentionRemarkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #d9ecff;">
+                    <h5 class="modal-title" id="detentionRemarkTitle" style="font-weight: bold;text-transform: uppercase;">Record Post Detention Proceedings</h5>
+                    <button type="button" class="close" onclick="closeDetentionModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="detentionRemarkBody" style="background: #d9ecff;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deptCommentsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deptCommentsTitle" style="font-weight: bold;text-transform: uppercase;"></h5>
+                    <button type="button" class="close" onclick="closeDeptCommentsModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="deptCommentsBody">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function closePdfModal() {
+            $("#pdfView").modal('hide');
+        }
+	
+		function formatDate(date) {
+		    var d = new Date(date),
+		        month = '' + (d.getMonth() + 1),
+		        day = '' + d.getDate(),
+		        year = d.getFullYear();
+		
+		    if (month.length < 2) 
+		        month = '0' + month;
+		    if (day.length < 2) 
+		        day = '0' + day;
+		
+		    return [ day, month, year].join('/');
+		}
+		
+		var firstDay;
+		var lastDay;
+		
+		function currentDate() {
+			var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+			firstDay = new Date(y, m, 1);
+			lastDay = new Date(y, m + 1, 0);
+		}
+		
+		currentDate();
+	
+		/*$(function() {
+			$("#fromdatepicker").datepicker({
+	            dateFormat: "dd/mm/yy",
+	            onSelect: function(date) {
+	                $("#todatepicker").datepicker('option', 'minDate', date);
+	            }
+	        });
+	
+	        $("#todatepicker").datepicker({
+	            dateFormat: "dd/mm/yy"
+	        });
+		});*/
+		
+		
+		 $(function() {
+		 var currentDate=new Date();
+			$("#fromdatepicker").datepicker({
+	            dateFormat: "dd/mm/yy",
+	            maxDate: currentDate,
+	            onSelect: function(date) {
+	                $("#todatepicker").datepicker('option', 'minDate', date);
+	            }
+	        });
+	
+	        $("#todatepicker").datepicker({
+	            dateFormat: "dd/mm/yy",
+	            maxDate: currentDate,
+	            onSelect: function(date) {
+	                $("#fromdatepicker").datepicker('option', 'maxDate', date);
+	            }
+	        });
+		});
+		
+	
+	
+		function getDetainedHistory(){
+			if($("#fromdatepicker").val()=='') {
+				swal('OOPS!', "Please Select From Date Range", 'error');
+				return false;
+			}
+			if($("#todatepicker").val()=='') {
+				swal('OOPS!', "Please Select To Date Range", 'error');
+				return false;	
+			}
+			$("#detentionhistorytable").DataTable().ajax.url('getdetainedarticleshistory?fromDate='+$("#fromdatepicker").val()+'&toDate='+$("#todatepicker").val()).load();	
+		}
+		
+	function resetDetainedHistory() {
+			
+			currentDate();
+			
+var fromDateInput = document.getElementById("fromdatepicker");
+var toDateInput = document.getElementById("todatepicker");
+
+ var fromDate=formatDate(firstDay);
+ var toDate=formatDate(lastDay);
+fromDateInput.value = fromDate;
+toDateInput.value = toDate;
+ $("#detentionhistorytable").DataTable().ajax.url('getdetainedarticleshistory?fromDate='+fromDate+'&toDate='+toDate).load();
+
+		}
+        
+        $("#detentionhistorytable").DataTable({
+        	"processing": false,
+            "paging": true,
+            "autoWidth": false,
+            "ordering": false,
+             "dom": '<"pull-left"Bl>frtip',
+              buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:' Post Detention Proceedings / Detained Articles History ',
+					message:' Post Detention Proceedings / Detained Articles History @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+					}},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					//watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				    orientation: 'landscape',
+				    
+		   		    customize: function(doc, header) {
+		   		    // doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+		   		    doc.content[1].table.widths = ['3%','8%','8%','8%','9%','8%','8%','10%','10%','10%','9%','9%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},],});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 5
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Post Detention Proceedings / Detained Articles History @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:'Post Detention Proceedings / Detained Articles History  ',
+
+     },
+			//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:' Post Detention Proceedings / Detained Articles History @ ' + sitecode + '\n\r' + datetime ,
+					filename:'Post Detention Proceedings / Detained Articles History ',
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+             
+              "initComplete": function( settings ) {
+	        $("#detentionhistorytable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearDetentionhistorytable()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#detentionhistorytable_filter input[type='search']").attr('id', 'searchDetentionhistorytable');
+    	},   
+             
+            "ajax": {
+                url: "getdetainedarticleshistory?fromDate="+formatDate(firstDay)+"&toDate="+formatDate(lastDay),
+                "beforeSend": function() {
+                var start=formatDate(firstDay);
+                var end=formatDate(lastDay);
+                
+              
+                
+              $("#fromdatepicker").attr("value", start);
+  				$("#todatepicker").attr("value", end);
+  			
+                    showLoader();
+                },
+            },
+
+            "fnDrawCallback": function(oSettings) {
+                hideLoader();
+            },
+            "columnDefs": [{
+                "targets": '_all',
+                "defaultContent": ""
+            }],
+            "columns": [{
+                    "data": "articleId",
+                    "render": function(data, type, row, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    "data": "articleId",
+			        "createdCell":  function (td, cellData, rowData, row, col) {
+			           $(td).attr('detainedNo', rowData.detainedNo); 
+			        }
+                },
+                {
+                    "data": "articleDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var articleDt = new Date(data);
+                            var articleDayOfDate = '' + articleDt.getDate();
+                            if (articleDayOfDate.length < 2)
+                                articleDayOfDate = '0' + articleDayOfDate;
+                            return articleDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + articleDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "originCountry"
+                },
+                {
+                    "data": "mailClass"
+                },
+                {
+                    "data": "itemCategory"
+                },
+                {
+                    "data": "arrivalOOEDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var arrivalOOEDt = new Date(data);
+                            var arrivalOOEDayOfDate = '' + arrivalOOEDt.getDate();
+                            if (arrivalOOEDayOfDate.length < 2)
+                                arrivalOOEDayOfDate = '0' + arrivalOOEDayOfDate;
+                            return arrivalOOEDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + arrivalOOEDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "arrivalFPODate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var arrivalFPODt = new Date(data);
+                            var arrivalFPODayOfDate = '' + arrivalFPODt.getDate();
+                            if (arrivalFPODayOfDate.length < 2)
+                                arrivalFPODayOfDate = '0' + arrivalFPODayOfDate;
+                            return arrivalFPODayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + arrivalFPODt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "detentionDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var detentionDt = new Date(data);
+                            var detentionDayOfDate = '' + detentionDt.getDate();
+                            if (detentionDayOfDate.length < 2)
+                                detentionDayOfDate = '0' + detentionDayOfDate;
+                            return detentionDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + detentionDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "detainDecision"
+                },
+                {
+                    "data": "detainDecisionDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var detainDecisionDt = new Date(data);
+                            var detainDecisionDayOfDate = '' + detainDecisionDt.getDate();
+                            if (detainDecisionDayOfDate.length < 2)
+                                detainDecisionDayOfDate = '0' + detainDecisionDayOfDate;
+                            return detainDecisionDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + detainDecisionDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "currentStatus"
+                }
+            ]
+            
+            
+            
+            
+        });
+
+ function clearDetentionhistorytable(){
+        document.getElementById("searchDetentionhistorytable").value=""
+        var table = $('#detentionhistorytable').DataTable();
+        table.search('').draw();
+      }
+
+
+        $("#detentiontable").DataTable({
+            "processing": false,
+            "paging": true,
+            "autoWidth": false,
+            "ordering": false,
+            "dom": '<"pull-left"Bl>frtip',
+            "ajax": {
+                url: "getdetainedarticles",
+                "beforeSend": function() {
+                    showLoader();
+                },
+            },
+            "fnDrawCallback": function(oSettings) {
+                hideLoader();
+            },
+            "columnDefs": [{
+                "targets": '_all',
+                "defaultContent": ""
+            }],
+            "columns": [{
+                    "data": "articleId",
+                    "render": function(data, type, row, meta) {
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    "data": "articleId"
+                },
+                {
+                    "data": "articleDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var articleDt = new Date(data);
+                            var articleDayOfDate = '' + articleDt.getDate();
+                            if (articleDayOfDate.length < 2)
+                                articleDayOfDate = '0' + articleDayOfDate;
+                            return articleDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + articleDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "originCountry"
+                },
+                {
+                    "data": "mailClass"
+                },
+                {
+                    "data": "itemCategory"
+                },
+                {
+                    "data": "arrivalOOEDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var arrivalOOEDt = new Date(data);
+                            var arrivalOOEDayOfDate = '' + arrivalOOEDt.getDate();
+                            if (arrivalOOEDayOfDate.length < 2)
+                                arrivalOOEDayOfDate = '0' + arrivalOOEDayOfDate;
+                            return arrivalOOEDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + arrivalOOEDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "arrivalFPODate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var arrivalFPODt = new Date(data);
+                            var arrivalFPODayOfDate = '' + arrivalFPODt.getDate();
+                            if (arrivalFPODayOfDate.length < 2)
+                                arrivalFPODayOfDate = '0' + arrivalFPODayOfDate;
+                            return arrivalFPODayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + arrivalFPODt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "detentionDate",
+                    "render": function(data, type, row, meta) {
+                        if (data != undefined) {
+                            var detentionDt = new Date(data);
+                            var detentionDayOfDate = '' + detentionDt.getDate();
+                            if (detentionDayOfDate.length < 2)
+                                detentionDayOfDate = '0' + detentionDayOfDate;
+                            return detentionDayOfDate + '-' + new Date(data).toLocaleString('default', {
+                                month: 'short'
+                            }) + '-' + detentionDt.getFullYear();
+                        }
+                    }
+                },
+                {
+                    "data": "articleId",
+                    "render": function(data, type, row, meta) {
+                    	if (row.currentOfficerRole != undefined && row.currentOfficerRole == $("#roleAppraiser").val()){
+                    		return '<div style="margin-bottom: 5px;"><input class="btn-grn" '+
+                    		'articleId=' + (row.articleId) + ' onclick="getPopup(this,true,'+(row.currentOfficerRole != undefined)+')" '+
+                    		'type="button" value="Click"></div><span class="blink-span">AC Reply Received </span>';
+						}else{
+                        	return '<input class="btn-grn" articleId=' + (row.articleId) + ' onclick="getPopup(this,true,'+(row.currentOfficerRole != undefined)+')" type="button" value="Click" />';
+                        }
+                    }
+                }
+            ],
+            
+             buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:' List of Detained Articles ',
+					message:'  List of Detained Articles @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+					}},
+				//pdf
+    			  {extend: 'pdf',
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+					//watermark:'fpo',
+                    className: ' btn btn-success mb-3 ',				
+				    orientation: 'landscape',
+				    
+		   		    customize: function(doc, header) {
+		   		    // doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+		   		    doc.content[1].table.widths = ['3%','5%','12%','10%','9%','10%','10%','15%','12%','13%'];
+				   	 doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					 doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					//watermark:'fpo', 
+					},],});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					//watermark:'fpo', 
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 5
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'List of Detained Articles  @ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:'List of Detained Articles  ',
+
+     },
+			//Print
+		         {extend: "print" ,
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:' List of Detained Articles   @ ' + sitecode + '\n\r' + datetime ,
+					filename:'List of Detained Articles ',
+					customize: function ( win ) {
+						$(win.document.body).css( 'font-size', '8pt' )
+						$(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+						},}],
+            
+              "initComplete": function( settings ) {
+	        $("#detentiontable_filter").append('<button type="button" class="btn btn-info" id="clear" onclick="clearDetentiontable()" '+
+			'style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+			$("#detentiontable_filter input[type='search']").attr('id', 'searchDetentiontable');
+    	}	
+            
+            
+        });
+
+        function showLoader() {
+            $("#overlay").css("display", "block");
+        }
+
+        function hideLoader() {
+            setTimeout(function() {
+                $("#overlay").css("display", "none");
+            }, 500);
+        }
+
+        hideLoader();
+
+ function clearDetentiontable(){
+        document.getElementById("searchDetentiontable").value=""
+        var table = $('#detentiontable').DataTable();
+        table.search('').draw();
+       } 
+
+
+        function getPopup(obj,view,cmtflows) {
+            $.ajax({
+                url: "detainedremarks?itemId=" + $(obj).attr('articleid') + "&view=" +view + "&cmtflows=" +cmtflows,
+                type: "get",
+                success: function(data) {
+                    $("#detentionRemarkBody").html(data);
+                    $("#selectedArticleId").val($(obj).attr('articleid'));
+                    var textWrd = $("#viewPage").val()==='true' ? 'Recorded ' : 'Record ';
+                    $("#detentionRemarkTitle").text(textWrd+'post detention proceedings for article Id - articleIdNumber');
+                    $("#detentionRemarkTitle").html($("#detentionRemarkTitle").html().replace("articleIdNumber", '<span style="color: #bb0e0e">' + $(obj).attr('articleid') + '</span>'));
+                    $("#detentionRemarkModal").modal('show');
+                },
+                error: function(rs, e) {
+                    swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+                }
+            });
+        }
+
+        function closeDetentionModal() {
+            $("#detentionRemarkBody").html('');
+            $("#detentionRemarkModal").modal('toggle');
+        }
+        
+        function closeDeptCommentsModal() {
+        	$("#deptCommentsBody").html('');
+	        $("#deptCommentsModal").modal('hide');
+        	$("#detentionRemarkModal").modal('show');
+        }
+        
+        function showDetention() {
+			$("#detentionHistoryDiv").hide();
+			$("#detentionDiv").show('slow');
+        }
+        
+        function showDetentionHistory() {
+			$("#detentionHistoryDiv").show();
+			$("#detentionDiv").hide('slow');
+        }
+        
+        function viewDeptComments(obj) {
+	        $.ajax({
+	            url: 'getdeptcomments?itemId=' + $(obj).attr('articleId'),
+	            type: "post",
+	            success: function(data) {
+	                $("#deptCommentsBody").html(data);
+                    $("#deptCommentsTitle").text('Department Comments');
+                    //var offId=$("#deptcmtofficer").val();
+                    //$("#deptCommentsTitle").html($("#deptCommentsTitle").html().replace("officerId", '<span style="color: #bb0e0e">' + offId + '</span>'));
+	                $("#detentionRemarkModal").modal('hide');
+	                $("#deptCommentsModal").modal('show');
+	            },
+	            error: function(rs, e) {
+	                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	            }
+	        });	
+        }
+        
+        function viewSummary(obj) {
+	        $.ajax({
+	            url: 'getSummary?id=' + $(obj).attr('articleId'),
+	            type: "post",
+	            success: function(data) {
+	            	$("#deptCommentsModal").modal('show');
+	                $("#deptCommentsBody").html(data);
+                    $("#deptCommentsTitle").text('Article Summary');
+                    $("#detentionRemarkModal").modal('hide');
+	            },
+	            error: function(rs, e) {
+	                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	            }
+	        });	
+        }
+
+	    $(document).on('mousemove', '#detentionhistorytable tbody tr', function(e) {
+	        var rowData = "Click to view details ";
+	        $("#tooltip").text(rowData).animate({
+	            left: e.pageX,
+	            top: e.pageY
+	        }, 1);
+	
+	        if (!$("#tooltip").is(':visible')) $("#tooltip").show();
+	
+	        $(document).on('mouseleave', 'table', function(e) {
+	            $("#tooltip").hide();
+	        })
+	    });
+	    
+	    $('#detentionhistorytable tbody').on('click', 'tr', function() {
+	    	var articleId=$(this).children('td:eq(1)').text();
+	        $.ajax({
+	            url: 'detremarksbyarticleidanddetainedno?itemId=' + articleId + '&detainedNo=' + $(this).children('td:eq(1)').attr('detainedNo'),
+	            type: "post",
+	            success: function(data) {
+	                $("#detentionRemarkBody").html(data);
+                    $("#detentionRemarkTitle").text('Post Detention Proceedings of article Id - articleIdNumber');
+                    $("#detentionRemarkTitle").html($("#detentionRemarkTitle").html().replace("articleIdNumber", '<span style="color: #bb0e0e">' + articleId + '</span>'));
+	                $("#detentionRemarkModal").modal('show');
+	            },
+	            error: function(rs, e) {
+	                swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	            }
+	        });
+    	});
+    	
+    	 $(document).ready(function(){
+         $('#detentiontable').DataTable();
+         $('#detentionhistorytable').DataTable();
+         });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,304 @@
+<style>
+
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+
+</style>
+
+
+ <input id="roleget" type="hidden" th:value="${session.offId }" />
+<input id="cussite" type="hidden"  th:value="${session.data2 }" />
+<input id="role"   type="hidden"  th:value="${session.data1 }" />
+
+
+
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+
+<div id="queryQueueshow" class="col-md-12">
+<input type="hidden" id="clock">
+
+		<div align="center" class=" mt-2" style="margin: 1%;">
+			<lable
+				style="vertical-align: -webkit-baseline-middle;font-weight: 500;color: blue;">Total no of pending Articles for which more than one query is raised and status</lable>
+		</div>
+		<div class="row mb-3">
+		<div align="left" class="col-md-6" >
+			<lable style="vertical-align: -webkit-baseline-middle;font-weight: 1000;color: navy;">Total no of pending Articles for which more than one query is raised and status : <span style="background-color: rgb(239 239 239);color: black;border: none;padding: 2px 12px 3px 12px;text-decoration: none;font-weight: 600;cursor: default;" th:text="${count}"></span></lable>
+			
+		</div>
+		</div>
+			<!--  a title="Excel">
+				<button id="ExcelExport" class="btn btn-primary"
+					style="font-size: 15px">
+					Export to Excel <i class="fas fa-file-excel" aria-hidden="true"></i>
+				</button>
+			</a> -->
+			<table id="processtable"
+				class="table table-striped table-bordered newtable"
+				style="font-size: 16px; text-align: center; width: 100%;">
+				<thead style="background-color: #a1c4e6;">
+					<tr>
+						<th scope="col" id="sinid" style="width: 45px;">Sl.No.</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Article Id</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">FPO Site</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Posting Date</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">DummyColnametoDtTable</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Mail class</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Item Category</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">No. of Items</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Total Declared Value (INR)</th>
+						<!-- <th class="tablecolumn" scope="col" style="text-align: center;">Query raised module</th> -->
+						<th class="tablecolumn" scope="col" style="text-align: center;">Addl. Query D-Call letter no</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">D-Call date</th>
+						<!-- <th class="tablecolumn" scope="col" style="text-align: center;">Email</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Mobile no.</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">D-Call dispatch speed post no.</th> -->
+						<th class="tablecolumn" scope="col" style="text-align: center;">D-Call delivery status</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Reply status</th>
+						<th class="tablecolumn" scope="col" style="text-align: center;">Current queue</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="values,iter: ${reportcolumns}" class="">
+						<!-- <td class="tablecolumn" th:text="${values.id}"></td> -->
+						<td class="tablecolumn" th:text="${iter.index+1}"></td>
+						<td class="tablecolumn" th:text="${values.item_id}"></td>
+						<td class="tablecolumn" th:text="${values.cussite}"></td>
+						<td class="tablecolumn" th:text="${values.post_dt}"></td>
+						<td class="tablecolumn" th:text="${values.coo}"></td>
+						<td class="tablecolumn" th:text="${values.mail_class}"></td>
+						<td class="tablecolumn" th:text="${values.item_category}"></td>
+						<td class="tablecolumn" th:text="${values.noofitem}"></td>
+						<td class="tablecolumn" th:text="${values.totdec}"></td>
+						<!-- <td class="tablecolumn" th:text="${values.qrymodel}"></td> -->
+						<td class="tablecolumn" th:text="${values.dcallno}"></td>
+						<td class="tablecolumn" th:text="${values.dcalldt}"></td>
+						<!-- <td class="tablecolumn" th:text="${values.email}"></td>
+						<td class="tablecolumn" th:text="${values.mobno}"></td>
+						<td class="tablecolumn" th:text="${values.dispatchedno}"></td> -->
+						<td class="tablecolumn" th:text="${values.delistatus}"></td>
+						<td class="tablecolumn" th:text="${values.rlystatus}"></td>
+						<td class="tablecolumn" th:text="${values.currentque}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<script th:inline="javascript"> 
+		//function  by santhosh	
+	         
+function generateReport(number, type,name,category) {
+  var datetime = new Date().toLocaleString();
+  var role = document.getElementById("roleget").value;
+  var site = document.getElementById("cussite").value;
+  var rolename = document.getElementById("role").value;
+  var data = {
+    number: number,
+    type: type,
+    datetime: datetime,
+    role: role,
+    name:name,
+    site:site,
+    rolename:rolename,
+    category:category
+  };
+
+  $.ajax({
+  
+    url:'savereportdetails',
+    method: "POST",
+    data: data,
+    success: function(response) {
+    
+      console.log("Data saved successfully");
+    },
+    error: function(error) {
+      console.log(error);
+      alert("Error occurred while saving data");
+    }
+  });
+}
+		
+		$('.datesel').css('display','inline-flex');
+		
+		document.title="Total no of pending Articles for which more than one query is raised and status  as on " + $('#clock').val();
+         
+         $("#processtable").dataTable({
+		"processing": true,
+		"paging": true,
+
+		"ordering": false,
+		//"dom": 'Bfrtip',
+		"dom": '<"pull-left"Bl>frtip',
+		buttons: [{extend: "excel", text: '<i>EXCEL</i>',
+		exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						if ( column == 4 ) 
+        					return "Country Name"
+        				else	
+        					return data; }}},
+		
+				   className: 'btn btn-primary mb-3',
+				   title:'FPO IMPORT APPLICATION - ICES',
+					filename:'Total no of pending Articles for which more than one query is raised and status',
+					message:' Total no of pending Articles for which more than one query is raised and status @ ' + sitecode + '\n\r' + datetime, 
+					customize: function (doc) {
+				generateReport(2,"excel","Total no of pending Articles for which more than one query is raised and status","Query And Reply Related Reports");
+					
+					}},
+				//pdf
+    			  {extend: 'pdf',
+    			  exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						if ( column == 4 ) 
+        					return "Country Name"
+        				else	
+        					return data; }}},
+    			  
+				    text:'<i>PDF</i>',
+				    pageSize: 'A4',
+                    className: ' btn btn-success mb-3 ',				
+				    orientation: 'landscape',
+					customize: function(doc, header) {
+					generateReport(2,"pdf","Total no of pending Articles for which more than one query is raised and status","Query And Reply Related Reports");
+				
+				    doc.content[1].table.widths = ['3%','8%','7%','8%','9%','7%','7%','9%','7%','7%','7%','7%','7%','7%'];
+				   	doc.defaultStyle.alignment = 'center'
+					 //doc.styles.tableHeader.fillColor='#ADD8E6',
+					doc.styles.tableHeader = {
+        						color: '#2D1D10',
+								fillColor:'#ADD8E6',
+        						fontSize: '10',
+        						alignment: 'center'
+    						},
+					doc.content.splice(1, 0,{
+					text: [{text:' Date:'+ datetime, bold: true,
+					alignment: 'right',
+					fontSize: 7,
+					margin:[0,20,0,20],
+					},],});
+					doc.content.splice(1, 0,{
+          			text: [{text:' SSO ID: ' + empid, bold: true,
+					alignment: 'left',
+					fontSize: 7,
+					margin:[0,0,90,20],
+					},],}); 
+					//doc.style.tableHeader		
+					doc.defaultStyle.fontSize = 5;
+					doc.styles.title.bold=true;
+					doc.styles.title.fontSize=15;
+					doc.styles.title.alignment="center",
+					doc.styles.message.fontSize = 9;
+					doc.styles.message.bold=true;
+					//doc.styles.message.alignment = "right";
+					doc.styles.tableHeader.fontSize= 6;
+					doc.styles.tableHeader.bold=true;
+					doc['footer']=(function(page, pages) {
+							return {
+								columns: ['',{
+								alignment: 'right',
+										text: ['Page  ',{ text: page.toString(), italics: true,fontSize:7},'  of ',
+											{ text: pages.toString(), italics: true,fontSize:6 }],italics: true, fontSize:6  }],
+										margin: [15, 0]}});
+    		        },
+			
+			title: 'FPO IMPORT APPLICATION - ICES'+
+							'\n\r'+'Total no of pending Articles for which more than one query is raised and status@ ' + sitecode,
+           			//message: empid,
+					//message:datetime, 
+					filename:'Total no of pending Articles for which more than one query is raised and status',
+},
+			//Print
+		         {extend: "print" ,
+		         exportOptions: {
+						format: {
+        					header: function ( data, column ) {
+						if ( column == 4 ) 
+        					return "Country Name"
+        				else	
+        					return data; }}},
+		         
+				  className: 'btn btn-danger mb-3',
+				  title: 'FPO IMPORT APPLICATION - ICES',
+			      text: '<i>PRINT</i>',
+				  message:'Total no of pending Articles for which more than one query is raised and status @ ' + sitecode + '\n\r' + datetime ,
+				  filename:'Total no of pending Articles for which more than one query is raised and status',
+				  customize: function ( win ) {
+				  generateReport(2,"print","Total no of pending Articles for which more than one query is raised and status","Query And Reply Related Reports");
+				
+				  $(win.document.message).css( 'font-size', '19' )
+				  $(win.document.body).css( 'font-size', '8pt' )
+				  $(win.document.body).find( 'table' ).css( 'font-size', 'inherit' );
+				  },}],
+				  
+				  
+				  	 initComplete: function() {
+      this.api().columns([4]).every(function() {
+        var column = this;
+        var coldata = column[0];
+        if (coldata == 4) {
+          var select = $('<select style="background-color: #A1C4E6; font-weight: 700"><option value="">Country Of Origin</option></select>')
+            .appendTo($(column.header()).empty())
+            .on('change', function() {
+              var val = $.fn.dataTable.util.escapeRegex($(this).val());
+              column.search(val ? '^' + val + '$' : '', true, false).draw();
+            });
+          column.data().unique().sort().each(function(d, j) {
+            select.append('<option value="' + d + '">' + d + '</option>');
+          });
+        }
+      });
+
+      $("#processtable_filter").append('<button type="button" class="btn btn-info" id="clear" style="margin-left: 15px;margin-bottom: 5px;">Clear</button>');
+      $('#clear').on('click', function() {
+        $('#processtable_filter input[type="search"]').val('').trigger('input');
+        var table = $('#processtable').DataTable();
+        table.search('').draw();
+      });
+    }
+	
+				  
+				  
+				  
+	});
+	
+	
+$("#ExcelExport").on('click', function() {
+		$(".buttons-excel").trigger('click');
+		this.blur();
+	});
+ function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}        
+      </script>

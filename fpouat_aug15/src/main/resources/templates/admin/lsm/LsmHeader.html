@@ -1,0 +1,254 @@
+<html th:fragment="header">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link th:href="@{css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<!--  link
+	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+	rel="stylesheet" /-->
+<script th:src="@{js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{js/jquery.min.js}"></script>
+<script th:src="@{js/popper.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<link th:href="@{css/font-awesome.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/font.js}"></script>
+<link th:href="@{css/datatables.min.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{js/datatables.min.js}"></script>
+<link th:href="@{css/siteStyle.css}" rel="stylesheet" />
+<link th:href="@{css/font-awesome.4.7.0.css}" rel="stylesheet" />
+<script th:src="@{js/sweetalert.js}"></script>
+<script  th:src="@{js/datatables/dataTables.buttons.min.js}"></script>
+<script th:src="@{js/datatables/jszip.min.js}"></script>
+<script th:src="@{js/datatables/pdfmake.min.js}"></script>
+<script th:src="@{js/datatables/vfs_fonts.js}"></script>
+<script  th:src="@{js/datatables/buttons.html5.min.js}"></script>
+<script  th:src="@{js/datatables/buttons.print.min.js}"></script>
+<script th:src="@{js/moment.min.js}"></script>
+<!--script
+	src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script-->
+
+<style type="text/css">
+body {
+	overflow-x: hidden;
+}
+
+.navbar-default {
+	background-color: lightgray;
+}
+
+.navbar {
+	border-radius: 0px;
+	min-height: 0px;
+	border: 0px;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple
+	{
+	text-align: left !important;
+}
+
+.select2-selection.select2-selection--multiple {
+	text-align: left !important;
+}
+
+.h2-row{
+	    background-color: #d1ecf1;
+    color: slategrey;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 0px 7px 0px 0px;
+    width: 100%;
+    margin: 0;
+}
+.h1-row{
+	    background-color: #69d1f1;
+    color: white;
+    width: 100%;
+    margin: 0;
+}
+.h-body{
+	background: #d6dcd9;
+	width: 100%;
+}
+</style>
+</head>
+
+<body>
+
+<div class="row h1-row">
+<input type=hidden id="sttime" th:value="${session.stime}">
+
+		<div class="col-md-1" align="right">
+			<img style="width: 83px;" src="images/CBEC.png">
+		</div>
+		<div class="col-md-4">
+			<h5>
+				<strong> FPO IMPORT APPLICATION - 1.0 (TESTING ENVIRONMENT)</strong>
+			</h5>
+			<h6>
+				<span th:if="${session.data1 == 'PNA'}" class="module"><strong>CUSTOMS ADMINISTRATOR MODULE - NATIONAL</strong></span>
+				<span th:if="${session.data1 == 'PLA' || session.data1 == 'PAA'}" class="module"><strong>CUSTOMS ADMINISTRATOR MODULE</strong></span>
+				<span th:if="${session.data1 != 'PNA' && session.data1 != 'PLA' && session.data1 != 'PAA'}" class="module"><strong>CUSTOMS OFFICER MODULE</strong></span>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 35%; float: left; border-top: 2px solid white;">
+			<p style="margin-top: 10px; margin-bottom: 4px;">
+				<strong>Central Board of Indirect Taxes and Customs</strong>
+			</p>
+		</div>
+		<div class="col-md-7" style="display: flex;justify-content: end;" align="left"><div style="margin-right: 20px;" class="mt-4">
+			<h6>
+				<strong>Indian Customs EDI System</strong>
+			</h6>
+			<hr
+				style="margin-top: 0rem; margin-bottom: 0rem; border: 0; width: 92%; float: left; border-top: 2px solid white;">
+			<h6 style="margin-top: 19px;">
+				<strong><span th:text="${session.data4}" id="sitenm"></span>-<span th:text="${session.data2}" id="cuSite"></span></strong>
+			</h6></div>
+			<div style="padding: 20px 0;margin-top: 4px;"><img src="images/nic_logo.png"></div>
+		</div>
+		<input type="hidden" th:value="${session.data}" id="empId" /> <input
+			type="hidden" th:value="${session.data1}" id="role" />
+		
+	</div>
+	<div class="row h2-row">
+		<div class="col-md-1" id="dashscreen"><a href="dash"  onclick="showLoader();"><button type="button"   class="btn btn-info" style="line-height: 16px;">Dashboard</button></a></div>
+		<div class="col-md-1" id="nodashboard" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+		<div class="col-md-2">
+			<p style="margin-bottom: 0rem;">
+				WELCOME - <span th:text="${session.data3}">Vignesh</span>
+			</p>
+		</div>
+		<div class="col-md-3">
+		<Span th:text="'Last Login : '+${session.LastLoginetails == null ? '-' : session.LastLoginetails}"> </span > 
+		</div>
+		<div class="col-md-2">
+			<span>Session Time : </span>
+			<span id = "clock1" onload="sessionTime()"></span></div>
+			
+		<div class="col-md-4" Style="text-align: end;">
+		<div class="row">
+		<div class="col-md-7">
+				<span th:text="'Role : '+${session.data1}"> PAO </span><!-- <span th:text="1"
+					id="currentDateTime" style="font-weight: 900;"></span> --> <span id = "clock" onload="currentTime()"></span></div>
+			<!--  button type="submit" value="Logout" id="logout" class="btn btn-primary btn-lg" onclick="logout();">LOGOUT</button-->
+			<!-- <img  src="images/logout_fpo.jpg" style="width:10%;height:50%" alt="Click to LOGOUT" onclick="logout();"> -->
+		<div class="col-md-4" id="chngroles" ><button type="button" class="btn btn-info" style="line-height: 16px;">Change Role</button></div>	
+			<div class="col-md-1">
+			<i class="fa fa-power-off" aria-hidden="true" onclick="logout();" style="cursor: pointer;color: #ef3c3c;font-size: 30px;"></i></div></div>
+		</div>
+	</div>
+
+
+	<!--div class="navbar-default" id="nsmbhlheader" style="background:white;">	
+ <div align=left style="margin-left: 1%; margin-right: 1%">
+<button type="button" class="btn btn-info" onclick="goback()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div>
+		<!-- <a><button type="button" class="btn btn-primary pos-shifting"
+				onclick="home()" style="margin-left: 82%">
+				<i class="fa fa-home" aria-hidden="true"></i> Home
+			</button></a></spam>
+		&nbsp;&nbsp;&nbsp;
+		<spam>
+		<button type="button" id="logoutuser" data-target="#logoutpopup"
+			class="btn btn-danger">
+			<i class="fas fa-tools"></i> Logout
+		</button>>
+		</spam>
+
+		<!-- <div class="modal fade" id="logoutpopup" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header"></div>
+					<div class="modal-body">
+						<h4 align="center">Are you sure to logout?'</h4>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="notready" class="btn btn-danger"
+							style="margin-right: 366px;">No</button>
+						<button type="button" id="logoutpage" class="btn btn-success"
+							onclick="noBack()">Yes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div-->
+	
+	<Modal>
+	<div id="logout" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered " role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black">Are you sure to logout</h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="logconfirm();">Yes</button></div>	</div>
+    </div>
+</div>
+</div>
+
+   <div id="chngrlpopup" class="modal fade"   tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered " role="document" style="max-width: 450px;">
+	<div class="modal-content">
+	  <div class="modal-body" align="center" >
+		<h4><font color="black" size="5">Are you sure to Change the Role? </font><br><font color="black" size="3">(Please complete the transaction tasks you are working upon currently, if any, before changing the role)</font></h4>
+	  </div>
+	 <div class="modal-footer">
+     <div class="row mt-1"></div>
+					<div class="col-md-6" align="left">
+				    <button type="button" class="btn btn-danger" style="background-color:red"
+						data-dismiss="modal">No</button></div>
+					<div class="col-md-6" align="right">
+					<button type="button" class="btn btn-success"  style="background-color:green"
+						onclick="chngrole();">Yes</button></div>	</div>
+    </div>
+    
+</div>
+</div>
+
+</Modal>
+	<script src="js/header.js"></script>
+	<script type="text/javascript">
+//function noBack()
+//{
+//window.history.forward();}
+</script>
+</body>
+<script language="JavaScript">
+    document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+</script>
+</html>

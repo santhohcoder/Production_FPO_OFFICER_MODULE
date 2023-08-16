@@ -1,0 +1,1081 @@
+<html>
+
+<!-- <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{css/font-awesome.min.css}" rel="stylesheet" type="text/css" />
+    <script th:src="@{js/jquery-3.4.1.min.js}"></script>
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/datatables.min.js}"></script>
+    <script th:src="@{js/popper.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/font.js}"></script>
+</head> -->
+<style>
+    .container-100 {
+        max-width: 100%
+    }
+
+    .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2) !important;
+        border-radius: 3px;
+        padding: 0;
+    }
+
+    .mb-2 {
+        margin-bottom: .5rem !important;
+    }
+
+    .mt-2 {
+        margin-top: .5rem !important;
+    }
+
+    .form {
+        padding: 15px 30px 10px;
+    }
+
+    .row.addd {
+        position: relative;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 10px 0 18px;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    body {
+        background: #91c5ff;
+    }
+
+    label {
+        color: #333;
+        font-size: 12px;
+        font-weight: 700 !important;
+        position: absolute;
+        pointer-events: none;
+        left: 20px;
+        top: -10px;
+        font-weight: 600;
+        transition: all .2s ease;
+        -moz-transition: .2s ease all;
+        -webkit-transition: all .2s ease;
+        background: #fff;
+        padding: 0 5px;
+    }
+
+    select,
+    input {
+        height: 40px;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+    }
+
+    select:focus,
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #828282;
+    }
+
+    div[class^="col-lg-"] {
+        margin-top: 10px;
+    }
+
+    .col-lg-12 {
+        margin-top: 0 !important;
+    }
+
+    .col-lg-3 {
+        max-width: 23%;
+        margin-bottom: 10px;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .add-btn {
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    .remove-btn {
+        line-height: 30px;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        display: inline-block;
+        width: 35px;
+        height: 32px;
+        border-radius: 40px;
+        text-align: center;
+        margin: 3px 0px 0 14px;
+        cursor: pointer;
+    }
+
+    div[id^="kyc-section"],
+    div[id^="support-section"],
+    div[id^="preview-kyc-section"],
+    div[id^="preview-support-section"] {
+        display: flex;
+        width: 100%;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+        background: white;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        top: 8px;
+    }
+
+    .delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .invalid-feedback {
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    tbody textarea {
+        resize: none;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .toggle {
+        position: relative;
+        width: 40px;
+        height: 20px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        transform: translate3d(0, 0, 0);
+        top: 3px;
+        left: 0;
+    }
+
+    .toggle:before {
+        content: "";
+        position: relative;
+        top: 3px;
+        left: 3px;
+        width: 34px;
+        height: 14px;
+        display: block;
+        background: #9A9999;
+        border-radius: 8px;
+        transition: background 0.2s ease;
+    }
+
+    .toggle span {
+        position: absolute;
+        top: 0;
+        left: 5px;
+        width: 20px;
+        height: 20px;
+        display: block;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 3px 8px rgba(154, 153, 153, 0.5);
+        transition: all 0.2s ease;
+    }
+
+    .toggle span:before {
+        content: "";
+        position: absolute;
+        display: block;
+        margin: -18px;
+        width: 56px;
+        height: 56px;
+        background: rgba(79, 46, 220, 0.5);
+        border-radius: 50%;
+        transform: scale(0);
+        opacity: 1;
+        pointer-events: none;
+    }
+
+    #cbx:checked+.toggle:before {
+        background: #947ADA;
+    }
+
+    #cbx:checked+.toggle span {
+        background: #4F2EDC;
+        transform: translateX(20px);
+        transition: all 0.2s cubic-bezier(0.8, 0.4, 0.3, 1.25), background 0.15s ease;
+        box-shadow: 0 3px 8px rgba(79, 46, 220, 0.2);
+    }
+
+    #cbx:checked+.toggle span:before {
+        transform: scale(1);
+        opacity: 0;
+        transition: all 0.4s ease;
+    }
+
+    #heading-logo {
+        display: flex;
+        width: 78.125vw;
+        margin-left: calc(-50vw + 60%);
+        transition: margin-left 1s ease 0s;
+    }
+
+    .brand {
+        width: 165px;
+        text-align: right;
+        overflow: hidden;
+        /* border-radius: 50%; */
+        margin: 20px auto;
+        position: relative;
+        z-index: 1;
+        margin-right: 21px;
+    }
+
+    h1.title_text {
+        width: 100%;
+        margin-left: 0;
+        /* text-align: center;
+        margin-top: 35px;
+        margin-bottom: 20px; */
+        color: yellow;
+        /* -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: black; */
+    }
+
+
+
+    ul.nav.nav-tabs.process-model.more-icon-preocess {
+        list-style: none;
+        padding: 0;
+        position: relative;
+        margin: 20px auto 20px;
+        border: none;
+        z-index: 0;
+        max-width: 100%;
+        padding-left: 9%;
+    }
+
+    .nav>li {
+        position: relative;
+    }
+
+    .process-model li {
+        display: inline-block;
+        width: 18%;
+        text-align: center;
+        float: none;
+        pointer-events: none;
+    }
+
+    ul.nav.nav-tabs.process-model.more-icon-preocess {
+        list-style: none;
+        padding: 0;
+        position: relative;
+        margin: 20px auto 20px;
+        border: none;
+        z-index: 0;
+        max-width: 100%;
+        padding-left: 9%;
+    }
+
+    .process-model li.active a,
+    .process-model li.active a:hover,
+    .process-model li.active a:focus,
+    .process-model li.visited a,
+    .process-model li.visited a:hover,
+    .process-model li.visited a:focus {
+        color: #bd2130;
+    }
+
+    .process-model li a {
+        padding: 0;
+        border: none;
+        color: #000000;
+    }
+
+    .process-model li {
+        display: inline-block;
+        width: 25%;
+        text-align: center;
+        float: none;
+    }
+
+    ul.nav.nav-tabs.process-model.more-icon-preocess {
+        list-style: none;
+        padding: 0;
+        position: relative;
+        margin: 20px auto 20px;
+        border: none;
+        z-index: 0;
+        max-width: 100%;
+    }
+
+    .process-model li.active i,
+    .process-model li.visited i {
+        background: #fff;
+        border-color: #bd2130;
+    }
+
+    .process-model li i {
+        display: block;
+        height: 68px;
+        width: 68px;
+        text-align: center;
+        margin: 0 auto;
+        background: #f5f6f7;
+        border: 2px solid #e5e5e5;
+        line-height: 65px;
+        font-size: 30px;
+        border-radius: 50%;
+    }
+
+    .process-model li.active a,
+    .process-model li.active a:hover,
+    .process-model li.active a:focus,
+    .process-model li.visited a,
+    .process-model li.visited a:hover,
+    .process-model li.visited a:focus {
+        color: #bd2130;
+        text-decoration: none;
+        cursor: default;
+    }
+
+    .process-model li a {
+        padding: 0;
+        border: none;
+        color: #000000;
+        text-decoration: none;
+        cursor: default;
+    }
+
+    .process-model li.active p,
+    .process-model li.visited p {
+        font-weight: bold;
+        color: #bd2130;
+    }
+
+    p {
+        /* margin-top: 1rem; */
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .title-blk p {
+        font-weight: bold;
+        color: black;
+    }
+
+    .process-model li.visited::after {
+        background: #bd2130;
+    }
+
+    .process-model li::after {
+        background: #e5e5e5 none repeat scroll 0 0;
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 4px;
+        margin: 0 auto;
+        position: absolute;
+        right: -105px;
+        top: 33px;
+        width: 210px;
+        z-index: -1;
+        cursor: default;
+    }
+
+    .process-model li:last-child::after {
+        width: 0;
+    }
+
+    #step-section {
+        width: 100%;
+        /* margin-left: calc(-50vw + 50%); */
+        margin-top: 50px;
+    }
+
+    #undertakingSection {
+        max-width: 1500px;
+        margin-left: calc(-50vw + 60%);
+        background: #eaf4ff;
+        display: none;
+    }
+
+    #undertakingSection p {
+        color: black;
+        line-height: 2;
+    }
+
+    #undertakingSection .fw-bold {
+        font-size: x-large;
+    }
+
+
+    .captcha {
+        border-radius: 5px;
+        color: black;
+        display: flex;
+        margin-bottom: 1rem;
+    }
+
+    .captcha label {
+
+        font-size: initial;
+        pointer-events: auto;
+        background: #eaf4ff;
+        position: relative;
+        top: 10px;
+        left: 0;
+    }
+
+    @media screen and (max-width: 500px) {
+        .captcha {
+            flex-direction: column;
+        }
+
+        .text {
+            margin: .5em !important;
+            text-align: center;
+        }
+
+        .logo {
+            align-self: center !important;
+        }
+
+        .spinner {
+            margin: 2em .5em .5em .5em !important;
+        }
+    }
+
+    .text {
+        font-size: 20px;
+        font-weight: 500;
+        margin-right: 1em;
+        margin-top: 0;
+    }
+
+    .spinner {
+        position: relative;
+        width: 2em;
+        height: 0;
+        display: flex;
+        margin: 10px 20px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    input[type="checkbox"]+.checkmark {
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        background-color: #fcfcfc;
+        border: 2.5px solid #c3c3c3;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]+.checkmark span {
+        content: '';
+        position: relative;
+        /*
+	position:absolute;
+	border-bottom:3px solid;
+	border-right:3px solid;
+	border-color:#029f56;*/
+        margin-top: -3px;
+        transform: rotate(45deg);
+        width: .75em;
+        height: 1.2em;
+        opacity: 0;
+    }
+
+    input[type="checkbox"]+.checkmark>span:after {
+        content: '';
+        position: absolute;
+        display: block;
+        height: 3px;
+        bottom: 0;
+        left: 0;
+        background-color: #029f56;
+    }
+
+    input[type="checkbox"]+.checkmark>span:before {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 3px;
+        bottom: 0;
+        right: 0;
+        background-color: #029f56;
+    }
+
+    input[type="checkbox"]:checked+.checkmark {
+        animation: 2s spin forwards;
+    }
+
+    input[type="checkbox"]:checked+.checkmark>span {
+        animation: 1s fadein 1.9s forwards;
+    }
+
+    input[type="checkbox"]:checked+.checkmark>span:after {
+        animation: .3s bottomslide 2s forwards;
+    }
+
+    input[type="checkbox"]:checked+.checkmark>span:before {
+        animation: .5s rightslide 2.2s forwards;
+    }
+
+    @keyframes fadein {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @keyframes bottomslide {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    @keyframes rightslide {
+        0% {
+            height: 0;
+        }
+
+        100% {
+            height: 100%;
+        }
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        align-self: flex-end;
+        margin: 0.5em 1em;
+    }
+
+    .logo img {
+        height: 2em;
+        width: 2em;
+    }
+
+    .logo p {
+        color: #9d9ba7;
+        margin: 0;
+        font-size: 1em;
+        font-weight: 700;
+        margin: .4em 0 .2em 0;
+    }
+
+    .logo small {
+        color: #9d9ba7;
+        margin: 0;
+        font-size: .8em;
+    }
+
+    @keyframes spin {
+        10% {
+            width: 0;
+            height: 0;
+            border-width: 6px;
+        }
+
+        30% {
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            border-width: 1em;
+            transform: rotate(0deg);
+            border-color: rgb(199, 218, 245);
+        }
+
+        50% {
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            border-width: 4px;
+            border-color: rgb(199, 218, 245);
+            border-right-color: rgb(89, 152, 239);
+        }
+
+        70% {
+            border-width: 4px;
+            border-color: rgb(199, 218, 245);
+            border-right-color: rgb(89, 152, 239);
+        }
+
+        90% {
+            border-width: 4px;
+        }
+
+        100% {
+            width: 2em;
+            height: 2em;
+            border-radius: 50%;
+            transform: rotate(720deg);
+            border-color: transparent;
+        }
+    }
+
+    .captcha-label {
+        display: flex;
+        background: #eaf4ff;
+        max-width: 35%;
+        font-size: 20px;
+        position: initial;
+    }
+
+    #captchaDiv {
+        background: bisque;
+        margin: 0 25px;
+        padding: 0 15px;
+    }
+
+    .refresh-icon {
+        margin-top: 5px;
+        margin-left: 20px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    .success-icon {
+        font-size: 200px;
+        color: #32bd21;
+        margin-bottom: 3rem;
+    }
+
+    #successSection {
+        /* background: white;
+        max-width: 1200px;
+        margin-left: calc(-50vw + 69%); */
+        background: #91c5ff;
+        text-align: center;
+        box-shadow: none !important;
+        border: 0;
+        margin-top: 50px;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgb(220 53 69 / 25%);
+        border-color: #dc3545;
+    }
+
+    div#procedure-div .modal-body {
+        height: auto;
+    }
+
+    #overlay {
+        position: absolute;
+        left: 0%;
+        top: 0%;
+        z-index: 9999;
+        width: 100%;
+        background: rgba(255, 255, 255, .7);
+    }
+
+    #loader {
+        position: fixed;
+        display: block;
+        left: 50%;
+        top: 48%;
+        z-index: 9999;
+        width: 100%;
+        height: 100%;
+        background-image: url(images/report/loader.gif);
+        background-repeat: no-repeat;
+        margin: -77px 0 0 -75px;
+    }
+
+    #scan-msg {
+        position: fixed;
+        display: block;
+        top: 55%;
+        z-index: 9999;
+        text-align: center;
+        width: 50%;
+        left: 25%;
+    }
+
+    .pdf-icon {
+        color: red;
+        position: absolute;
+        top: 13px;
+        left: 25px;
+    }
+    
+    .valid-box {
+	    border: 2px solid #0ee90e;
+	    color: black;
+	    background: #ffedb6 !important;/*  #ffd659 !important; */
+	    font-weight: bold;
+	    font-size: 15px;
+    }
+    
+    .label-font {
+    max-width: fit-content;
+	}
+</style>
+
+<body>
+<input type=hidden id="displnonn" th:value="${enable}">
+    <div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+        </div>
+        <h1 id="scan-msg">The Uploaded Documents are being scanned. Thanks for waiting.</h1>
+    </div>
+    <div class="container container-100">
+
+        <div class="row" id="previewQueryFullSection">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="form">
+                        <div class="row title-blk" style="padding: 15px 50px 0px 0px;justify-content: center;">
+                            <p class="col-sm-1 label-font">Name :</p>
+                            <div class="col-sm-3">
+                                <p style="font-weight: 700;color: #0400ff;margin-top: 0;" th:text="${dcallQueryGen.recp_name}"></p>
+                            </div>
+                            <p class="col-sm-1 label-font">Article Id :</p>
+                            <div class="col-sm-2">
+                                <p style="font-weight: 700;color: #0400ff;margin-top: 0;" th:text="${dcallQueryGen.Item_ID}"></p>
+                            </div>
+                            <p class="col-sm-2 label-font">D-Call Letter Number :</p>
+                            <div class="col-sm-2">
+                                <p style="font-weight: 700;color: #0400ff;margin-top: 0;" th:text="${dcallQueryGen.dcallno}"></p>
+                            </div>
+                        </div>
+                        <div class="row addd">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 1rem;padding-left: 0;">
+                                <h4 class="subtitle" style="text-align:center;">VIEW QUERY REPLY & UPLOADED DOCUMENTS</h4>
+                            </div>
+                            
+                              <table class="table" border="1"  style="display:none;background: #9fe7a8;" id="userupld">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="4" style="border: 1px solid;background: #9fe7a8;">Registration Details provided in the link:</th>
+                                     </tr>
+                                       
+                                   
+                                    <tr align="center" style="border: 1px solid;background: #9fe7a8;">
+                                        <th style="width:5%;border: 1px solid;">Name</th>
+                                        <th style="width:25%;border: 1px solid;">Mobile No</th>
+                                        <th style="width:30%;border: 1px solid;">Email </th>
+                                        <th style="width:30%;border: 1px solid;">Reply date </th>
+                                    </tr>
+                                    
+                                    
+                                </thead>
+                                <tbody style="text-align: center;background: #dcdcdc;">
+                                    <tr>
+                                        <td th:text="${name?:'-'}"></td>
+                                        <td th:text="${mobino1 ?:'-'}"></td>
+                                        <td th:text="${mailId1 ?:'-'}"></td>
+                                        <td th:text="${fpoqery ?:'-'}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            
+                            
+                             <table class="table" border="1"  style="display:none;background: #9fe7a8;" id="uploadbyoff">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="6" style="border: 1px solid;background: #9fe7a8;">Information entered by officer while recording the reply received in physical format:</th>
+                                     </tr>
+                                       
+                                   
+                                    <tr align="center" style="border: 1px solid;background: #9fe7a8;">
+                                        <th style="width:10%;border: 1px solid;">Name</th>
+                                        
+                                        <th style="width:20%;border: 1px solid;">Email </th>
+                                        <th style="width:20%;border: 1px solid;">Mobile No</th>
+                                        <th style="width:15%;border: 1px solid;">Reply date </th>
+                                        <th style="width:10%;border: 1px solid;">Date of Upload by officer</th>
+                                        <th style="width:15%;border: 1px solid;">Officer Name:</th>
+                                    </tr>
+                                    
+                                    
+                                </thead>
+                                <tbody style="text-align: center;background: #dcdcdc;">
+                                    <tr>
+                                        <td th:text="${name?:'-'}"></td>
+                                        
+                                        <td th:text="${mailId ?:'-'}"></td>
+                                        <td th:text="${mobino ?:'-'}"></td>
+                                        <td th:text="${fpoqery ?:'-'}"></td>
+                                        <td th:text="${updatedt ?:'-'}"></td>
+                                        <td th:text="${officername ?:'-'}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+
+                            <table class="table" border="1" th:if="${queryRemarks ne null}">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="1" style="border: 1px solid;">GENERAL QUERY</th>
+                                        <th colspan="1" style="border: 1px solid;background: #9fe7a8;font-size: 18px;">REPLY FROM THE RECIPIENT</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr>
+                                        <td style="width:60%;" th:text="${queryRemarks}"></td>
+                                        <td th:text="${generalQueryReply}" style="text-align: center;font-weight: bold;background: #dcdcdc;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table" border="1" th:if="${not #lists.isEmpty(queryItems)}">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="3" style="border: 1px solid;">ITEMWISE QUERY</th>
+                                        <th colspan="1" rowspan="2" style="border: 1px solid;background: #9fe7a8;font-size: 18px;vertical-align:middle;">REPLY FROM THE RECIPIENT</th>
+                                    </tr>
+                                    <tr align="center">
+                                        <th style="width:5%;border: 1px solid;">Item No</th>
+                                        <th style="width:25%;border: 1px solid;">Description</th>
+                                        <th style="width:30%;border: 1px solid;">Customs Query</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <tr th:each="query,iter : ${queryItems}">
+                                        <td th:text="${query[0]}"></td>
+                                        <td th:text="${query[2]}"></td>
+                                        <td th:text="${query[1]}"></td>
+                                        <td th:text="${query[3]}" style="font-weight: bold;background: #dcdcdc;border-bottom: 1px solid;" th:id="${'previewitemresp-'+(iter.index+1)}">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table" border="1" th:if="${not #lists.isEmpty(defaultQueries)}">
+                                <thead class="table-primary">
+                                    <tr align="center">
+                                        <th colspan="1" style="border: 1px solid;">FOLLOWING DOCUMENTS ARE CALLED FOR</th>
+                                        <th colspan="1" style="border: 1px solid;background: #9fe7a8;font-size: 18px;">REPLY FROM THE RECIPIENT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:60%;">
+                                            <div th:each="defaultQuery,iter : ${defaultQueries}">
+                                                <span th:text="${(iter.index+1)+'.'+defaultQuery}"></span><br><br>
+                                            </div>
+                                        </td>
+                                        <td th:text="${defaultQueryReply}" id="previewdefQueryResp" style="text-align: center;font-weight: bold;background: #dcdcdc;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-2 mt-2" id="previewKycSectionDiv">
+                    <div class="form">
+                        <div class="row addd" id="previewKycHeading">
+                            <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;">
+                                <h4 class="subtitle">KYC </h4>
+                            </div>
+                            <div th:each="kyc : ${kycList}" style="display:flex;width: 100%;">
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input th:value="${kyc.documentType}" class="control valid-box" type="text" disabled />
+                                        <label class="float">Type of KYC Document<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input th:value="${kyc.documentReferenceNumber}" class="control valid-box" type="text" disabled />
+                                        <label class="float">Document Number<span style="color: red;">&nbsp;*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="form-group floating">
+                                        <input th:value="${kyc.documentName}" style="padding-left:30px;" class="control valid-box" type="text" disabled>
+                                        <span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span><span class="upload-btn" th:value="${#strings.substring(kyc.documentPhysicalFile,#strings.length(kyc.documentPhysicalFile)-23,#strings.length(kyc.documentPhysicalFile))}"
+							 onclick="viewFilePdf(this)"><a>View</a></span>
+							<label class="float">KYC Upload<span style="color: red;">&nbsp;*</span>
+							</label></div></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-2 mt-2" id="previewSupportSectionDiv" th:if="${not #lists.isEmpty(supportList)}">
+                	<div class="form">
+                		<div class="row addd" id="previewSupportHeading">
+                			<div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;">
+                				<h4 class="subtitle">SUPPORTING DOCUMENTS </h4>
+                			</div>
+                			<div th:each="support : ${supportList}" style="display:flex;width: 100%;">
+                			<div class="col-lg-3 col-md-3 col-sm-3">
+							<input th:value="${support.documentType}" class="control valid-box" type="text" disabled />
+							<div class="form-group floating">
+							<label class="float">Type of Supporting Document<span style="color: red;">&nbsp;*</span></label></div></div>
+							<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">
+							<input th:value="${support.documentReferenceNumber}" class="control valid-box" type="text" disabled />
+							<label class="float">Document Number<span style="color: red;">&nbsp;*</span></label></div></div>
+							<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">
+							<input th:classappend="${support ne null && support.documentDescription ne null} ? valid-box : ''" th:value="${support.documentDescription}" class="control" type="text" disabled />
+							<label class="float">Description</label></div></div>
+							<div class="col-lg-3 col-md-3 col-sm-3"><div class="form-group floating">
+							<input th:value="${support.documentName}" style="padding-left:30px;" class="control valid-box" type="text" disabled>
+							<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span><span class="upload-btn" th:value="${#strings.substring(support.documentPhysicalFile,#strings.length(support.documentPhysicalFile)-23,#strings.length(support.documentPhysicalFile))}" onclick="viewFilePdf(this)"><a>View</a></span>
+							<label class="float">Supporting Document Upload<span style="color: red;">&nbsp;*</span></label>
+                        </div></div></div>
+                		</div>
+                	</div>
+                </div>
+                <div style="width: 100%;text-align: center;">
+                                <button type="button" th:cinNo="${cinNo}" onclick="nextMove(this)" class="btn btn-success">Next</button>
+                            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 85%;">
+            <div class="modal-content" id="pdfcontent">
+                <canvas id="pdfViewer"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+        <div class="modal fade" id="viewPdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Uploaded File</h4>
+          <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+				<embed id="embededpdf"
+                               frameborder="0" width="100%"  style="height: 90vh;">
+        </div>
+      </div>
+    </div>
+  </div>
+    <script th:src="@{js/sweetalert.min.js}"></script>
+    <script type="text/javascript">
+    
+     var val= $("#displnonn").val();
+    console.log(val);
+    
+    if(val == "true")
+    {
+   
+     $("#userupld").css("display", "inline-table");
+    
+    }
+    else
+    {
+   
+     $("#uploadbyoff").css("display", "inline-table");
+     $("#uploadbyoff1").css("display", "inline-table");
+      $("#uploadbyoff2").css("display", "inline-table");
+     
+    
+    }
+    
+    
+    
+    	function viewFilePdf(obj){
+    		$("#embededpdf").attr('src','file/pdf/'+$(obj). 	attr('value'));
+    		$("#viewPdfModal").modal('show');
+    	}
+    	
+    	function closePdfModal() {
+    		$("#viewPdfModal").modal('hide');
+    	}
+        
+        function showLoader() {
+    		$("#overlay").css("display", "block");
+    		$('#overlay').height($("html").innerHeight());
+		}
+
+		function hideLoader() {
+    		setTimeout(function() {
+        		$("#overlay").css("display", "none");
+    		}, 500);
+		}
+    </script>
+</body>
+
+</html>

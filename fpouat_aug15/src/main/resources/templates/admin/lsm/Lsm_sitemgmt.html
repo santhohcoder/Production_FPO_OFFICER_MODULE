@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head lang="en" th:replace="header :: header"></head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	</head>
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+</style>
+
+<body>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<h3 style ="font-size: 19px; margin-left: 2%;">Dashboard> Site Management</h3>
+	<h3 style="text-align: center; color: #1616e0; ">
+	<div th:if="${session.data1=='PLA'}"> LOCAL SYSTEM ADMINISTRATOR (PLA)</div>
+	<div th:if="${session.data1=='PAA'}"> ALTERNATE SYSTEM ADMINISTRATOR (PAA) </div></h3>
+
+<div class="col-md-12" style ="padding: 4%;">
+<div class="row" style="display: flex;
+    justify-content: center;">
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #4ac0d3">
+        <h5 class="card-title">Site Update and Process Update</h5>
+        <p class="card-text">To Update the FPO Site Profiles like Address, Phone Nos., Email-Id, Visiting hours etc. These details will reflect on the DCALL letters issued to the Importers..  </p><br>
+        <a href="Lsm_siteUpdate" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div>
+ <!--div class="col-sm-1" ></div> 
+  <div class="col-sm-3">
+    <div class="card">
+      <div class="card-body" style="background: #91adc9;">
+        <h5 class="card-title" >Push Article</h5>
+        <p class="card-text">To provide high priority for any Article ID of this Site in assessment queue.</p><br>
+        <a href="Push_article" class="btn btn-success">Go-to</a>
+      </div>
+    </div>
+  </div-->
+</div>
+</div>
+
+</body>
+<script>
+        function goback() {
+     window.location = "lsm_module";
+     } 
+$(document).ready(function() {
+	showLoader();
+	hideLoader();
+	});	
+	
+	
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}  
+</script>       
+</html>
+

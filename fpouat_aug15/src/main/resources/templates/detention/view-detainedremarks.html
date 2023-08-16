@@ -1,0 +1,659 @@
+<style>
+    .ui-widget-content .ui-icon {
+        background-image: url(images/report/ui-icons_222222_256x240.png) !important;
+    }
+
+    .container-100 {
+        max-width: 100%
+    }
+
+    .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .2) !important;
+        border-radius: 3px;
+        padding: 0;
+    }
+
+    .mb-2 {
+        margin-bottom: .5rem !important;
+    }
+    
+    
+    .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+    .mt-2 {
+        margin-top: .5rem !important;
+    }
+
+    .form {
+        padding: 15px 30px 10px;
+    }
+
+    .row.addd {
+        position: relative;
+    }
+
+    .subtitle {
+        font-size: 16px;
+        font-weight: 800;
+        margin: 10px 0 18px;
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    body {
+        background: #91c5ff;
+    }
+
+    label.float {
+        color: #333;
+        font-size: 12px;
+        font-weight: 700 !important;
+        position: absolute;
+        pointer-events: none;
+        left: 20px;
+        top: -10px;
+        font-weight: 600;
+        transition: all .2s ease;
+        -moz-transition: .2s ease all;
+        -webkit-transition: all .2s ease;
+        background: #fff;
+        padding: 0 5px;
+    }
+
+    select.control,
+    input[type="text"] {
+        height: 40px;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        color: #495057;
+    }
+
+    select.control:focus,
+    input[type="text"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px #828282;
+    }
+
+    div[class^="col-lg-"] {
+        margin-top: 10px;
+    }
+
+    .col-lg-12 {
+        margin-top: 0 !important;
+    }
+
+    .col-lg-3 {
+        max-width: 23%;
+    }
+
+    .mt-10 {
+        margin-top: 10px;
+    }
+
+    .add-btn {
+        padding-left: 15px;
+        cursor: pointer;
+    }
+
+    .remove-btn {
+        line-height: 30px;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        display: inline-block;
+        width: 35px;
+        height: 32px;
+        border-radius: 40px;
+        text-align: center;
+        margin: 3px 0px 0 14px;
+        cursor: pointer;
+    }
+
+    div[id^="document-section"],
+    div[id^="preview-document-section"],
+    div[id^="fp-section"],
+    div[id^="fine-section"],
+    div[id^="preview-fine-section"],
+    div[id^="penalty-section"],
+    div[id^="preview-penalty-section"],
+    div[id^="detentioncase-section"],
+    div[id^="preview-detentioncase-section"] {
+        display: flex;
+        width: 100%;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+        background: white;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 100px;
+        top: 8px;
+    }
+
+    .delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        overflow: hidden;
+        position: absolute;
+        right: 25px;
+        top: 8px;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545;
+    }
+
+    .invalid {
+        border: 2px solid #dc3545 !important;
+    }
+
+    .invalid:focus {
+        box-shadow: 0 0 0 0.2rem rgb(220 53 69/ 25%);
+        border-color: #dc3545;
+    }
+
+    .invalid-feedback {
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    tbody textarea {
+        resize: none;
+    }
+
+    #overlay {
+        position: fixed;
+        height: 100%;
+        left: 0%;
+        top: 0%;
+        z-index: 9999;
+        width: 100%;
+        background: rgba(255, 255, 255, .7);
+    }
+
+    #loader {
+        position: fixed;
+        display: block;
+        left: 50%;
+        top: 48%;
+        z-index: 9999;
+        width: 100%;
+        height: 100%;
+        background-image: url(images/report/loader.gif);
+        background-repeat: no-repeat;
+        margin: -77px 0 0 -75px;
+    }
+
+    .pdf-icon {
+        color: red;
+        position: absolute;
+        top: 15px;
+        left: 25px;
+    }
+
+    .pl-25 {
+        padding-left: 25px;
+    }
+
+    .form-control[readonly] {
+        background: white !important;
+    }
+
+    .valid-box {
+        border: 2px solid #0ee90e !important;
+        color: black;
+        background: #ffedb6 !important;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .cross-icon {
+        color: #818589;
+        position: absolute;
+        top: 13px;
+        right: 30px;
+        cursor: pointer;
+    }
+
+    .btn-success.cmts {
+        margin-top: 5%;
+        color: white;
+        background: #0014ff;
+        border: #0014ff;
+    }
+
+    .btn-success.cmts:not(:disabled):not(.disabled).active:focus,
+    .btn-success.cmts:not(:disabled):not(.disabled):active:focus,
+    .show>.btn-success.cmts.dropdown-toggle:focus {
+        margin-top: 5%;
+        color: white;
+        background: #0014ff;
+        border: #0014ff;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+
+    .btn-success.dept-cmts {
+        color: white;
+        background: rebeccapurple;
+        border: rebeccapurple;
+    }
+
+    .btn-success.dept-cmts:not(:disabled):not(.disabled).active:focus,
+    .btn-success.dept-cmts:not(:disabled):not(.disabled):active:focus,
+    .show>.btn-success.dept-cmts.dropdown-toggle:focus {
+        color: white;
+        background: rebeccapurple;
+        border: rebeccapurple;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+</style>
+<div id="overlay" style="display: none;">
+    <div id="loader">
+    <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+    </div>
+</div>
+<input type="hidden" id="cinNo" th:value="${cinNo}">
+<input type="hidden" id="viewPage" th:value="${view}">
+<div class="container container-100">
+    <div class="row" id="previewDetainRemarksFullSection" th:each="detainremark : ${detainedRemarks}">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="card mb-2 mt-2" id="previewDetainRemarksUploadSection">
+                <div class="form">
+                    <div class="row addd" id="previewDetainRemarkDiv">
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display: flex;">
+                            <h4 class="subtitle">Detention Remarks</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="display: flex; justify-content: end;">
+                        <div class="form-group floating">
+                        <button type="button" class="btn btn-success dept-cmts" th:articleid="${itemId}" id="detained-view-summary" onclick="viewSummary(this)">View Article Summary</button>
+                        <button type="button" class="btn btn-success dept-cmts" th:articleid="${itemId}" onclick="viewDeptComments(this)">View Dept. Comments</button>
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea disabled class="control valid-box" rows="5" id="previewDetainRemarks" th:text="${detainremark.remarks}" style="cursor: not-allowed; width: 50%; resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="detcasesec-full-div" th:if="${not #lists.isEmpty(detainremark.fpoDetainedCaseInfo)}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Detention Case</h4>
+                            <p class="text-muted" style="margin-top: 10px; margin-left: 10px;">(Note: Maximum
+                                of 5 files can be upload.)</p>
+                        </div>
+						<div class="col-lg-6 col-md-6 col-sm-6" style="display:flex;padding-left: 0;">
+						    <div class="col-6" th:if="${detainremark.detainCase ne null}">
+						        <div class="form-group floating">
+                                	<input class="control valid-box" disabled type="text" th:value="${detainremark.detainCase}">
+						            <label class="float">Type of Case<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+						        </div>
+						    </div>
+						    <div class="col-3" th:if="${detainremark.detainCaseOther ne null}">
+						        <div class="form-group floating">
+                                	<input class="control valid-box" disabled type="text" th:value="${detainremark.detainCaseOther}">
+						            <label class="float">Detail for Others<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+						        </div>
+						    </div>
+						    <div class="col-6" th:if="${detainremark.detainMethod ne null}">
+						        <div class="form-group floating">
+                                	<input class="control valid-box" disabled type="text" th:value="${detainremark.detainMethod}">
+						            <label class="float">Detention Method<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+						        </div>
+						    </div>
+						    <div class="col-3" th:if="${detainremark.detainMethodOther ne null}">
+						        <div class="form-group floating">
+                                	<input class="control valid-box" disabled type="text" th:value="${detainremark.detainMethodOther}">
+						            <label class="float">Detail for Others<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+						        </div>
+						    </div>
+						</div>
+                        <div id="detentioncase-section-1" th:each="fpoDetainedCaseInfo : ${detainremark.fpoDetainedCaseInfo}">
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                	<input class="control valid-box" disabled type="text" th:value="${fpoDetainedCaseInfo.itemDetail}">
+                                    <label class="float">Suspected Item Detail<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" style="display:flex;">
+							    <div class="col-6">
+							        <div class="form-group floating">
+							            <input class="control valid-box" th:value="${fpoDetainedCaseInfo.quantity}" disabled type="text">
+							            <label class="float">Quantity<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+							        </div>
+							    </div>
+							    <div class="col-6">
+							        <div class="form-group floating">
+							            <input class="control valid-box" th:value="${fpoDetainedCaseInfo.uqc}" disabled type="text">
+							            <div class="invalid-feedback">UQC is required</div>
+							            <label class="float">UQC<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+							        </div>
+							    </div>
+							</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                	<input class="control valid-box" th:value="${fpoDetainedCaseInfo.value}" disabled type="text">
+                                    <label class="float">Value<span style="color: red;font-weight:bold;">&nbsp;*</span></label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3" th:if="${fpoDetainedCaseInfo.photoName ne null}">
+                                <div class="form-group floating">
+                                    <input class="control valid-box" style="padding-left:30px;" th:value="${fpoDetainedCaseInfo.photoName}" disabled type="text">
+                                    <p class="text-muted">(Note: Only PDF is allowed.Maximum
+                                        File size must be in 1 MB.)</p>
+                                    <label class="float">Photo Upload</label><span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>
+									<span class="upload-btn" th:value="${#strings.substring(fpoDetainedCaseInfo.photoPhysicalFile,#strings.length(fpoDetainedCaseInfo.photoPhysicalFile)-28,#strings.length(fpoDetainedCaseInfo.photoPhysicalFile))}"
+							 onclick="viewFilePdf(this)"><a>View</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="docsec-full-div" th:if="${not #lists.isEmpty(detainremark.fpoDetainedDocInfo)}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Document Upload</h4>
+                            <p class="text-muted" style="margin-top: 10px; margin-left: 10px;">(Note: Maximum
+                                of 6 files can be upload.)</p>
+                        </div>
+                        <div id="document-section-1" th:each="fpoDetainedDocInfo : ${detainremark.fpoDetainedDocInfo}">
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input class="control valid-box" th:value="${fpoDetainedDocInfo.documentType}" type="text" disabled>
+                                    <label class="float">Type of Document</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input type="text" id="document-date-1" th:value="${#dates.format(fpoDetainedDocInfo.documentDate, 'dd/MM/yyyy')}" placeholder="Select Document Date" disabled class="valid-box picker form-control form_txt change">
+                                    <div class="invalid-feedback">Document Date is required</div>
+                                    <label class="float">Document Date</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <div class="form-group floating">
+                                    <input class="control valid-box" type="text" style="padding-left:30px;" th:value="${fpoDetainedDocInfo.documentName}" id="document-filetxt-1" placeholder="Please Upload File" disabled>
+                                    <p class="text-muted">(Note: Only PDF is allowed.Maximum
+                                        File size must be in 1 MB.)</p>
+                                    <label class="float">File Upload</label><span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>
+                                    <span class="upload-btn" th:value="${#strings.substring(fpoDetainedDocInfo.documentPhysicalFile,#strings.length(fpoDetainedDocInfo.documentPhysicalFile)-28,#strings.length(fpoDetainedDocInfo.documentPhysicalFile))}"
+							 onclick="viewFilePdf(this)"><a>View</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row addd" id="fine-penalty-full-div" th:if="${not #lists.isEmpty(detainremark.fpoFines) || not #lists.isEmpty(detainremark.fpoPenalties)}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Fine & Penalty</h4>
+                        </div>
+                        <div style="width:50%" th:if="${not #lists.isEmpty(detainremark.fpoFines)}">
+                            <div id="fine-section-1" th:each="fpoFine : ${detainremark.fpoFines}">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control valid-box" th:value="${fpoFine.fineAmt}" type="text" disabled>
+                                        <label class="float">Fine Amount</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control valid-box" th:value="${fpoFine.fineUs}" type="text" disabled>
+                                        <label class="float">Fine Section</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:50%">
+                            <div id="penalty-section-1" th:each="fpoPenalty : ${detainremark.fpoPenalties}">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control valid-box" th:value="${fpoPenalty.penalAmt}" type="text" disabled>
+                                        <label class="float">Penalty Amount</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                    <div class="form-group floating">
+                                        <input class="control valid-box" th:value="${fpoPenalty.penalUs}" type="text" disabled>
+                                        <label class="float">Penalty Section</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Decision</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group floating">
+                                <input type="text" disabled class="control valid-box" th:value="${detainremark.detainDecision}" id="previewDetainDecision">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row addd" id="previewDecisionReasonDiv" th:if="${detainremark.decisionReason ne null}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Reason</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-group floating">
+                                <textarea disabled class="control valid-box" rows="5" id="previewDecisionReason" th:text="${detainremark.decisionReason}" style="cursor: not-allowed; width: 50%; resize: none;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+					<div class="row addd" th:if="${comments}">
+					    <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+					        <h4 class="subtitle">Past Comments</h4>
+					    </div>
+					    <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex;height:170px;max-height: 170px;border: 1px solid;overflow-y: scroll;margin-left: 15px;">
+					        <div class="col-lg-6 col-md-6 col-sm-6">
+					            <div th:each="ac,iter : ${acComments}">
+					                <label style="font-weight: bold;color: blue;"  th:text="${iter.index+1}+'. '+(${acrolematch} ? 'By You : ' : 'By AC : ')"></label>
+					                <span style="font-weight: bold;color: #cf1818;" th:text="${ac.comments}"></span>
+					            </div>
+					    </div>
+					        <div class="col-lg-6 col-md-6 col-sm-6">
+					            <div th:each="appraiser,iter : ${appraiserComments}">
+					                <label style="font-weight: bold;color: blue;"  th:text="${iter.index+1}+'. '+(${acrolematch} ? 'By Appraiser : ' : 'By You : ')"></label>
+					                <span style="font-weight: bold;color: #cf1818;" th:text="${appraiser.comments}"></span>
+					            </div>
+					    </div>
+					    </div>
+					</div>
+                    <div class="row addd" th:if="${cmtflows}">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="display: flex;">
+                            <h4 class="subtitle">Enter your Comment</h4>
+                            <span style="color: red; font-weight: bold;">&nbsp;*</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group floating">
+                                <textarea class="control" rows="5" id="remarkcomments" style="width: 100%; resize: none;outline: none;"></textarea>
+                                <div class="invalid-feedback">Comment is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group floating">
+                                <button type="button" class="btn btn-success cmts" style="margin-top: 5%;" th:articleId="${itemId}" th:ac="${acrolematch}" onclick="saveComment(this)" th:text="${acrolematch} ? 'Send back to Appraiser' : 'Send back to AC'">Send back to Appraiser</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; text-align: center;" th:unless="${history}">
+        <button type="button" th:unless="${cmtflows}" class="btn btn-success" th:articleId="${itemId}" onclick="getNewRemark(this)">Next</button>
+        <button type="button" th:if="${cmtflows && acrolematch}" class="btn btn-success" th:articleId="${itemId}" onclick="moveToAss(this)">Approve and Send to Assessment Queue</button>
+    </div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 85%;">
+        <div class="modal-header" style="background: whitesmoke; padding-top: 5px; padding-bottom: 5px;">
+            <h4 class="modal-title">Uploaded File</h4>
+            <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-content" id="pdfcontent">
+            <embed id="embeduploadedpdf" frameborder="0" width="100%" style="height: 85vh;">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+		function showLoader() {
+		    $("#overlay").css("display", "block");
+		}
+		
+		function viewFilePdf(obj) {
+		    $("#embeduploadedpdf").attr('src', 'file/pdf/' + $(obj).attr('value'));
+		    $("#pdfView").modal('show');
+		}
+		
+		function hideLoader() {
+		    setTimeout(function() {
+		        $("#overlay").css("display", "none");
+		    }, 500);
+		}
+		
+		function getNewRemark(obj) {
+			$("#detentionRemarkBody").modal('hide');
+			getPopup(obj,false,false);
+		}
+		
+		console.log('success')
+		
+		function saveComment(obj) {
+		    if ($("#remarkcomments").val().trim() == '') {
+		        $("#remarkcomments").next().show();
+		        $("#remarkcomments").addClass('invalid');
+		        return false;
+		    }
+		    var cmtmsg = $(obj).attr('ac') === 'false' ? 'AC' : 'Appraiser';
+		    swal({
+		            title: "Are you sure to submit the entered comment to " + cmtmsg + " ?",
+		            icon: "warning",
+		            buttons: ["No", "Yes"],
+		            dangerMode: false,
+		        })
+		        .then((willDelete) => {
+		            if (willDelete) {
+		                $.ajax({
+		                    url: "savedetaincomments?itemId=" + $(obj).attr('articleid') + "&comment=" + $("#remarkcomments").val().trim(),
+		                    type: "post",
+		                    success: function(data) {
+		                        if (data.status) {
+		                            swal('Your Comment is saved and moved to ' + cmtmsg + ' !', "Thanks", 'success').then((value) => {
+		                                $("#detentionRemarkModal").find('.close').click();
+		                               // $("#detentiontable").DataTable().ajax.reload();
+		                               window.location.href = 'detained';
+		                            });
+		                        } else {
+		                            swal('Error!', "Something went wrong !", 'error');
+		                        }
+		                    },
+		                    error: function(rs, e) {
+		                        swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+		                    }
+		                });
+		            }
+		        });
+		}
+		
+		function moveToAss(obj) {
+		    swal({
+		            title: "Are you sure to approve and send back to Assessment Queue ?",
+		            icon: "warning",
+		            buttons: ["No", "Yes"],
+		            dangerMode: false,
+		        })
+		        .then((willDelete) => {
+		            if (willDelete) {
+		                $.ajax({
+		                    url: "approvetoassessment?itemId=" + $(obj).attr('articleid'),
+		                    type: "post",
+		                    success: function(data) {
+		                        if (data.status) {
+		                            swal('Article Moved back to Assessment Queue', "Thanks", 'success').then((value) => {
+		                                $("#detentionRemarkModal").find('.close').click();
+		                              //  $("#detentiontable").DataTable().ajax.reload();
+		                              //  $("#detentionhistorytable").DataTable().ajax.reload();
+		                              window.location.href = 'detained';
+		                            });
+		                        } else {
+		                            swal('Error!', "Something went wrong !", 'error');
+		                        }
+		                    },
+		                    error: function(rs, e) {
+		                        swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+		                    }
+		                });
+		            }
+		        });
+		}
+</script>

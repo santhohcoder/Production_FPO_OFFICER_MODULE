@@ -1,0 +1,200 @@
+<style>
+#overlay {
+   position: fixed;
+   left: 0%;
+   top: 0%;
+   z-index: 9999;
+    width: 100%;
+    background: rgba(255, 255, 255, .7);
+    height: 100%;
+        }
+  #loader {
+    position: fixed;
+    display: block;
+     left: 50%;
+     top: 48%;
+     z-index: 9999;
+     width: 100%;
+      height: 100%;
+      background-image: url(images/report/loader.gif);
+     background-repeat: no-repeat;
+     margin: -77px 0 0 -75px;
+        }
+        
+        
+        .swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+</style>
+<div id="overlay" style="display: none;">
+        <div id="loader">
+        <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+</div>   </div> </div>
+<div th:if="${qryraised}">
+<input type="hidden" id="additionalDcallFileName" th:attr="AAFAdditionQueryFileName=${AAFAdditionQueryFileName},AAAAdditionQueryFileName=${AAAAdditionQueryFileName},AAFFirstQueryFileName=${AAFFirstQueryFileName}">
+    <div style="text-align: center; margin: 25px;">
+        <button type="button" th:if="${eadFirstQueryRaised}" id="lock" class="btn btn-success" onclick="viewrlyEadDCallLetter()" style="margin-right: 25px; margin-left: 50px;">View EAD
+            D-Call Letter</button>
+        <button type="button" th:if="${eadFirstQueryRaised}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View
+            EAD Query Reply</button>
+        <button type="button" th:if="${aafFirstQueryRaised}" id="lock" class="btn btn-success" onclick="viewDCallLetter('AAFFirstQueryFileName')" style="margin-right: 25px; margin-left: 50px;">View First
+            Query D-Call Letter</button>
+        <button type="button" th:if="${aafFirstQueryRaised}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View
+            First Query Reply</button>
+        <button type="button" th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" onclick="viewDCallLetter('AAAAdditionQueryFileName')" style="margin-right: 25px; margin-left: 50px;">View AAA
+            D-Call Letter</button>
+        <button type="button" th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" onclick="viewAdditionQueryReply('N')" style="margin-right: 25px;">View AAA Additional Query Reply</button>
+        <button type="button" th:if="${AAFAdditionQueryFileExist}" class="btn btn-success" onclick="viewDCallLetter('AAFAdditionQueryFileName')" style="margin-right: 25px; margin-left: 50px;">View AAF
+            D-Call Letter</button>
+        <button type="button" th:if="${AAFAdditionQueryFileExist}" class="btn btn-success" onclick="viewAdditionQueryReply('P')" style="margin-right: 25px;">View AAF Additional Query Reply</button>
+    </div>
+    <div class="row">
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="dcallLetterModal" style="overflow:scroll;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="max-width: 90%;">
+        <div id="dcallLetterContent" class="modal-content" style="padding: 10px;border-radius: 25px;border: 5px solid indianred;">
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rlypdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Document Call Letter</h4>
+                <button type="button" class="close rlyqueryinfobtncancel" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="rlyembedpdf" frameborder="0" width="100%" style="height: 88vh;">
+                </iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="rlyqueryinfobtncancel" class="btn btn-secondary rlyqueryinfobtncancel" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 95%;">
+        <div class="modal-content">
+            <div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+                <h5 class="modal-title" style="font-weight: bold;">QUERY REPLY</h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="deleteDataMapped()" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+            </div>
+            <div class="modal-body" id="qryreplycontent" style="background: #b8daff;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:unless="${qryraised}">
+    <h1 style="text-align: center;margin: 100px;color: ghostwhite;text-transform: uppercase;">Query not raised</h1>
+</div>
+<script type="text/javascript">
+	function viewrlyEadDCallLetter() {
+	    $.ajax({
+	        url: "getrlyEadDCallLetter?cinNo=" + $("#inputPassword").val(),
+	        type: "get",
+	        success: function(data) {
+	            $("#dcallLetterContent").html(data);
+	            $("#rlyembedpdf").attr('src', 'file/pdf/' + $('#pdffilename').val() + '#toolbar=0&navpanes=0;readonly=true;');
+	            $("#rlypdfModal").modal('toggle');
+	        },
+	        error: function(rs, e) {
+	            swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	        }
+	    });
+	}
+	
+	function viewEadQueryReply() {
+	    $.ajax({
+	        url: "viewqueryreply?cinNo=" + $("#inputPassword").val(),
+	        type: "get",
+	        success: function(data) {
+	            $("#qryreplycontent").html(data);
+	            $("#qryreplymodal").find('h5').text('VIEW QUERY REPLY & UPLOADED DOCUMENTS');
+	            $("#previewKycSectionDiv").next().remove();
+	            $("#qryreplymodal").modal('show');
+	
+	        },
+	        error: function(rs, e) {
+	            swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	        }
+	    });
+	}
+	
+	
+	
+	function viewAdditionQueryReply(artStage) {
+	    $.ajax({
+	        url: "viewadditionalqueryreply?cinNo=" + $("#inputPassword").val() + "&articleStage=" + artStage,
+	        type: "get",
+	        success: function(data) {
+	            $("#qryreplycontent").html(data);
+	            $("#qryreplymodal").find('h5').text('VIEW ADDITIONAL QUERY REPLY & UPLOADED DOCUMENTS');
+	            $("#previewKycSectionDiv").next().remove();
+	            $("#qryreplymodal").modal('show');
+	
+	        },
+	        error: function(rs, e) {
+	            swal('OOPS!', 'Something went wrong. Please try afer sometime !!', 'error');
+	        }
+	    });
+	}
+	
+	
+	
+	function viewDCallLetter(qrytype) {
+	    $("#rlyembedpdf").attr('src', 'file/pdf/' + $('#additionalDcallFileName').attr(qrytype) + '#toolbar=0&navpanes=0;readonly=true;');
+	    $("#rlypdfModal").modal('toggle');
+	}
+function showLoader() {
+	$("#overlay").css("display", "block");
+	$('#overlay').height($("body").innerHeight());
+}
+
+function hideLoader() {
+	setTimeout(function() {
+		$("#overlay").css("display", "none");
+	}, 500);
+}	
+</script>

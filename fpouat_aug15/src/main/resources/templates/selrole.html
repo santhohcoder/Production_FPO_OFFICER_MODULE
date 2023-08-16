@@ -1,0 +1,1002 @@
+<html>
+<head lang="en" th:replace="header_selrole :: header"></head>
+<style>
+.gfg{
+border-collapse:separate;
+border-spacing:0 15px;
+}
+
+.highlight{
+background-color: #1191ec;
+    COLOR: WHITE;
+    font-weight: bolder;
+    font-size: 13px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    width: 31%;
+    }
+.page-contain {
+  	display: flex;
+    justify-content: center;
+    background: #e7f3f1;
+    font-family: "Open Sans", sans-serif;
+    flex-wrap: wrap;
+}
+
+.body {
+-webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+-o-user-select: none;
+user-select: none;
+}
+
+
+.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+.data-card {  
+    display: flex;
+    flex-direction: column;
+    max-width: 20.75em;
+    min-height: 19.75em;
+    overflow: hidden;
+    text-decoration: none;
+    background: white;
+    margin: 1em;
+    padding: 2.75em 2.5em;
+    transition: transform 0.45s ease, background 0.45s ease;
+    position: relative;
+    min-width: 295px;
+    box-shadow: inset 5px 5px 5px rgb(0 0 0 / 20%), inset -5px -5px 15px rgb(255 255 255 / 10%), 5px 5px 15px rgb(0 0 0 / 30%), -5px -5px 15px rgb(255 255 255 / 10%);
+    border-radius: 15px;
+}
+.data-card h3 {
+  color: #2e3c40;
+  font-size: 3.5em;
+  font-weight: 600;
+  line-height: 1;
+  padding-bottom: 0.5em;
+  margin: 0 0 0.142857143em;
+  border-bottom: 2px solid #0a3052;
+  transition: color 0.45s ease, border 0.45s ease;
+}
+.data-card h4 {
+  color: #627084;
+  text-transform: uppercase;
+  font-size: 1.125em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  margin: 0 0 1.777777778em;
+  transition: color 0.45s ease;
+}
+.data-card p {
+  opacity: 0;
+  color: #ffffff;
+  font-weight: 600;
+  line-height: 1.8;
+  margin: 0 0 1.25em;
+  transform: translateY(-1em);
+  transition: opacity 0.45s ease, transform 0.5s ease;
+}
+.data-card .link-text {
+  display: block;
+  color: #0a3052;
+  font-size: 1.125em;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: auto 0 0;
+  transition: color 0.45s ease;
+}
+.data-card .link-text svg {
+  margin-left: 0.5em;
+  transition: transform 0.6s ease;
+}
+.data-card .link-text svg path {
+  transition: fill 0.45s ease;
+}
+.data-card:hover {
+  background: #0a3052;
+  transform: scale(1.02);
+  text-decoration: none;
+}
+.data-card:hover h3 {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+.data-card:hover h4 {
+  color: #ffffff;
+}
+.data-card:hover p {
+  opacity: 1;
+  transform: none;
+}
+.data-card:hover .link-text {
+  color: #ffffff;
+}
+.data-card:hover .link-text svg {
+  -webkit-animation: point 1.25s infinite alternate;
+          animation: point 1.25s infinite alternate;
+}
+.data-card:hover .link-text svg path {
+  fill: #ffffff;
+}
+
+@-webkit-keyframes point {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0.125em);
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0.125em);
+  }
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #0a3052  !important;
+}
+body {
+  background-color: #e7f3f1 !important;
+}
+li.disabled {
+  background-color: #dddddd;
+  /* pointer-events: none; */
+  cursor: default;
+}
+li a {
+   color: black;
+}
+a.nav-link {
+    font-weight: bold;
+    color: black;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+#overlay {
+	position: absolute;
+	left: 0%;
+	z-index: 9999;
+	width: 100%;
+}
+
+#loader {
+	position: fixed;
+	display: block;
+	left: 50%;
+	top: 48%;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-image: url(images/report/loader.gif);
+	background-repeat: no-repeat;
+	margin: -77px 0 0 -75px;
+}
+
+ .pl{
+    font-size: 20px ; 
+    background-color: #660066;  
+ 	position: fixed;
+  	padding-bottom:-5% ;   
+	bottom:400;
+  } 
+
+	.modal-dialog {
+    max-width: 70%;
+/*     margin: 1rem 4rem 1rem auto; */
+    }
+    
+    .modal-header {
+    border-bottom: none;
+    }
+    
+	.table td, .table th {
+    padding: 0.3rem;
+    }
+    
+    tbody tr td{
+    	font-size:0.9rem
+    }
+    button:focus {
+     outline: none; 
+    }
+    
+    .modal-header .close {
+    padding: 1rem;
+    margin: 0;
+    }
+    
+    .table td, .table th {
+   	 vertical-align: middle;
+    }
+     
+        .view-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+    	right: 12.5rem;
+        }
+
+
+
+ .upload-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        right: 5rem;
+    
+    }
+
+.delete-btn {
+        display: inline-block;
+        background: rgb(153, 153, 153);
+        color: rgb(255, 255, 255);
+        padding: 3px 15px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+       right: 4.5rem;
+    }
+   .control option {
+  background-color: #E4EFF7 !important;
+
+}
+select {
+background-color: #4FA0D8;
+} 
+</style>
+<body class=".body">
+<div id="overlay" style="display: none;">
+  <div id="loader">
+<span class=" pl w-15 p-6" style="color: white;" ><b> Please Wait...</b></span>
+ </div></div>
+	<!--  <p th:text="${session.data}" th:unless="${session == null}">[...]</p> -->
+
+
+<!-- Modal -->
+
+  </div>
+
+		<div class="row">
+			<div class="col-12"  align="center">
+				<h2 style="position: relative;left: 4rem;">Postal Imports in Customs - SELECT ROLE<span align="right" style="position: relative; left: 23.5rem;top: 0.2rem;">
+				<button type="button" id="raisebtm" class="btn btn-primary" data-toggle="modal" data-target="#complaintModal">
+  				Raise complaint</button></span><span align="right" style="position: relative; left: 24.5rem;top: 0.2rem;">
+				<button align="right" type="button" class="btn" style="color: #fff;background-color: #44a2bf;border-color: #44a2bf;" data-toggle="modal" data-target="#exampleModalCenter">
+			 		ROLE INFORMATION
+			   </button></span></h2>
+				
+			</div>
+			<!-- <div class="col-2"  style="display: flex;justify-content: right;align-items: center;margin-bottom: 10px;" >
+			   	
+			</div> -->
+		</div>
+		<!-- div align=left style="margin-left: 1%; margin-right: 1%">
+			<button type="button" class="btn btn-info" onclick="goBack()" style="line-height: 16px;background-color: darkred;border-color: darkred;">Back
+			</button>
+		</div-->
+		<input type="hidden" name="dispcoua" id="dispcoua" th:value="${coua}" \>
+		<input type="hidden" name="dispcoub" id="dispcoub" th:value="${coub}" \>
+		<input type="hidden" name="dispcouc" id="dispcouc" th:value="${couc}" \>
+		<input type="hidden" name="dispcouc" id="final_count" th:value="${final_count}" \>
+		<!-- <div class="row mt-2">
+		<div class="col-md-12" >
+		<table border=0 width="100%" height="100%" style="vertical-align:top;">
+		<tr><td><font size=5 color="1191ec">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>ADMIN ROLES</strong></font></td>
+		<td><font size=5 color="1191ec">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>TRANSACTION ROLES</strong></font></td>
+		<td><font size=5 color="1191ec">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>MISCELLANEOUS ROLES</strong></font></td></tr>
+		<tr>
+		<td  style="vertical-align:top">
+		<table class="gfg" id="admrole" width="100%" height="100%" border=0 style="vertical-align:top;height:150px;">	
+		<tr border=0 height="50px" class="mt-1" th:each="s1,iter : ${rolesa}">
+		<input type=hidden name="imgfna" id="admimg" th:value="${s1[0]}" />
+		<input type=hidden name="atxta" id="atxta" th:value="${s1[1]}" />
+		<input type=hidden name="atxtb" id="atxtb" th:value="${s1[2]}" />
+		<input type=hidden name="admopt" id="admopt" th:value="${s1[3]}" />
+		<input type=hidden name="rolex" id="rolex" th:value="${s1[4]}" />
+		<td>&nbsp;&nbsp;&nbsp;</td>
+		<td><div id="admdisp"></div></td>
+		<td>&nbsp;&nbsp;</td>
+		<td><div id="admtxt" ></div></td>
+		<td>&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		
+		</table>
+		</td>
+		<td style="vertical-align:top">
+		<table class="gfg" id="disproleb" width="100%" height="100%" border=0 style="vertical-align:top;height:150px;">	
+		<tr border=0  height="50px" class="mt-1" th:each="s2,iter : ${rolesb}">
+		<input type=hidden name="imgfnb" id="tranimg" th:value="${s2[0]}" />
+		<input type=hidden name="txta" id="txta" th:value="${s2[1]}" />
+		<input type=hidden name="txtb" id="txtb" th:value="${s2[2]}" />
+		<input type=hidden name="tranopt" id="tranopt" th:value="${s2[3]}" />
+		<input type=hidden name="roley" id="roley" th:value="${s2[4]}" />
+		<td>&nbsp;&nbsp;&nbsp;</td>
+		<td><div id="transdisp"></div></td>
+		<td>&nbsp;&nbsp;</td>
+		<td><div id="trantxt" ></div></td>
+		<td>&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		</table>
+		</td>
+		<td style="vertical-align:top">
+		<table class="gfg" id="miscrole" border=0  width="100%" style="vertical-align:top;height:150px;">
+		<tr border=0 height="50px" class="mt-1 mb-2" th:each="s3,iter : ${rolesc}"  >
+		<input type=hidden name="imgfnc" id="miscimg" th:value="${s3[0]}" />
+		<input type=hidden name="mtxta" id="mtxta" th:value="${s3[1]}" />
+		<input type=hidden name="mtxtb" id="mtxtb" th:value="${s3[2]}" />
+		<input type=hidden name="miscopt" id="miscopt" th:value="${s3[3]}" />
+		<input type=hidden name="rolez" id="rolez" th:value="${s3[4]}" />
+		<td>&nbsp;&nbsp;&nbsp;</td>
+		<td><div id="imgdispc"></div></td>
+		<td>&nbsp;&nbsp;</td>
+		<td><div  id="misctxt"></div></td>
+		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+		</table>
+	
+	</div>
+	</div>
+	
+	
+<br><br><br><br><br><br><br><br><br><br><br><br>
+	 -->
+
+		
+		<div class="col-md-12">
+	<ul class="nav nav-pills" role="tablist" style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+		<li  th:class="${#strings.contains(rolestype, '1') ? 'nav-item roletype' : 'nav-item disabled admin'}"  id="adminQueue"  name="admin" style="width: 33%;text-align: center;">
+       	 	<a  th:class="${#strings.contains(rolestype, '1') ? 'nav-link active show' : 'nav-link'}"  data-toggle="pill" href="javascript:;">ADMIN ROLES</a>
+      	</li>
+    	<li  th:class="${!#strings.contains(rolestype, '1') and #strings.contains(rolestype, '2') ? 'nav-item roletype' : #strings.contains(rolestype, '2') ? 'nav-item roletype1' : 'nav-item disabled trans'}" id="transactionqueues"	 name="transaction" style="width: 33%;text-align: center;">
+        	<a th:class="${!#strings.contains(rolestype, '1') and #strings.contains(rolestype, '2') ? 'nav-link active show' : 'nav-link'}"  data-toggle="pill" href="javascript:;">TRANSACTION ROLES</a>
+    	</li> 
+      	<li  th:class="${!#strings.contains(rolestype, '1') and !#strings.contains(rolestype, '2') and #strings.contains(rolestype, '3') ? 'nav-item roletype' : #strings.contains(rolestype, '3') ? 'nav-item roletype1' : 'nav-item disabled misc'}" id="miscellaneousqueues"	name="miscellaneous" style="width: 34%;text-align: center;">
+        	<a th:class="${!#strings.contains(rolestype, '1') and !#strings.contains(rolestype, '2') and #strings.contains(rolestype, '3') ? 'nav-link active show' : 'nav-link'}"  data-toggle="pill" href="javascript:;">MISCELLANEOUS ROLES</a>
+      	</li>
+    </ul>
+    
+    </div>
+    
+   
+  <!--   <div class="col-md-10" style="width: 100%"> 
+     <div style="width: 100%;border: 2px solid;border-radius: 7px;margin-bottom: 20px;margin-top: 20px;">
+    <button class="btn btn-primary" > View Roles</button>
+    
+    </div>
+     </div> -->
+   
+   
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+       <div>
+        <h5 class="modal-title" style="font-size: 2rem;font-weight: 700;color:#334495;" id="exampleModalLongTitle">FPO IMPORT APPLICATION - ROLE INFORMATION</h5>
+       </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<div class="d-flex justify-content-center mb-2" style="text-transform: uppercase;">
+      			<h5 style="font-weight:700;">Administrative Roles</h5>
+      		</div>
+    		<table style="width: 100%;text-align: center;"  class="table table-striped table-bordered readonly">
+    		<thead>
+    		<tr class="table-primary">
+    		  <th style="width:3%;">Sl.No.</th>
+    		  <th style="width:10%;">ROLE CODE</th>
+    		  <th style="width:20%;">ROLE NAME</th>
+    		  <th style="width:63%;">ROLE DETAILS</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    		<tr th:each="msg , iter:${roleviewa}">  
+    		<td th:text="${iter.index+1}">1</td>
+    		<td style="width:10%;" th:text="${msg[0]}"></td>
+    		<td style="width:20%;text-align:left;margin-left:8px;" th:text="${msg[1]}"></td>
+    		<td style="width:63%;text-align:left;margin-left:8px;" th:text="${msg[2]}"></td>
+    		</tr>
+    		</tbody>
+    		</table>
+    		
+    		<div class="d-flex justify-content-center mb-2" style="text-transform: uppercase;">
+      			<h5 style="font-weight:700;">Transaction Roles</h5>
+      		</div>
+    		<table style="width: 100%;text-align: center;"  class="table table-striped table-bordered readonly">
+    		<thead>
+    		<tr class="table-primary">
+    		<th style="width:3%;">Sl.No.</th>
+    		  <th style="width:10%;">ROLE CODE</th>
+    		  <th style="width:20%;">ROLE NAME</th>
+    		  <th style="width:63%;">ROLE DETAILS</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    		<tr th:each="msg , iter:${roleviewb}">  
+    		<td th:text="${iter.index+1}">1</td>
+    		<td style="width:10%;" th:text="${msg[0]}"></td>
+    		<td style="width:20%;text-align:left;margin-left:8px;" th:text="${msg[1]}"></td>
+    		<td style="width:63%;text-align:left;margin-left:8px;" th:text="${msg[2]}"></td>
+    		</tr>
+    		</tbody>
+    		</table>
+
+    		<div class="d-flex justify-content-center mb-2" style="text-transform: uppercase;">
+      			<h5 style="font-weight:700;">Miscellaneous Roles</h5>
+      		</div>
+    		<table style="width: 100%;text-align: center;"  class="table table-striped table-bordered readonly">
+    		<thead>
+    		<tr class="table-primary">
+    		<th style="width:3%;">Sl.No.</th>
+    		  <th style="width:10%;">ROLE CODE</th>
+    		  <th style="width:20%;">ROLE NAME</th>
+    		  <th style="width:63%;">ROLE DETAILS</th>
+    		</tr>
+    		</thead>
+    		<tbody>
+    		<tr th:each="msg , iter:${roleviewc}"> 
+    		<td th:text="${iter.index+1}">1</td> 
+    		<td style="width:10%;" th:text="${msg[0]}"></td>
+    		<td style="width:20%;text-align:left;margin-left:8px;" th:text="${msg[1]}"></td>
+    		<td style="width:63%;text-align:left;margin-left:8px;" th:text="${msg[2]}"></td>
+    		</tr>
+    		</tbody>
+    		</table>
+    		
+    		
+    		
+      </div>
+<!--       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+    
+    <!--    <div class="col-6" style="display: flex;justify-content: center;align-items: center;">
+       		ROLE 
+       </div>
+        <div class="col-6" style="display: flex;justify-content: center;align-items: center;">
+       		ROLE NAME
+       </div> -->
+    
+    
+  <div class="col-md-12" id="adminrole">
+    	    
+    <section class="page-contain">
+      <a onclick="showLoader();"
+        th:href="${#strings.contains(roledata, values[4]) ? 'Home?role=' + values[4] : 'javascript:;'}"
+        th:if="${#strings.contains(roledata, values[4])}" class="data-card"
+        th:each="values,iter: ${rolesa}">
+        <h3 th:text="${values[1]}"></h3>
+        <h4 th:text="${values[2]}"></h4>
+        <!-- <p>Aenean lacinia bibendum nulla sed consectetur.</p> -->
+    <span class="link-text">
+      CLICK TO PROCEED
+      <svg class="svg-icon" viewBox="0 0 25 16" width="30" height="20">
+                                                 <path fill="#0a3052" d="M16.198,10.896c-0.252,0-0.455,0.203-0.455,0.455v2.396c0,0.626-0.511,1.137-1.138,1.137H5.117c-0.627,0-1.138-0.511-1.138-1.137V7.852c0-0.626,0.511-1.137,1.138-1.137h5.315c0.252,0,0.456-0.203,0.456-0.455c0-0.251-0.204-0.455-0.456-0.455H5.117c-1.129,0-2.049,0.918-2.049,2.047v5.894c0,1.129,0.92,2.048,2.049,2.048h9.488c1.129,0,2.048-0.919,2.048-2.048v-2.396C16.653,11.099,16.45,10.896,16.198,10.896z"></path>
+                                                 <path fill="#0a3052" d="M14.053,4.279c-0.207-0.135-0.492-0.079-0.63,0.133c-0.137,0.211-0.077,0.493,0.134,0.63l1.65,1.073c-4.115,0.62-5.705,4.891-5.774,5.082c-0.084,0.236,0.038,0.495,0.274,0.581c0.052,0.019,0.103,0.027,0.154,0.027c0.186,0,0.361-0.115,0.429-0.301c0.014-0.042,1.538-4.023,5.238-4.482l-1.172,1.799c-0.137,0.21-0.077,0.492,0.134,0.629c0.076,0.05,0.163,0.074,0.248,0.074c0.148,0,0.294-0.073,0.382-0.207l1.738-2.671c0.066-0.101,0.09-0.224,0.064-0.343c-0.025-0.118-0.096-0.221-0.197-0.287L14.053,4.279z"></path>
+                                          </svg>
+    </span>
+
+      </a>
+
+    </section>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    <div class="col-md-12" id="transactionrole" style="display:none;">
+    	
+    
+    <div class="containers">
+  <section class="page-contain">
+      <a onclick="showLoader();"
+        th:href="${#strings.contains(roledata, values[4]) ? 'Home?role=' + values[4] : 'javascript:;'}"
+        th:if="${#strings.contains(roledata, values[4])}" class="data-card"
+        th:each="values,iter: ${rolesb}">
+        <h3 th:text="${values[1]}"></h3>
+        <h4 th:text="${values[2]}"></h4>
+        <!-- <p>Aenean lacinia bibendum nulla sed consectetur.</p> -->
+    <span class="link-text">
+      CLICK TO PROCEED
+      <svg class="svg-icon" viewBox="0 0 25 16" width="30" height="20">
+                                                 <path fill="#0a3052" d="M16.198,10.896c-0.252,0-0.455,0.203-0.455,0.455v2.396c0,0.626-0.511,1.137-1.138,1.137H5.117c-0.627,0-1.138-0.511-1.138-1.137V7.852c0-0.626,0.511-1.137,1.138-1.137h5.315c0.252,0,0.456-0.203,0.456-0.455c0-0.251-0.204-0.455-0.456-0.455H5.117c-1.129,0-2.049,0.918-2.049,2.047v5.894c0,1.129,0.92,2.048,2.049,2.048h9.488c1.129,0,2.048-0.919,2.048-2.048v-2.396C16.653,11.099,16.45,10.896,16.198,10.896z"></path>
+                                                 <path fill="#0a3052" d="M14.053,4.279c-0.207-0.135-0.492-0.079-0.63,0.133c-0.137,0.211-0.077,0.493,0.134,0.63l1.65,1.073c-4.115,0.62-5.705,4.891-5.774,5.082c-0.084,0.236,0.038,0.495,0.274,0.581c0.052,0.019,0.103,0.027,0.154,0.027c0.186,0,0.361-0.115,0.429-0.301c0.014-0.042,1.538-4.023,5.238-4.482l-1.172,1.799c-0.137,0.21-0.077,0.492,0.134,0.629c0.076,0.05,0.163,0.074,0.248,0.074c0.148,0,0.294-0.073,0.382-0.207l1.738-2.671c0.066-0.101,0.09-0.224,0.064-0.343c-0.025-0.118-0.096-0.221-0.197-0.287L14.053,4.279z"></path>
+                                          </svg>
+    </span>
+        
+
+      </a>
+
+    </section>
+  </div>
+    </div>
+    
+    
+    
+    
+    
+    <div class="col-md-12" id="miscelaneousrole" style="display:none;">
+    		
+    
+    <div class="containers">
+  <section class="page-contain">
+      <a onclick="showLoader();"
+        th:href="${#strings.contains(roledata, values[4]) ? 'Home?role=' + values[4] : 'javascript:;'}"
+        th:if="${#strings.contains(roledata, values[4])}" class="data-card"
+        th:each="values,iter: ${rolesc}">
+        <h3 th:text="${values[1]}"></h3>
+        <h4 th:text="${values[2]}"></h4>
+        <!-- <p>Aenean lacinia bibendum nulla sed consectetur.</p> -->
+    <span class="link-text">
+      CLICK TO PROCEED
+      <!-- <svg width="25" height="16" viewBox="0 0 25 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M17.8631 0.929124L24.2271 7.29308C24.6176 7.68361 24.6176 8.31677 24.2271 8.7073L17.8631 15.0713C17.4726 15.4618 16.8394 15.4618 16.4489 15.0713C16.0584 14.6807 16.0584 14.0476 16.4489 13.657L21.1058 9.00019H0.47998V7.00019H21.1058L16.4489 2.34334C16.0584 1.95281 16.0584 1.31965 16.4489 0.929124C16.8394 0.538599 17.4726 0.538599 17.8631 0.929124Z" fill="#0a3052"/>
+</svg> -->
+<svg class="svg-icon" viewBox="0 0 25 16" width="30" height="20">
+                                                 <path fill="#0a3052" d="M16.198,10.896c-0.252,0-0.455,0.203-0.455,0.455v2.396c0,0.626-0.511,1.137-1.138,1.137H5.117c-0.627,0-1.138-0.511-1.138-1.137V7.852c0-0.626,0.511-1.137,1.138-1.137h5.315c0.252,0,0.456-0.203,0.456-0.455c0-0.251-0.204-0.455-0.456-0.455H5.117c-1.129,0-2.049,0.918-2.049,2.047v5.894c0,1.129,0.92,2.048,2.049,2.048h9.488c1.129,0,2.048-0.919,2.048-2.048v-2.396C16.653,11.099,16.45,10.896,16.198,10.896z"></path>
+                                                 <path fill="#0a3052" d="M14.053,4.279c-0.207-0.135-0.492-0.079-0.63,0.133c-0.137,0.211-0.077,0.493,0.134,0.63l1.65,1.073c-4.115,0.62-5.705,4.891-5.774,5.082c-0.084,0.236,0.038,0.495,0.274,0.581c0.052,0.019,0.103,0.027,0.154,0.027c0.186,0,0.361-0.115,0.429-0.301c0.014-0.042,1.538-4.023,5.238-4.482l-1.172,1.799c-0.137,0.21-0.077,0.492,0.134,0.629c0.076,0.05,0.163,0.074,0.248,0.074c0.148,0,0.294-0.073,0.382-0.207l1.738-2.671c0.066-0.101,0.09-0.224,0.064-0.343c-0.025-0.118-0.096-0.221-0.197-0.287L14.053,4.279z"></path>
+                                          </svg>
+    </span>
+        
+
+      </a>
+
+    </section>
+  </div>
+    </div>
+    
+    
+    
+    
+    
+    
+<div class="pl-4">
+<strong>Note :</strong>
+<p style="margin-bottom: 0;font-size: 13px;"> Only alloted roles will be displayed here for access. For any required roles contact Local System Administrator (PLA)  for the site of this application</p>
+
+</div>
+</div>
+
+<div class="modal fade" id="complaintModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" style="margin:-7rem">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 30vh; ">
+    <div class="modal-header" style="display:flex;justify-content:end;align-items:center">
+  <button type="button" class="close" data-dismiss="modal"  aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+	<div class="modal-body" style="display:flex;justify-content:center;align-items:center">
+		 <div >
+		 	<h2>Please contact Saksham Seva by sending Email to saksham.seva@icegate.gov.in </h2>
+		 </div>
+	</div>
+	<div class="modal-footer" style="display:flex;justify-content:center;align-items:center">
+		<div>
+			<h6>Ticket Management System for this application is under construction...</h6>
+		</div>
+	</div>
+	</div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="min-height: 70vh; max-width:none">
+      <div class="modal-header">
+        <h5 class="modal-title w-100 text-center" style="font-size: 2rem;font-weight: 700;color:#334495;" id="exampleModalLong">FPO IMPORT APPLICATION - RAISE COMPLAINTS</h5>
+        <button type="button" class="close" data-dismiss="modal"onclick="goBacks()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       
+      <div class="modal-body" > 
+      <h5 class="role"> Roles </h5>
+       
+       <select  class="control"  id="moduleSelect" onclick="checkDivAdd(this)">	
+            <option value="select" id="select-1">Select Type of Roles</option>
+            
+            <option 
+          
+            th:each="values,iter: ${rolesa}"
+            		 th:if="${#strings.contains(roledata, values[4])}"
+           			 th:value="${values[1]}"
+           			 th:text="${values[1]}"> </option>
+           		   <option 
+          
+            th:each="values,iter: ${rolesb}"
+            		 th:if="${#strings.contains(roledata, values[4])}"
+           			 th:value="${values[1]}"
+           			 th:text="${values[1]}"> </option>
+           			    <option 
+          
+            th:each="values,iter: ${rolesc}"
+            		 th:if="${#strings.contains(roledata, values[4])}"
+           			 th:value="${values[1]}"
+           			 th:text="${values[1]}"> </option>	
+           			 
+        </select>
+        
+       
+        
+         
+        <div id="site" style="display:none; margin-left: 30%; margin-right:30%;" aria-hidden="true">
+        <div style=" text-align: center;">
+              <h4  th:if="${final_countsts1==1}"  id="moduleTitle">Report the issue noticed in this <span th:text="${roledata1}"></span> Role</h4>  
+              <h4 th:if="${final_countsts2==0}" id="moduleTitle"  class="moduleTitle1">Report the issue noticed in this Role</h5> 
+            </div>
+            <div>     
+           <textarea style="background: #fff7ed;color: black;font-weight: bolder !important;" placeholder="Text Your Complaint"	 type="text" class="form-control" id="comments" rows="7"></textarea>
+           <div>* Complaint is required (minimum 6 characters)</div>
+           <div class="invalid-feedback"></div></div>
+           <div style="display: flex; align-items: center; margin-top: 10px; margin-right: 5rem;margin-left: 4rem;">
+  <label for="name" style="margin-right: 10px; font-weight: 600;">Name:</label>
+  <div>
+  <input type="text" class="form-control" style="margin-left: 24px;  height: 2rem; margin-right: 76px;" id="name" name="name" th:value="${session.data3}" disabled>
+</div></div>
+<div style="display: flex; align-items: center; margin-top: 10px; font-weight: 600; margin-right: 5.2rem; margin-left: 4rem;">
+  <label for="email" style="margin-right: 10px;">Email:</label>
+  <div>
+  <input type="email" class="form-control" style="margin-left: 27px;  height: 2rem;  margin-right: 75px;" id="email" name="email" placeholder="Your Email">
+  <div class="invalid-feedback"style="margin-left: 35px;"></div></div>
+</div>
+<div style="display: flex; align-items: center; margin-top: 10px; font-weight: 600; margin-right: 4.5rem;margin-left: 4rem;">
+  <label for="mobile" style="margin-right: 10px;">Mobile:</label>
+  <div>
+  <input type="tel" class="form-control" style=" height: 2rem; margin-right: 88px;  margin-left: 15px;" id="mobile" name="mobile" placeholder="Your Mobile Number" maxlength="10" pattern="\d{10}" onkeypress="return isNumberKey(event)" required >
+  <div class="invalid-feedback" style=" margin-left: 24px;"></div></div>
+</div>
+                
+      <div style="display: flex; align-items: center; margin-top: 10px; margin-left: 4rem;">
+                    <label class="control-label" style="font-weight: 600;">Upload:</label>
+                    
+                         <input class="form-control" 
+                            style="width: 310px;margin-left:24px" type="text" id="kyc-filetxt-1" placeholder="Please Upload the  document" disabled /> 
+                         <input type="file" class="form-control"  id="kyc-file-1"   onchange="uploadFile(this,1)" onclick="this.value=null;" style="display: none;" accept="application/pdf" > 
+                         <span class="upload-btn"  onclick="fileUpload(1)"><a>Upload</a></span>
+                     
+                </div>
+                     
+
+
+
+    <div class="modal fade bd-example-modal-lg" id="pdfView" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 100%;">
+            <div class="modal-header" style="background: whitesmoke;padding-top: 5px;padding-bottom: 5px;">
+                <h4 class="modal-title">Uploaded File</h4>
+                <button type="button" class="close importqry" onclick="closePdfModal()" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-content" id="pdfcontent">
+                <!-- <canvas id="pdfViewer"></canvas> -->
+                <embed id="embedpdf" frameborder="0" width="100%" style="height: 85vh;">
+            </div>
+        </div>
+    </div>
+            <div style="
+    display: flex;
+    align-items: center;
+    margin: 25px 0px 10px 0px;
+    justify-content: space-evenly;">
+
+            <button type="button" style="margin-left: 4rem;" class="btn btn-danger btn-sm" onclick="goBacks()" >Close</button>
+        <button id="subcomplnts" style="margin-right: 4rem;" type="button" class="btn btn-success btn-sm">Submit</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<input type="hidden" th:value="${session.data}" id="empId" /> 
+<input id="s-role" type="text" th:value="${session.role}" hidden="hidden">
+</body>
+<script src="js/selrole.js"></script>
+
+<script language="JavaScript">
+ /*   document.onkeypress = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+           //alert('No F-12');
+            return false;
+        }
+    }
+    document.onmousedown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    }
+    document.onkeydown = function (event) {
+        event = (event || window.event);
+        if (event.keyCode == 123) {
+            //alert('No F-keys');
+            return false;
+        }
+    } */
+ 
+    
+    
+</script>
+<script>
+    function checkDivAdd(selectBox) {
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        
+        if(selectedValue === "cancellation") {
+            document.getElementById("cancellation-documents").style.display = "block";
+            document.getElementById("other-documents").style.display = "none";
+        } else if(selectedValue === "other") {
+            document.getElementById("cancellation-documents").style.display = "none";
+            document.getElementById("other-documents").style.display = "block";
+        } else {
+            document.getElementById("cancellation-documents").style.display = "none";
+            document.getElementById("other-documents").style.display = "none";
+        }
+    }
+</script>
+
+</html>
+<script>
+
+
+$(document).ready(function() {
+
+var count=$("#final_count").val();
+consol.log(count);
+if(count<=1)
+$("#moduleSelect").hide();
+else
+$("#moduleSelect").show();
+
+});
+
+
+
+
+
+
+function checkDivAdd(select) {
+   console.log("sucess");
+    var siteDiv = document.getElementById("site");
+    var commentsInput = document.getElementById("comments");
+    var select = document.getElementById("moduleSelect");
+    var moduleTitle = document.getElementById("moduleTitle");
+    var options = select.querySelectorAll("option");
+    $('#kyc-filetxt-1').val('');
+    $('#mobile').val('');
+    $('#email').val('');
+    $('#comments').val('');
+     $('#mobile').removeClass('is-invalid');
+    $('#mobile').next('.invalid-feedback').text('');
+    $('#email').removeClass('is-invalid');
+    $('#email').next('.invalid-feedback').text('');
+    $('#comments').removeClass('is-invalid');
+    $('#comments').next('.invalid-feedback').text('');
+    $('#comments').css({ "border-color": "", "box-shadow": "" });
+     $('#mobile').css({ "border-color": "", "box-shadow": "" });
+      $('#email').css({ "border-color": "", "box-shadow": "" });
+   
+ select.addEventListener("change", function() {
+  for(var i = 0; i < options.length; i++){
+    if(options[i].value === "select") {
+      siteDiv.style.display = "none";
+      commentsInput.value = "";
+      moduleTitle.innerHTML = "";
+    }
+    else{
+    if(options[i].selected){
+      siteDiv.style.display = "block";
+      commentsInput.value = "";
+      var moduleName = options[i].getAttribute("value");
+      var moduleTitleText = "Report the issue noticed in '" + moduleName + "' Role";
+      moduleTitle.innerHTML = moduleTitleText;
+    }
+  }
+}
+});
+
+}
+//function goBack() {
+
+ //window.location="dash";
+// $("#overlay").css("display", "block");
+//	$('#overlay').height($("body").innerHeight());	
+//}
+function goBacks() {
+
+document.getElementById("select-1").selectedIndex = 0;
+
+document.getElementById("select-1").selected = true;
+
+ var siteDiv = document.getElementById("site");
+  var commentsInput = document.getElementById("comments");
+  var moduleTitle = document.getElementById("moduleTitle");
+  // Reset the dropdown to its default value
+  siteDiv.style.display = "none";
+      commentsInput.value = "";
+      moduleTitle.innerHTML = "";
+      
+      
+}
+
+$(raisebtm).click(function() {
+var count=$("#final_count").val();
+//var count=1
+console.log(count);
+if(count<=1){
+$("#moduleSelect").hide();
+$("#site").show();
+$(".role").css('display','none')
+$(".moduleTitle1").css('display','none')
+}
+/*else{
+	$("#moduleSelect").show();
+	$("#site").show();
+}
+*/
+
+});
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)){
+        return false;
+    }
+    return true;
+}
+
+  $('#exampleModal').on('hidden.bs.modal', function () {
+   $('#mobile').removeClass('is-invalid');
+    $('#mobile').next('.invalid-feedback').text('');
+    $('#email').removeClass('is-invalid');
+    $('#email').next('.invalid-feedback').text('');
+    $('#comments').removeClass('is-invalid');
+    $('#comments').next('.invalid-feedback').text('');
+  })
+
+
+ var kycFiles = {};
+	var supportFiles = {};
+
+function uploadFile(obj, count) {
+				
+					console.log("sucess");
+					console.log(kycFiles);
+	
+            if (obj.files[0].type == 'application/pdf' && obj.files[0].size / 1024 / 1024 < 1) {
+                var notSameName = true;
+                for (var key in kycFiles) {
+                    if (kycFiles[key].files[0].name == obj.files[0].name) {
+                        notSameName = false;
+                        break;
+                    }
+                }
+                if (notSameName) {
+                    for (var key in supportFiles) {
+                        if (supportFiles[key].files[0].name == obj.files[0].name) {
+                            notSameName = false;
+                            break;
+                        }
+                    }
+                    if (notSameName) {
+                        $("#kyc-filetxt-" + count).val(obj.files[0].name);
+                        $("#kyc-filetxt-" + count).addClass('pl-25');
+                        kycFiles[count] = obj;
+                        $(obj).next().remove();
+                      //  $(obj).after('<span><i class="fa fa-file-pdf-o pdf-icon" aria-hidden="true"></i></span>');
+                        $(obj).after('<span class="view-btn" id="viewbtn" onclick="viewFile(' + count + ')"><a>View</a></span>');
+                        $(obj).after('<span class="delete-btn" onclick="deleteFile(this,' + count + ')"><a>Delete</a></span>');
+                    } else {
+                        swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                    }
+                } else {
+                    swal('OOPS!', 'You already uploaded the file with this name !', 'error');
+                }
+            } else {
+                if (obj.files[0].type != 'application/pdf') {
+                    swal('OOPS!', 'Please upload the documents only in PDF !', 'error');
+                } else {
+                    swal('OOPS!', "File size should be within 1MB !", 'error');
+                }
+            }
+        }
+
+
+function fileUpload(count) {
+            $("#kyc-file-" + count).click();
+        }
+
+
+ function viewFile(count) {
+            //pdfLoader(kycFiles[count].files[0]);
+            $("#embedpdf").attr('src', URL.createObjectURL(kycFiles[count].files[0]));
+            $("#pdfView").modal('toggle');
+            $("#qryreplymodal").scrollTop($("#pdfView").offset().top);
+        }
+
+ function deleteFile(obj, count) {
+            $("#kyc-filetxt-" + count).val('');
+            $("#kyc-filetxt-" + count).removeClass('pl-25');
+            delete kycFiles[count];
+            $(obj).next().remove();
+            $(obj).next().remove();
+            $(obj).after('<span class="upload-btn" onclick="fileUpload(' + count + ')"><a>Upload</a></span>');
+            $(obj).remove();
+        }
+        
+                function closePdfModal() {
+            $("#pdfView").modal('hide');
+        }
+</script>
+

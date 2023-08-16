@@ -1,0 +1,997 @@
+<html>
+
+<head lang="en" th:replace="header :: header"></head>
+<style>
+
+		.swal-button {
+	        background-color: #35b935;
+	        color:#fff;
+	        box-shadow: none;
+	    }
+	    
+	    .swal-button--cancel{
+		    color:#fff;
+		    background-color: #f14141;
+		    box-shadow: none;
+	    }
+	    
+	     .swal-button:not([disabled]):hover {
+	        background-color: #35b935;
+	        color:#fff;
+	    }
+	    
+	    .swal-button--cancel:not([disabled]):hover {
+		    color:#fff;
+		    background-color: #f14141;
+        }
+        
+        .swal-button:active {
+        	background-color: #35b935;
+	        color:#fff;
+        }
+        
+        .swal-footer{
+        	display: flex;
+    		justify-content: space-around;
+    		gap:250px;
+    	}   
+
+	.swal-button:focus {
+        	outline: none !important;
+        	box-shadow: none !important;
+     	 }
+
+
+
+    .form_txt {
+        font-weight: 700
+    }
+
+    .col-form-label {
+        padding-top: 2px;
+    }
+
+    .lab_txt {
+        font-size: 13px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    .form-group {
+        margin-bottom: 0rem;
+    }
+
+    .scroll_down {
+        height: 425px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .numradius {
+        border: 2px solid black;
+        background-color: white;
+        color: black;
+    }
+
+    hr {
+        border-top: 1px solid rgb(0, 0, 139);
+    }
+
+    .breadcrumb-pagination {
+        width: 100%;
+        border-bottom: 1px solid #E1E6EB;
+        text-align: center;
+        color: #B3B7C1;
+    }
+
+    .breadcrumb-pagination div {
+        width: 15%;
+        display: inline-block;
+    }
+
+    .breadcrumb-pagination div span {
+        margin: 0 auto;
+        display: block;
+        border-radius: 100%;
+        width: 36px;
+        font-size: 20px;
+    }
+
+    .completed span {
+        background-color: NONE;
+        color: #95db89;
+        border: 2px solid #95db89;
+    }
+
+    .active span {
+        background-color: #00abc9;
+        color: #fff;
+    }
+
+    .todo span {
+        background-color: none;
+        color: #E1E6EB;
+        border: 2px solid #E1E6EB;
+    }
+
+    .breadcrumb-pagination div p {
+        text-align: center;
+        line-height: 0;
+        margin: 10px auto 0px;
+    }
+
+    .active p {
+        border-bottom: 2px solid #00abc9;
+        padding-bottom: 20px;
+        margin-bottom: 0px !important;
+        color: #3c4043;
+        font-weight: 700;
+    }
+
+    .completed p {
+        color: "#bsb7c1";
+    }
+
+    .completed span::before {
+        content: '\2713'
+    }
+
+    #queryContent .containerStyle {
+        border: none !important;
+        margin: 0 !important;
+    }
+
+    .modal-label {
+        padding-top: calc(.375rem + 1px) !important;
+        font-size: 14px;
+        font-weight: 700;
+        color: blue;
+    }
+
+    #additionalQueryForm input[disabled],
+    #additionalQueryForm textarea[disabled] {
+        color: #000000;
+        background-color: #f1f1f1 !important;
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #dcallLetterModal,
+        #dcallLetterModal * {
+            visibility: visible;
+        }
+
+        #dcallLetterModal {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+    
+    .pointer-class{
+    	cursor:pointer;
+    }
+         #overlay{
+         position: absolute;
+         left: 0%;
+         top: 0%;
+         z-index: 9999;
+         width: 100%;
+         background: rgba(255, 255, 255, .7);
+         }
+         #loader {
+         position: fixed;
+         display: block;
+         left: 50%;
+         top: 48%;
+         z-index: 9999;
+         width: 100%;
+         height: 100%;
+         background-image: url(images/report/loader.gif);
+         background-repeat: no-repeat;
+         margin: -77px 0 0 -75px;
+         }
+         
+         .active span {  	
+		    background-color: #b93655;
+		    color: #fff;
+		    border: 2px solid white;
+         }
+         
+         .completed span {
+	background-color: #498d3d;
+    color: white;
+    border: 2px solid white;
+}
+
+.detain-remarks-btn {
+    margin-top: 10px;
+    background: red;
+    margin-left: 10px;
+  	animation: blink-animation 1s steps(5, start) infinite;
+  	-webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+    .detain-remarks-btn:not(:disabled):not(.disabled).active:focus,
+    .detain-remarks-btn:not(:disabled):not(.disabled):active:focus,
+    .show>.detain-remarks-btn.dropdown-toggle:focus,
+    .detain-remarks-btn:hover {
+        color: white;
+    	background: red;
+        box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+    }
+
+		@keyframes blink-animation {
+		  to {
+		    visibility: hidden;
+		  }
+		}
+		
+		@-webkit-keyframes blink-animation {
+		  to {
+		    visibility: hidden;
+		  }
+		}
+
+.bg_rec {
+	background-color: #e6e5e5;
+	border-radius: 10px;
+	padding: 10px;
+}
+</style>
+
+<body style="background: #d6dcd9">
+
+<input type="hidden" th:value="${head.TOT_ASS_VAL}" id="totassval">
+<input type="hidden" th:value="${head.ROLE}" id="role">
+ 	<input type="hidden" th:value="${assvalacl}" id="maxval">
+
+<input type=hidden id="sttime" th:value="${session.stime}">
+<input type="hidden" id="cinno" th:value="${head.id}">
+<input type="hidden" id="itemId" th:value="${head.ITEM_ID}">
+<input type="hidden" id="queryBoo" th:value="${queryRaised}">
+
+
+
+      <!--  div id="overlay" style="display: none;">
+         <div id="loader">
+         <div style="font-size: 20px; padding-top:5%"><b>Please wait...</b>
+		</div>
+         </div>
+      </div-->
+    <div style="background-color: #67acb5;border-right: 4px solid rgb(74, 223, 131);border-radius: 10px;max-width: 100%;margin: 10px;padding: 15px 20px;">
+        <div class="col-md-1" style="padding-left: 10px;">
+			<a th:href="@{final_declared?back=true&id={id}(id = ${head.id})}"><button type="button" class="btn btn-info" style="line-height: 16px; background-color: darkred; border-color: darkred;">Back</button></a>
+		</div>
+		<div class="row mt-4">
+			<div class="col-md-3"><button th:if="${lastDetained}" th:attr="articleId=${head.ITEM_ID},detainedNo=${lastDetainedNo}" onclick="viewDetainedRemarks(this)" class="btn btn-info detain-remarks-btn">View Adjudication Proceeding / Detention Info</button>
+			</div>
+			<div class="col-md-6" align="center">
+				<h2>Postal Imports -  Articles Arrived at FPO (AAF)</h2><h3>AAF Query</h3>
+			</div>
+			<div class="col-md-3" style="text-align:end;">
+			    <button th:attr="articleId=${head.ITEM_ID}" onclick="viewScanReport(this)" style="margin-right:10px;white-space: break-spaces;" th:classappend="${scanReportExist} ? 'detain-remarks-btn' : ''" class="btn btn-info">View Import RID / Bag Arrival Confirmation & Scan Report</button>
+			</div>
+		</div>
+		
+			<div id="disphead">
+            </div>
+
+
+
+
+
+
+<!--    <div class="form-group row mt-4">
+            <div class="px-1" style="width: 14%" align="center">
+                <label class="lab_txt">TRACKING_NO</label> <input type="text" id="itemId" class="form-control form_txt" readonly="readonly" th:value="${head.ITEM_ID}">
+            </div>
+            <div class="px-1" style="width: 11%" align="center">
+                <label class="lab_txt">DATE </label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.postDate}">
+            </div>
+            <div class="px-1" style="width: 9%" align="center">
+                <label class="lab_txt">TIME </label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.POSTINGTIME}">
+            </div>
+            <div class="px-1" style="width: 9%" align="center">
+                <label class="lab_txt">ORGIN_POST </label> <input type="text" style="text-align: center;" class="form-control form_txt" readonly="readonly" th:value="${head.POST_ORG_CD}">
+            </div>
+            <div class="px-1" style="width: 11%" align="center">
+                <label class="lab_txt">FPO ALLOCATED</label> <input type="text" style="text-align: center;" class="form-control form_txt" readonly="readonly" th:value="${head.FPO_CODE}">
+            </div>
+            <div class="px-1" style="width: 26%" align="center">
+                <label class="lab_txt">NATURE TRANSACTION</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.NATURE_TYPE_CD}">
+            </div>
+            <div class="px-1" style="width: 20%" align="center">
+                <label class="lab_txt">CIN_NO</label> <input type="text" class="form-control form_txt" readonly="readonly" th:value="${head.id}" id="inputPassword">
+            </div>
+        </div> -->
+
+
+
+        <!--    muchos disgustimos   -->
+        <div class="breadcrumb-pagination mt-3" id="breadcrumb">
+        <div class="completed">
+            <a style="color: #b3b7c1;text-decoration:none;" th:attr="href=|import_main?id=${head.id}|">
+                <span></span>
+                <p>Summary</p>
+                </a>
+            </div>
+            
+            
+            <div class="completed">
+            <a style="color: #b3b7c1;text-decoration:none;" th:attr="href=|final_declared?back=true&id=${head.id}|">
+                <span></span>
+                <p>Assessment</p>
+             </a>
+           </div>
+            
+             <div class="active">
+                <span>3</span>
+                <p>Query Reply & D-Call Letter</p>
+            </div>
+            
+            <div class="todo" th:classappend ="${examraised} ? pointer-class : ''" th:attr="onclick=${examraised} ? |redirect('imp_order')| : ''">
+                <span>4</span>
+                <p>Examination</p>
+            </div>
+        </div>
+        
+        
+        <div class="breadcrumb-pagination mt-3" id="breadcrumb1">
+        <div class="completed">
+            <a style="color: #b3b7c1;text-decoration:none;" th:attr="href=|import_main?id=${head.id}|">
+                <span></span>
+                <p>Summary</p>
+                </a>
+            </div>
+            
+             <div class="active">
+                <span>2</span>
+                <p>Query Reply & D-Call Letter</p>
+            </div>
+            
+          <div class="todo">
+            <a style="color: #b3b7c1;text-decoration:none;" th:attr="href=|final_declared?back=true&id=${head.id}|">
+                <span>3</span>
+                <p>Assessment</p>
+            </div></a>
+           
+           
+            <div class="todo" th:classappend ="${examraised} ? pointer-class : ''" th:attr="onclick=${examraised} ? |redirect('imp_order')| : ''">
+                <span>4</span>
+                <p>Examination</p>
+            </div>
+        </div>
+        <input type="hidden" id="additionalDcallFileName" th:attr="AAFAdditionQueryFileName=${AAFAdditionQueryFileName},AAAAdditionQueryFileName=${AAAAdditionQueryFileName},AAFFirstQueryFileName=${AAFFirstQueryFileName}">
+        <div th:if="${qryraised}">
+		<!-- <div style="text-align: center;margin: 25px;">
+        <button type="button" th:if="${eadFirstQueryRaised}"id="lock" class="btn btn-success" onclick="viewrlyEadDCallLetter()" style="margin-right: 25px;margin-left: 50px;">View EAD D-Call Letter</button>
+        <button type="button" th:if="${eadFirstQueryRaised}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View EAD Query Reply</button>
+        <button type="button" th:if="${aafFirstQueryRaised}"id="lock" class="btn btn-success" onclick="viewDCallLetter('AAFFirstQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View First Query D-Call Letter</button>
+        <button type="button" th:if="${aafFirstQueryRaised}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View First Query Reply</button>
+        <button type="button" th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" onclick="viewDCallLetter('AAAAdditionQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View AAA D-Call Letter</button>
+        <button type="button" th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" onclick="viewAdditionQueryReply('N')" style="margin-right: 25px;">View AAA Additional Query Reply</button>
+        <button type="button" th:if="${AAFAdditionQueryFileExist}" class="btn btn-success" onclick="viewDCallLetter('AAFAdditionQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View AAF D-Call Letter</button>
+        <button type="button" th:if="${AAFAdditionQueryFileExist}" class="btn btn-success" onclick="viewAdditionQueryReply('P')" style="margin-right: 25px;">View AAF Additional Query Reply</button>
+        </div> -->
+        
+        <!-- --------------------------------------------------------- added BY VEEMAN on 22/04/2023 -------------------------------------------- --->
+        <div style="text-align: center;margin: 25px;">
+	        <button type="button" th:if="${eadFirstQueryRaised}"id="lock" class="btn btn-success" onclick="viewrlyEadDCallLetter()" style="margin-right: 25px;margin-left: 50px;">View EAD D-Call Letter</button>
+	        <button type="button" th:if="${eadFirstQueryRaised && notToShowForAAF}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View EAD Query Reply</button>
+	        <button type="button" th:if="${aafFirstQueryRaised}"id="lock" class="btn btn-success" onclick="viewDCallLetter('AAFFirstQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View First Query D-Call Letter</button>
+	        <button type="button" th:if="${aafFirstQueryRaised && notToShowForInAAF}" id="viewEadQueryReply" class="btn btn-success" onclick="viewEadQueryReply()" style="margin-right: 25px;">View First Query Reply</button>
+	        <button  type="button"  th:if="${DcallLetterCount == 1 && (head.ROLE=='PAO' || head.ROLE==null)}"
+											th:value="${head.id}" onclick="additionalraise()" class="btn btn-danger" style="background: darkred;border-color: darkred;"
+											>  Additional Query</button>
+			<button type="button" id="firstBtn" th:if="${DcallLetterCount == 1  && cancelquery && (head.ROLE=='PAO' || head.ROLE==null)}"
+											th:value="${head.id}" onclick="cancelModal()" class="btn btn-danger " style="margin-left: 25px;"
+											>  Cancel  Additional Query</button>
+			<button th:if="${session.data1 =='PAC' && !Additionalqrynotraisedpac}"
+										 type="button"  onclick="addQuery()"
+											th:value="${head.id}" class="btn btn-danger qry"
+											>Modify/approve  Additional Query</button>
+	        <button type="button" th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" onclick="viewDCallLetter('AAAAdditionQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View AAA D-Call Letter</button>
+	        <button type="button" th:if="${AAAAdditionQueryFileExist}" class="btn btn-success" onclick="viewAdditionQueryReply('N')" style="margin-right: 25px;">View AAA Additional Query Reply</button>
+	        <button type="button" th:if="${AAFAdditionQueryFileExist && DcallLetterCount == 2}" class="btn btn-success" onclick="viewDCallLetter('AAFAdditionQueryFileName')" style="margin-right: 25px;margin-left: 50px;">View AAF Additional D-Call Letter</button>
+	        <button type="button" th:if="${AAFAdditionQueryFileExist && notToShowForInAAFAddlRly}" class="btn btn-success" onclick="viewAdditionQueryReply('P')" style="margin-right: 25px;">View AAF Additional Query Reply</button>
+	        <button type="button" th:if="${qryRlyNotDone == true}" class="btn btn-danger"  style="margin-right: 25px;">EAD Query Reply Not Done</button>
+	        <button type="button" th:if="${firstQryRlyNotDone == true}" class="btn btn-danger"  style="margin-right: 25px;">First Query Reply Not Done</button>
+	        <button type="button" th:if="${AAFAddlQryRlyNotDone == true && DcallLetterCount == 2}" class="btn btn-danger"  style="margin-right: 25px;">AAF Additional Query Reply Not Done</button>
+        </div>
+		<!--  --------------------------------------------------------- ---------------------- --------------------------------------------  --->
+		
+		
+        <div class="row" th:if="${(head.ROLE=='PAO' || head.ROLE== null) or (head.ROLE=='PAC' && Additionalqrynotraisedpac == true)}">
+        <div class="col-md-12" style="text-align : center;" >
+		<button type="button" class="btn btn-info" onclick="goBack()" style="margin-right: 10px;">Back</button>
+		<button type="button" class="btn btn-info" th:id="${head.id}"	onclick="routeImpQry();">Next</button> 
+		</div>
+		</div>
+		
+	<div class="modal fade" id="exampleModalcancel" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4>Do you want to Cancel Additional Query?</h4>
+				</div>
+				<div class="modal-footer" style="display:flex;justify-content:space-between;">
+					<button type="button" class="btn btn-danger"
+						data-dismiss="modal">Close</button>
+					<button class="btn btn-success" onclick="deleteAddlquery(value)">Yes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+		</div>
+        <form th:unless="${qryraised}" th:action="@{/aaf_callletter}" id="aaf-callletter" method="post" target="_blank">
+        <input type="hidden" name="cinNo" th:value="${head.id}"> <input
+				type="hidden" name="ITEM_ID" th:value="${head.ITEM_ID}">
+		<div class="mt-2" align="center">
+				<h5>
+					<strong><i>Generate Document Call Letter - Customs Query</i></strong>
+				</h5>
+			</div>		
+				
+
+			<table class="table" style="display: none;">
+				<thead class="thead-light">
+					<tr>
+						<th scope="col" style="width: 8%">Item No</th>
+						<th scope="col">Item Description</th>
+						<th scope="col" style="text-align: center">Query</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="fpoQuery,iter : ${getAllFpoQuery}">
+						<th align=center th:if="${fpoQuery.QRY != null}" scope="row"
+							th:text="${fpoQuery.ITEM_NO}"></th>
+						<td th:if="${fpoQuery.QRY != null}" th:text="${fpoQuery.itemDesc}"></td>
+						<td th:if="${fpoQuery.QRY != null}" style="text-align: center" th:text="${fpoQuery.QRY}"></td>
+
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="table mt-2" style="display: none;">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col" style="width: 10%">Sl No</th>
+						<th scope="col" style="width: 80%">Select the following documents required from the recipient</th>
+						<th scope="col" style="width: 10%">Select</th>
+
+					</tr>
+				</thead>
+				<tbody th:each="defqry,iter : ${getDefQry}">
+					<tr class="check">
+						<th scope="row" align=center>1</th>
+						<td id="queryOne"></td>
+						<td><input readonly type="checkbox" name="defualtQueryOne" style="pointer-events:none;"
+						checked value="1"></td>
+
+					</tr>
+					<tr class="check">
+						<th scope="row" align=center>2</th>
+						<td id="queryTwo"></td>
+						<td><input readonly type="checkbox" name="defualtQueryTwo"
+							th:checked="${defqry.defqry2} == 2" value="2"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row" align=center>3</th>
+						<td id="queryThree"></td>
+						<td><input readonly type="checkbox" name="defualtQueryThree"
+							th:checked="${defqry.defqry3} == 3" value="3"></td>
+					</tr>
+					<tr class="check">
+						<th scope="row" align=center>4</th>
+						<td id="queryFour"></td>
+						<td><input readonly type="checkbox" name="defualtQueryFour"
+							th:checked="${defqry.defqry4} == 4" value="4"></td>
+					</tr>
+
+				</tbody>
+			</table>
+				
+       	<div th:each="allcmts,iter : ${getAllcmts}" style="margin-left:2%;margin-right:5%;">
+        <div class="form-group mb-1" id="deptcmtsApr">
+					<br> <label class="lab_txt">Departmental Comment [APR]
+						: [min 6 characters ; max 2000 characters]</label>
+					<textarea type="text" class="form-control deptcmtsApr"
+						th:text="${allcmts.depComments}" name="queryRemarks"
+						th:id="textsend" onkeyup="success(id)"
+						placeholder="Enter your Remarks..." rows="3"></textarea>
+		</div>
+		<div class="form-group mb-1 deptcmtsAcl" style="display: none">
+					<br> <label class="lab_txt">Departmental Comment [PAC]
+						: [min 6 characters ; max 2000 characters]</label>
+					<textarea type="text" class="form-control" name="queryRemarks1"
+						th:id="textsend" onkeyup="success(id)"
+						placeholder="Enter your Remarks..." rows="3"></textarea>
+			</div>		
+			<table style="margin-left:2%;margin-right:5%;">
+			<tr><td colspan=5>&nbsp;&nbsp;</td></tr>
+			<tr><td align=right ><label class="lab_txt">EMAIL ID &nbsp;:&nbsp;&nbsp;&nbsp;*</label></td>
+			<td id="oemailid" align="center" valign=middle > <input type="text"
+					class="form-control form_txt " readonly="readonly"
+					th:value="${head.RECP_EMAILID}">&nbsp;&nbsp;&nbsp;<font size=1>(As received in the EAD)</font></td><td  >&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td  valign=middle align="center" ><!-- <input maxlength="125" type="text" id="mail" name="emailid"  th:value="${emailid}" onblur="validateEmailid()" class="form-control form_txt">&nbsp;&nbsp;&nbsp;<font size=1>(Please enter Manually)**</font> </td>
+			<td>&nbsp;&nbsp;</td><td   align=left >( in the format abc@xyz.com to send MAIL)</td> --><!--  to be uncommented later Email ana SMS --></tr>
+			<tr><td colspan=5>&nbsp;&nbsp;</td></tr>
+			<tr><td align=right ><label class="lab_txt">MOBILE NO. &nbsp;:&nbsp;&nbsp;&nbsp;*</label></td>
+			<td id="omobile"  valign=middle  align="center"  > <input type="text"
+					class="form-control form_txt " readonly="readonly"
+					th:value="${head.RECP_PHONE}">&nbsp;&nbsp;&nbsp;<font size=1>(As received in the EAD)</font></td><td width="5%">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td  valign=middle align=center ><!-- <input maxlength="10" onkeypress="if(this.value.length==10) return false;" type="number" id="phoneno" name="mobileno"  th:value="${phoneno}"  onblur="validatephone()" class="form-control form_txt">&nbsp;&nbsp;&nbsp;<font size=1>(Please enter Manually)**</font> </td>
+			<td>&nbsp;&nbsp;</td><td  align=left >( to send SMS)</td> --><!--  to be uncommented later Email ana SMS --></tr>
+			</table>  
+			<div class="row mt-1" style="margin-left:2%;margin-right:5%;">
+				<div class="col-md-6">
+				<!--  to be uncommented later Email ana SMS -->
+			<!-- <div class="row">
+			<div class="col-md-12">
+			<span><font size=1>* - DCALL letter in PDF will be sent to the EMAIL ID and inimation about the DCALL letter will be sent in SMS</font></span></div>
+            <div class="col-md-12"><span><font size=1>** - Officer may also enter the EMAIL ID and Mobile No. to which EMAIL / SMS is to be sent, if any available.</font></span></div>
+            <div class="col-md-12"><span><font size=1>Note 1: EMAIL / SMS will be sent only on submission of EAD Decision.</font></span></div>
+			<div class="col-md-12"><span><font size=1>Note 2: EMAIL / SMS will be sent only if the EMAILID and Mobile Nos. of the Recipients are received as part of EAD</font></span></div>
+			</div> -->
+				</div>
+				<!--div class="col-md-3">
+					<p style="color: blue; font-size: 17px">
+						<strong>Document Identification Number : </strong>
+					</p>
+				</div-->
+				<!-- <div class="col-md-3">
+					<p style="color: blue; font-size: 17px">
+						<input type="text" class="form-control form_txt" name="din"
+							id="din" onblur="validateForm()"> <span class="error"><p
+								id="dinErr"></p></span>
+					</p>
+				</div> -->
+			</div>
+
+			<div class="row" style="margin-left:2%;margin-right:5%;">
+
+				<div class="col-md-5" style="font-size: 14px;">
+					<div id="aclMsg" style="display: none">
+						<p style="color: blue; margin-bottom: 0rem;">
+							<strong>Notes :</strong>
+						</p>
+						<p>For sending it back to PAO please go back to
+							Assessment screen</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-info" onclick="goBack()">Back</button>
+					<button type="button" id="lock" onclick="enableNum()"
+						class="btn btn-success" disabled>Submit </button>
+					<!--  button type="button" class="nxtbtn btn btn-info" th:id="${head.id}"
+						onclick="viewDetail1(this);">Next</button-->
+				</div>
+				<!-- <div class="col-md-3" align="left">
+					<button type="button" id="randomNum" class="btn btn-success"
+						onclick="validateDin()" data-toggle="modal"
+						data-target="#exampleModal" disabled>Generate Document
+						Call Letter</button>
+				</div> -->
+			</div>
+		<br><br>
+
+	
+			<Modal>
+			<!-- edited by veeman on 22/04/23 -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-body d-flex justify-content-center">
+							<h4 th:text="1" id="dinValidate"></h4>
+						</div>
+						<div class="modal-footer" >
+							<div class="col-6"><button type="button" class="btn btn-danger"
+								data-dismiss="modal" id="aclClose">Close</button>
+							</div>
+							<div class="col-6 d-flex justify-content-end" th:if="${head.TOT_ASS_VAL > assvalacl && head.ROLE != 'PAC' }">
+							<button  type="button"  onclick="updatingdata()" data-dismiss="modal" class="btn btn-success" id="my_button">OK</button>
+							</div>
+							<div class="col-6 d-flex justify-content-end" th:unless="${head.TOT_ASS_VAL > assvalacl && head.ROLE != 'PAC' }">
+    <button type="button" onclick="aafCallLetter()" data-dismiss="modal" class="btn btn-success" id="my_button">OK</button>
+							</div>
+
+							<button type="button" class="btn btn-primary" id="ent_button">OK</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ------------------- -->
+		</Modal>
+		<br>
+
+
+
+		<div id="aclWarningMsgQry" class="modal fade">
+			<div class="modal-dialog" style="max-width: fit-content;">
+				<div class="modal-content">
+					<div class="modal-body" align="center">
+						<h4>
+							If the Default Query / General Remarks raised by PAO is to
+							be modified, <br> Please check <i style="color: blue;"
+								class="fas fa-check-square"></i> or uncheck <i
+								style="color: #afafaf;" class="fas fa-square"></i> and suitably
+							modify the General remarks if required.
+						</h4>
+					</div>
+					<div class="modal-footer">
+						<button data-dismiss="modal" class="btn btn-primary">OK</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <div id="aclWarningMsgQry" class="modal fade">
+            <div class="modal-dialog" style="max-width: fit-content;">
+                <div class="modal-content">
+                    <div class="modal-body" align="center">
+                        <h4>
+                            If the Default Query / General Remarks raised by PAO is to
+                            be modified, <br> Please check <i style="color: blue;" class="fas fa-check-square"></i> or uncheck <i style="color: #afafaf;" class="fas fa-square"></i> and suitably
+                            modify the General remarks if required.
+                        </h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-success">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</form>
+    </div>
+    
+    
+    
+    
+    
+  <div class="modal fade bd-example-modal-lg" id="dcallLetterModal" style="overflow:scroll;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="max-width: 90%;">
+            <div id="dcallLetterContent" class="modal-content" style="padding: 10px;border-radius: 25px;border: 5px solid indianred;">
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+        <div class="modal fade" id="pdfModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Document Call Letter</h4>
+          <button type="button" class="close importqry" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+			<div>
+				<button onclick="printdcall()" type="button" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;float: right;" class="mr-3 mb-3">PRINT</button>
+        		<!-- <button onclick="downloaddcall()" type="button" style="color: #fff;background-color: #17a2b8;border-color: #17a2b8;float: right;" class="mr-3">Download</button> -->
+     		</div>
+<iframe id="embedpdf"
+                               frameborder="0" width="100%"  style="height: 88vh;">
+        </iframe>
+        
+        
+        
+        </div>
+        
+
+
+        <!--  <div class="modal-footer">
+         <button type="button" id="queryinfobtncancel" class="btn btn-secondary importqry" data-dismiss="modal">Cancel</button>
+        </div> -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  
+  
+  
+  
+  
+  <div id="qryreplymodal" class="modal fade" tabindex="-1" style="overflow-y: auto;" data-backdrop="static" data-keyboard="false" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  			<div class="modal-dialog" role="document" style="max-width: 95%;">
+  				<div class="modal-content">
+  				<div class="modal-header" style="padding-top: 5px;padding-bottom: 5px;background: #f4f9ff;">
+        			<h5 class="modal-title" style="font-weight: bold;">QUERY REPLY</h5>
+        				<button type="button" class="close" data-dismiss="modal" onclick="deleteDataMapped()" aria-label="Close">
+          					<span aria-hidden="true">x</span>
+        				</button>
+      				</div>
+  					<div class="modal-body" id="qryreplycontent" style="background: #b8daff;">
+	  				</div>
+    			</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="rlypdfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 90%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Document Call Letter</h4>
+          <button type="button" class="close rlyqueryinfobtncancel" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+<iframe id="rlyembedpdf"
+                               frameborder="0" width="100%"  style="height: 88vh;">
+        </iframe>
+        
+        
+        
+        </div>
+        
+
+
+         <div class="modal-footer">
+         <button type="button" id="rlyqueryinfobtncancel" class="btn btn-secondary rlyqueryinfobtncancel" data-dismiss="modal">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  	<div th:replace="detention/detention-modal.html :: div"></div>
+
+<div class="modal fade" id="scanReportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow:auto;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: auto; height: auto;max-width: 85%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scanReportTitle" style="font-weight: bold;text-transform: uppercase;">Scan Report</h5>
+                <button type="button" class="close" onclick="closeScanReportModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="scanReportBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+	<div class="modal fade" id="additionalQueryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow-y: auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 35%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #f1f8ff;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;text-transform: uppercase;">Additional Query</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #f1f8ff;">
+                    
+                    <form id="additionalQueryForm">
+                        <div class="form-group row" style="margin-bottom:1rem">
+                            <label for="inputEmail3" class="col-sm-4 col-form-label modal-label">Query<label style="color: red;">&nbsp;*</label></label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" rows=10 id="additionquery" onKeyPress="onChangeEvent(this)" name="query" placeholder="Please Enter Query"></textarea>
+                            </div>
+                        </div>
+                        <!-- display none given for temporarly later remove display none later Email ana SMS -->
+                        <div class="form-group row" style="margin-bottom:1rem;display:none;">
+                            <label for="inputPassword3" class="col-sm-4 col-form-label modal-label">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" id="email" onKeyPress="onChangeEvent(this)" name="email" placeholder="Please Enter Email">
+                            </div>
+                        </div>
+                         <!-- display none given for temporarly later remove display none later Email ana SMS -->
+                        <div class="form-group row" style="margin-bottom:1rem;display:none;">
+                            <label for="inputPassword3" class="col-sm-4 col-form-label modal-label">Mobile Number</label>
+                            <div class="col-sm-8">
+                               <input type="number" class="form-control" id="mobile" onKeyPress="if(this.value.length==10) return false; onChangeEvent(this)" name="mobile" placeholder="Please Enter Mobile Number">
+                            </div>
+                        </div>
+                        <!--  div class="form-group row" style="margin-bottom:1rem">
+                            <label for="inputPassword3" class="col-sm-4 col-form-label modal-label">Document Identification Number<label style="color: red;">&nbsp;*</label></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="dinNo" onKeyPress="onChangeEvent(this)" name="dinNo" placeholder="Please Enter Document Identification Number">
+                            </div>
+                        </div-->
+                    </form>
+                </div>
+                <div class="modal-footer" style="background: #f1f8ff;" id="FooterAdditionalQuery">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="closebtn">Close</button>
+                    <button type="button" class="btn btn-success" id="submitQueryBtn" onclick="addlqrydetail()">NEXT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<div class="modal fade" id="addqueryinfomodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 70%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Additional Query Information</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+
+
+
+<div id="addqueryinfo">
+<span>Already query raised for this item and reply has been received.If you want to raise additional query..please click yes</span>
+        </div>
+        </div>
+         <div class="modal-footer">
+         <div class="col-6" style="justify-content: flex-start;display: flex;">
+         <button type="button" id="addqueryinfobtncancel" class="btn btn-secondary  btn-danger" data-dismiss="modal">Cancel</button></div>
+         <div class="col-6" style="display: flex;justify-content: flex-end;">
+          <button type="button" id="addqueryinfobtn" class="btn btn-success" th:data-cin="${head.id}" th:data-itemid="${head.ITEM_ID}">Yes</button></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  
+  
+  <!-- cancel query modal  -->
+
+
+
+  <div class="modal fade" id="replymodal" style="overflow-y: auto;" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="width: auto;height: auto;max-width: 70%;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Reply and Documents</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+
+
+
+
+<div id="replyinfo">
+			<table id="replytable" class="table mt-2">
+			   <thead class="thead-dark">
+			      <tr>
+			         <th scope="col" style="width: 10%">Sl No</th>
+			         <th scope="col" style="width: 80%">Select and enter any of the following </th>
+			         <th scope="col" style="width: 10%">Select</th>
+			      </tr>
+			   </thead>
+			   <tbody th:each="defqry,iter : ${getScndDefQry}">
+			      <tr class="check">
+			         <th scope="row" align=center  th:text="${iter.index + 1}">
+			            
+			         </th>
+			         <td> <div class="form-group">
+			         <span th:id="'query' +${iter.index + 1}" th:text="${defqry.DESCRIPTION}"></span>
+			         	<li  th:if="${defqry.INP_REQ == 1}" th:data-inpreq="${defqry.INP_REQ}"  style="list-style-type: none;"><input th:id="'addlquery' +${defqry.SLNO}" readonly="readonly"  style="width:50%;border-top: 0;border-right: 0;border-left: 0;box-shadow: none;outline: none;" type="text"  class="blankline"></li>
+			         <ol type="i">
+			        	 <li  th:if="${defqry.INP_REQ == 2}" th:data-inpreq="${defqry.INP_REQ}"><input th:id="'addlquery' +${defqry.SLNO}" readonly="readonly"  style="width:50%;border-top: 0;border-right: 0;border-left: 0;box-shadow: none;outline: none;" type="text" class="blankline"></li>
+			        	 <li  th:if="${defqry.INP_REQ == 2}" th:data-inpreq="${defqry.INP_REQ}"><input th:id="'addlquery1' +${defqry.SLNO}" readonly="readonly"  style="width:50%;border-top: 0;border-right: 0;border-left: 0;box-shadow: none;outline: none;" type="text" class="blankline1"></li>
+			         </ol>
+			         </div></td>
+			         <td><input th:id="'addlcheckbox' +${defqry.SLNO}" th:checked="${iter.index + 1}==1" th:styleappend="${iter.index + 1} == 1 ? 'pointer-events: none;' : ''" type="checkbox" name="defualtQueryOne"
+			            th:value="${defqry.SLNO}" class="scndcheck"></td>
+			      </tr>
+			   </tbody>
+			</table>
+        </div>
+        
+        
+        
+        </div>
+        
+    
+
+
+         <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" onclick="switchPopUp()" data-dismiss="modal">Back</button>
+         <button type="button" id="replybtn" class="btn btn-success" th:data-cin="${head.id}"    th:data-itemid="${head.ITEM_ID}" onclick="addlraiseqry(this)">Submit</button>
+   </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+
+
+
+      <div class="modal fade" id="sendbacktoac" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 30%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #f1f8ff;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;text-transform: uppercase;">AO's remarks to AC</h5>
+                    <button type="button" class="close" onclick="showPrevious()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #f1f8ff;">
+	                <div class="sendpaobtnshow">
+						<label class="lab_txt">AO's remarks to AC</label>
+						<textarea class="form-control" name="aprsndbackcmts"
+							th:id="aprsndbackcmts" onkeyup="success1(id)"
+							placeholder="Dept. Comments" rows="5"></textarea>
+					</div>
+					<div class="mt-4 sendpaobtnshow d-flex justify-content-center align-item-center queryinfobtncancel" >
+						<button type="button" id="lockeded" style="font-size: 15px;padding:11px;"
+							onclick="sendAclBack(value)" class="btn btn-danger btn-sm"
+							disabled>
+							Save &  Send back to AC
+						</button>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="modal fade" id="sendbacktoao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  style="overflow:auto;" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 30%;">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #f1f8ff;">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: bold;text-transform: uppercase;">AC's remarks to AO</h5>
+                    <button type="button" class="close" onclick="showPrevious()" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background: #f1f8ff;">
+                  <div class="sendbtnshow" >
+					<label class="lab_txt">AC's remarks to AO</label>
+					<textarea class="form-control" name="sndbackcmts"
+						th:id="sndbackcmts" onkeyup="successPAC(id)"
+						placeholder="Dept. Comments" rows="5"></textarea>
+				</div>
+				<div class="mt-4 sendbtnshow d-flex justify-content-center align-item-center" >
+					<button type="button" id="lockedV" style="font-size: 15px;padding:11px;"
+						onclick="sendAprBack(value)" class="btn btn-danger btn-sm"
+						disabled>
+						Save & Send back to AO
+					</button>
+				</div>
+                   
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+<script src="js/import_query.js"></script>
+<script src="js/ead_query.js"></script>
+<script th:src="@{js/sweetalert.min.js}"></script>
+<script src="js/detention.js"></script>
+<script type="text/javascript">
+
+console.log("BigV")
+
+var queryRaised;
+$.ajax({
+                url: 'getdisphead?id=' + $("#cinno").val(),
+                type: "post",
+                success: function(data) {
+                    $("#disphead").html(data);
+                     queryRaised = $("#disphead").find("[name='queryraised']").val();
+                     console.log(queryRaised)
+                     
+                         if (queryRaised == 'true') {
+						        $("#breadcrumb1").show(); 
+						        $("#breadcrumb").hide();  
+						    } else {
+						        $("#breadcrumb1").hide();  
+						        $("#breadcrumb").show();  
+						    }
+                },
+                error: function(rs, e) {
+                    alert("Error in nextPageRedirect");
+                }
+            });
+
+</script>
+</html>	
