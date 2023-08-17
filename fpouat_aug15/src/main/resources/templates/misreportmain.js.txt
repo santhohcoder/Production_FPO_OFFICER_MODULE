@@ -1,0 +1,310 @@
+misreportmain.js
+
+ 
+		16. url = 'misreportartcdetained';
+		
+
+if (inputvalidate.Validadate(fromdate) == 1) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+
+else if (inputvalidate.Validadate(todate) == 1)
+
+		{
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+else if (inputvalidate.ValidaString(fpositestotal) == 1)
+
+{
+	response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	return null;
+}
+
+
+17.url = 'misreportarticlestatus';
+
+
+
+if (inputvalidate.Validadate(fromdate) == 1) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+
+	else if (inputvalidate.Validadate(todate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+	else if (inputvalidate.ValidaString(itemid) == 1)
+
+	{
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		return null;
+	}
+		18.	url = 'misreportooccancel';
+if (inputvalidate.Validadate(fromdate) == 1 && fromdate != null && fromdate != ""){
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+
+	else if (inputvalidate.Validadate(todate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+
+
+19.url = 'misreportarrivefpo'
+if (inputvalidate.ValidaString(mailclass) == 1 )
+
+	{
+		response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		return null;
+	}
+
+20.url = 'misreportooficerarticle';
+
+
+if (inputvalidate.Validadate(fromdate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+			
+			else	if (inputvalidate.Validadate(todate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+			
+			
+			
+			else if (inputvalidate.ValidaString(ssoid) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}else if (inputvalidate.ValidaString(roles ) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+21. url = 'misreporttoead';
+
+		if (inputvalidate.Validadate(fromdate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+			else if (inputvalidate.Validadate(todate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+
+			else if (inputvalidate.ValidaString(itemcat) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+			
+			
+			else if (inputvalidate.ValidaString(mailclass) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+
+22.url = 'misreportcommercial';
+
+
+
+		if (inputvalidate.Validadate(fromdate) == 1)
+
+		{
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+		else if (inputvalidate.Validadate(todate) == 1)
+
+		{
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+		else if (inputvalidate.ValidaString(mailclass) == 1)
+
+		{
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}
+		if (request.getSession().getAttribute("role").toString().equalsIgnoreCase("NRP")
+				|| request.getSession().getAttribute("role").toString().equalsIgnoreCase("PNA")) {
+		String fpositestotal = request.getParameter("fposite").toString();
+		String[] fposites1=fpositestotal.split(","); 
+		 reportcolumns=reportService.getmisreportcommercial(fromdate,todate,session,mailclass1,mailclass1.length,fposites1,fposites1.length,request);
+
+		}
+	23.url = 'misreportcommercialunderprocess';
+	
+			if (inputvalidate.Validadate(fromdate) == 1 )
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}	
+			else	if (inputvalidate.Validadate(todate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+		
+
+
+
+if (inputvalidate.ValidaString(fpositestotal) == 1)
+
+		{
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return null;
+		}	
+
+
+24.	url = 'misreportoocgivencountriesnotfwise';
+	if (inputvalidate.Validadate(fromdate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+			else if (inputvalidate.Validadate(todate) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+			else if (inputvalidate.ValidaString(fpositestotal1) == 1)
+
+			{
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				return null;
+			}
+25.url = 'queryreplystatuss';
+if (inputvalidate.Validadate(fromdate) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+				else if (inputvalidate.Validadate(todate) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+				else if (inputvalidate.Validadate(siteco ) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+26.misreportoocgivencountriesdelstatus:
+
+if (inputvalidate.Validadate(fromdate) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+				else if (inputvalidate.Validadate(todate) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+				else if (inputvalidate.ValidaString(fpositestotal1) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+
+
+
+27.url = 'mismailclassreportoocgivencountriesdelstatus';
+	if (inputvalidate.Validadate(fromdate ) == 1 )
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+					}
+				
+				else if (inputvalidate.Validadate(todate) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}else if (inputvalidate.Validadate(mailclass) == 1)
+
+				{
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					return null;
+				}
+
+
+
+
+
+
+
+
+
+jQuery.ajax({
+			url: url,
+			global: false,
+			data: oMyForm,
+			dataType: 'text',
+			processData: false,
+			contentType: false,
+			type: 'POST',
+			success: function(data) {
+				
+				console.log(initial,report,buttonName);
+				console.log('inside succes of res=2');
+				console.log($("#rolesCountSSOID").val())
+				console.log($('#ssoid').val());
+				
+					 $("#queryQueueshow").replaceWith(data);
+				console.log($("#rolesCountSSOID").val())
+					$("#noreportdiv").css("display", "none");
+					
+					if($('#rolesCountSSOID').val() == 1){
+					$("#queryQueueshow").replaceWith(data);
+					}
+				
+				else{
+					swal('OOPS!', 'Invalid SSOID !', 'error');
+				}				
+			
+			hideLoader();
+			}, error: function() {
+					hideLoader();
+						swal("Oops!", "Please Avoid Entering Special Characters!")
+							.then((value) => {
+								 window.location = "error"; 
+								
+							});
+					} 
+		});
+	}
