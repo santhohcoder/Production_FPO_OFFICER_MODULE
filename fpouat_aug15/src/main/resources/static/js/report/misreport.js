@@ -9,6 +9,7 @@ $(document).ready(function() {
         ]
     });
 
+	//santhosh kanna
 
 $("#openingbalancetable").dataTable({
 		"processing": true,
