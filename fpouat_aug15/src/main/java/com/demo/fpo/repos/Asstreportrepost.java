@@ -24,5 +24,5 @@ public interface Asstreportrepost extends JpaRepository<Asstreport, Long>{
 	@Transactional
 	@Query(nativeQuery=true,value="UPDATE fpo_item_det SET ITEM_DESC=:itemdesc,NETWT=:netwt where CIN_NO = :id")
 	void getNetwt1(@Param("netwt") float netwt, @Param("itemdesc") String itemdesc, @Param("id") String id); 
-	
+	//add this line
 }
