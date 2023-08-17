@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+@Entity//// addd this line
 @Table(name = "FPO_DOC_DET")
 public class FpoDocDetBean {
 	@Column(name = "ITEM_ID")
